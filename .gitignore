@@ -1,0 +1,18 @@
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+
+# Site
+node_modules/
+site/dist/
+site/.astro/
+
+# Secrets
+.env
+.env.*
+!.env.example

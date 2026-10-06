@@ -1,0 +1,12 @@
+# Project Hub registry (PRD HUB-01). Add a project by pull request; see CONTRIBUTING.md.
+# Language, licence and activity are read from GitHub, so don't add them here.
+#
+# Example entry:
+#
+#   - repository: owner/name
+#     category: library            # e.g. app, library, tool, dataset
+#     tags: [arabic, payments]     # how the project relates to Algeria
+#     maintainer_pledge: true      # maintainers reply to newcomer pull requests within 7 days
+#     added: 2026-10-06
+
+projects: []
