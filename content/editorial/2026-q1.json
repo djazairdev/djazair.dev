@@ -1,0 +1,17 @@
+{
+  "quarter": "2026-Q1",
+  "note": "Headlines written for this data quarter. Each claim is listed under checks; the build uses this file only while every claim holds against data/derived/, and tests/test_home.py checks them.",
+  "en": {
+    "trend_title": "Everyone sped up in 2025. Algeria kept pace with North Africa.",
+    "trend_lede": "Year-on-year growth in developer accounts, quarter by quarter. Algeria has matched or beaten the North African median since late 2023 but still trails the African median."
+  },
+  "ar": {
+    "trend_title": "تسارع الجميع في 2025، وواكبت الجزائر شمال أفريقيا.",
+    "trend_lede": "النموّ السنوي في حسابات المطوّرين، ربعًا بربع. تساوي الجزائر وسيط شمال أفريقيا أو تتجاوزه منذ أواخر 2023، لكنها تبقى دون الوسيط الأفريقي."
+  },
+  "checks": [
+    {"claim": "Everyone sped up in 2025", "indicator": "yoy", "rising": ["DZ", "median_north_africa", "median_africa"], "from": "2025-Q1", "to": "2025-Q4"},
+    {"claim": "Algeria has matched or beaten the North African median since late 2023", "indicator": "yoy", "series": "DZ", "at_least": "median_north_africa", "from": "2023-Q4"},
+    {"claim": "but still trails the African median", "indicator": "yoy", "series": "DZ", "below": "median_africa", "from": "2024-Q2"}
+  ]
+}

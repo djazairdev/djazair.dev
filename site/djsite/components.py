@@ -18,9 +18,9 @@ LANG_DOT = {'Markdown': 'slate', 'TypeScript': 'sky', 'JavaScript': 'straw', 'Py
 
 
 # ---------------------------------------------------------------- text
-def eyebrow(text, tag: str = 'p') -> Markup:
+def eyebrow(text, tag: str = 'p', cls: str = '') -> Markup:
     """Small label with the mint square: 'ALGERIA DEVELOPER INDEX · Q1 2026'."""
-    return Markup(f'<{tag} class="eyebrow">{text}</{tag}>')
+    return Markup(f'<{tag} class="eyebrow{" " + cls if cls else ""}">{text}</{tag}>')
 
 
 def h2(text, id_: str = '', cls: str = 't-section') -> Markup:

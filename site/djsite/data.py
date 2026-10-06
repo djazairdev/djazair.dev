@@ -8,12 +8,14 @@ from __future__ import annotations
 
 import hashlib
 import json
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
 from .config import DATA_DIR
 
 DERIVED_DIR = DATA_DIR / 'derived'
+HUB_DIR = DERIVED_DIR / 'hub'
 
 
 class DataError(Exception):
@@ -96,3 +98,20 @@ def load(root: Path = DERIVED_DIR) -> Derived:
     if not pointer.is_file():
         raise DataError(f'{pointer} is missing: run `python3 -m pipeline publish`')
     return Derived(Path(root) / json.loads(pointer.read_text('utf-8'))['folder'])
+
+
+def _time(text: str) -> datetime:
+    return datetime.fromisoformat(text.replace('Z', '+00:00'))
+
+
+def hub_issues(root: Path = HUB_DIR) -> list:
+    """Beginner issues from the Hub's listed projects, newest first, each with ``days``: its age
+    when the Hub was last synced (so a build gives the same page for the same data). Empty
+    until the first sync writes ``hub/issues.json`` (ticket #25)."""
+    path = Path(root) / 'issues.json'
+    if not path.is_file():
+        return []
+    doc = json.loads(path.read_text('utf-8'))
+    synced = _time(doc['generated_at'])
+    out = [dict(issue, days=max(0, (synced - _time(issue['created_at'])).days)) for issue in doc['issues']]
+    return sorted(out, key=lambda i: i['created_at'], reverse=True)

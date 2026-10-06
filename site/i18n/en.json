@@ -99,6 +99,171 @@
     "copy": "Copy",
     "copied": "Copied"
   },
+  "economy": {
+    "DZ": "Algeria",
+    "EG": "Egypt",
+    "LY": "Libya",
+    "MA": "Morocco",
+    "MR": "Mauritania",
+    "SD": "Sudan",
+    "TN": "Tunisia",
+    "NG": "Nigeria",
+    "KE": "Kenya",
+    "ZA": "South Africa"
+  },
+  "ind": {
+    "north_africa": "North Africa",
+    "africa": "Africa",
+    "algeria_peers": "Algeria and 6 peers",
+    "in_year": "in a year",
+    "vs_na": "vs N. Africa",
+    "eq_na": "= N. Africa median",
+    "vs_peers": "vs peers",
+    "vs_q": "vs {quarter}",
+    "med_na": "N. Africa",
+    "med_na_growth": "N. Africa growth",
+    "med_cp": "Core peers",
+    "med_af": "Africa ({n})",
+    "median_note": "North Africa median {median}",
+    "accounts": {
+      "title": "Developer accounts",
+      "note": "Growth rank. North Africa median {median}",
+      "does": [
+        "Accounts GitHub places in Algeria at the end of the quarter",
+        "A running total since accounts were created"
+      ],
+      "doesnt": [
+        "Active developers: dormant accounts still count",
+        "People using a VPN, who appear elsewhere"
+      ]
+    },
+    "pushes": {
+      "title": "Pushes per account",
+      "note": "4-quarter average {avg} · median {median}",
+      "does": [
+        "Pushes in the quarter, divided by all accounts",
+        "Web-interface edits, which count as pushes"
+      ],
+      "doesnt": [
+        "Commits: one push can hold many",
+        "Code quality or impact"
+      ]
+    },
+    "repos": {
+      "title": "Public repositories per account",
+      "does": [
+        "Public repositories per account, both running totals"
+      ],
+      "doesnt": [
+        "Private repositories",
+        "Whether repositories are maintained"
+      ]
+    },
+    "orgs": {
+      "title": "Organisations per account",
+      "does": [
+        "GitHub organisations per account: teams, companies, clubs"
+      ],
+      "doesnt": [
+        "Size or activity of each organisation"
+      ]
+    },
+    "topics": {
+      "title": "Topics above GitHub’s threshold",
+      "note": "GitHub publishes a topic once 100+ developers use it",
+      "does": [
+        "Topics GitHub publishes for Algeria: those used by 100+ developers"
+      ],
+      "doesnt": [
+        "Smaller topics, which GitHub hides"
+      ]
+    },
+    "permillion": {
+      "title": "Accounts per million people",
+      "note": "Population: World Bank, {year}",
+      "does": [
+        "Developer accounts relative to population (World Bank, latest year)"
+      ],
+      "doesnt": [
+        "The share of people who code"
+      ]
+    }
+  },
+  "home": {
+    "eyebrow": "Algeria Developer Index · {quarter}",
+    "h1_tail": "developer accounts in Algeria",
+    "stat_growth": "growth in a year",
+    "stat_rank": "in North Africa, by growth",
+    "stat_added": "accounts since {quarter}",
+    "streak_many": "Growth has sped up for {count} in a row.",
+    "streak_one": "Growth sped up this quarter.",
+    "slowed_many": "Growth has slowed for {count} in a row.",
+    "slowed_one": "Growth slowed this quarter.",
+    "map_note": "Each square on the map is {per} accounts; the bright ones joined in the past year.",
+    "cta_index": "Explore the Index",
+    "cta_hub": "Find a first issue",
+    "source": "Source: GitHub Innovation Graph, {quarter} data released {date}. Accounts are placed by network address and include inactive ones.",
+    "how": "How we count",
+    "fig_map": "One square, {per} developer accounts",
+    "map_new": "Added since",
+    "map_quantity": "Squares show quantity, not location.",
+    "map_desc": "Algeria’s outline filled with {total} squares, one per {per} developer accounts. The {added} bright squares are accounts added since {quarter}.",
+    "score_eyebrow": "The scorecard",
+    "score_title": "Six indicators. No combined score.",
+    "score_lede": "Each one stands alone, compared with the seven North African economies and with Africa’s {n} largest developer communities.",
+    "score_more": "Full overview",
+    "score_source": "Source: GitHub Innovation Graph (CC0), {quarter} · World Bank population, {year} · Ranks: higher is first.",
+    "trend_eyebrow": "The trend",
+    "trend_title": "Year-on-year growth, quarter by quarter",
+    "trend_lede": "Algeria’s developer accounts grew {dz} in the year to {quarter}. The North African median grew {na}, and the African median {af}.",
+    "trend_fig": "Year-on-year growth in developer accounts, {from}–{to}",
+    "trend_unit": "Growth on the same quarter a year earlier",
+    "trend_summary": "Line chart of year-on-year growth in developer accounts from {from} to {to}: Algeria {dz}, the North African median {na} and the African median {af} in {quarter}.",
+    "trend_note": "{count} of acceleration\nfrom {low} to {high} a year",
+    "trend_source": "Source: GitHub Innovation Graph (CC0). Growth compares each quarter with the same quarter a year earlier. Africa: economies with 20,000+ accounts a year earlier.",
+    "algeria": "Algeria",
+    "north_median": "North Africa median",
+    "africa_median": "Africa median",
+    "hub_eyebrow": "Project Hub",
+    "hub_title": "Your first pull request starts here.",
+    "hub_lede": "Beginner-friendly issues from Algerian open-source projects. Every listed project has pledged to answer newcomers within 7 days.",
+    "hub_browse": "Browse all issues",
+    "hub_list": "List your project",
+    "hub_empty_title": "The first projects are being listed.",
+    "hub_empty": "Their beginner issues appear here as soon as they pass the seven listing checks. Maintain an open-source project with a link to Algeria? Listing it takes one pull request, and no account.",
+    "open_label": "Open by default",
+    "open_data": "Open data",
+    "open_data_sub": "CSV and JSON behind every chart",
+    "open_method": "Open methodology",
+    "open_method_sub": "Formulas, peer groups and known biases",
+    "open_code": "Open code",
+    "open_code_sub": "The pipeline and this site, reproducible",
+    "quarters": {
+      "1": "one quarter",
+      "2": "two quarters",
+      "3": "three quarters",
+      "4": "four quarters",
+      "5": "five quarters",
+      "6": "six quarters",
+      "7": "seven quarters",
+      "8": "eight quarters",
+      "9": "nine quarters",
+      "10": "ten quarters",
+      "many": "{n} quarters"
+    },
+    "quarters_cap": {
+      "2": "Two quarters",
+      "3": "Three quarters",
+      "4": "Four quarters",
+      "5": "Five quarters",
+      "6": "Six quarters",
+      "7": "Seven quarters",
+      "8": "Eight quarters",
+      "9": "Nine quarters",
+      "10": "Ten quarters",
+      "many": "{n} quarters"
+    }
+  },
   "pages": {
     "home": {
       "title": "djazair.dev",

@@ -2,10 +2,10 @@
 from __future__ import annotations
 
 from .context import Route
-from .pages import notfound, stub
+from .pages import home, notfound, stub
 
 ROUTES = [
-    Route('home', '', stub.render, ticket=18),
+    Route('home', '', home.render, ticket=18),
     Route('overview', 'index/', stub.render, section='index', sub='overview', ticket=19),
     Route('peers', 'index/peers/', stub.render, section='index', sub='peers', ticket=21),
     Route('trends', 'index/trends/', stub.render, section='index', sub='trends', ticket=20),

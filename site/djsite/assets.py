@@ -47,11 +47,12 @@ def _write_hashed(out: Path, stem: str, ext: str, data: bytes) -> str:
     return f'/assets/{name}'
 
 
-def build(out: Path) -> Assets:
+def build(out: Path, extra_css: str = '') -> Assets:
+    """``extra_css``: rules generated from the data (the Home ticker), added after the static files."""
     (out / 'assets' / 'fonts').mkdir(parents=True, exist_ok=True)
 
     css_files = sorted((STATIC_DIR / 'css').glob('*.css'))
-    css = '\n'.join(minify_css(p.read_text('utf-8')) for p in css_files)
+    css = '\n'.join([minify_css(p.read_text('utf-8')) for p in css_files] + ([minify_css(extra_css)] if extra_css else []))
     css_url = _write_hashed(out, 'site', 'css', css.encode('utf-8'))
 
     js_url = _write_hashed(out, 'site', 'js', (STATIC_DIR / 'js' / 'site.js').read_bytes())

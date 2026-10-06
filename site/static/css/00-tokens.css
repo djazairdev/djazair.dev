@@ -10,6 +10,8 @@
   --header-bg: rgba(14, 26, 21, .78);
   --well: rgba(10, 21, 17, .45);
   --tint: rgba(238, 243, 236, .025);
+  --hero-grid: rgba(238, 243, 236, .035);
+  --sunk-fade: rgba(10, 21, 17, .6);
 
   /* hairlines */
   --line: rgba(238, 243, 236, .08);

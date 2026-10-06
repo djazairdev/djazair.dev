@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from typing import Callable, Optional
 
 from .config import DIRS, SITE_URL
-from .i18n import Catalog, fill
+from .i18n import _PLACEHOLDER, Catalog, fill
 from .markup import Markup
 
 
@@ -101,6 +101,19 @@ class Ctx:
         if fallback:
             self.fallbacks.add(key)
         return value
+
+    def both(self, key: str, **values) -> dict:
+        """The string in every language, unescaped, for chart specs that serve both languages
+        (their CSV and JSON files are shared). A value may be a {lang: text} dict or a
+        function of the language, so figures get each language's format."""
+        out = {}
+        for lang in DIRS:
+            template, _ = self.site.catalog.lookup(lang, key)
+            def value(m, lang=lang):
+                v = values[m.group(1)]
+                return str(v[lang] if isinstance(v, dict) else v(lang) if callable(v) else v)
+            out[lang] = _PLACEHOLDER.sub(value, template)
+        return out
 
     def tl(self, key: str) -> list:
         """A list of strings (escaped)."""

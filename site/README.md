@@ -19,7 +19,9 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 |---|---|
 | `build.py` | Entry point |
 | `djsite/routes.py` | Every page and its path under `/en/` and `/ar/` |
-| `djsite/data.py` | The Index data: the quarter `data/derived/latest.json` names, each file checked against its `manifest.json`. The site reads no other data |
+| `djsite/data.py` | The Index data: the quarter `data/derived/latest.json` names, each file checked against its `manifest.json`, and the Hub's synced issues. The site reads no other data |
+| `djsite/scorecard.py` | The six headline indicators as Home and the Index overview show them |
+| `djsite/editorial.py` | Sentences tied to the data: computed facts (growth streaks) and the per-quarter headlines in `content/editorial/`, used only while their claims hold |
 | `djsite/layout.py` | The page shell: head, skip link, header, Index sub-nav, notices, footer |
 | `djsite/components.py` | Shared components: buttons, chips, chart controls, tiles, figure frame, source line, tables, disclosure, Hub issue rows, check panel, code sample |
 | `djsite/charts.py` | Build-time SVG charts: line, bar and unit map, sparklines, rank strips; their CSV, JSON and SVG downloads |
@@ -64,6 +66,12 @@ Every chart is drawn at build time as SVG, so a page can be read without fetchin
 - downloads (IDX-15): CSV and JSON (CC0, the same for both languages) at `/charts/<yyyy-qN>/<id>.csv` and `.json`, and SVG files in the dark and light palettes at `/charts/<yyyy-qN>/<lang>/<id>-dark.svg` and `-light.svg`, each with its title and credit line. PNG files are drawn from those SVG files in the browser, with the site's fonts embedded, so their menu items appear only with JavaScript.
 
 Colours come from `djsite/palette.py`; on-page charts use the dark palette, which a test keeps equal to the CSS tokens. Time runs left to right in Arabic too; Arabic words are set right to left and figures left to right. End labels never overlap: labels that would collide form a group centred on their lines. The unit map fills Algeria's outline with one square per 1,000 accounts; the squares show quantity, never location, and the map is never mirrored. The same data always gives byte-identical files (`tests/test_charts.py`).
+
+## Home
+
+`djsite/pages/home.py` builds the hero (the account count, three stats, the unit map), the scorecard, the growth trend, the Hub teaser and the open-by-default links, all from the derived data. The count ticks up from the year-earlier value with CSS counters and no JavaScript; its rules depend on the data, so the builder generates them and adds them to the stylesheet (`ticker_css`). Readers who prefer reduced motion, and browsers without registered custom properties, see the plain number. The trend headline comes from `content/editorial/<yyyy-qN>.json` when the file exists and every claim it lists still holds; otherwise the section uses computed text.
+
+The build also publishes the derived data as it is in `data/derived/`: `/data/<yyyy-qN>/<table>.csv` and `.json`, with `manifest.json` and `README.md`, and `/data/latest.json`.
 
 Motion: Algeria's line draws as the chart scrolls into view (scroll-driven animations where the browser has them; elsewhere `site.js` draws charts below the fold over one second when they arrive), then the end dot and notes pop in, and unit-map squares appear in bands from Algiers. With `prefers-reduced-motion: reduce`, nothing moves.
 
