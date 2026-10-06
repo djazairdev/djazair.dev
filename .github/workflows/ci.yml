@@ -31,6 +31,8 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Check syntax
         run: python -m compileall -q site pipeline hub tests
+      - name: Check the Hub registry
+        run: python -m hub check-registry
       - name: Run the tests
         run: python -m unittest discover -s tests -v
 

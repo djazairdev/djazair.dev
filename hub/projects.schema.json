@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/djazairdev/djazair.dev/blob/main/hub/projects.schema.json",
+  "title": "djazair.dev Project Hub registry",
+  "description": "projects.yml: one entry per listed project (PRD HUB-01). Language, licence and activity are read from GitHub.",
+  "type": "object",
+  "required": [
+    "projects"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "projects": {
+      "description": "The listed projects. Add yours at the end.",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/project"
+      }
+    }
+  },
+  "$defs": {
+    "project": {
+      "description": "One listed project.",
+      "type": "object",
+      "required": [
+        "repository",
+        "category",
+        "tags",
+        "maintainer_pledge",
+        "added"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "repository": {
+          "description": "Write the GitHub repository as owner/name, for example djazairdev/djazair.dev.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}/(?!\\.\\.?$)(?!.*\\.git$)[A-Za-z0-9._-]{1,100}$"
+        },
+        "category": {
+          "description": "app: something people use; library: code other programs use; tool: something developers use; dataset: data.",
+          "type": "string",
+          "enum": [
+            "app",
+            "library",
+            "tool",
+            "dataset"
+          ]
+        },
+        "tags": {
+          "description": "One to five tags saying how the project relates to Algeria.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/tag"
+          }
+        },
+        "maintainer_pledge": {
+          "description": "Write true: the maintainers pledge to reply to newcomer pull requests within 7 days.",
+          "const": true
+        },
+        "added": {
+          "description": "The date you add the entry, written YYYY-MM-DD.",
+          "type": "string",
+          "format": "date"
+        }
+      },
+      "x-unknown": {
+        "language": "The language is read from GitHub, so it isn’t stored here: remove this line.",
+        "languages": "Languages are read from GitHub, so they aren’t stored here: remove this line.",
+        "licence": "The licence is read from GitHub, so it isn’t stored here: remove this line.",
+        "license": "The licence is read from GitHub, so it isn’t stored here: remove this line.",
+        "description": "The description is read from GitHub, so it isn’t stored here: remove this line.",
+        "stars": "Stars are read from GitHub, so they aren’t stored here: remove this line.",
+        "activity": "Activity is read from GitHub, so it isn’t stored here: remove this line.",
+        "url": "Write the repository as owner/name in repository: instead."
+      }
+    },
+    "tag": {
+      "description": "Pick tags from the list in CONTRIBUTING.md; if none fits, propose a new one in your pull request.",
+      "type": "string",
+      "enum": [
+        "algerian-maintainers",
+        "arabic",
+        "darija",
+        "tamazight",
+        "localisation",
+        "open-data",
+        "public-services",
+        "payments",
+        "education",
+        "maps",
+        "health",
+        "transport",
+        "agriculture",
+        "accessibility",
+        "community"
+      ]
+    }
+  }
+}

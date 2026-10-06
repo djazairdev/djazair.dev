@@ -1,11 +1,16 @@
-# Project Hub registry (PRD HUB-01). Add a project by pull request; see CONTRIBUTING.md.
+# yaml-language-server: $schema=hub/projects.schema.json
+#
+# Project Hub registry (PRD HUB-01). Add your project at the end of the list by pull request,
+# or use the issue form; see CONTRIBUTING.md. CI checks every entry against
+# hub/projects.schema.json (python3 -m hub check-registry).
+#
 # Language, licence and activity are read from GitHub, so don't add them here.
 #
 # Example entry:
 #
 #   - repository: owner/name
-#     category: library            # e.g. app, library, tool, dataset
-#     tags: [arabic, payments]     # how the project relates to Algeria
+#     category: library            # app, library, tool or dataset
+#     tags: [arabic, payments]     # how the project relates to Algeria (list in CONTRIBUTING.md)
 #     maintainer_pledge: true      # maintainers reply to newcomer pull requests within 7 days
 #     added: 2026-10-06
 
