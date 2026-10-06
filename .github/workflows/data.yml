@@ -1,0 +1,78 @@
+# Every day: archive a new GitHub Innovation Graph release, validate it, publish the derived
+# data, run the tests and build the site with it, then open a pull request and merge it when
+# CI passes, which deploys the site (PRD §9.5, AC-IDX-4). A release that revises past values
+# waits for editorial review instead. A failed run changes nothing on main and opens an issue.
+name: Data
+
+on:
+  schedule:
+    - cron: '23 6 * * *'          # 06:23 UTC daily; GitHub publishes releases on weekdays
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Publish the latest release again even if it is already archived
+        type: boolean
+        default: false
+
+permissions:
+  contents: write                 # push the data branch and merge it
+  pull-requests: write            # open the pull request
+  issues: write                   # report a failure
+  actions: write                  # start CI, which the workflow token can't trigger otherwise
+
+concurrency:
+  group: data
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Update the Index data
+    # The schedule only runs once the SCHEDULES_ENABLED variable is 'true' (docs/deploy.md).
+    if: github.event_name == 'workflow_dispatch' || vars.SCHEDULES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Fetch the latest release
+        id: fetch
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m pipeline fetch
+
+      - name: Validate and publish
+        id: publish
+        if: steps.fetch.outputs.new == 'true' || inputs.force
+        run: python -m pipeline publish --report "$RUNNER_TEMP/validation.md"
+
+      - name: Compare with the previous release
+        id: revisions
+        if: steps.publish.outcome == 'success'
+        run: python -m pipeline revisions --report "$RUNNER_TEMP/revisions.md"
+
+      - name: Test with the new data
+        if: steps.publish.outcome == 'success'
+        run: python -m unittest discover -s tests
+
+      - name: Build the site with the new data
+        if: steps.publish.outcome == 'success'
+        run: python site/build.py
+
+      - name: Open the pull request, merge it and deploy
+        if: steps.publish.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          QUARTER: ${{ steps.fetch.outputs.quarter }}
+          COMMIT: ${{ steps.fetch.outputs.commit }}
+          REVISIONS: ${{ steps.revisions.outputs.revisions }}
+        run: .github/scripts/data-pr.sh
+
+      - name: Report the failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VALIDATION: ${{ steps.publish.outcome }}
+        run: .github/scripts/data-failed.sh

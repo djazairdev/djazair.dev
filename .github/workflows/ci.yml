@@ -1,5 +1,6 @@
 # Tests, builds and deploys the site. A deploy runs only after every test and the build pass,
-# so a failing change never replaces the last good site (PRD §11).
+# so a failing change never replaces the last good site (PRD §11). The Data workflow starts it
+# by hand (workflow_dispatch), because its pull requests and merges trigger no workflow.
 name: CI
 
 on:
@@ -55,7 +56,11 @@ jobs:
   deploy-settings:
     name: Check deploy settings
     needs: build
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    # main (pushed, or started by hand) deploys to production; pull requests from this
+    # repository deploy a preview; anything else only tests and builds.
+    if: >-
+      github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
+      || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     outputs:
       ready: ${{ steps.check.outputs.ready }}
@@ -82,7 +87,7 @@ jobs:
       contents: read
       deployments: write
     environment:
-      name: ${{ github.event_name == 'push' && 'production' || 'preview' }}
+      name: ${{ github.event_name != 'pull_request' && 'production' || 'preview' }}
       url: ${{ steps.deploy.outputs.deployment-url }}
     steps:
       - uses: actions/download-artifact@v8
@@ -98,7 +103,7 @@ jobs:
           command: >-
             pages deploy site/dist
             --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}
-            --branch=${{ github.event_name == 'push' && 'main' || format('pr-{0}', github.event.pull_request.number) }}
+            --branch=${{ github.event_name != 'pull_request' && 'main' || format('pr-{0}', github.event.pull_request.number) }}
             --commit-hash=${{ github.sha }}
       - name: Summary
         env:

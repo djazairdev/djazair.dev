@@ -1,6 +1,6 @@
 # pipeline
 
-Turns each [GitHub Innovation Graph](https://github.com/github/innovationgraph) release into the Algeria Developer Index (PRD §9). Python 3.12+, standard library only. GitHub Actions runs it daily; you can run every step by hand:
+Turns each [GitHub Innovation Graph](https://github.com/github/innovationgraph) release into the Algeria Developer Index (PRD §9). Python 3.12+, standard library only. The `Data` workflow runs it daily and publishes new data through a pull request ([docs/deploy.md](../docs/deploy.md#data-updates)); you can run every step by hand:
 
 ```sh
 python3 -m pipeline fetch      # archive the latest release if it is new

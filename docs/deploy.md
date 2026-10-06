@@ -29,6 +29,26 @@ Secrets are only read by the deploy step, are passed to Wrangler through its inp
 
 Scheduled workflows (the Innovation Graph check and the Hub sync) only run when the repository variable `SCHEDULES_ENABLED` is `true`, so nothing runs on a timer until you turn it on. Each can also be started by hand from the *Actions* tab.
 
+### Data updates
+
+The `Data` workflow (`.github/workflows/data.yml`) runs every day at 06:23 UTC:
+
+1. `python -m pipeline fetch` archives the latest GitHub Innovation Graph release. If it isn't new, the run stops here.
+2. `python -m pipeline publish` validates it and writes `data/derived/`; `python -m pipeline revisions` compares it with the release before it.
+3. The tests and the site build run with the new data.
+4. `.github/scripts/data-pr.sh` commits `data/` to a `data/<quarter>-<commit>` branch, opens a pull request, runs CI on it, merges it when CI passes, and then runs CI on `main`, which deploys. Pull requests and merges made with the workflow's token start no workflow by themselves, so the script starts CI by hand and waits for it.
+5. If the release revises past values, the pull request stays open for editorial review instead of merging; merging it by hand deploys as usual.
+
+If any step fails, `.github/scripts/data-failed.sh` opens a *Data update failed* issue with the validation report (or comments on the one already open). The live site only changes when CI passes on `main`, so a failed run leaves it as it was.
+
+*Run workflow* on the *Actions* tab starts it by hand; tick *force* to publish the latest release again even if it is already archived (with unchanged data, nothing is committed).
+
+**Setup (founder):**
+
+- *Settings → Actions → General → Workflow permissions*: tick **Allow GitHub Actions to create and approve pull requests**. Without it the run stops at the pull request, and the issue it opens links to the branch so you can open the pull request yourself.
+- Set the repository variable `SCHEDULES_ENABLED` to `true` to run it daily.
+- Auto-merge isn't needed: the workflow merges after CI passes. With the ruleset from step 4 above it can still merge, because the checks it starts run on the pull request's commit. Don't require approving reviews in that ruleset, or data pull requests will wait for one.
+
 ## Launch
 
 At launch, move the `djazair.dev` custom domain from the holding-page project to the site project (*Custom domains* tab), then check that `https://djazair.dev/` redirects to a language and that `https://djazair.dev/en/` loads.
