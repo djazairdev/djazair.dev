@@ -38,7 +38,7 @@ class Site:
     routes: dict                   # key -> Route
     assets: object = None          # assets.Assets
     dev: bool = False
-    data: dict = field(default_factory=dict)
+    data: object = None            # data.Derived: the quarter being built
     files: dict = field(default_factory=dict)   # generated downloads: URL path -> bytes
 
     def add_file(self, path: str, data: bytes) -> str:

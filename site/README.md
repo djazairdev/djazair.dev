@@ -19,6 +19,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 |---|---|
 | `build.py` | Entry point |
 | `djsite/routes.py` | Every page and its path under `/en/` and `/ar/` |
+| `djsite/data.py` | The Index data: the quarter `data/derived/latest.json` names, each file checked against its `manifest.json`. The site reads no other data |
 | `djsite/layout.py` | The page shell: head, skip link, header, Index sub-nav, notices, footer |
 | `djsite/components.py` | Shared components: buttons, chips, chart controls, tiles, figure frame, source line, tables, disclosure, Hub issue rows, check panel, code sample |
 | `djsite/charts.py` | Build-time SVG charts: line, bar and unit map, sparklines, rank strips; their CSV, JSON and SVG downloads |

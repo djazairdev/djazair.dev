@@ -1,0 +1,111 @@
+{
+ "attribution": "Data: GitHub Innovation Graph (CC0)",
+ "columns": [
+  {
+   "description": "Indicator: one of the indicator columns of the indicators table",
+   "name": "indicator",
+   "type": "string"
+  },
+  {
+   "description": "Data quarter, as YYYY-QN",
+   "name": "quarter",
+   "type": "string"
+  },
+  {
+   "description": "Algeria, in the indicator’s unit",
+   "name": "value",
+   "type": "number"
+  },
+  {
+   "description": "Algeria in the same quarter a year earlier",
+   "name": "year_earlier",
+   "type": "number"
+  },
+  {
+   "description": "value / year_earlier − 1 (empty for yoy and since_2020, which are already changes)",
+   "name": "change",
+   "type": "number"
+  },
+  {
+   "description": "Median across the members of north_africa with data",
+   "name": "north_africa_median",
+   "type": "number"
+  },
+  {
+   "description": "Algeria’s place in north_africa: 1 is the highest, ties share a place",
+   "name": "north_africa_rank",
+   "type": "integer"
+  },
+  {
+   "description": "Members of north_africa with data",
+   "name": "north_africa_ranked",
+   "type": "integer"
+  },
+  {
+   "description": "Median across the members of core_peers with data",
+   "name": "core_peers_median",
+   "type": "number"
+  },
+  {
+   "description": "Algeria’s place in core_peers: 1 is the highest, ties share a place",
+   "name": "core_peers_rank",
+   "type": "integer"
+  },
+  {
+   "description": "Members of core_peers with data",
+   "name": "core_peers_ranked",
+   "type": "integer"
+  },
+  {
+   "description": "Median across the members of africa with data",
+   "name": "africa_median",
+   "type": "number"
+  },
+  {
+   "description": "Algeria’s place in africa: 1 is the highest, ties share a place",
+   "name": "africa_rank",
+   "type": "integer"
+  },
+  {
+   "description": "Members of africa with data",
+   "name": "africa_ranked",
+   "type": "integer"
+  },
+  {
+   "description": "Median across the members of algeria_and_peers with data",
+   "name": "algeria_and_peers_median",
+   "type": "number"
+  },
+  {
+   "description": "Algeria’s place in algeria_and_peers: 1 is the highest, ties share a place",
+   "name": "algeria_and_peers_rank",
+   "type": "integer"
+  },
+  {
+   "description": "Members of algeria_and_peers with data",
+   "name": "algeria_and_peers_ranked",
+   "type": "integer"
+  }
+ ],
+ "description": "Algeria’s latest value of each indicator, the same quarter a year earlier, and its place and the median in each peer group. One row per indicator.",
+ "format_version": 1,
+ "licence": "CC0-1.0",
+ "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+ "quarter": "2026-Q1",
+ "release": "054c7dbc527518fa2ecfd316efe2aa01f3986c39",
+ "release_date": "2026-07-07T15:25:55Z",
+ "rows": [
+  {"indicator": "accounts", "quarter": "2026-Q1", "value": 586990, "year_earlier": 393565, "change": 0.491469, "north_africa_median": 420582, "north_africa_rank": 3, "north_africa_ranked": 7, "core_peers_median": 982701.5, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 87857, "africa_rank": 6, "africa_ranked": 29, "algeria_and_peers_median": 906406, "algeria_and_peers_rank": 6, "algeria_and_peers_ranked": 7},
+  {"indicator": "yoy", "quarter": "2026-Q1", "value": 0.491469, "year_earlier": 0.256216, "change": null, "north_africa_median": 0.440171, "north_africa_rank": 3, "north_africa_ranked": 7, "core_peers_median": 0.430054, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 0.564515, "africa_rank": 19, "africa_ranked": 29, "algeria_and_peers_median": 0.432181, "algeria_and_peers_rank": 1, "algeria_and_peers_ranked": 7},
+  {"indicator": "since_2020", "quarter": "2026-Q1", "value": 5.392903, "year_earlier": 3.286313, "change": null, "north_africa_median": 5.392903, "north_africa_rank": 4, "north_africa_ranked": 7, "core_peers_median": 5.617364, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 6.714229, "africa_rank": 23, "africa_ranked": 29, "algeria_and_peers_median": 5.392903, "algeria_and_peers_rank": 4, "algeria_and_peers_ranked": 7},
+  {"indicator": "pushes_per_account", "quarter": "2026-Q1", "value": 1.063013, "year_earlier": 0.505017, "change": 1.104906, "north_africa_median": 1.336881, "north_africa_rank": 5, "north_africa_ranked": 7, "core_peers_median": 1.47842, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 1.693624, "africa_rank": 26, "africa_ranked": 29, "algeria_and_peers_median": 1.386281, "algeria_and_peers_rank": 7, "algeria_and_peers_ranked": 7},
+  {"indicator": "pushes_per_account_4q", "quarter": "2026-Q1", "value": 0.841602, "year_earlier": 0.476026, "change": 0.767977, "north_africa_median": 1.166945, "north_africa_rank": 5, "north_africa_ranked": 7, "core_peers_median": 1.367523, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 1.447078, "africa_rank": 26, "africa_ranked": 29, "algeria_and_peers_median": 1.287967, "algeria_and_peers_rank": 7, "algeria_and_peers_ranked": 7},
+  {"indicator": "repos_per_account", "quarter": "2026-Q1", "value": 1.039255, "year_earlier": 1.12215, "change": -0.073872, "north_africa_median": 1.523285, "north_africa_rank": 5, "north_africa_ranked": 7, "core_peers_median": 2.189271, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 1.754036, "africa_rank": 27, "africa_ranked": 29, "algeria_and_peers_median": 2.051602, "algeria_and_peers_rank": 7, "algeria_and_peers_ranked": 7},
+  {"indicator": "orgs_per_account", "quarter": "2026-Q1", "value": 0.031541, "year_earlier": 0.042489, "change": -0.257669, "north_africa_median": 0.031541, "north_africa_rank": 4, "north_africa_ranked": 7, "core_peers_median": 0.043013, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 0.04278, "africa_rank": 25, "africa_ranked": 29, "algeria_and_peers_median": 0.04278, "algeria_and_peers_rank": 7, "algeria_and_peers_ranked": 7},
+  {"indicator": "accounts_per_million", "quarter": "2026-Q1", "value": 12374.536506, "year_earlier": 8296.878073, "change": 0.491469, "north_africa_median": 12374.536506, "north_africa_rank": 4, "north_africa_ranked": 7, "core_peers_median": 15048.214057, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 4704.697341, "africa_rank": 6, "africa_ranked": 29, "algeria_and_peers_median": 13740.58487, "algeria_and_peers_rank": 5, "algeria_and_peers_ranked": 7},
+  {"indicator": "topics", "quarter": "2026-Q1", "value": 3, "year_earlier": 2, "change": 0.5, "north_africa_median": 3, "north_africa_rank": 4, "north_africa_ranked": 7, "core_peers_median": 15.5, "core_peers_rank": null, "core_peers_ranked": 6, "africa_median": 0, "africa_rank": 7, "africa_ranked": 29, "algeria_and_peers_median": 13, "algeria_and_peers_rank": 7, "algeria_and_peers_ranked": 7}
+ ],
+ "source": "https://github.com/github/innovationgraph/tree/054c7dbc527518fa2ecfd316efe2aa01f3986c39/data",
+ "table": "overview",
+ "title": "Algeria at a glance"
+}

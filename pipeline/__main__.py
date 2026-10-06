@@ -2,16 +2,18 @@
 
     fetch       archive the latest Innovation Graph release if it is new
     validate    check an archived release (the latest by default)
+    publish     validate a release, then write data/derived/<yyyy-qN>/ from it
     population  refresh the World Bank population cache (data/population.json)
     revisions   list past values a release changed, against the release before it
 """
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import sys
 
-from . import population, release, revisions
+from . import population, publish, release, revisions
 from .config import RAW_DIR
 from .run import ValidationFailed, process
 
@@ -48,6 +50,12 @@ def pick(commit: str) -> release.Archive:
     return matches[0]
 
 
+def earlier(archive: release.Archive):
+    """The release archived before ``archive``, or None."""
+    found = [a for a in release.archives(RAW_DIR) if a.meta['date'] < archive.meta['date']]
+    return found[-1] if found else None
+
+
 def cmd_validate(args) -> int:
     archive = pick(args.release)
     try:
@@ -56,6 +64,27 @@ def cmd_validate(args) -> int:
         print(failed.report.markdown())
         return 1
     print(report.markdown())
+    return 0
+
+
+def cmd_publish(args) -> int:
+    archive = pick(args.release)
+    written = []
+    step = lambda a: written.append(publish.publish(a, previous=earlier(a)))
+    try:
+        report = process(archive, steps=[step], report_path=args.report)
+    except ValidationFailed as failed:
+        print(failed.report.markdown())
+        print('Nothing was published.')
+        return 1
+    folder = written[0]
+    manifest = json.loads((folder / 'manifest.json').read_text('utf-8'))
+    tables = sorted({f['table'] for f in manifest['files'].values() if 'table' in f})
+    print(f'{report.quarter} data from {archive.commit[:12]}: {len(tables)} tables written to '
+          f'{folder.relative_to(RAW_DIR.parent.parent)} (generated {manifest["generated_at"]})')
+    if report.warnings:
+        print(f'{len(report.warnings)} validation warnings; see `python3 -m pipeline validate`.')
+    _output(quarter=report.quarter, folder=str(folder.relative_to(RAW_DIR.parent.parent)))
     return 0
 
 
@@ -70,13 +99,12 @@ def cmd_population(args) -> int:
 
 def cmd_revisions(args) -> int:
     archive = pick(args.release)
-    found = release.archives(RAW_DIR)
-    earlier = [a for a in found if a.meta['date'] < archive.meta['date']]
-    if not earlier:
+    before = earlier(archive)
+    if before is None:
         print(f'{archive.commit[:12]} is the first archived release: nothing to compare.')
         _output(revisions='false')
         return 0
-    report = revisions.compare(earlier[-1], archive)
+    report = revisions.compare(before, archive)
     body = report.markdown()
     print(body)
     if args.report:
@@ -95,6 +123,10 @@ def main(argv=None) -> int:
     v.add_argument('--release', default='latest', help='commit of an archived release (default: the latest)')
     v.add_argument('--report', type=str, help='also write the report, as Markdown, to this file')
     v.set_defaults(run=cmd_validate)
+    p = sub.add_parser('publish', help='validate a release, then write data/derived/<yyyy-qN>/ from it')
+    p.add_argument('--release', default='latest', help='commit of an archived release (default: the latest)')
+    p.add_argument('--report', type=str, help='also write the validation report, as Markdown, to this file')
+    p.set_defaults(run=cmd_publish)
     sub.add_parser('population', help='refresh the World Bank population cache').set_defaults(run=cmd_population)
     r = sub.add_parser('revisions', help='list past values a release changed')
     r.add_argument('--release', default='latest', help='commit of an archived release (default: the latest)')

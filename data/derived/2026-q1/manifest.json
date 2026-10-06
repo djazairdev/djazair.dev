@@ -1,0 +1,212 @@
+{
+ "attribution": "Data: GitHub Innovation Graph (CC0)",
+ "files": {
+  "README.md": {
+   "bytes": 3230,
+   "sha256": "7b7606ebfc2236d8f9e41b49e134a9bc6d3bc0fc814f086d66a4a8b4463afa74"
+  },
+  "collaboration.csv": {
+   "bytes": 3954,
+   "rows": 226,
+   "sha256": "9b054f0af83fcf20461d1df4bd7759080a582a3418630dabeec5a4252caedf80",
+   "table": "collaboration",
+   "title": "Algeria’s collaboration partners"
+  },
+  "collaboration.json": {
+   "bytes": 16749,
+   "rows": 226,
+   "sha256": "8bf72df183ddf498a93d7f0c5d82c25de10da4b8e3b7142b7e920f0d9d71a765",
+   "table": "collaboration",
+   "title": "Algeria’s collaboration partners"
+  },
+  "groups.csv": {
+   "bytes": 12163,
+   "rows": 96,
+   "sha256": "d7b29a0b981393c5fd99787e6af5e0e12cb9ce713d5923d182265b3ff0514937",
+   "table": "groups",
+   "title": "Peer groups and their medians"
+  },
+  "groups.json": {
+   "bytes": 41905,
+   "rows": 96,
+   "sha256": "3bbac441af2677c8c1800649cb1b2067740ee26e892ef30792813982508746af",
+   "table": "groups",
+   "title": "Peer groups and their medians"
+  },
+  "indicators.csv": {
+   "bytes": 457994,
+   "rows": 5656,
+   "sha256": "1807da2ab224e89725c1843512739e95a8bdb804770635acc45c5e0b65ccb425",
+   "table": "indicators",
+   "title": "Every economy, every quarter"
+  },
+  "indicators.json": {
+   "bytes": 1706235,
+   "rows": 5656,
+   "sha256": "7779919a7a3ddb1fa719c0286c193077d084e62f0d98892052c6b4ca854fcfc1",
+   "table": "indicators",
+   "title": "Every economy, every quarter"
+  },
+  "languages.csv": {
+   "bytes": 22767,
+   "rows": 456,
+   "sha256": "d3d2f6121f9e1b939264f620bd8e270b342157b7ec9fc0d9fa1696ca2754d329",
+   "table": "languages",
+   "title": "Languages"
+  },
+  "languages.json": {
+   "bytes": 91884,
+   "rows": 456,
+   "sha256": "2a8e24085b115983dbfa55d782b86ce2c27e1984867054f6a095c01057ebb4ed",
+   "table": "languages",
+   "title": "Languages"
+  },
+  "languages_algeria.csv": {
+   "bytes": 22357,
+   "rows": 687,
+   "sha256": "407ae7610a4a04ace3112071e763de60545bf6cd76afa34f75e12403e4019cfc",
+   "table": "languages_algeria",
+   "title": "Languages in Algeria since 2020"
+  },
+  "languages_algeria.json": {
+   "bytes": 74287,
+   "rows": 687,
+   "sha256": "85b894e4f651fb49824d600f30c4273d5a4a25aeb74ddfc73eeb3367b835aafa",
+   "table": "languages_algeria",
+   "title": "Languages in Algeria since 2020"
+  },
+  "overview.csv": {
+   "bytes": 1133,
+   "rows": 9,
+   "sha256": "18fa0ddcf5295346d2fcae53ad214d9636d26bf29075355a40b8f8b3dcc74ed9",
+   "table": "overview",
+   "title": "Algeria at a glance"
+  },
+  "overview.json": {
+   "bytes": 6889,
+   "rows": 9,
+   "sha256": "9a22f2c783a64bbcc7163d3f675b071bf4f16a2098cc460b7da324ac7ed97ed0",
+   "table": "overview",
+   "title": "Algeria at a glance"
+  },
+  "peers.csv": {
+   "bytes": 1279,
+   "rows": 10,
+   "sha256": "fb558b9ae02851510e2bb2017fc8794e9b8dc0dfe1073836fce79a27cf9e7236",
+   "table": "peers",
+   "title": "Algeria and its peers"
+  },
+  "peers.json": {
+   "bytes": 6294,
+   "rows": 10,
+   "sha256": "9eb6aa086edf73a0b3349f72a22a87cbe0335ade36ce9b9a301182aa1fab9423",
+   "table": "peers",
+   "title": "Algeria and its peers"
+  },
+  "ranks.csv": {
+   "bytes": 21411,
+   "rows": 441,
+   "sha256": "9569457a59b54683d5949c80ab6bdebc76d7cb5cd6363cbb1157209d91cc0d11",
+   "table": "ranks",
+   "title": "Ranks in each peer group"
+  },
+  "ranks.json": {
+   "bytes": 62514,
+   "rows": 441,
+   "sha256": "92289814f92b8bb664ebdebc0c147205041a82d2c61ed2d7aeed78a518944407",
+   "table": "ranks",
+   "title": "Ranks in each peer group"
+  },
+  "revisions.csv": {
+   "bytes": 34,
+   "rows": 0,
+   "sha256": "7534fd979c9f76d316fac6127b5b706c318ac1fdb5fb864919dcfce37348846f",
+   "table": "revisions",
+   "title": "Revised past values"
+  },
+  "revisions.json": {
+   "bytes": 1198,
+   "rows": 0,
+   "sha256": "7fc9d34e79188ed6ab5e7b8b19262e2e6e7ddef0a18c376c8f0842dd98459f5c",
+   "table": "revisions",
+   "title": "Revised past values"
+  },
+  "topics.csv": {
+   "bytes": 3011,
+   "rows": 112,
+   "sha256": "ac939cbcccb696752020250a2b08690477156d299a0ea814aa8883c9455c3374",
+   "table": "topics",
+   "title": "Topics"
+  },
+  "topics.json": {
+   "bytes": 11416,
+   "rows": 112,
+   "sha256": "5a5342c1ba220f3d839be220d42462fe3bc447722e23eb529f9b891718d68213",
+   "table": "topics",
+   "title": "Topics"
+  },
+  "trends.csv": {
+   "bytes": 106626,
+   "rows": 2925,
+   "sha256": "f7ab58d466bbd4eb3209aa14f74160037b44d7eb61b22a9bba12582e7652b6a7",
+   "table": "trends",
+   "title": "Quarterly series"
+  },
+  "trends.json": {
+   "bytes": 274924,
+   "rows": 2925,
+   "sha256": "33b8b392d45fab2118969bbb8c3283c55f64c12c8a6a453a0d3af8445f336b85",
+   "table": "trends",
+   "title": "Quarterly series"
+  }
+ },
+ "format_version": 1,
+ "generated_at": "2026-10-06T20:25:00Z",
+ "licence": "CC0-1.0",
+ "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+ "population": {
+  "algeria_year": 2025,
+  "licence": "CC BY 4.0",
+  "source": "World Bank, World Development Indicators (SP.POP.TOTL)",
+  "updated": "2026-07-13",
+  "years": [
+   2025
+  ]
+ },
+ "quarter": "2026-Q1",
+ "quarters": [
+  "2020-Q1",
+  "2020-Q2",
+  "2020-Q3",
+  "2020-Q4",
+  "2021-Q1",
+  "2021-Q2",
+  "2021-Q3",
+  "2021-Q4",
+  "2022-Q1",
+  "2022-Q2",
+  "2022-Q3",
+  "2022-Q4",
+  "2023-Q1",
+  "2023-Q2",
+  "2023-Q3",
+  "2023-Q4",
+  "2024-Q1",
+  "2024-Q2",
+  "2024-Q3",
+  "2024-Q4",
+  "2025-Q1",
+  "2025-Q2",
+  "2025-Q3",
+  "2025-Q4",
+  "2026-Q1"
+ ],
+ "release": "054c7dbc527518fa2ecfd316efe2aa01f3986c39",
+ "release_date": "2026-07-07T15:25:55Z",
+ "revisions": {
+  "changed": 0,
+  "compared_quarter": null,
+  "compared_with": null
+ },
+ "source": "https://github.com/github/innovationgraph/tree/054c7dbc527518fa2ecfd316efe2aa01f3986c39/data"
+}

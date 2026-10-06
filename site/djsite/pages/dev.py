@@ -1,22 +1,19 @@
 """/_dev/components/: every shared component in both languages, built only with ``--dev``.
 
-It uses a snapshot of real Innovation Graph values (site/dev/sample.json); the real pages
-read data/derived/. Demo issue rows are examples, not live Hub data.
+Its numbers come from data/derived/, like every page. Demo issue rows are examples, not
+live Hub data.
 """
 from __future__ import annotations
 
-import json
-
 from .. import components as C
 from ..charts import Bar, BarChart, Line, LineChart, Note, UnitMap, hbars, spark, tick_compact, tick_int, tick_pct
-from ..config import SITE_DIR
 from ..context import Ctx, Page
 from ..figures import figure
 from ..fmt import fdec, fint, fpct, num, quarter_label
 from ..markup import Markup, esc
 
-SAMPLE = SITE_DIR / 'dev' / 'sample.json'
-
+NAMES_EN = {'DZ': 'Algeria', 'EG': 'Egypt', 'LY': 'Libya', 'MA': 'Morocco', 'MR': 'Mauritania', 'SD': 'Sudan', 'TN': 'Tunisia',
+            'NG': 'Nigeria', 'KE': 'Kenya', 'ZA': 'South Africa'}
 NAMES_AR = {'DZ': 'الجزائر', 'EG': 'مصر', 'LY': 'ليبيا', 'MA': 'المغرب', 'MR': 'موريتانيا', 'SD': 'السودان', 'TN': 'تونس',
             'NG': 'نيجيريا', 'KE': 'كينيا', 'ZA': 'جنوب أفريقيا'}
 
@@ -128,6 +125,37 @@ def _both(key: str) -> dict:
 PEERS = ['MA', 'TN', 'EG', 'NG', 'KE', 'ZA']
 
 
+def sample(data) -> dict:
+    """The values the gallery shows, from the derived data (``data.Derived``)."""
+    ov, peers, q = data.overview(), data.peers(), data.quarters
+    s = data.series
+    rank = lambda row, group: row[f'{group}_rank']
+    a, p = ov['accounts'], ov['pushes_per_account']
+    yoy = s('yoy', 'DZ')
+    return {
+        'names': NAMES_EN, 'quarters': q,
+        'accounts': {c: s('accounts', c) for c in ['DZ'] + PEERS},
+        'pushes': {c: s('pushes_per_account', c) for c in ['DZ'] + PEERS},
+        'accounts_north_median': s('accounts', 'median_north_africa'),
+        'pushes_north_median': s('pushes_per_account', 'median_north_africa'),
+        'yoy': {'DZ': yoy},
+        'yoy_north_median': s('yoy', 'median_north_africa'), 'yoy_africa_median': s('yoy', 'median_africa'),
+        'q1_yoy': [[int(k[:4]), v] for k, v in zip(q, yoy) if k.endswith('-Q1') and v is not None],
+        'topics': {c: peers[c]['topics'] for c in ['DZ'] + PEERS},
+        'per_million': {c: peers[c]['accounts_per_million'] for c in ['DZ'] + PEERS},
+        'latest': {
+            'accounts': {'value': a['value'], 'prev': a['year_earlier'], 'yoy': ov['yoy']['value'],
+                         'growth_north_rank': rank(ov['yoy'], 'north_africa'), 'growth_africa_rank': rank(ov['yoy'], 'africa'),
+                         'growth_north_median': ov['yoy']['north_africa_median']},
+            'pushes': {'value': p['value'], 'prev': p['year_earlier'], 'north_rank': rank(p, 'north_africa'),
+                       'africa_rank': rank(p, 'africa'), 'north_median': p['north_africa_median'],
+                       'core_median': p['core_peers_median'], 'africa_median': p['africa_median']},
+            'repos': {'value': ov['repos_per_account']['value'], 'prev': ov['repos_per_account']['year_earlier']},
+            'orgs': {'value': ov['orgs_per_account']['value'], 'prev': ov['orgs_per_account']['year_earlier']},
+        },
+    }
+
+
 def demo_charts(d: dict) -> list:
     """The chart kit on real values: (chart, source key) pairs."""
     name = lambda c: {'en': d['names'][c], 'ar': NAMES_AR[c]}
@@ -167,7 +195,7 @@ def demo_charts(d: dict) -> list:
 
 def render(ctx: Ctx) -> Page:
     lang, t = ctx.lang, T[ctx.lang]
-    d = json.loads(SAMPLE.read_text('utf-8'))
+    d = sample(ctx.site.data)
     names = d['names'] if lang == 'en' else NAMES_AR
     L = d['latest']
     first_q, last_q = d['quarters'][0], d['quarters'][-1]
