@@ -11,9 +11,9 @@ djazair.dev is an open-source community project with two parts:
 - **Algeria Developer Index**: Algeria's GitHub activity compared with similar countries, updated every quarter from [GitHub Innovation Graph](https://github.com/github/innovationgraph) data.
 - **Project Hub**: open-source projects by Algerian developers, or relevant to Algeria, with beginner-friendly issues to start on.
 
-The site will be in Arabic, French and English. The first version has no accounts and collects no personal data.
+The site will be in Arabic and English. The first version has no accounts and collects no personal data.
 
-**Status:** pre-launch. The first version is planned for November 2026.
+**Status:** pre-launch. The first version is planned for 30 November 2026. The [implementation plan](docs/implementation-plan.md) lists the work, and [#1](https://github.com/djazairdev/djazair.dev/issues/1) tracks it.
 
 ## Repository layout
 
@@ -26,6 +26,7 @@ The site will be in Arabic, French and English. The first version has no account
 | `projects.yml` | The Hub registry |
 | `site/` | The static website |
 | `content/` | Quarterly reports and the meetups section |
+| `docs/` | The implementation plan and the page designs |
 | `.github/workflows/` | Scheduled jobs and deployment |
 
 ## Contributing

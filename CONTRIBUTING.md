@@ -18,7 +18,7 @@ A code of conduct is recommended.
 
 ## Review translations
 
-Text is written in English and translated into Arabic and French. Nothing is published until a fluent speaker has reviewed it. If you can review, open an issue.
+Text is written in English and translated into Arabic. Nothing is published until a fluent speaker has reviewed it. If you can review Arabic, open an issue.
 
 ## Report a problem
 
