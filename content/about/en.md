@@ -24,6 +24,10 @@ djazair.dev is an independent community project, started in Algeria in 2026 and 
 | **Source data** | GitHub Innovation Graph, CC0 1.0 · World Bank population, CC BY 4.0 |
 Table: Licences for djazair.dev’s code, text and data
 
+## Privacy {#privacy}
+
+djazair.dev sets no cookies and asks for no personal data. {{analytics}} If you pick a language with the switcher, your browser remembers it on your device, and nowhere else. The Hub shows issue titles from GitHub, never who opened them.
+
 ## Contact {#contact}
 
 For anything public, such as an error, an idea or a project for the Hub, [open an issue on GitHub](https://github.com/djazairdev/djazair.dev/issues/new/choose). For anything else, write to {{contact}}. To report a security problem, follow the [security policy](https://github.com/djazairdev/djazair.dev/security/policy).

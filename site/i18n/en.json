@@ -625,7 +625,9 @@
   "about": {
     "eyebrow": "About",
     "title": "About djazair.dev",
-    "lede": "An open scorecard of Algeria’s developer ecosystem and a hub for its open-source projects, built in the open."
+    "lede": "An open scorecard of Algeria’s developer ecosystem and a hub for its open-source projects, built in the open.",
+    "analytics_on": "We count visits with Cloudflare Web Analytics, which uses no cookies and doesn’t follow you from site to site: it keeps totals only, such as pages viewed, countries and browsers.",
+    "analytics_off": "We don’t count visits."
   },
   "downloads": {
     "eyebrow": "Data",

@@ -28,7 +28,7 @@ Secrets are only read by the deploy step, are passed to Wrangler through its inp
 
 ## Scheduled jobs
 
-Scheduled workflows (the Innovation Graph check and the Hub sync) only run when the repository variable `SCHEDULES_ENABLED` is `true`, so nothing runs on a timer until you turn it on. Each can also be started by hand from the *Actions* tab.
+Scheduled workflows (the Innovation Graph check, the Hub sync and the uptime check) only run when the repository variable `SCHEDULES_ENABLED` is `true`, so nothing runs on a timer until you turn it on. Each can also be started by hand from the *Actions* tab. When one fails, it opens an issue ([Alerts](#alerts)).
 
 ### Hub sync
 
@@ -46,7 +46,7 @@ The `Data` workflow (`.github/workflows/data.yml`) runs every day at 06:23 UTC:
 4. `.github/scripts/data-pr.sh` commits `data/` to a `data/<quarter>-<commit>` branch, opens a pull request, runs CI on it, merges it when CI passes, and then runs CI on `main`, which deploys. Pull requests and merges made with the workflow's token start no workflow by themselves, so the script starts CI by hand and waits for it.
 5. If the release revises past values, the pull request stays open for editorial review instead of merging; merging it by hand deploys as usual.
 
-If any step fails, `.github/scripts/data-failed.sh` opens a *Data update failed* issue with the validation report (or comments on the one already open). The live site only changes when CI passes on `main`, so a failed run leaves it as it was.
+If any step fails, `.github/scripts/data-failed.sh` opens a *Data update failed* issue with the validation report (or comments on the one already open); the next run that works closes it. The live site only changes when CI passes on `main`, so a failed run leaves it as it was.
 
 *Run workflow* on the *Actions* tab starts it by hand; tick *force* to publish the latest release again even if it is already archived (with unchanged data, nothing is committed).
 
@@ -55,6 +55,28 @@ If any step fails, `.github/scripts/data-failed.sh` opens a *Data update failed*
 - *Settings → Actions → General → Workflow permissions*: tick **Allow GitHub Actions to create and approve pull requests**. Without it the run stops at the pull request, and the issue it opens links to the branch so you can open the pull request yourself.
 - Set the repository variable `SCHEDULES_ENABLED` to `true` to run it daily.
 - Auto-merge isn't needed: the workflow merges after CI passes. With the ruleset from step 4 above it can still merge, because the checks it starts run on the pull request's commit. Don't require approving reviews in that ruleset, or data pull requests will wait for one.
+
+## Alerts
+
+Each scheduled workflow opens a GitHub issue when it fails, or comments on the one already open, so a problem is never silent and never repeats as a new issue. The next run that works closes it.
+
+| Issue | Opened by | When |
+| --- | --- | --- |
+| *Data update failed* | `Data` | The Innovation Graph update fails: fetching, validating, testing, building or merging. |
+| *Hub sync failed* | `Hub sync` | The Hub sync fails, health checks included. The site keeps the last snapshot. |
+| *Site down* | `Uptime` | `https://djazair.dev/` doesn't answer 200 with the site in it, three tries 30 seconds apart. The check runs from GitHub Actions every 30 minutes. |
+
+**Who gets them:** the founder and the second admin. Set the repository variable `ALERT_ASSIGNEES` to their GitHub usernames, comma-separated (for example `founder,second-admin`). New alert issues are assigned to them, so GitHub notifies them by email and in the app, depending on their notification settings. Both should also *Watch* the repository for issues as a backstop.
+
+**Testing an alert:** on the *Actions* tab, run the workflow by hand with **Fail on purpose** ticked. It stops at its first step and opens (or comments on) its issue. Running it again without the box closes the issue. For `Data`, only do that when no new Innovation Graph release is waiting, or the run publishes it.
+
+**Uptime addresses:** the variable `UPTIME_URLS` (space-separated) replaces the default `https://djazair.dev/`. At launch, add `https://djazair.dev/en/` and `https://djazair.dev/ar/`. Like the other schedules, uptime checks run only when `SCHEDULES_ENABLED` is `true`.
+
+## Analytics
+
+The site can count visits with [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/), which sets no cookies and keeps totals only (pages, referrers, countries, browsers), so no consent banner is needed.
+
+**Setup (founder):** in Cloudflare, *Analytics & Logs → Web Analytics → Add a site*, enter `djazair.dev` and copy the token from the snippet it shows (32 characters). Save it as the repository variable `CLOUDFLARE_WEB_ANALYTICS_TOKEN` (a variable, not a secret: it is public in every page). The next deploy adds the beacon to every page, and the Privacy section of the About page then says that visits are counted. Don't also turn on the automatic setup in the Pages project, or visits count twice.
 
 ## Launch
 

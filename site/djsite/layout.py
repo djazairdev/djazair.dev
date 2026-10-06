@@ -1,7 +1,7 @@
 """The page shell: document head, skip link, header, Index sub-nav, notices and footer."""
 from __future__ import annotations
 
-from .config import LANGS, OG_LOCALES, OTHER, REPO_URL, SITE_URL, THEME_COLOR
+from .config import BEACON_URL, LANGS, OG_LOCALES, OTHER, REPO_URL, SITE_URL, THEME_COLOR
 from .context import Ctx, Page
 from .icons import icon, mark, wordmark
 from .markup import Markup, esc, join
@@ -159,6 +159,8 @@ def document(ctx: Ctx, page: Page) -> str:
     head_html, sub_html, foot_html = header(ctx), subnav(ctx), footer(ctx)
     title = full_title(ctx, page)
     scripts = ''.join(f'<script src="{src}" defer></script>' for src in (assets.js, *page.scripts))
+    if ctx.site.analytics:      # Cloudflare Web Analytics: no cookies (docs/deploy.md#analytics)
+        scripts += f'<script src="{BEACON_URL}" defer data-cf-beacon=\'{{"token": "{ctx.site.analytics}"}}\'></script>'
     return f'''<!doctype html>
 <html lang="{ctx.lang}" dir="{ctx.dir}">
 <head>

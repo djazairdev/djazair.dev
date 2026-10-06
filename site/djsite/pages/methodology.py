@@ -78,6 +78,7 @@ def values(ctx) -> dict:
         'pushes_us': pushes_growth('US'),
         'pushes_dz': pushes_growth('DZ'),
         'revisions': revisions,
+        'analytics': ctx.t('about.analytics_on' if ctx.site.analytics else 'about.analytics_off'),
         'accounts': num(fint(data.overview()['accounts']['value'], lang)),
         'yoy': num(fpct(data.overview()['yoy']['value'], 1, lang, sign=False)),
         'contact': Markup(f'<a href="mailto:{CONTACT}">{CONTACT}</a>'),

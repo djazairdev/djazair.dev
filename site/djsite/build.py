@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import argparse
 import io
+import os
+import re
 import shutil
 import sys
 import time
@@ -12,7 +14,7 @@ from typing import Optional
 from xml.sax.saxutils import quoteattr
 
 from . import assets, layout
-from .config import DEFAULT_OUT, I18N_DIR, LANGS, SITE_URL
+from .config import ANALYTICS_ENV, DEFAULT_OUT, I18N_DIR, LANGS, SITE_URL
 from .context import Ctx, Route, Site
 from .data import DERIVED_DIR, Hub, load as load_data
 from .i18n import Catalog
@@ -110,15 +112,25 @@ def output_path(out: Path, lang: str, path: str) -> Path:
     return dest / 'index.html' if path == '' or path.endswith('/') else dest
 
 
+def analytics_token(value: Optional[str] = None) -> str:
+    """The Cloudflare Web Analytics token: ``value``, or the environment variable. Checked, because
+    it goes into every page."""
+    token = (os.environ.get(ANALYTICS_ENV, '') if value is None else value).strip()
+    if token and not re.fullmatch(r'[0-9a-f]{32}', token):
+        raise SystemExit(f'{ANALYTICS_ENV} must be the 32 hexadecimal characters Cloudflare gives a site')
+    return token
+
+
 def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool = False, i18n_dir: Path = I18N_DIR,
-          derived_dir: Path = DERIVED_DIR, hub_dir: Optional[Path] = None) -> Site:
+          derived_dir: Path = DERIVED_DIR, hub_dir: Optional[Path] = None, analytics: Optional[str] = None) -> Site:
+    """``analytics``: the Cloudflare Web Analytics token; by default read from the environment."""
     started = time.time()
     catalog = Catalog(i18n_dir)
     all_routes = list(routes or ROUTES)
     if dev:
         all_routes.append(Route('dev-components', '_dev/components/', dev_page.render, indexed=False))
     site = Site(catalog=catalog, routes={r.key: r for r in all_routes}, dev=dev, data=load_data(derived_dir),
-                hub=Hub(hub_dir or Path(derived_dir) / 'hub'))
+                hub=Hub(hub_dir or Path(derived_dir) / 'hub'), analytics=analytics_token(analytics))
     _prepare(out)
     site.assets = assets.build(out, extra_css=home.ticker_css(site.data))
     add_data_files(site, derived_dir)

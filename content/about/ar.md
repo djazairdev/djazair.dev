@@ -24,6 +24,10 @@ djazair.dev مشروع مجتمعي مستقلّ، انطلق في الجزائ�
 | **البيانات المصدرية** | GitHub Innovation Graph بترخيص CC0 1.0 · سكان البنك الدولي بترخيص CC BY 4.0 |
 Table: تراخيص شيفرة djazair.dev ونصوصه وبياناته
 
+## الخصوصية {#privacy}
+
+لا يضع djazair.dev أي ملفات تعريف ارتباط ولا يطلب أي بيانات شخصية. {{analytics}} إذا اخترت لغة من مبدّل اللغة، يحفظها متصفحك على جهازك فقط. يعرض مركز المشاريع عناوين المهام من GitHub، ولا يعرض أبدًا من فتحها.
+
 ## التواصل {#contact}
 
 لكل ما هو عام، مثل خطأ أو فكرة أو مشروع لمركز المشاريع، [افتح مسألة على GitHub](https://github.com/djazairdev/djazair.dev/issues/new/choose). ولغير ذلك، راسلنا على {{contact}}. للإبلاغ عن مشكلة أمنية، اتّبع [سياسة الأمان](https://github.com/djazairdev/djazair.dev/security/policy).

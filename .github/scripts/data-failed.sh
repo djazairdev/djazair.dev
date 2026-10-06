@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 # Called by .github/workflows/data.yml when a step fails. The site only deploys after CI
 # passes on main, so the live site still shows the last good data. Opens an issue with what
-# went wrong, or comments on the one already open, so a failure is never silent and never
-# repeats as a new issue every day.
+# went wrong, or comments on the one already open (alert.sh), so a failure is never silent and
+# never repeats as a new issue every day. The next run that succeeds closes it.
 #
-# Environment: VALIDATION (the outcome of the publish step), GH_TOKEN, GITHUB_*, RUNNER_TEMP.
+# Environment: VALIDATION (the outcome of the publish step), GH_TOKEN, ALERT_ASSIGNEES,
+# GITHUB_*, RUNNER_TEMP.
 set -euo pipefail
 
 title='Data update failed'
@@ -23,10 +24,4 @@ body="${RUNNER_TEMP}/issue.md"
   fi
 } > "$body"
 
-existing="$(gh issue list --state open --search "\"${title}\" in:title" --json number,title \
-              --jq "map(select(.title == \"${title}\")) | .[0].number // empty")"
-if [ -n "$existing" ]; then
-  gh issue comment "$existing" --body-file "$body"
-else
-  gh issue create --title "$title" --body-file "$body" --label 'area: pipeline'
-fi
+"$(dirname "$0")/alert.sh" open "$title" 'area: pipeline' "$body"

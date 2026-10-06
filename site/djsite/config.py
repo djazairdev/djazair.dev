@@ -22,3 +22,8 @@ OTHER = {'en': 'ar', 'ar': 'en'}
 OG_LOCALES = {'en': 'en_GB', 'ar': 'ar_DZ'}    # Open Graph: British spelling; Algerian Arabic
 
 THEME_COLOR = '#0E1A15'
+
+# Cloudflare Web Analytics (ticket #32): no cookies, totals only. The build adds the beacon when
+# this environment variable holds the site's token (docs/deploy.md#analytics).
+ANALYTICS_ENV = 'CLOUDFLARE_WEB_ANALYTICS_TOKEN'
+BEACON_URL = 'https://static.cloudflareinsights.com/beacon.min.js'

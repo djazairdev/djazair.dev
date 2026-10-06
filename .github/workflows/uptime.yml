@@ -1,0 +1,59 @@
+# Every 30 minutes, from outside Cloudflare: check that djazair.dev answers (PRD §10, ticket
+# #32). An outage opens a "Site down" issue, assigned to the people in ALERT_ASSIGNEES (or
+# comments on the open one); the first check that passes again closes it.
+name: Uptime
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+    inputs:
+      fail:
+        description: Fail on purpose, to test the alert issue
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write                   # report an outage
+
+concurrency:
+  group: uptime
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check the site answers
+    # The schedule only runs once the SCHEDULES_ENABLED variable is 'true' (docs/deploy.md).
+    if: github.event_name == 'workflow_dispatch' || vars.SCHEDULES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Fail on purpose
+        if: inputs.fail
+        run: |
+          echo 'This run failed on purpose (the *fail* input), to test this alert.' > "$RUNNER_TEMP/failure-notes.md"
+          echo '::error::Failing on purpose (the fail input), to test the alert.'
+          exit 1
+
+      - name: Check
+        env:
+          UPTIME_URLS: ${{ vars.UPTIME_URLS || 'https://djazair.dev/' }}
+        run: .github/scripts/uptime.sh
+
+      - name: Report the outage
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ALERT_ASSIGNEES: ${{ vars.ALERT_ASSIGNEES }}
+        run: .github/scripts/uptime-failed.sh
+
+      - name: Close the outage issue, if one is open
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          .github/scripts/alert.sh close 'Site down' "Back up: [this check]($RUN_URL) passed."

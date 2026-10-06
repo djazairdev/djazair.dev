@@ -1,16 +1,23 @@
 # Every 6 hours: fetch the Hub's listed projects and their beginner issues from GitHub
 # (PRD HUB-04, HUB-05, AC-HUB-4), build the site with them, save the snapshot on the hub-data
 # branch, then run CI on main, which builds with it and deploys. main itself never changes.
+# A failure opens a "Hub sync failed" issue (or comments on it); the next sync that works closes it.
 name: Hub sync
 
 on:
   schedule:
     - cron: '41 */6 * * *'        # 00:41, 06:41, 12:41 and 18:41 UTC
   workflow_dispatch:
+    inputs:
+      fail:
+        description: Fail on purpose, to test the alert issue
+        type: boolean
+        default: false
 
 permissions:
   contents: write                 # push the hub-data branch
   actions: write                  # start CI, which the workflow token can't trigger otherwise
+  issues: write                   # report a failure
 
 concurrency:
   group: hub-sync
@@ -29,6 +36,13 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Fail on purpose
+        if: inputs.fail
+        run: |
+          echo 'This run failed on purpose (the *fail* input), to test this alert.' > "$RUNNER_TEMP/failure-notes.md"
+          echo '::error::Failing on purpose (the fail input), to test the alert.'
+          exit 1
+
       - name: Get the last snapshot
         run: .github/scripts/hub-snapshot.sh
 
@@ -36,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
-          python -m hub sync > "$RUNNER_TEMP/hub-sync.txt"
+          python -m hub sync > "$RUNNER_TEMP/hub-sync.txt" 2> >(tee "$RUNNER_TEMP/hub-sync-errors.txt" >&2)
           tee -a "$GITHUB_STEP_SUMMARY" < "$RUNNER_TEMP/hub-sync.txt"
 
       - name: Build the site with it
@@ -46,3 +60,19 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: SUMMARY="$(cat "$RUNNER_TEMP/hub-sync.txt")" .github/scripts/hub-publish.sh
+
+      - name: Report the failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ALERT_ASSIGNEES: ${{ vars.ALERT_ASSIGNEES }}
+        run: .github/scripts/hub-failed.sh
+
+      - name: Close the failure issue, if one is open
+        if: success()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          .github/scripts/alert.sh close 'Hub sync failed' "Fixed: [this run]($RUN_URL) synced the Hub."

@@ -1,7 +1,8 @@
 # Every day: archive a new GitHub Innovation Graph release, validate it, publish the derived
 # data, run the tests and build the site with it, then open a pull request and merge it when
 # CI passes, which deploys the site (PRD §9.5, AC-IDX-4). A release that revises past values
-# waits for editorial review instead. A failed run changes nothing on main and opens an issue.
+# waits for editorial review instead. A failed run changes nothing on main and opens an issue
+# (or comments on the open one); the next run that works closes it.
 name: Data
 
 on:
@@ -11,6 +12,10 @@ on:
     inputs:
       force:
         description: Publish the latest release again even if it is already archived
+        type: boolean
+        default: false
+      fail:
+        description: Fail on purpose, to test the alert issue
         type: boolean
         default: false
 
@@ -36,6 +41,13 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+
+      - name: Fail on purpose
+        if: inputs.fail
+        run: |
+          echo 'This run failed on purpose (the *fail* input), to test this alert.' > "$RUNNER_TEMP/failure-notes.md"
+          echo '::error::Failing on purpose (the fail input), to test the alert.'
+          exit 1
 
       - name: Fetch the latest release
         id: fetch
@@ -74,5 +86,15 @@ jobs:
         if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
+          ALERT_ASSIGNEES: ${{ vars.ALERT_ASSIGNEES }}
           VALIDATION: ${{ steps.publish.outcome }}
         run: .github/scripts/data-failed.sh
+
+      - name: Close the failure issue, if one is open
+        if: success()
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          .github/scripts/alert.sh close 'Data update failed' "Fixed: [this run]($RUN_URL) worked.

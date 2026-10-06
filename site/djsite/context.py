@@ -45,6 +45,7 @@ class Site:
     charts: dict = field(default_factory=dict)  # chart id -> {route, title, csv, json}: the Data page lists them
     hub: object = None             # data.Hub: the Hub snapshot
     indexed: dict = field(default_factory=dict)  # route key -> languages it is indexed in (the sitemap)
+    analytics: str = ''            # Cloudflare Web Analytics token; '' adds no beacon
 
     def add_file(self, path: str, data: bytes) -> str:
         """Register a generated file, such as a chart download, and return its URL. Pages in
