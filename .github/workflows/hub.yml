@@ -1,0 +1,48 @@
+# Every 6 hours: fetch the Hub's listed projects and their beginner issues from GitHub
+# (PRD HUB-04, HUB-05, AC-HUB-4), build the site with them, save the snapshot on the hub-data
+# branch, then run CI on main, which builds with it and deploys. main itself never changes.
+name: Hub sync
+
+on:
+  schedule:
+    - cron: '41 */6 * * *'        # 00:41, 06:41, 12:41 and 18:41 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write                 # push the hub-data branch
+  actions: write                  # start CI, which the workflow token can't trigger otherwise
+
+concurrency:
+  group: hub-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Sync the Hub
+    # The schedule only runs once the SCHEDULES_ENABLED variable is 'true' (docs/deploy.md).
+    if: github.event_name == 'workflow_dispatch' || vars.SCHEDULES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Get the last snapshot
+        run: .github/scripts/hub-snapshot.sh
+
+      - name: Sync from GitHub
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m hub sync > "$RUNNER_TEMP/hub-sync.txt"
+          tee -a "$GITHUB_STEP_SUMMARY" < "$RUNNER_TEMP/hub-sync.txt"
+
+      - name: Build the site with it
+        run: python site/build.py
+
+      - name: Save the snapshot and deploy
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: SUMMARY="$(cat "$RUNNER_TEMP/hub-sync.txt")" .github/scripts/hub-publish.sh

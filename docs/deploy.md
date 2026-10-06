@@ -29,6 +29,12 @@ Secrets are only read by the deploy step, are passed to Wrangler through its inp
 
 Scheduled workflows (the Innovation Graph check and the Hub sync) only run when the repository variable `SCHEDULES_ENABLED` is `true`, so nothing runs on a timer until you turn it on. Each can also be started by hand from the *Actions* tab.
 
+### Hub sync
+
+The `Hub sync` workflow (`.github/workflows/hub.yml`) runs every 6 hours, at 00:41, 06:41, 12:41 and 18:41 UTC. It fetches the listed projects and their beginner issues with `python -m hub sync`, checks the site builds with them, saves the snapshot on the `hub-data` branch, and runs CI on `main`, which deploys (details in [hub/README.md](../hub/README.md#sync-issues-feed)). `main` never changes, so it needs no pull request.
+
+**Setup (founder):** nothing beyond `SCHEDULES_ENABLED`. Keep the `hub-data` branch out of the `main` ruleset: the workflow pushes to it. Don't delete it either: it holds the snapshot every build uses. If it is deleted, the next sync starts it again.
+
 ### Data updates
 
 The `Data` workflow (`.github/workflows/data.yml`) runs every day at 06:23 UTC:

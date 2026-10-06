@@ -38,26 +38,60 @@ class GitHub:
         self.token = token if token is not None else (os.environ.get('GITHUB_TOKEN') or os.environ.get('GH_TOKEN') or '')
         self.transport = transport
         self.tries = tries
+        self.calls = 0                  # requests sent
+        self.unchanged = 0              # of which GitHub answered 304 Not Modified
+        self.rate: dict = {}            # the rate limit headers of the last answer
 
     def request(self, method: str, path: str, data=None) -> tuple:
         """(status, parsed JSON or None). Retries server errors; raises GitHubError on rate limits."""
+        status, _head, parsed = self.exchange(method, path, data)
+        return status, parsed
+
+    def exchange(self, method: str, path: str, data=None, extra: Optional[dict] = None) -> tuple:
+        """(status, response headers, parsed JSON or None), as ``request``; ``extra`` adds request
+        headers. Counts the calls and keeps the rate limit GitHub last reported."""
         headers = {'Accept': 'application/vnd.github+json', 'User-Agent': USER_AGENT, 'X-GitHub-Api-Version': '2022-11-28'}
         if self.token:
             headers['Authorization'] = f'Bearer {self.token}'
+        headers.update(extra or {})
         body = json.dumps(data).encode() if data is not None else None
         if body is not None:
             headers['Content-Type'] = 'application/json'
         for attempt in range(self.tries):
             status, head, raw = self.transport(method, API + path, body, headers)
+            self.calls += 1
+            self.unchanged += status == 304
+            if _header(head, 'X-RateLimit-Remaining'):
+                self.rate = {k: _header(head, f'X-RateLimit-{k.title()}') for k in ('limit', 'remaining', 'reset', 'used')}
             if status >= 500 and attempt < self.tries - 1:
                 time.sleep(2 * 2 ** attempt)
                 continue
-            if status in (403, 429) and (str(head.get('X-RateLimit-Remaining', head.get('x-ratelimit-remaining', ''))) == '0'
-                                         or status == 429):
+            if status in (403, 429) and (_header(head, 'X-RateLimit-Remaining') == '0' or status == 429):
                 raise GitHubError('GitHub API rate limit reached; try again later')
             parsed = json.loads(raw) if raw and raw.strip()[:1] in (b'{', b'[') else None
-            return status, parsed
+            return status, head, parsed
         raise GitHubError(f'GitHub kept failing for {path}')
+
+    def get_if_changed(self, path: str, etag: Optional[str]) -> tuple:
+        """(status, JSON, ETag) for ``path``, asking with the ETag of the last answer. 304 means
+        it hasn't changed (no JSON, and no cost against the rate limit); 404 and 409 (an empty
+        repository) mean there is nothing there. Other errors raise."""
+        status, head, data = self.exchange('GET', path, extra={'If-None-Match': etag} if etag else None)
+        if status == 304:
+            return 304, None, etag
+        if status in (404, 409):
+            return status, None, None
+        if status >= 400:
+            message = data.get('message', '') if isinstance(data, dict) else ''
+            raise GitHubError(f'GitHub answered {status} for {path}{": " + message if message else ""}')
+        return status, data, _header(head, 'ETag') or None
+
+    def rate_limit(self) -> Optional[dict]:
+        """The core REST quota: limit, remaining, reset (epoch seconds), used. Free to ask."""
+        status, data = self.request('GET', '/rate_limit')
+        if status >= 400 or not isinstance(data, dict):
+            return None
+        return (data.get('resources') or {}).get('core') or data.get('rate')
 
     def get(self, path: str):
         """The JSON at ``path``, or None if it doesn't exist (404). Other errors raise."""
@@ -116,6 +150,12 @@ class GitHub:
         if status >= 400:
             message = data.get('message', '') if isinstance(data, dict) else ''
             raise GitHubError(f'could not write the comment ({status}{": " + message if message else ""})')
+
+
+def _header(head: dict, name: str) -> str:
+    """A response header, whatever its case."""
+    name = name.lower()
+    return next((str(v) for k, v in (head or {}).items() if k.lower() == name), '')
 
 
 def _repo(repo: str) -> str:

@@ -130,6 +130,63 @@ class Scripts(unittest.TestCase):
         self.assertNotIn('Validation', (self.runner / 'issue.md').read_text(), 'the report only when validation failed')
 
 
+    # ---- the Hub snapshot (ticket #25)
+    def hub_files(self, issues='[]'):
+        hub = self.work / 'data' / 'derived' / 'hub'
+        hub.mkdir(parents=True, exist_ok=True)
+        (hub / 'issues.json').write_text(f'{{"generated_at": "2026-10-06T18:00:00Z", "issues": {issues}}}\n')
+        (hub / 'projects.json').write_text('{"generated_at": "2026-10-06T18:00:00Z", "projects": []}\n')
+        return hub
+
+    def remote_git(self, *args) -> str:
+        return subprocess.run(['git', *args], cwd=self.remote, capture_output=True, text=True, check=True).stdout.strip()
+
+    def test_hub_snapshot_without_the_branch(self):
+        result = self.run_script('hub-snapshot.sh')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('No hub-data branch yet', result.stdout)
+        self.assertFalse((self.work / 'data' / 'derived' / 'hub').exists())
+
+    def test_hub_snapshot_fails_when_the_remote_is_unreachable(self):
+        git('remote', 'set-url', 'origin', str(self.tmp / 'gone.git'), cwd=self.work)
+        result = self.run_script('hub-snapshot.sh')
+        self.assertNotEqual(result.returncode, 0, 'a deploy must not drop the Hub because a fetch failed')
+
+    def test_hub_publish_saves_the_snapshot_on_its_own_branch_then_deploys(self):
+        main = self.remote_git('rev-parse', 'main')
+        self.hub_files()
+        result = self.run_script('hub-publish.sh', SUMMARY='Hub: 0 projects (0 shown), 0 open issues.')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.calls(), ['gh workflow run ci.yml', 'gh run list', 'gh run watch 12345'])
+        self.assertIn('workflow run ci.yml --ref main', (self.tmp / 'gh.log').read_text())
+        self.assertEqual(self.remote_git('ls-tree', '--name-only', 'hub-data').split(), ['issues.json', 'projects.json'])
+        self.assertIn('Hub: 0 projects', self.remote_git('log', '-1', '--format=%B', 'hub-data'))
+        self.assertEqual(self.remote_git('rev-parse', 'main'), main, 'main never changes')
+        self.assertEqual(subprocess.run(['git', 'status', '--porcelain'], cwd=self.work, capture_output=True, text=True).stdout,
+                         '?? data/derived/\n', 'the checkout is left as it was')
+
+        first = self.remote_git('rev-parse', 'hub-data')
+        (self.tmp / 'gh.log').unlink()
+        result = self.run_script('hub-publish.sh')
+        self.assertIn("didn't change", result.stdout)
+        self.assertEqual(self.calls(), [], 'no deploy when nothing changed')
+
+        self.hub_files(issues='[{"number": 1}]')
+        result = self.run_script('hub-publish.sh')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(self.remote_git('rev-parse', 'hub-data^'), first, 'each sync adds a commit')
+
+        shutil.rmtree(self.work / 'data' / 'derived' / 'hub')
+        result = self.run_script('hub-snapshot.sh')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('"number": 1', (self.work / 'data' / 'derived' / 'hub' / 'issues.json').read_text())
+
+    def test_hub_publish_stops_when_ci_fails(self):
+        self.hub_files()
+        result = self.run_script('hub-publish.sh', SIM_CI_EXIT='1')
+        self.assertNotEqual(result.returncode, 0)
+
+
 class Workflow(unittest.TestCase):
     def test_schedules_wait_for_the_switch(self):
         for path in WORKFLOWS.glob('*.yml'):
@@ -143,6 +200,15 @@ class Workflow(unittest.TestCase):
                                          'site/build.py', 'data-pr.sh', 'data-failed.sh')]
         self.assertEqual(order, sorted(order))
         self.assertIn('if: failure()', text)
+
+    def test_the_hub_sync_builds_before_it_saves_and_deploys(self):
+        text = (WORKFLOWS / 'hub.yml').read_text()
+        order = [text.index(s) for s in ('hub-snapshot.sh', 'hub sync', 'site/build.py', 'hub-publish.sh')]
+        self.assertEqual(order, sorted(order))
+        self.assertIn("cron: '41 */6 * * *'", text, 'every 6 hours (AC-HUB-4)')
+        self.assertIn('GITHUB_TOKEN: ${{ github.token }}', text, 'authenticated: the higher limit, and 304s are free')
+        ci = (WORKFLOWS / 'ci.yml').read_text()
+        self.assertLess(ci.index('hub-snapshot.sh'), ci.index('python site/build.py'), 'every build has the Hub snapshot')
 
     def test_ci_deploys_main_when_started_by_hand(self):
         text = (WORKFLOWS / 'ci.yml').read_text()

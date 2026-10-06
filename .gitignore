@@ -14,3 +14,6 @@ site/dist/
 .env
 .env.*
 !.env.example
+
+# Hub snapshot: kept on the hub-data branch (hub/README.md)
+data/derived/hub/

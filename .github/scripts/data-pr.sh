@@ -9,6 +9,8 @@
 # Environment: QUARTER (2026-Q2), COMMIT (source release), REVISIONS (true/false), GH_TOKEN,
 # and the usual GITHUB_* and RUNNER_TEMP variables.
 set -euo pipefail
+# shellcheck source=run-ci.sh
+source "$(dirname "$0")/run-ci.sh"
 
 short="${COMMIT:0:12}"
 run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
@@ -59,25 +61,6 @@ else
 fi
 echo "Pull request #${pr}"
 echo "Pull request #${pr} is open for this release." > "$notes"
-
-# Pull requests and merges made with the workflow token start no workflow, so start CI by hand.
-run_ci() {
-  local ref="$1" since id=''
-  since="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-  gh workflow run ci.yml --ref "$ref"
-  for _ in $(seq 1 30); do
-    sleep 10
-    id="$(gh run list --workflow ci.yml --branch "$ref" --event workflow_dispatch --limit 5 --json databaseId,createdAt \
-            --jq "map(select(.createdAt >= \"${since}\")) | .[0].databaseId // empty")"
-    [ -n "$id" ] && break
-  done
-  if [ -z "$id" ]; then
-    echo "CI did not start on ${ref}." >&2
-    return 1
-  fi
-  echo "CI on ${ref}: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${id}"
-  gh run watch "$id" --exit-status --interval 20 > /dev/null
-}
 
 run_ci "$branch"
 

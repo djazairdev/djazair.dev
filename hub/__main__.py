@@ -4,6 +4,7 @@
     check-submission   run the inclusion checks on the entries a pull request adds or changes
     check-issue        run the inclusion checks on a listing request made with the issue form
     check-project      run the inclusion checks on one repository
+    sync               fetch the listed projects and their beginner issues into data/derived/hub/
 """
 from __future__ import annotations
 
@@ -12,8 +13,8 @@ import os
 import sys
 from pathlib import Path
 
-from . import checks, registry, submission
-from .github import GitHub
+from . import checks, registry, submission, sync
+from .github import GitHub, GitHubError
 
 
 def cmd_check_registry(args) -> int:
@@ -71,6 +72,15 @@ def cmd_check_project(args) -> int:
     return 0 if report.ok else 1
 
 
+def cmd_sync(args) -> int:
+    try:
+        print(sync.run(Path(args.registry), Path(args.out)))
+    except (GitHubError, ValueError) as err:
+        print(f'Hub sync stopped, nothing was written: {err}', file=sys.stderr)
+        return 1
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog='python3 -m hub', description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -100,6 +110,10 @@ def main(argv=None) -> int:
     p.add_argument('--pledge', action='store_true', help='the maintainers made the pledge')
     p.add_argument('--reviewed', action='store_true', help='a person has confirmed relevance')
     p.set_defaults(run=cmd_check_project)
+    y = sub.add_parser('sync', help='fetch the listed projects and their beginner issues from GitHub')
+    y.add_argument('--registry', default=str(registry.REGISTRY), help='the registry (default: projects.yml)')
+    y.add_argument('--out', default=str(sync.OUT), help='where to write the snapshot (default: data/derived/hub)')
+    y.set_defaults(run=cmd_sync)
     args = parser.parse_args(argv)
     return args.run(args)
 

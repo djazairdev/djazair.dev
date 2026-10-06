@@ -7,6 +7,7 @@ python3 -m hub check-registry                    # validate projects.yml against
 python3 -m hub check-project owner/name --pledge # run the inclusion checks on one repository
 python3 -m hub check-submission --proposed FILE  # check the entries a new projects.yml adds or changes
 python3 -m hub check-issue --body-file FILE      # check a request made with the issue form
+python3 -m hub sync                              # fetch the listed projects and their beginner issues
 ```
 
 Set `GITHUB_TOKEN` for the higher API rate limit; public data needs no token.
@@ -48,4 +49,42 @@ Pull requests are checked with `pull_request_target`, so the bot can comment on 
 | `checks.py` | The seven checks; each failure says what was found and how to fix it. The daily health checks (#26) reuse them |
 | `submission.py` | Finds the entries a pull request adds or changes, reads the issue form, and writes the comment |
 
-Still to come: the issues feed refreshed every 6 hours (#25) and the daily health checks (#26).
+## Sync (issues feed)
+
+`python -m hub sync` builds the Hub's data (PRD HUB-04, HUB-05). For each project in `projects.yml` it asks GitHub for the repository (description, primary language, licence, topics, archived), its last commit on the default branch, and its open issues labelled `good first issue` or `help wanted`, pull requests left out. It writes a snapshot to `data/derived/hub/`:
+
+| File | What it holds |
+|---|---|
+| `projects.json` | Every listed project: its registry entry, what GitHub says about it, its number of open beginner issues, and `shown` |
+| `issues.json` | The open beginner issues of the projects the Hub shows, newest first: `repo`, `number`, `url`, `title`, `labels`, `created_at`, the repository's `language`, and `needs` |
+| `cache.json` | The ETag of each answer and what was kept from it, for the next run |
+
+A project shows on the Hub while its repository is public, not archived, and carries the `djazairdev` topic. A maintainer who removes the topic takes the project off at the next sync, within 6 hours (AC-HUB-3).
+
+**No personal data** (AC-HUB-5). Nothing about who opened, commented on or was assigned an issue is kept: no usernames, avatars or assignees, and no issue text but the title and its *You'll need* line (`needs`). That line is read from an issue that says, for example, `You'll need: Python, pytest`, or from an issue form field called *You'll need*; an aside that names someone is taken out, and a line that still names someone is left out. Commits give only their date.
+
+**Rate limits** (AC-HUB-4). A run makes about 4 requests per project (the repository, its last commit and one page of issues per label), so about 100 for 25 projects, against the 1,000 an hour the workflow token allows. Every request carries the ETag of the last answer; when nothing changed GitHub answers *304 Not Modified*, which doesn't count against the limit. Before it starts, the sync checks the quota left covers a whole run, and otherwise stops without writing anything. It logs the requests made, how many were unchanged, and the quota left:
+
+```
+Hub: 25 projects (24 shown), 131 open issues. GitHub API: 102 requests, 87 unchanged (304, free); 912 of 1,000 left, resets at 13:04 UTC.
+```
+
+Without `GITHUB_TOKEN`, GitHub allows 60 requests an hour, which covers about a dozen projects.
+
+### Where the snapshot lives
+
+The snapshot isn't committed to `main`. The `Hub sync` workflow (`.github/workflows/hub.yml`) runs every 6 hours:
+
+1. `.github/scripts/hub-snapshot.sh` puts the last snapshot in `data/derived/hub/`, so its ETags are reused.
+2. `python -m hub sync` refreshes it, and `python site/build.py` checks the site builds with it.
+3. `.github/scripts/hub-publish.sh` saves it as a commit on the **`hub-data`** branch, which holds only the snapshot, then runs CI on `main`, which deploys.
+
+Every CI build runs `hub-snapshot.sh` first, so a deploy from `main` always carries the latest snapshot. If the branch can't be reached the build fails, and the live site keeps its Hub. Before the first sync, and in forks, there is no branch: the site builds with an empty Hub.
+
+To see the Hub locally, get the snapshot (or run `python3 -m hub sync` with a token):
+
+```sh
+.github/scripts/hub-snapshot.sh
+```
+
+Still to come: the daily health checks (#26).

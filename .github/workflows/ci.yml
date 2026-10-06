@@ -1,6 +1,7 @@
 # Tests, builds and deploys the site. A deploy runs only after every test and the build pass,
-# so a failing change never replaces the last good site (PRD §11). The Data workflow starts it
-# by hand (workflow_dispatch), because its pull requests and merges trigger no workflow.
+# so a failing change never replaces the last good site (PRD §11). The Data and Hub sync
+# workflows start it by hand (workflow_dispatch), because what they push triggers no workflow.
+# The build adds the Hub snapshot from the hub-data branch (hub/README.md).
 name: CI
 
 on:
@@ -45,6 +46,8 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.12'
+      - name: Add the Hub snapshot
+        run: .github/scripts/hub-snapshot.sh
       - name: Build
         run: python site/build.py
       - uses: actions/upload-artifact@v7
