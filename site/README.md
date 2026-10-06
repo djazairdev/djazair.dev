@@ -11,7 +11,7 @@ python3 site/build.py                                         # writes site/dist
 python3 -m http.server 4322 --bind 127.0.0.1 --directory site/dist
 ```
 
-Then open <http://localhost:4322/>.
+Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/en/_dev/components/` and `/ar/_dev/components/`, which show every shared component; they are never deployed.
 
 ## How it's organised
 
@@ -20,7 +20,9 @@ Then open <http://localhost:4322/>.
 | `build.py` | Entry point |
 | `djsite/routes.py` | Every page and its path under `/en/` and `/ar/` |
 | `djsite/layout.py` | The page shell: head, skip link, header, Index sub-nav, notices, footer |
-| `djsite/components.py` | Shared components (buttons, eyebrow, page head…) |
+| `djsite/components.py` | Shared components: buttons, chips, chart controls, tiles, figure frame, source line, tables, disclosure, Hub issue rows, check panel, code sample |
+| `djsite/charts.py` | Build-time SVG charts |
+| `djsite/fmt.py` | Number, quarter and date formats for `en` and `ar-DZ` |
 | `djsite/pages/` | One renderer per page; `root.py` is the language chooser at `/` |
 | `djsite/i18n.py`, `i18n/*.json` | Interface strings (see below) |
 | `djsite/markup.py` | HTML escaping: everything that isn't our own markup goes through `esc()` |

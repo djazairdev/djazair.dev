@@ -8,10 +8,10 @@ import time
 from pathlib import Path
 
 from . import assets, layout
-from .config import DEFAULT_OUT, I18N_DIR, LANGS
-from .context import Ctx, Site
+from .config import DEFAULT_OUT, I18N_DIR, LANGS, SITE_DIR
+from .context import Ctx, Route, Site
 from .i18n import Catalog
-from .pages import root
+from .pages import dev as dev_page, root
 from .routes import ROUTES
 
 MARKER = '.djsite-build'
@@ -42,12 +42,18 @@ def output_path(out: Path, lang: str, path: str) -> Path:
     return dest / 'index.html' if path == '' or path.endswith('/') else dest
 
 
-def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None) -> Site:
+def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool = False) -> Site:
     started = time.time()
     catalog = Catalog(I18N_DIR)
-    site = Site(catalog=catalog, routes={r.key: r for r in (routes or ROUTES)}, dev=dev)
+    all_routes = list(routes or ROUTES)
+    if dev:
+        all_routes.append(Route('dev-components', '_dev/components/', dev_page.render, indexed=False))
+    site = Site(catalog=catalog, routes={r.key: r for r in all_routes}, dev=dev)
     _prepare(out)
     site.assets = assets.build(out)
+    if dev:
+        (out / '_dev').mkdir()
+        shutil.copy2(SITE_DIR / 'dev' / 'sample.json', out / '_dev' / 'sample.json')
 
     for lang in LANGS:
         for route in site.routes.values():
@@ -61,6 +67,8 @@ def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None) -> Site:
     shutil.copy2(out / 'en' / '404.html', out / '404.html')
     (out / '_headers').write_text(HEADERS, 'utf-8')
 
+    if quiet:
+        return site
     missing = catalog.missing('ar')
     stale = catalog.stale('ar')
     pages = len(list(out.rglob('*.html')))

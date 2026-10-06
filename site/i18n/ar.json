@@ -56,6 +56,36 @@
     "eyebrow": "قريبًا",
     "lede": "هذه الصفحة قيد الإنشاء. تابع العمل في {issue}."
   },
+  "fig": {
+    "label": "الشكل"
+  },
+  "measures": {
+    "summary": "ماذا يقيس هذا المؤشر",
+    "does": "ما يقيسه",
+    "doesnt": "ما لا يقيسه"
+  },
+  "dl": {
+    "download": "تنزيل",
+    "svg_dark": "SVG داكن",
+    "svg_light": "SVG فاتح",
+    "png_dark": "PNG داكن",
+    "png_light": "PNG فاتح",
+    "share": "انسخ الرابط",
+    "copied": "نُسخ الرابط"
+  },
+  "hub": {
+    "need": "ستحتاج إلى:"
+  },
+  "checks": {
+    "passed": "نجح {n} من {total}",
+    "when": "يعمل عند كل طلب إدراج، ثم يوميًا بعد الإدراج",
+    "pass": "ناجح",
+    "fail": "لم ينجح"
+  },
+  "code": {
+    "copy": "نسخ",
+    "copied": "نُسخ"
+  },
   "pages": {
     "home": {
       "title": "djazair.dev",

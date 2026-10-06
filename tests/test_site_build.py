@@ -25,7 +25,7 @@ class BuiltSite(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        cls.site = build(cls.dist)
+        cls.site = build(cls.dist, quiet=True)
         cls.docs = {}
         for path in cls.dist.rglob('*.html'):
             cls.docs[path] = Doc(path.read_text('utf-8'))

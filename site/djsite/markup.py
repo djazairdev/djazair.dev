@@ -6,6 +6,7 @@ names read from GitHub, numbers) goes through ``esc`` before it reaches a page.
 from __future__ import annotations
 
 import html
+import re
 from typing import Iterable
 
 
@@ -30,6 +31,11 @@ def esc(value) -> Markup:
 def join(parts: Iterable, sep: str = '') -> Markup:
     """Join parts that are already HTML (f-strings built from escaped values)."""
     return Markup(sep.join(str(p) for p in parts))
+
+
+def striptags(value) -> Markup:
+    """Markup reduced to its text, still escaped: for attribute values such as aria-label."""
+    return Markup(re.sub(r'<[^>]*>', '', str(esc(value))))
 
 
 def attrs(**kw) -> Markup:

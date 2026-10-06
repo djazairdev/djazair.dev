@@ -56,6 +56,36 @@
     "eyebrow": "Coming soon",
     "lede": "This page is being built. Follow the work in {issue}."
   },
+  "fig": {
+    "label": "FIG."
+  },
+  "measures": {
+    "summary": "What this measures",
+    "does": "Measures",
+    "doesnt": "Doesn’t measure"
+  },
+  "dl": {
+    "download": "Download",
+    "svg_dark": "SVG, dark",
+    "svg_light": "SVG, light",
+    "png_dark": "PNG, dark",
+    "png_light": "PNG, light",
+    "share": "Copy link",
+    "copied": "Link copied"
+  },
+  "hub": {
+    "need": "You’ll need:"
+  },
+  "checks": {
+    "passed": "{n} of {total} passed",
+    "when": "Runs on every submission and daily after listing",
+    "pass": "Passed",
+    "fail": "Failed"
+  },
+  "code": {
+    "copy": "Copy",
+    "copied": "Copied"
+  },
   "pages": {
     "home": {
       "title": "djazair.dev",

@@ -75,7 +75,7 @@ class Fonts(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist)
+        build(cls.dist, quiet=True)
         cls.css = next((cls.dist / 'assets').glob('site.*.css')).read_text('utf-8')
 
     @classmethod

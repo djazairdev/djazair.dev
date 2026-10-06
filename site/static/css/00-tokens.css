@@ -29,7 +29,18 @@
   --mint-bg: rgba(61, 190, 132, .12);
   --mint-line: rgba(61, 190, 132, .38);
   --mint-tint: rgba(61, 190, 132, .07);
+  --mint-fill: rgba(61, 190, 132, .10);
+  --mint-glow: rgba(61, 190, 132, .55);
   --selection: rgba(61, 190, 132, .35);
+
+  /* controls */
+  --seg-on: #1E3A2E;
+  --seg-ring: rgba(61, 190, 132, .45);
+  --hover-tint: rgba(238, 243, 236, .03);
+  --chip-bg: rgba(238, 243, 236, .05);
+  --track: rgba(238, 243, 236, .06);
+  --cell-dim: rgba(238, 243, 236, .13);
+  --code-dim: rgba(238, 243, 236, .22);
 
   /* charts: peers and medians, one highlighted peer, negative change */
   --cell-old: #2C7255;
@@ -37,8 +48,14 @@
   --grey: #6B7D74;
   --grey-hi: #A9B8AF;
   --amber: #E8A75A;
+  --amber-bg: rgba(232, 167, 90, .10);
   --coral: #F08A74;
   --coral-bg: rgba(240, 138, 116, .12);
+  --peer-line: #62736A;
+  --peer-dim: #3F4D46;
+  --grid-line: rgba(238, 243, 236, .07);
+  --axis-line: rgba(238, 243, 236, .16);
+  --tick-line: rgba(238, 243, 236, .3);
 
   /* language dots on Hub cards */
   --sky: #79B8EE;
