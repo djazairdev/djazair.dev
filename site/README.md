@@ -59,7 +59,7 @@ English (`i18n/en.json`) is the source: a key a page uses but `en.json` lacks fa
 
 ## Charts
 
-Every chart is drawn at build time as SVG, so a page can be read without fetching data or running JavaScript. A chart is a language-neutral spec, `LineChart`, `BarChart` or `UnitMap` in `djsite/charts.py`: names and titles are `{'en': …, 'ar': …}` and formatters take `(value, lang)`. `figures.figure(ctx, chart, n, source=…)` puts it on a page with:
+Every chart is drawn at build time as SVG, so a page can be read without fetching data or running JavaScript. A chart is a language-neutral spec, `LineChart`, `BarChart`, `HBarChart` or `UnitMap` in `djsite/charts.py`: names and titles are `{'en': …, 'ar': …}` and formatters take `(value, lang)`. `figures.figure(ctx, chart, n, source=…)` puts it on a page with:
 
 - a wide drawing and a phone drawing (they switch at 760 px), and a key on phones, where lines have no end labels;
 - `role="img"` with a title and a description, and a data table with every value in a disclosure under the chart (AC-IDX-7);
@@ -88,6 +88,10 @@ Motion: Algeria's line draws as the chart scrolls into view (scroll-driven anima
 `djsite/pages/peers.py` reuses the Overview's peers table (without its link to this page), then gives a rank table for North Africa and one for Africa (every economy with at least 20,000 accounts a year earlier, `scorecard.AFRICA_MIN_ACCOUNTS`, which a test keeps equal to the pipeline's). Rows come from the derived `ranks` table in order of accounts; each figure carries its rank in the group, read out as "rank 3 of 7", and the group median sits in the footer. The "How peers are chosen" button links to `methodology#peer-groups`.
 
 Every sortable table (`components.data_table(..., sortable=True, announce=components.sort_text(ctx))`) sorts by its header buttons, with a mouse or the keyboard, and `site.js` writes the new order ("Sorted by Growth, highest first") into the table's live region. A sort value of `''` marks a missing figure, which stays last whichever way the column runs.
+
+## Languages
+
+`djsite/pages/languages.py` draws Algeria's top ten languages as an `HBarChart`: each bar is the developers a year earlier plus those added since, in the unit map's two greens (a loss would show as a dashed outline). The bars are categories, not time, so the Arabic drawing is mirrored, with names on the right. The figure's lede is computed: which language leads (and whether it has every quarter since 2020), what entered and left the top ten, and what grew fastest. Language names in Arabic text are wrapped in `<bdi>`, so `C++` keeps its signs. The page then gives the first three languages in each core peer, with how many languages pass GitHub's 100-developer threshold, and three notes, the first being that the counts can't be added up. "Methodology" links to `methodology#languages`.
 
 ## Holding page
 

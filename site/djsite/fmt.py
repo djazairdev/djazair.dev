@@ -85,6 +85,16 @@ def rank_text(rank: int, of: int, lang: str = 'en') -> str:
     return f'{ordinal(rank)} of {of}' if lang == 'en' else f'{rank} من {of}'
 
 
+def and_list(items, lang: str = 'en') -> str:
+    """'A, B and C' / 'A وB وC'."""
+    items = [str(x) for x in items]
+    if len(items) < 2:
+        return ''.join(items)
+    if lang == 'en':
+        return ', '.join(items[:-1]) + ' and ' + items[-1]
+    return items[0] + ''.join(f' و{x}' for x in items[1:])
+
+
 def parse_quarter(q: str):
     """'2026-Q1', '2026Q1' or '2026 Q1' → (2026, 1)."""
     m = re.fullmatch(r'(\d{4})\s*-?\s*Q([1-4])', q.strip())

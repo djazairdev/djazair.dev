@@ -70,7 +70,8 @@
     "squares": "Squares",
     "legend": "Chart key",
     "desc_table": "The data table under the chart lists every value.",
-    "credit": "Data: GitHub Innovation Graph (CC0) · Chart: djazair.dev (CC BY 4.0)"
+    "credit": "Data: GitHub Innovation Graph (CC0) · Chart: djazair.dev (CC BY 4.0)",
+    "developers": "Developers"
   },
   "measures": {
     "summary": "What this measures",
@@ -431,6 +432,42 @@
     "sorted_asc": "Sorted by {col}, lowest first",
     "sorted_az": "Sorted by {col}, A to Z",
     "sorted_za": "Sorted by {col}, Z to A"
+  },
+  "languages": {
+    "eyebrow": "Algeria Developer Index · Languages",
+    "title": "Languages in Algeria, {quarter}",
+    "lede": "The ten languages the most developers in Algeria pushed code in during the quarter, and how that changed in a year. One developer can push in several languages, so the counts can’t be added up.",
+    "download": "Download CSV",
+    "methodology": "Methodology",
+    "fig_title": "Top 10 languages by developers pushing, {quarter}",
+    "fig_summary": "Developers in Algeria who pushed in each of the ten most used languages in {quarter}: those a year earlier, and those added since.",
+    "category": "Language",
+    "change": "Change",
+    "added": "Added since",
+    "lede_lead_always": "{lang} is first, as in every quarter since {first}.",
+    "lede_lead": "{lang} is first.",
+    "lede_new": "{new} entered the top ten, in place of {out}.",
+    "lede_new_only": "{new} entered the top ten.",
+    "lede_fast": "{lang} grew fastest: {pct} on a year earlier.",
+    "source": "Source: GitHub Innovation Graph (CC0), {quarter}. Developers who pushed in each language during the quarter.",
+    "read_title": "Read these numbers well",
+    "rw_add": "The counts can’t be added up",
+    "rw_add_text": "One developer can push in several languages in a quarter: someone who writes HTML, CSS and JavaScript counts in all three. The ten counts come to {sum}, which counts many developers more than once.",
+    "rw_markup": "Not only programming languages",
+    "rw_markup_text": "GitHub detects languages from the files pushed, so markup such as HTML and CSS, Jupyter notebooks and files such as Dockerfile count too.",
+    "rw_threshold": "Smaller languages don’t show",
+    "rw_threshold_text": "GitHub lists a language for an economy only when 100 or more developers push in it. In {quarter}, {n} languages pass that in Algeria.",
+    "peers_eyebrow": "Peers",
+    "peers_title": "The first three languages in each peer",
+    "peers_lede": "The three languages with the most developers pushing in each economy, and how many languages pass GitHub’s threshold of 100 developers.",
+    "col_first": "First",
+    "col_second": "Second",
+    "col_third": "Third",
+    "col_listed": "Languages listed",
+    "peers_caption": "First three languages in Algeria and six peers, {quarter}",
+    "peers_source": "Source: GitHub Innovation Graph (CC0), {quarter}. A language is listed once 100 or more developers push in it.",
+    "read_eyebrow": "Before you quote them",
+    "fig_label": "Top languages"
   },
   "pages": {
     "home": {

@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import replace
 
 from . import charts
-from .charts import LineChart, UnitMap, loc
+from .charts import HBarChart, LineChart, UnitMap, loc
 from .components import data_table, details, download_menu, fig_label, frame, source_line
 from .config import LANGS
 from .fmt import fint, num
@@ -57,6 +57,14 @@ def unit_key(ctx, chart: UnitMap) -> Markup:
         f'<li class="um-note">{esc(loc(chart.square_label, lang))}</li></ul>')
 
 
+def hbar_key(ctx, chart: HBarChart) -> Markup:
+    lang = ctx.lang
+    return Markup(
+        f'<ul class="chart-key" aria-label="{ctx.ta("chart.legend")}">'
+        f'<li><span class="sw sw-old" aria-hidden="true"></span>{esc(loc(chart.before_label, lang))}</li>'
+        f'<li><span class="sw sw-new" aria-hidden="true"></span>{esc(loc(chart.added_label, lang))}</li></ul>')
+
+
 def table(ctx, chart) -> Markup:
     names = {k: ctx.t(f'chart.{k}') for k in ('quarter', 'series', 'category', 'value', 'accounts', 'squares')}
     head, rows = charts.table(chart, ctx.lang, names)
@@ -82,6 +90,8 @@ def figure(ctx, chart, n: int, *, source, controls='', lede='', cls: str = '') -
                 + charts.svg(chart, lang, 'narrow', f'{chart.id}-n', desc, cls='narrow'))
         if isinstance(chart, LineChart):
             body += line_key(ctx, chart)
+        elif isinstance(chart, HBarChart):
+            body += hbar_key(ctx, chart)
     lede_html = Markup(f'<p class="fig-lede">{lede}</p>') if lede else ''
     inner = (head + lede_html + Markup(f'<div class="fig-body">{body}</div>')
              + source_line(source, download_menu(ctx, downloads(ctx, chart))) + table(ctx, chart))

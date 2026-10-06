@@ -2,14 +2,14 @@
 from __future__ import annotations
 
 from .context import Route
-from .pages import home, notfound, overview, peers, stub, trends
+from .pages import home, languages, notfound, overview, peers, stub, trends
 
 ROUTES = [
     Route('home', '', home.render, ticket=18),
     Route('overview', 'index/', overview.render, section='index', sub='overview', ticket=19),
     Route('peers', 'index/peers/', peers.render, section='index', sub='peers', ticket=21),
     Route('trends', 'index/trends/', trends.render, section='index', sub='trends', ticket=20),
-    Route('languages', 'index/languages/', stub.render, section='index', sub='languages', ticket=22),
+    Route('languages', 'index/languages/', languages.render, section='index', sub='languages', ticket=22),
     Route('hub', 'hub/', stub.render, section='hub', ticket=27),
     Route('reports', 'reports/', stub.render, section='reports', ticket=34),
     Route('report-2026-q1', 'reports/2026-q1/', stub.render, section='reports', ticket=34),

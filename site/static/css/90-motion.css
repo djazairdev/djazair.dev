@@ -7,6 +7,7 @@
 
 @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes grow { from { transform: scaleX(0); } to { transform: none; } }
 @keyframes cell-in { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: none; } }
 @keyframes cell-new {
   0% { opacity: 0; transform: scale(.2); fill: var(--cell-flash); }
@@ -25,13 +26,19 @@
     .chart .fd { animation: fade-in linear both; animation-timeline: --chart; animation-range: entry 0% entry 60%; }
     .chart .ln { stroke-dasharray: 1; animation: draw linear both; animation-timeline: --chart; animation-range: entry 15% entry 100%; }
     .chart .ann { animation: pop linear both; animation-timeline: --chart; animation-range: entry 85% entry 100%; transform-box: fill-box; transform-origin: center; }
+    .chart .gr { animation: grow linear both; animation-timeline: --chart; animation-range: entry 15% entry 100%; }
   }
+  /* Horizontal bars grow from their start: the left, or the right in Arabic. */
+  .chart .gr { transform-box: fill-box; transform-origin: left center; }
+  .chart.rtl .gr { transform-origin: right center; }
   /* Without scroll-driven animations, site.js holds charts below the fold (draw-wait) and
      draws them over one second when they arrive (draw-go). */
   .chart.draw-wait .ln { stroke-dasharray: 1; stroke-dashoffset: 1; }
   .chart.draw-wait .fd, .chart.draw-wait .ann { opacity: 0; }
+  .chart.draw-wait .gr { transform: scaleX(0); }
   .chart.draw-go .fd { animation: fade-in .6s var(--ease) both; }
   .chart.draw-go .ln { stroke-dasharray: 1; animation: draw 1s var(--ease-io) both; }
+  .chart.draw-go .gr { animation: grow 1s var(--ease-io) both; }
   .chart.draw-go .ann { animation: pop .45s var(--spring) .85s both; transform-box: fill-box; transform-origin: center; }
 
   /* The unit map fills in twelve bands outward from Algiers: last year's squares first,

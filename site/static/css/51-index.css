@@ -146,3 +146,8 @@
 }
 .is-dz .rk { background: var(--mint-bg); color: var(--mint-hi); }
 .rk-gap { visibility: hidden; }
+
+/* ---- languages: the top-ten bars, then the peers' first three */
+.lang-body { padding-bottom: clamp(8px, 2vw, 24px); }
+.lang-peers .dt { min-width: 640px; }
+.lang-n { font-family: var(--sans); font-size: 15px; color: var(--ink); }

@@ -365,6 +365,43 @@ class BarChart(Spec):
 
 
 @dataclass
+class HBar:
+    key: str
+    label: Text
+    value: float
+    before: Optional[float] = None     # the same measure a year earlier
+    rank: Optional[int] = None
+
+
+@dataclass
+class HBarChart(Spec):
+    """Horizontal bars, largest first. Each bar is what it was a year earlier plus what it
+    gained since, in the unit map's two greens; a loss shows as a dashed outline. The bars
+    are categories, not time, so the Arabic drawing is mirrored: names on the right."""
+    bars: Sequence[HBar] = ()
+    fmt: Callable = None               # (value, lang) -> str
+    change_fmt: Callable = None        # (change, lang) -> str
+    category_label: Text = ''          # first column of the table: 'Language'
+    now_label: Text = ''               # 'Q1 2026'
+    before_label: Text = ''            # 'Q1 2025'
+    added_label: Text = ''             # 'Added since'
+    change_label: Text = ''            # 'Change'
+
+    @staticmethod
+    def change(b: HBar) -> Optional[float]:
+        return b.value / b.before - 1 if b.before else None
+
+    def csv(self) -> bytes:
+        return _csv([['key', 'rank', 'value', 'year_earlier', 'change']]
+                    + [[b.key, b.rank, _plain(b.value), _plain(b.before), _plain(self.change(b))] for b in self.bars])
+
+    def json(self) -> bytes:
+        return _json({**self.meta(), 'bars': [{'key': b.key, 'label': both(b.label), 'rank': b.rank, 'value': _plain(b.value),
+                                               'year_earlier': _plain(b.before), 'change': _plain(self.change(b))}
+                                              for b in self.bars]})
+
+
+@dataclass
 class UnitMap(Spec):
     total: int = 0                 # accounts now
     start: int = 0                 # accounts a year earlier
@@ -555,6 +592,63 @@ def bar_drawing(chart: BarChart, lang: str, size: str, pal: dict = DARK) -> Draw
     return Drawing(W, H, ''.join(out), cls='chart-bar')
 
 
+HBAR_SIZES = {'wide': dict(W=1180, font=14, row=40, bar=18, label=190, value=200),
+              'narrow': dict(W=340, font=12.5, row=50, bar=12, label=0, value=124)}
+
+
+def hbar_drawing(chart: HBarChart, lang: str, size: str, pal: dict = DARK) -> Drawing:
+    """Wide: name, bar, then value and change on one row. Narrow: the name sits above its bar.
+    Distances run from the reading start, so Arabic mirrors by placing them from the right."""
+    g = HBAR_SIZES[size]
+    W, font, row, bh = g['W'], g['font'], g['row'], g['bar']
+    rtl = lang == 'ar'
+    narrow = size == 'narrow'
+    hi = max(max(b.value, b.before or 0) for b in chart.bars) or 1
+    x0 = 0 if narrow else g['label'] + 14
+    span = W - x0 - g['value']
+    D = lambda v: x0 + v / hi * span                   # value -> distance from the reading start
+    X = lambda d: W - d if rtl else d                  # distance -> x
+    near, far = ('right', 'left') if rtl else ('left', 'right')
+
+    def rect(d1, d2, y, extra) -> str:
+        return f'<rect x="{X(d2) if rtl else d1:.1f}" y="{y:.1f}" width="{max(d2 - d1, 0.5):.1f}" height="{bh}" {extra}/>'
+
+    out = []
+    for i, b in enumerate(chart.bars):
+        y = 4 + i * row
+        if narrow:
+            name_y, bar_y = y + font, y + font + 9
+        else:
+            bar_y = y + (row - bh) / 2
+            name_y = bar_y + bh / 2 + font * 0.36
+        value_y = bar_y + bh / 2 + (font - 1) * 0.36
+        name = loc(b.label, lang)
+        if b.rank is not None:
+            out.append(svg_text(X(0), name_y, str(b.rank), size=font - 1.5, fill=pal['ink3'], font=MONO, align=near, cls='fd'))
+        out.append(svg_text(X(26 if b.rank is not None else 0), name_y, name, size=font, fill=pal['ink'], weight=500,
+                            align=near, cls='fd'))
+        before = b.before or 0
+        kept = min(before, b.value)
+        if kept:
+            out.append(rect(x0, D(kept), bar_y, f'rx="2" fill="{pal["cell_old"]}" class="hb-o fd"'))
+        if b.value > before:
+            out.append(rect(D(kept), D(b.value), bar_y, f'rx="2" fill="{pal["algeria"]}" class="hb-n gr"'))
+        elif b.value < before:
+            out.append(rect(D(b.value), D(before), bar_y + 0.5,
+                            f'rx="2" fill="none" stroke="{pal["negative"]}" stroke-dasharray="3 3" class="hb-l fd"')
+                       .replace(f'height="{bh}"', f'height="{bh - 1}"'))
+        d = D(max(b.value, before)) + 10
+        value = chart.fmt(b.value, lang)
+        out.append(svg_text(X(d), value_y, value, size=font - 1, fill=pal['ink'], font=MONO, weight=600, align=near, cls='ann'))
+        change = chart.change(b)
+        if change is not None:
+            d += text_width(value, font - 1, mono=True) + 10
+            out.append(svg_text(X(d), value_y, chart.change_fmt(change, lang), size=font - 1.5, font=MONO, align=near,
+                                fill=pal['algeria'] if change >= 0 else pal['negative'], cls='ann'))
+    H = 8 + len(chart.bars) * row
+    return Drawing(W, H, ''.join(out), cls=f'chart-hbar{" rtl" if rtl else ""}')
+
+
 def unit_drawing(chart: UnitMap, lang: str, size: str = 'wide', pal: dict = DARK, uid: str = 'um', texture: bool = True) -> Drawing:
     m = chart.layout()
     pad = 6
@@ -590,6 +684,8 @@ def drawing(chart: Spec, lang: str, size: str = 'wide', pal: dict = DARK, uid: s
         return line_drawing(chart, lang, size, pal)
     if isinstance(chart, BarChart):
         return bar_drawing(chart, lang, size, pal)
+    if isinstance(chart, HBarChart):
+        return hbar_drawing(chart, lang, size, pal)
     if isinstance(chart, UnitMap):
         return unit_drawing(chart, lang, size, pal, uid)
     raise TypeError(type(chart).__name__)
@@ -614,6 +710,8 @@ def legend_items(chart: Spec, lang: str, pal: dict) -> list:
         return [('square', pal['cell_old'], f'{loc(chart.start_label, lang)} {fint(total - added, lang)}'),
                 ('square', pal['algeria'], f'{loc(chart.added_label, lang)} {fint(added, lang)}'),
                 ('none', '', loc(chart.square_label, lang))]
+    if isinstance(chart, HBarChart):
+        return [('square', pal['cell_old'], loc(chart.before_label, lang)), ('square', pal['algeria'], loc(chart.added_label, lang))]
     return []
 
 
@@ -667,6 +765,16 @@ def table(chart: Spec, lang: str, names: dict) -> tuple:
     if isinstance(chart, BarChart):
         head = [(esc(names['category']), 'start'), (esc(names['value']), 'end')]
         rows = [(b.key, [esc(loc(b.label, lang)), (num(chart.fmt(b.value, lang)), _plain(b.value))]) for b in chart.bars]
+        return head, rows
+    if isinstance(chart, HBarChart):
+        head = [(esc(loc(chart.category_label, lang)), 'start'), (esc(loc(chart.now_label, lang)), 'end'),
+                (esc(loc(chart.before_label, lang)), 'end'), (esc(loc(chart.change_label, lang)), 'end')]
+        rows = []
+        for b in chart.bars:
+            change = chart.change(b)
+            rows.append((b.key, [esc(loc(b.label, lang)), (num(chart.fmt(b.value, lang)), _plain(b.value)),
+                                 ('—', None) if b.before is None else (num(chart.fmt(b.before, lang)), _plain(b.before)),
+                                 ('—', None) if change is None else (num(chart.change_fmt(change, lang)), _plain(change))]))
         return head, rows
     if isinstance(chart, UnitMap):
         head = [(esc(names['series']), 'start'), (esc(names['accounts']), 'end'), (esc(names['squares']), 'end')]
