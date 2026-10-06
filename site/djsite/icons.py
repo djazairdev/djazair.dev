@@ -30,6 +30,7 @@ _PATHS = {
     'book': '<path d="M5 5a2 2 0 0 1 2-2h12v16H7a2 2 0 0 0-2 2z"/><path d="M5 19V5"/>',
     'filter': '<path d="M4 6h16"/><path d="M7 12h10"/><path d="M10 18h4"/>',
     'sort': '<path d="m8 9 4-4 4 4"/><path d="m8 15 4 4 4-4"/>',
+    'copy': '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
     'link': '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
 }
 

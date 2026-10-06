@@ -469,6 +469,47 @@
     "read_eyebrow": "قبل الاقتباس",
     "fig_label": "أكثر اللغات استخدامًا"
   },
+  "methodology": {
+    "eyebrow": "المنهجية",
+    "title": "كيف يُبنى المؤشر",
+    "lede": "كل رقم في djazair.dev مصدره بيانات عامة وشيفرة منشورة. تعرض هذه الصفحة المصادر والصيغ ومجموعات النظراء والحدود المعروفة، ليتمكّن أي شخص من التحقّق من رقم أو إعادة حسابه.",
+    "meta_version": "النسخة",
+    "version": "المؤشر 1",
+    "meta_data": "البيانات",
+    "meta_licence": "الترخيص",
+    "download": "تنزيل كل البيانات",
+    "code": "اطّلع على الشيفرة",
+    "toc": "في هذه الصفحة",
+    "toc_label": "أقسام هذه الصفحة",
+    "releases_title": "آخر خمسة إصدارات من Innovation Graph",
+    "releases_sub": "الأيام بين الإصدارات",
+    "releases_data": "بيانات {quarter}",
+    "example_title": "مثال محسوب: الجزائر، {quarter}",
+    "example_link": "أعد حسابه من ملف CSV",
+    "revisions_none": "لم تتغيّر أي قيمة سابقة بين آخر إصدارين.",
+    "revisions_some": "عدد القيم السابقة التي تغيّرت بين آخر إصدارين: {n}.",
+    "report": "أبلغ عن خطأ",
+    "log_all": "عرض الكل",
+    "cite_title": "استشهد بالمؤشر",
+    "cite_text": "djazair.dev ‏({year}). مؤشر المطوّرين في الجزائر، بيانات {quarter}. {url}. البيانات المصدرية: GitHub Innovation Graph ‏(CC0).",
+    "cite_licence": "النصوص والرسوم CC BY 4.0 · البيانات المشتقة CC0 · الشيفرة MIT"
+  },
+  "logs": {
+    "changelog": "سجلّ التغييرات",
+    "corrections": "سجلّ التصحيحات",
+    "none": "لا تصحيحات حتى الآن.",
+    "at_launch": "عند الإطلاق",
+    "issue": "المسألة",
+    "data_title": "بيانات {quarter}.",
+    "data_text": "إصدار Innovation Graph ‏{release}.",
+    "revised": "عدد القيم السابقة المُراجعة: {n}.",
+    "not_revised": "لم تُراجع أي قيمة سابقة."
+  },
+  "about": {
+    "eyebrow": "حول المشروع",
+    "title": "حول djazair.dev",
+    "lede": "بطاقة أداء مفتوحة لمنظومة المطوّرين في الجزائر، ومركز لمشاريعها مفتوحة المصدر، يُبنى كلّه علنًا."
+  },
   "pages": {
     "home": {
       "title": "djazair.dev",

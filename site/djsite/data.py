@@ -105,6 +105,12 @@ def load(root: Path = DERIVED_DIR) -> Derived:
     return Derived(Path(root) / json.loads(pointer.read_text('utf-8'))['folder'])
 
 
+def manifests(root: Path = DERIVED_DIR) -> list:
+    """Every published quarter's manifest, newest first: the data releases in the changelog."""
+    found = [json.loads(p.read_text('utf-8')) for p in Path(root).glob('*/manifest.json')]
+    return sorted(found, key=lambda m: m['quarter'], reverse=True)
+
+
 def _time(text: str) -> datetime:
     return datetime.fromisoformat(text.replace('Z', '+00:00'))
 

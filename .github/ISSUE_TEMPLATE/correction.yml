@@ -1,0 +1,28 @@
+name: Report an error
+description: A wrong number, chart or statement on djazair.dev, in the data or the text.
+title: "Correction: "
+labels: ["correction"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thank you. Someone checks every report against the published data, and corrections are published within 7 days in the corrections log."
+  - type: input
+    id: page
+    attributes:
+      label: Page
+      description: "The address of the page, or the name of the file you downloaded."
+      placeholder: https://djazair.dev/en/index/
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong
+      description: "Quote the number or sentence, and say what you think it should be."
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: How you checked
+      description: "For example, a calculation from the published CSV or the Innovation Graph file you compared with."

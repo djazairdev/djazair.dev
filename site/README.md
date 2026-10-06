@@ -93,6 +93,12 @@ Every sortable table (`components.data_table(..., sortable=True, announce=compon
 
 `djsite/pages/languages.py` draws Algeria's top ten languages as an `HBarChart`: each bar is the developers a year earlier plus those added since, in the unit map's two greens (a loss would show as a dashed outline). The bars are categories, not time, so the Arabic drawing is mirrored, with names on the right. The figure's lede is computed: which language leads (and whether it has every quarter since 2020), what entered and left the top ten, and what grew fastest. Language names in Arabic text are wrapped in `<bdi>`, so `C++` keeps its signs. The page then gives the first three languages in each core peer, with how many languages pass GitHub's 100-developer threshold, and three notes, the first being that the counts can't be added up. "Methodology" links to `methodology#languages`.
 
+## Methodology and About
+
+The words live in `content/methodology/<lang>.md` and `content/about/<lang>.md`, in a small Markdown subset that `djsite/markdown.py` renders with the standard library: `## Title {#id}` starts a numbered section (and an entry in the table of contents, sticky beside the text on wide screens and a disclosure on phones), `:::` blocks are drawn by `djsite/pages/methodology.py` with the page's components (callout, cards, the release timeline, formulas, the worked example, peer groups, limitations, update steps, logs, citation), and `{{name}}` values are computed from the derived data. Text is always escaped. `tests/test_methodology.py` checks that every formula matches `pipeline/indicators.py` and that the worked example, built from the counts in the published peers table, gives the published values.
+
+`djsite/logs.py` builds the changelog (`content/changelog.json` plus one entry per published data quarter, from the manifests) and the corrections log (`content/corrections.json`); the Methodology page shows the latest entries and the Data page all of them. "Report an error" opens the `correction` issue form.
+
 ## Holding page
 
 `holding/` is the pre-launch page. Deploy it with no build command and `site/holding` as the output directory.

@@ -469,6 +469,47 @@
     "read_eyebrow": "Before you quote them",
     "fig_label": "Top languages"
   },
+  "methodology": {
+    "eyebrow": "Methodology",
+    "title": "How the Index is made",
+    "lede": "Every number on djazair.dev comes from public data and published code. This page lists the sources, formulas, peer groups and known limits, so anyone can check a figure or reproduce it.",
+    "meta_version": "Version",
+    "version": "Index v1",
+    "meta_data": "Data",
+    "meta_licence": "Licence",
+    "download": "Download all data",
+    "code": "View the code",
+    "toc": "On this page",
+    "toc_label": "Sections of this page",
+    "releases_title": "The last five Innovation Graph releases",
+    "releases_sub": "Days between releases",
+    "releases_data": "{quarter} data",
+    "example_title": "Worked example: Algeria, {quarter}",
+    "example_link": "Recompute it from the CSV",
+    "revisions_none": "No past values changed between the two most recent releases.",
+    "revisions_some": "Past values changed between the two most recent releases: {n}.",
+    "report": "Report an error",
+    "log_all": "See all",
+    "cite_title": "Cite the Index",
+    "cite_text": "djazair.dev ({year}). Algeria Developer Index, {quarter} data. {url}. Source data: GitHub Innovation Graph (CC0).",
+    "cite_licence": "Text and charts CC BY 4.0 · derived data CC0 · code MIT"
+  },
+  "logs": {
+    "changelog": "Changelog",
+    "corrections": "Corrections log",
+    "none": "No corrections yet.",
+    "at_launch": "At launch",
+    "issue": "Issue",
+    "data_title": "{quarter} data.",
+    "data_text": "Innovation Graph release {release}.",
+    "revised": "Past values revised: {n}.",
+    "not_revised": "No past values revised."
+  },
+  "about": {
+    "eyebrow": "About",
+    "title": "About djazair.dev",
+    "lede": "An open scorecard of Algeria’s developer ecosystem and a hub for its open-source projects, built in the open."
+  },
   "pages": {
     "home": {
       "title": "djazair.dev",

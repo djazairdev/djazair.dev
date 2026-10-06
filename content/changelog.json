@@ -1,0 +1,10 @@
+{
+  "about": "Changes to djazair.dev worth telling readers about, newest first. Each data release is added to the changelog automatically from data/derived/*/manifest.json; list here only other changes (new pages, changed formulas). date: YYYY-MM-DD, or null until the change is live. Text is Markdown.",
+  "entries": [
+    {
+      "date": null,
+      "en": "**Index v1.** First public release: the scorecard, peers, trends and languages, with the methodology and every table as CSV and JSON.",
+      "ar": "**المؤشر، النسخة 1.** أول إصدار عام: بطاقة الأداء والنظراء والاتجاهات واللغات، مع المنهجية وكل جدول بصيغتي CSV وJSON."
+    }
+  ]
+}

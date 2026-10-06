@@ -209,7 +209,7 @@
     b.hidden = false;
     var label = b.textContent;
     b.addEventListener('click', function () {
-      var code = b.closest('.code').querySelector('.code-src');
+      var code = b.closest('.code, .cite').querySelector('.code-src, .cite-text');   // code samples and the citation
       navigator.clipboard.writeText(code.textContent).then(function () {
         b.textContent = b.getAttribute('data-copied') || label;
         setTimeout(function () { b.textContent = label; }, 1600);
