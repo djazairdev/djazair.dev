@@ -110,7 +110,7 @@
 
 /* ---- chart controls: segmented control, metric tabs, peer chips */
 .seg { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--sunk); }
-.seg button {
+.seg button, .seg label {
   height: 34px;
   padding-inline: 12px;
   border: 0;
@@ -122,9 +122,10 @@
   white-space: nowrap;
   transition: background-color .2s var(--ease), color .2s var(--ease);
 }
-.seg button.mono { font-family: var(--mono); font-size: 12.5px; }
-.seg button:hover { color: var(--ink); }
-.seg button[aria-pressed=true] { background: var(--seg-on); color: var(--ink); box-shadow: inset 0 0 0 1px var(--seg-ring); }
+.seg label { position: relative; display: inline-flex; align-items: center; cursor: pointer; }
+.seg button.mono, .seg label.mono { font-family: var(--mono); font-size: 12.5px; }
+.seg button:hover, .seg label:hover { color: var(--ink); }
+.seg button[aria-pressed=true], .seg label:has(> input:checked) { background: var(--seg-on); color: var(--ink); box-shadow: inset 0 0 0 1px var(--seg-ring); }
 
 .mts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 @media (max-width: 760px) { .mts { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
@@ -145,10 +146,11 @@
 }
 .mt::before { content: ''; position: absolute; inset-inline: 18px; top: -1px; height: 2px; border-radius: 0 0 2px 2px; background: transparent; transition: background-color .2s var(--ease); }
 .mt:hover { border-color: var(--line3); }
-.mt[aria-pressed=true] { background: var(--s2); border-color: var(--mint-line); }
-.mt[aria-pressed=true]::before { background: var(--mint); }
+label.mt { cursor: pointer; }
+.mt[aria-pressed=true], .mt:has(> input:checked) { background: var(--s2); border-color: var(--mint-line); }
+.mt[aria-pressed=true]::before, .mt:has(> input:checked)::before { background: var(--mint); }
 .mt-k { font-size: 14px; line-height: 1.3; font-weight: 600; color: var(--ink2); text-wrap: balance; }
-.mt[aria-pressed=true] .mt-k { color: var(--ink); }
+.mt[aria-pressed=true] .mt-k, .mt:has(> input:checked) .mt-k { color: var(--ink); }
 .mt-v { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
 .mt-v > .num:first-child { font-size: clamp(22px, 2.2vw, 28px); line-height: 1; font-weight: 600; letter-spacing: -0.03em; }
 .mt-d { font-size: 12px; color: var(--ink3); white-space: nowrap; }
@@ -176,8 +178,11 @@
 }
 .pk:hover { border-color: var(--line3); color: var(--ink); }
 .pk .sw { width: 8px; height: 8px; border-radius: 2px; background: var(--peer-line); }
-.pk[aria-pressed=true] { border-color: var(--amber); color: var(--ink); background: var(--amber-bg); }
-.pk[aria-pressed=true] .sw { background: var(--amber); }
+label.pk { position: relative; cursor: pointer; }
+.pk[aria-pressed=true], .pk:has(> input:checked) { border-color: var(--amber); color: var(--ink); background: var(--amber-bg); }
+.pk[aria-pressed=true] .sw, .pk:has(> input:checked) .sw { background: var(--amber); }
+/* radio buttons styled as controls: the input is visually hidden, its label shows the focus */
+.mt:has(> input:focus-visible), .pk:has(> input:focus-visible), .seg label:has(> input:focus-visible) { outline: 2px solid var(--mint); outline-offset: 2px; }
 
 /* ---- cards and indicator tiles */
 .card { border: 1px solid var(--line); background: var(--s1); transition: border-color .25s var(--ease), background-color .25s var(--ease), transform .25s var(--ease); }

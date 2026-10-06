@@ -2,13 +2,13 @@
 from __future__ import annotations
 
 from .context import Route
-from .pages import home, notfound, overview, stub
+from .pages import home, notfound, overview, stub, trends
 
 ROUTES = [
     Route('home', '', home.render, ticket=18),
     Route('overview', 'index/', overview.render, section='index', sub='overview', ticket=19),
     Route('peers', 'index/peers/', stub.render, section='index', sub='peers', ticket=21),
-    Route('trends', 'index/trends/', stub.render, section='index', sub='trends', ticket=20),
+    Route('trends', 'index/trends/', trends.render, section='index', sub='trends', ticket=20),
     Route('languages', 'index/languages/', stub.render, section='index', sub='languages', ticket=22),
     Route('hub', 'hub/', stub.render, section='hub', ticket=27),
     Route('reports', 'reports/', stub.render, section='reports', ticket=34),

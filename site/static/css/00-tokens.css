@@ -12,6 +12,7 @@
   --tint: rgba(238, 243, 236, .025);
   --hero-grid: rgba(238, 243, 236, .035);
   --sunk-fade: rgba(10, 21, 17, .6);
+  --tip-bg: rgba(23, 41, 31, .94);
 
   /* hairlines */
   --line: rgba(238, 243, 236, .08);

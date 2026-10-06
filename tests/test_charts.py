@@ -228,14 +228,18 @@ class Figures(unittest.TestCase):
 
     def test_chart_motion_only_runs_when_motion_is_welcome(self):
         css = next((self.dist / 'assets').glob('site.*.css')).read_text('utf-8')
-        start = css.index('@media (prefers-reduced-motion: no-preference)')
-        depth, i = 0, css.index('{', start)
-        while True:                                   # find the end of that block
-            depth += {'{': 1, '}': -1}.get(css[i], 0)
-            if depth == 0:
-                break
-            i += 1
-        inside, outside = css[start:i], css[:start] + css[i:]
+        inside, outside, pos = '', '', 0
+        for m in re.finditer(r'@media \(prefers-reduced-motion: ?no-preference\)', css):
+            depth, i = 0, css.index('{', m.start())
+            while True:                               # find the end of that block
+                depth += {'{': 1, '}': -1}.get(css[i], 0)
+                if depth == 0:
+                    break
+                i += 1
+            outside += css[pos:m.start()]
+            inside += css[m.start():i]
+            pos = i
+        outside += css[pos:]
         for marker in ('animation-timeline', '.draw-wait', '.draw-go', '.um .o rect', '.um .n rect'):
             self.assertIn(marker, inside)
             self.assertNotIn(marker, outside)

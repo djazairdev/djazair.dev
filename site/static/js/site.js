@@ -118,7 +118,8 @@
         io.unobserve(en.target);
       });
     }, { threshold: 0.3 });
-    doc.querySelectorAll('svg.chart').forEach(function (svg) {
+    // Trends views (svg.v) draw each time they're shown, in CSS.
+    doc.querySelectorAll('svg.chart:not(.v)').forEach(function (svg) {
       if (svg.getBoundingClientRect().top > window.innerHeight) {
         svg.classList.add('draw-wait');
         io.observe(svg);

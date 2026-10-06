@@ -28,7 +28,7 @@ class Doc(HTMLParser):
             self.ids.add(a['id'])
         if tag == 'html':
             self.html = a
-        elif tag == 'title':
+        elif tag == 'title' and not self._body:     # the document title, not an SVG's
             self._title = True
         elif tag == 'link':
             self.links.append(a)

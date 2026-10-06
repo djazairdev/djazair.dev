@@ -14,6 +14,7 @@ from .fmt import fdec, fint, fpct, num, quarter_label
 from .markup import Markup, esc
 
 CORE_PEERS = ('MA', 'TN', 'EG', 'NG', 'KE', 'ZA')
+NORTH_AFRICA = ('DZ', 'EG', 'LY', 'MA', 'MR', 'SD', 'TN')
 NAMES = ('DZ', 'EG', 'LY', 'MA', 'MR', 'SD', 'TN', 'NG', 'KE', 'ZA')
 SAME = 0.005                     # within half a per cent of the median reads "= median"
 

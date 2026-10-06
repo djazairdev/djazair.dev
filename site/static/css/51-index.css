@@ -24,3 +24,106 @@
 .limit p { font-size: 14px; line-height: 1.55; color: var(--ink2); }
 .limit p:lang(ar) { line-height: 1.8; }
 .limits-more { margin-top: 22px; }
+
+/* ---- trends: one view at a time. Radio buttons pick it and these rules hide the others, so
+   the controls work without JavaScript; trends.js mirrors the choice in data attributes for
+   browsers without :has(). */
+.trends-body { padding-bottom: var(--section-pad); }
+.trc { display: flex; flex-direction: column; gap: 16px; }
+.trc:has(#tr-ind-accounts:checked) .v:not(.i-accounts),
+.trc:has(#tr-ind-pushes:checked) .v:not(.i-pushes),
+.trc:has(#tr-ind-repos:checked) .v:not(.i-repos),
+.trc:has(#tr-ind-orgs:checked) .v:not(.i-orgs),
+.trc:has(#tr-scale-actual:checked) .v.s-indexed,
+.trc:has(#tr-scale-indexed:checked) .v.s-actual,
+.trc[data-ind=accounts] .v:not(.i-accounts),
+.trc[data-ind=pushes] .v:not(.i-pushes),
+.trc[data-ind=repos] .v:not(.i-repos),
+.trc[data-ind=orgs] .v:not(.i-orgs),
+.trc[data-scale=actual] .v.s-indexed,
+.trc[data-scale=indexed] .v.s-actual { display: none; }
+@supports not selector(:has(*)) {
+  .trc:not([data-ind]) .v:not(.i-accounts), .trc:not([data-scale]) .v.s-indexed { display: none; }
+}
+
+/* one peer brought forward in amber; the other peers step back */
+.trc:has(.tr-hl:checked) .ln-peer, .trc[data-hl=MA] .ln-peer, .trc[data-hl=TN] .ln-peer, .trc[data-hl=EG] .ln-peer,
+.trc[data-hl=NG] .ln-peer, .trc[data-hl=KE] .ln-peer, .trc[data-hl=ZA] .ln-peer { stroke: var(--peer-dim); }
+.trc:has(#tr-hl-MA:checked) .ln-peer.k-MA, .trc[data-hl=MA] .ln-peer.k-MA,
+.trc:has(#tr-hl-TN:checked) .ln-peer.k-TN, .trc[data-hl=TN] .ln-peer.k-TN,
+.trc:has(#tr-hl-EG:checked) .ln-peer.k-EG, .trc[data-hl=EG] .ln-peer.k-EG,
+.trc:has(#tr-hl-NG:checked) .ln-peer.k-NG, .trc[data-hl=NG] .ln-peer.k-NG,
+.trc:has(#tr-hl-KE:checked) .ln-peer.k-KE, .trc[data-hl=KE] .ln-peer.k-KE,
+.trc:has(#tr-hl-ZA:checked) .ln-peer.k-ZA, .trc[data-hl=ZA] .ln-peer.k-ZA { stroke: var(--amber); stroke-width: 2.6px; }
+.trc:has(#tr-hl-MA:checked) :is(.lb.k-MA, .lb.k-MA tspan), .trc[data-hl=MA] :is(.lb.k-MA, .lb.k-MA tspan),
+.trc:has(#tr-hl-TN:checked) :is(.lb.k-TN, .lb.k-TN tspan), .trc[data-hl=TN] :is(.lb.k-TN, .lb.k-TN tspan),
+.trc:has(#tr-hl-EG:checked) :is(.lb.k-EG, .lb.k-EG tspan), .trc[data-hl=EG] :is(.lb.k-EG, .lb.k-EG tspan),
+.trc:has(#tr-hl-NG:checked) :is(.lb.k-NG, .lb.k-NG tspan), .trc[data-hl=NG] :is(.lb.k-NG, .lb.k-NG tspan),
+.trc:has(#tr-hl-KE:checked) :is(.lb.k-KE, .lb.k-KE tspan), .trc[data-hl=KE] :is(.lb.k-KE, .lb.k-KE tspan),
+.trc:has(#tr-hl-ZA:checked) :is(.lb.k-ZA, .lb.k-ZA tspan), .trc[data-hl=ZA] :is(.lb.k-ZA, .lb.k-ZA tspan) { fill: var(--amber); font-weight: 700; }
+.ro-p { display: none !important; }
+.trc:has(#tr-hl-MA:checked) .ro-p-MA, .trc[data-hl=MA] .ro-p-MA,
+.trc:has(#tr-hl-TN:checked) .ro-p-TN, .trc[data-hl=TN] .ro-p-TN,
+.trc:has(#tr-hl-EG:checked) .ro-p-EG, .trc[data-hl=EG] .ro-p-EG,
+.trc:has(#tr-hl-NG:checked) .ro-p-NG, .trc[data-hl=NG] .ro-p-NG,
+.trc:has(#tr-hl-KE:checked) .ro-p-KE, .trc[data-hl=KE] .ro-p-KE,
+.trc:has(#tr-hl-ZA:checked) .ro-p-ZA, .trc[data-hl=ZA] .ro-p-ZA { display: flex !important; }
+
+/* figure 1: metric tabs, scale, peers, the chart and its readout */
+.tr-fig { gap: 22px; padding: clamp(16px, 2.4vw, 28px); }
+.tr-fig .fig-head { padding-top: 6px; }
+.tr-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; min-width: 0; }
+.ctl-label { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink3); white-space: nowrap; }
+.ctl-label:lang(ar) { font-family: var(--sans); font-size: 13px; font-weight: 700; letter-spacing: 0; text-transform: none; }
+.tr-peers .pks { min-width: 0; }
+
+.cw { position: relative; }
+.cw-w { border-radius: 6px; }
+.cw-w[tabindex] { cursor: crosshair; }
+.cw-w:focus-visible { outline-offset: 6px; }
+.cw-n { touch-action: pan-y; }
+.ov { position: absolute; pointer-events: none; opacity: 0; transition: opacity .15s var(--ease); }
+.cw[data-act=true] .ov { opacity: 1; }
+.xh { width: 1px; background: var(--tick-line); transition: left .12s var(--ease), opacity .15s var(--ease); }
+.tdot { width: 11px; height: 11px; margin: -5.5px 0 0 -5.5px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 3px var(--bg), 0 0 0 4.5px var(--mint-glow); transition: left .12s var(--ease), top .3s var(--ease), opacity .15s var(--ease); }
+.tdot-hl { width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; background: var(--amber); box-shadow: 0 0 0 3px var(--bg); }
+.tip { top: 9%; display: flex; flex-direction: column; gap: 9px; width: max-content; min-width: 250px; max-width: 340px; padding: 13px 15px 14px; border: 1px solid var(--line2); border-radius: 10px; background: var(--tip-bg); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: var(--shadow); transform: translateX(18px); transition: left .12s var(--ease), transform .2s var(--ease), opacity .15s var(--ease); }
+.tip.tip-flip { transform: translateX(calc(-100% - 18px)); }
+.tip-q, .ro-q { font-size: 12px; letter-spacing: .04em; color: var(--ink3); }
+
+.ro { display: flex; align-items: center; justify-content: space-between; gap: 20px; font-size: 14px; white-space: nowrap; }
+.ro-n { display: inline-flex; align-items: center; gap: 9px; font-weight: 500; color: var(--ink2); }
+.ro-v { font-size: 13.5px; color: var(--ink); }
+.ro-dz .ro-n { font-weight: 700; color: var(--ink); }
+.ro-dz .ro-v { font-weight: 600; color: var(--mint); }
+.ro-p .ro-v { color: var(--amber); }
+.sw-ro { inline-size: 14px; background: var(--mint); }
+.ro-md .sw-ro { block-size: 0; border-radius: 0; border-top: 2px dashed var(--grey-hi); background: none; }
+.ro-p .sw-ro { background: var(--amber); }
+.ro-rows { display: flex; flex-direction: column; gap: 9px; }
+
+.tr-n { display: flex; flex-direction: column; gap: 14px; }
+.readout { display: flex; flex-direction: column; gap: 9px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--sunk); }
+.ro-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; color: var(--ink3); }
+.tr-fig .src-actions > .v { display: contents; }
+
+/* figure 2, "Read this chart well" and the data table */
+.tr-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(440px, 100%), 1fr)); gap: 16px; align-items: stretch; }
+.read-well { display: flex; flex-direction: column; padding: clamp(20px, 2.4vw, 28px); border: 1px solid var(--line); border-radius: 14px; background: var(--s1); }
+.read-well h2 { margin-bottom: 14px; font-size: 18px; line-height: 1.3; font-weight: 700; }
+.rw-p { padding-bottom: 10px; font-size: 14px; line-height: 1.6; color: var(--ink2); text-wrap: pretty; }
+.rw-p:lang(ar) { line-height: 1.8; }
+.rw-more { margin-top: auto; padding-top: 18px; }
+.tr-table { padding-inline: clamp(18px, 2.4vw, 28px); border: 1px solid var(--line); border-radius: 14px; background: var(--s1); }
+.tr-table > summary { min-height: 64px; font-size: 16px; color: var(--ink); }
+.tbl-meta { margin-inline-start: 12px; font-family: var(--mono); font-size: 12px; font-weight: 500; color: var(--ink3); }
+.tr-table .disc-body { display: flex; flex-direction: column; gap: 14px; padding-bottom: clamp(18px, 2.4vw, 28px); }
+.tr-table .dt { min-width: 820px; }
+.tr-table .dt tbody th { font-family: var(--mono); font-size: 13px; color: var(--ink2); }
+
+/* each view draws when it appears, rather than as it scrolls into view */
+@media (prefers-reduced-motion: no-preference) {
+  .trc .chart.v .ln { stroke-dasharray: 1; animation: draw .9s var(--ease-io) both; animation-timeline: auto; animation-range: normal; }
+  .trc .chart.v .fd { animation: fade-in .5s var(--ease) both; animation-timeline: auto; animation-range: normal; }
+  .trc .chart.v .ann { animation: pop .45s var(--spring) .75s both; animation-timeline: auto; animation-range: normal; transform-box: fill-box; transform-origin: center; }
+}

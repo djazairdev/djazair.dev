@@ -32,7 +32,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `djsite/i18n.py`, `i18n/*.json` | Interface strings (see below) |
 | `djsite/markup.py` | HTML escaping: everything that isn't our own markup goes through `esc()` |
 | `static/css/` | Stylesheets, concatenated in file-name order into one hashed file |
-| `static/js/` | `site.js` (every page) and page-specific scripts |
+| `static/js/` | `site.js` (every page) and page-specific scripts (`trends.js`) |
 | `static/fonts/` | Self-hosted Tajawal and JetBrains Mono woff2 subsets, with their licences (SIL OFL 1.1) |
 | `tools/fetch_fonts.py` | Re-downloads the fonts and writes `static/css/05-fonts.css`; only needed to update them |
 | `tools/make_outline.py` | Rebuilds `geo/algeria.json` from Natural Earth (public domain); only needed to change the outline |
@@ -78,6 +78,10 @@ The build also publishes the derived data as it is in `data/derived/`: `/data/<y
 `djsite/pages/overview.py` shows the six indicators as full cards (`components.indicator_card`, with `id="ind-<key>"` so Home's tiles link to them), each with its change, medians, ranks, what it measures and its source; Algeria and six peers in a sortable table whose group medians sit in the table footer, so sorting leaves them below; and four limits to read before quoting the numbers.
 
 Motion: Algeria's line draws as the chart scrolls into view (scroll-driven animations where the browser has them; elsewhere `site.js` draws charts below the fold over one second when they arrive), then the end dot and notes pop in, and unit-map squares appear in bands from Algiers. With `prefers-reduced-motion: reduce`, nothing moves.
+
+## Trends
+
+`djsite/pages/trends.py` draws all eight views at build time (four indicators, actual or indexed to 2020 Q1 = 100), each as a wide and a phone drawing with its downloads and data table. The metric tabs, the scale switch and the "Compare with" chips are radio buttons; CSS (`:has()`, in `static/css/51-index.css`) shows the chosen view and brings the chosen peer forward in amber, so all of it works without JavaScript. `static/js/trends.js` adds the crosshair readout: pointer and drag, ←/→ and Home/End on the focused chart, announced through a live region. It reads its positions and figures from a JSON block on the page (`#trends-data`), written by the builder from the same layout as the drawings, and lets a pressed peer chip clear when pressed again.
 
 ## Holding page
 
