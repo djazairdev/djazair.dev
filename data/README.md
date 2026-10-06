@@ -72,7 +72,7 @@ Algeria’s latest value of each indicator, the same quarter a year earlier, and
 
 ### `peers`
 
-Algeria, the rest of North Africa and the core peers in the latest quarter.
+Algeria, the rest of North Africa and the core peers in the latest quarter, with the counts behind each ratio.
 
 | Column | Type | Meaning |
 |---|---|---|
@@ -91,6 +91,10 @@ Algeria, the rest of North Africa and the core peers in the latest quarter.
 | `accounts_per_million` | number | Accounts per million people (World Bank population, latest year) |
 | `population_year` | integer | Year of the World Bank population used |
 | `topics` | integer | Topics GitHub publishes for the economy: those with 100 or more developers pushing |
+| `git_pushes` | integer | Git pushes during the quarter (Innovation Graph git_pushes) |
+| `repositories` | integer | Repositories, a running total (Innovation Graph repositories) |
+| `organizations` | integer | Organisations, a running total (Innovation Graph organizations) |
+| `population` | integer | World Bank population (SP.POP.TOTL) in population_year |
 
 ### `groups`
 

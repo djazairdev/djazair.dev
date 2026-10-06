@@ -13,7 +13,7 @@ Computed by [djazair.dev](https://djazair.dev) from GitHub Innovation Graph rele
 | Files | What they hold |
 |---|---|
 | [`overview.csv`](overview.csv), [`overview.json`](overview.json) | Algeria’s latest value of each indicator, the same quarter a year earlier, and its place and the median in each peer group. One row per indicator. |
-| [`peers.csv`](peers.csv), [`peers.json`](peers.json) | Algeria, the rest of North Africa and the core peers in the latest quarter. |
+| [`peers.csv`](peers.csv), [`peers.json`](peers.json) | Algeria, the rest of North Africa and the core peers in the latest quarter, with the counts behind each ratio. |
 | [`groups.csv`](groups.csv), [`groups.json`](groups.json) | The members of each peer group in every quarter, and the median of each indicator across the members with data. |
 | [`ranks.csv`](ranks.csv), [`ranks.json`](ranks.json) | Every member’s place in each peer group for each indicator in the latest quarter, highest first. Earlier quarters can be ranked from the indicators and groups tables. |
 | [`trends.csv`](trends.csv), [`trends.json`](trends.json) | Every indicator in every quarter since 2020 Q1 for Algeria, the rest of North Africa and the core peers, with the peer-group medians. |

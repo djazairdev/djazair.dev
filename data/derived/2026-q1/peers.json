@@ -75,9 +75,29 @@
    "description": "Topics GitHub publishes for the economy: those with 100 or more developers pushing",
    "name": "topics",
    "type": "integer"
+  },
+  {
+   "description": "Git pushes during the quarter (Innovation Graph git_pushes)",
+   "name": "git_pushes",
+   "type": "integer"
+  },
+  {
+   "description": "Repositories, a running total (Innovation Graph repositories)",
+   "name": "repositories",
+   "type": "integer"
+  },
+  {
+   "description": "Organisations, a running total (Innovation Graph organizations)",
+   "name": "organizations",
+   "type": "integer"
+  },
+  {
+   "description": "World Bank population (SP.POP.TOTL) in population_year",
+   "name": "population",
+   "type": "integer"
   }
  ],
- "description": "Algeria, the rest of North Africa and the core peers in the latest quarter.",
+ "description": "Algeria, the rest of North Africa and the core peers in the latest quarter, with the counts behind each ratio.",
  "format_version": 1,
  "licence": "CC0-1.0",
  "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
@@ -85,16 +105,16 @@
  "release": "054c7dbc527518fa2ecfd316efe2aa01f3986c39",
  "release_date": "2026-07-07T15:25:55Z",
  "rows": [
-  {"economy": "DZ", "north_africa": true, "core_peer": false, "quarter": "2026-Q1", "accounts_2020_q1": 91819, "accounts": 586990, "yoy": 0.491469, "since_2020": 5.392903, "pushes_per_account": 1.063013, "pushes_per_account_4q": 0.841602, "repos_per_account": 1.039255, "orgs_per_account": 0.031541, "accounts_per_million": 12374.536506, "population_year": 2025, "topics": 3},
-  {"economy": "EG", "north_africa": true, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 236751, "accounts": 1626418, "yoy": 0.43895, "since_2020": 5.869741, "pushes_per_account": 1.570559, "pushes_per_account_4q": 1.532563, "repos_per_account": 2.051602, "orgs_per_account": 0.034134, "accounts_per_million": 13740.58487, "population_year": 2025, "topics": 37},
-  {"economy": "LY", "north_africa": true, "core_peer": false, "quarter": "2026-Q1", "accounts_2020_q1": 9125, "accounts": 73665, "yoy": 0.650349, "since_2020": 7.072877, "pushes_per_account": 0.873346, "pushes_per_account_4q": 0.666006, "repos_per_account": 0.83129, "orgs_per_account": 0.028195, "accounts_per_million": 9876.57797, "population_year": 2025, "topics": 0},
-  {"economy": "MA", "north_africa": true, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 142405, "accounts": 906406, "yoy": 0.432181, "since_2020": 5.364987, "pushes_per_account": 1.386281, "pushes_per_account_4q": 1.199943, "repos_per_account": 1.651206, "orgs_per_account": 0.04278, "accounts_per_million": 23585.423867, "population_year": 2025, "topics": 13},
-  {"economy": "MR", "north_africa": true, "core_peer": false, "quarter": "2026-Q1", "accounts_2020_q1": 1519, "accounts": 16255, "yoy": 0.658504, "since_2020": 9.701119, "pushes_per_account": 1.336881, "pushes_per_account_4q": 1.166945, "repos_per_account": 1.523285, "orgs_per_account": 0.031436, "accounts_per_million": 3058.288092, "population_year": 2025, "topics": 0},
-  {"economy": "SD", "north_africa": true, "core_peer": false, "quarter": "2026-Q1", "accounts_2020_q1": 11010, "accounts": 49732, "yoy": 0.440171, "since_2020": 3.516985, "pushes_per_account": 0.7351, "pushes_per_account_4q": 0.570152, "repos_per_account": 0.876357, "orgs_per_account": 0.025175, "accounts_per_million": 962.639048, "population_year": 2025, "topics": 0},
-  {"economy": "TN", "north_africa": true, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 88631, "accounts": 420582, "yoy": 0.329391, "since_2020": 3.745315, "pushes_per_account": 1.352968, "pushes_per_account_4q": 1.287967, "repos_per_account": 2.32694, "orgs_per_account": 0.046954, "accounts_per_million": 34059.158091, "population_year": 2025, "topics": 18},
-  {"economy": "NG", "north_africa": false, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 173641, "accounts": 1794519, "yoy": 0.358383, "since_2020": 9.33465, "pushes_per_account": 1.658922, "pushes_per_account_4q": 1.447078, "repos_per_account": 2.607493, "orgs_per_account": 0.04118, "accounts_per_million": 7554.985715, "population_year": 2025, "topics": 23},
-  {"economy": "KE", "north_africa": false, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 90770, "accounts": 678197, "yoy": 0.462908, "since_2020": 6.471599, "pushes_per_account": 2.309283, "pushes_per_account_4q": 2.278549, "repos_per_account": 4.770609, "orgs_per_account": 0.043442, "accounts_per_million": 11788.069048, "population_year": 2025, "topics": 11},
-  {"economy": "ZA", "north_africa": false, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 202767, "accounts": 1058997, "yoy": 0.427926, "since_2020": 4.222729, "pushes_per_account": 1.297621, "pushes_per_account_4q": 1.208917, "repos_per_account": 1.724335, "orgs_per_account": 0.043246, "accounts_per_million": 16355.843243, "population_year": 2025, "topics": 7}
+  {"economy": "DZ", "north_africa": true, "core_peer": false, "quarter": "2026-Q1", "accounts_2020_q1": 91819, "accounts": 586990, "yoy": 0.491469, "since_2020": 5.392903, "pushes_per_account": 1.063013, "pushes_per_account_4q": 0.841602, "repos_per_account": 1.039255, "orgs_per_account": 0.031541, "accounts_per_million": 12374.536506, "population_year": 2025, "topics": 3, "git_pushes": 623978, "repositories": 610032, "organizations": 18514, "population": 47435312},
+  {"economy": "EG", "north_africa": true, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 236751, "accounts": 1626418, "yoy": 0.43895, "since_2020": 5.869741, "pushes_per_account": 1.570559, "pushes_per_account_4q": 1.532563, "repos_per_account": 2.051602, "orgs_per_account": 0.034134, "accounts_per_million": 13740.58487, "population_year": 2025, "topics": 37, "git_pushes": 2554385, "repositories": 3336763, "organizations": 55516, "population": 118365995},
+  {"economy": "LY", "north_africa": true, "core_peer": false, "quarter": "2026-Q1", "accounts_2020_q1": 9125, "accounts": 73665, "yoy": 0.650349, "since_2020": 7.072877, "pushes_per_account": 0.873346, "pushes_per_account_4q": 0.666006, "repos_per_account": 0.83129, "orgs_per_account": 0.028195, "accounts_per_million": 9876.57797, "population_year": 2025, "topics": 0, "git_pushes": 64335, "repositories": 61237, "organizations": 2077, "population": 7458555},
+  {"economy": "MA", "north_africa": true, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 142405, "accounts": 906406, "yoy": 0.432181, "since_2020": 5.364987, "pushes_per_account": 1.386281, "pushes_per_account_4q": 1.199943, "repos_per_account": 1.651206, "orgs_per_account": 0.04278, "accounts_per_million": 23585.423867, "population_year": 2025, "topics": 13, "git_pushes": 1256533, "repositories": 1496663, "organizations": 38776, "population": 38430770},
+  {"economy": "MR", "north_africa": true, "core_peer": false, "quarter": "2026-Q1", "accounts_2020_q1": 1519, "accounts": 16255, "yoy": 0.658504, "since_2020": 9.701119, "pushes_per_account": 1.336881, "pushes_per_account_4q": 1.166945, "repos_per_account": 1.523285, "orgs_per_account": 0.031436, "accounts_per_million": 3058.288092, "population_year": 2025, "topics": 0, "git_pushes": 21731, "repositories": 24761, "organizations": 511, "population": 5315065},
+  {"economy": "SD", "north_africa": true, "core_peer": false, "quarter": "2026-Q1", "accounts_2020_q1": 11010, "accounts": 49732, "yoy": 0.440171, "since_2020": 3.516985, "pushes_per_account": 0.7351, "pushes_per_account_4q": 0.570152, "repos_per_account": 0.876357, "orgs_per_account": 0.025175, "accounts_per_million": 962.639048, "population_year": 2025, "topics": 0, "git_pushes": 36558, "repositories": 43583, "organizations": 1252, "population": 51662147},
+  {"economy": "TN", "north_africa": true, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 88631, "accounts": 420582, "yoy": 0.329391, "since_2020": 3.745315, "pushes_per_account": 1.352968, "pushes_per_account_4q": 1.287967, "repos_per_account": 2.32694, "orgs_per_account": 0.046954, "accounts_per_million": 34059.158091, "population_year": 2025, "topics": 18, "git_pushes": 569034, "repositories": 978669, "organizations": 19748, "population": 12348573},
+  {"economy": "NG", "north_africa": false, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 173641, "accounts": 1794519, "yoy": 0.358383, "since_2020": 9.33465, "pushes_per_account": 1.658922, "pushes_per_account_4q": 1.447078, "repos_per_account": 2.607493, "orgs_per_account": 0.04118, "accounts_per_million": 7554.985715, "population_year": 2025, "topics": 23, "git_pushes": 2976967, "repositories": 4679196, "organizations": 73899, "population": 237527782},
+  {"economy": "KE", "north_africa": false, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 90770, "accounts": 678197, "yoy": 0.462908, "since_2020": 6.471599, "pushes_per_account": 2.309283, "pushes_per_account_4q": 2.278549, "repos_per_account": 4.770609, "orgs_per_account": 0.043442, "accounts_per_million": 11788.069048, "population_year": 2025, "topics": 11, "git_pushes": 1566149, "repositories": 3235413, "organizations": 29462, "population": 57532493},
+  {"economy": "ZA", "north_africa": false, "core_peer": true, "quarter": "2026-Q1", "accounts_2020_q1": 202767, "accounts": 1058997, "yoy": 0.427926, "since_2020": 4.222729, "pushes_per_account": 1.297621, "pushes_per_account_4q": 1.208917, "repos_per_account": 1.724335, "orgs_per_account": 0.043246, "accounts_per_million": 16355.843243, "population_year": 2025, "topics": 7, "git_pushes": 1374177, "repositories": 1826066, "organizations": 45797, "population": 64747319}
  ],
  "source": "https://github.com/github/innovationgraph/tree/054c7dbc527518fa2ecfd316efe2aa01f3986c39/data",
  "table": "peers",

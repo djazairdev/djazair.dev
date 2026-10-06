@@ -2,8 +2,8 @@
  "attribution": "Data: GitHub Innovation Graph (CC0)",
  "files": {
   "README.md": {
-   "bytes": 3230,
-   "sha256": "7b7606ebfc2236d8f9e41b49e134a9bc6d3bc0fc814f086d66a4a8b4463afa74"
+   "bytes": 3265,
+   "sha256": "9ba23fad3c7ca75f7ee9646db86c5e5066e36da7a0eb05b5c12bf4a192802e9d"
   },
   "collaboration.csv": {
    "bytes": 3954,
@@ -90,16 +90,16 @@
    "title": "Algeria at a glance"
   },
   "peers.csv": {
-   "bytes": 1279,
+   "bytes": 1618,
    "rows": 10,
-   "sha256": "fb558b9ae02851510e2bb2017fc8794e9b8dc0dfe1073836fce79a27cf9e7236",
+   "sha256": "8e99f28ddfc4cc42b087e9e115657697fa6e825d7ebb38e428a4848bf0e609b0",
    "table": "peers",
    "title": "Algeria and its peers"
   },
   "peers.json": {
-   "bytes": 6294,
+   "bytes": 7819,
    "rows": 10,
-   "sha256": "9eb6aa086edf73a0b3349f72a22a87cbe0335ade36ce9b9a301182aa1fab9423",
+   "sha256": "d3c7d442cbdbdde405fb91cd9390b8d345c66ff19a35e970521d48658256d98c",
    "table": "peers",
    "title": "Algeria and its peers"
   },
@@ -161,7 +161,7 @@
   }
  },
  "format_version": 1,
- "generated_at": "2026-10-06T20:25:00Z",
+ "generated_at": "2026-10-06T21:46:24Z",
  "licence": "CC0-1.0",
  "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
  "population": {

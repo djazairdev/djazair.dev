@@ -189,15 +189,22 @@ class Publisher:
                 I('accounts_2020_q1', 'Accounts in 2020 Q1')]
         cols += [COLUMNS[n] for n in level]
         cols += [COLUMNS['accounts_per_million'], I('population_year', 'Year of the World Bank population used'), COLUMNS['topics']]
+        # The inputs, so every ratio above can be recomputed from this file.
+        cols += [I('git_pushes', 'Git pushes during the quarter (Innovation Graph git_pushes)'),
+                 I('repositories', 'Repositories, a running total (Innovation Graph repositories)'),
+                 I('organizations', 'Organisations, a running total (Innovation Graph organizations)'),
+                 I('population', 'World Bank population (SP.POP.TOTL) in population_year')]
         rows = []
         for code in PEERS:
             year, people = self.ix.population.get(code)
+            counts = [self.ds.series[name].get((code, self.q)) for name in ('git_pushes', 'repositories', 'organizations')]
             rows.append([code, code in NORTH_AFRICA, code in CORE_PEERS, qkey(self.q), self.ix.value('accounts', code, first)]
                         + [self.ix.value(n, code, self.q) for n in level]
                         + [self.ix.value('accounts_per_million', code, self.q), year if people else None,
-                           self.ix.value('topics', code, self.q)])
+                           self.ix.value('topics', code, self.q)] + counts + [people])
         return Table('peers', 'Algeria and its peers',
-                     'Algeria, the rest of North Africa and the core peers in the latest quarter.', cols, rows)
+                     'Algeria, the rest of North Africa and the core peers in the latest quarter, with the counts behind '
+                     'each ratio.', cols, rows)
 
     def groups(self) -> Table:
         cols = [S('group', '; '.join(f'{g}: {t}' for g, t in GROUP_TEXT.items())), QUARTER, I('members', 'Members with data'),
