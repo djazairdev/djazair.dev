@@ -127,3 +127,22 @@
   .trc .chart.v .fd { animation: fade-in .5s var(--ease) both; animation-timeline: auto; animation-range: normal; }
   .trc .chart.v .ann { animation: pop .45s var(--spring) .75s both; animation-timeline: auto; animation-range: normal; transform-box: fill-box; transform-origin: center; }
 }
+
+/* ---- peers: rank tables. Each figure carries its rank in the group; the medians keep an
+   empty slot of the same width so the figures line up. */
+.rank-wrap .dt { min-width: 1000px; }
+.rk {
+  display: inline-block;
+  min-width: 26px;
+  margin-inline-start: 8px;
+  padding: 2px 5px;
+  border-radius: 6px;
+  background: var(--chip-bg);
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+  color: var(--ink3);
+  vertical-align: 1px;
+}
+.is-dz .rk { background: var(--mint-bg); color: var(--mint-hi); }
+.rk-gap { visibility: hidden; }

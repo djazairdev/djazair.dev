@@ -71,14 +71,17 @@
   // Sortable tables: headers marked data-sort become buttons. Cells sort by data-v when present.
   var SORT_ICON = '<svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
     'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+  // data-v="" marks a missing figure: it sorts last whichever way the column runs.
   function sortKey(cell) {
     var v = cell.getAttribute('data-v');
+    if (v === '') return null;
     if (v === null) return cell.textContent.trim();
     var n = Number(v);
     return isNaN(n) ? v : n;
   }
   doc.querySelectorAll('table[data-sortable]').forEach(function (table) {
     var heads = table.querySelectorAll('thead th[data-sort]');
+    var status = table.parentNode.querySelector('.sort-status');
     heads.forEach(function (th) {
       var b = doc.createElement('button');
       b.type = 'button';
@@ -90,18 +93,22 @@
         var body = table.tBodies[0];
         var i = th.cellIndex;
         var rows = Array.prototype.slice.call(body.rows);
+        var keys = rows.map(function (row) { return sortKey(row.cells[i]); });
+        var numeric = keys.some(function (k) { return typeof k === 'number'; });
         // Numbers sort largest first, names A to Z; pressing again reverses.
         var current = th.getAttribute('aria-sort');
-        var first = typeof sortKey(rows[0].cells[i]) === 'number' ? 'descending' : 'ascending';
-        var dir = current ? (current === 'descending' ? 'ascending' : 'descending') : first;
+        var dir = current ? (current === 'descending' ? 'ascending' : 'descending') : (numeric ? 'descending' : 'ascending');
         heads.forEach(function (h) { h.removeAttribute('aria-sort'); });
         th.setAttribute('aria-sort', dir);
-        rows.sort(function (r1, r2) {
-          var x = sortKey(r1.cells[i]), y = sortKey(r2.cells[i]);
-          var c = (typeof x === 'number' && typeof y === 'number') ? x - y : String(x).localeCompare(String(y), lang);
-          return dir === 'ascending' ? c : -c;
-        });
-        rows.forEach(function (row) { body.appendChild(row); });
+        rows.map(function (row, n) { return { row: row, key: keys[n], n: n }; }).sort(function (a, z) {
+          if (a.key === null || z.key === null) return (a.key === null) - (z.key === null) || a.n - z.n;
+          var c = (typeof a.key === 'number' && typeof z.key === 'number') ? a.key - z.key : String(a.key).localeCompare(String(z.key), lang);
+          return (dir === 'ascending' ? c : -c) || a.n - z.n;
+        }).forEach(function (x) { body.appendChild(x.row); });
+        if (status) {
+          var msg = status.getAttribute('data-' + (numeric ? (dir === 'descending' ? 'desc' : 'asc') : (dir === 'ascending' ? 'az' : 'za')));
+          status.textContent = msg.replace('{col}', b.textContent.trim());
+        }
       });
     });
   });

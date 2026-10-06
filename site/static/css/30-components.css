@@ -328,7 +328,8 @@ a.tile:hover { color: var(--ink); }
 .dl-menu a:hover { background: var(--hover-tint); color: var(--ink); }
 
 /* ---- data tables: tabular figures; wide tables scroll inside their card */
-.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--s1); }
+/* position: relative keeps screen-reader-only text inside cells from widening the page */
+.table-wrap { position: relative; overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--s1); }
 .dt { width: 100%; border-collapse: collapse; }
 .dt th, .dt td { padding: 14px 16px; border-top: 1px solid var(--line); white-space: nowrap; }
 .dt thead th { padding-block: 12px; border-top: 0; font-size: 13px; font-weight: 500; color: var(--ink3); text-align: start; }

@@ -185,13 +185,21 @@ def download_menu(ctx, files: dict) -> Markup:
 
 
 # ---------------------------------------------------------------- tables
+def sort_text(ctx) -> dict:
+    """What a sortable table announces after sorting, with {col} for the column."""
+    return {k: ctx.ta(f'table.sorted_{k}', col='{col}') for k in ('desc', 'asc', 'az', 'za')}
+
+
 def data_table(caption, head: Sequence, rows: Iterable, *, sortable: bool = False, cls: str = '',
-               highlight: Optional[str] = None, sorted_by: Optional[tuple] = None, foot: Iterable = ()) -> Markup:
+               highlight: Optional[str] = None, sorted_by: Optional[tuple] = None, foot: Iterable = (),
+               announce: Optional[dict] = None) -> Markup:
     """Data table. ``head``: [(label, align)] where align is 'start' or 'end'.
     ``rows``: [(key, [cells])]; the first cell is the row header. A cell is HTML, or
-    ``(html, sort_value)`` so sorting works whatever the number format.
+    ``(html, sort_value)`` so sorting works whatever the number format; a sort value of ''
+    marks a missing figure, which sorts last either way.
     ``sorted_by``: (column index, 'descending' | 'ascending') for the order the rows come in.
     ``foot``: rows in the same shape, such as group medians, which stay below when sorting.
+    ``announce``: ``sort_text(ctx)``, read out after each sort.
     Sorting is added by site.js; without JavaScript the table keeps its order."""
     th = []
     for i, (label, align) in enumerate(head):
@@ -214,10 +222,14 @@ def data_table(caption, head: Sequence, rows: Iterable, *, sortable: bool = Fals
     body = ''.join(tr(key, cells) for key, cells in rows)
     tfoot = ''.join(tr(key, cells) for key, cells in foot)
     sort_attr = ' data-sortable' if sortable else ''
+    status = ''
+    if sortable and announce:
+        status = ('<p class="sr-only sort-status" role="status"'
+                  + ''.join(f' data-{k}="{v}"' for k, v in announce.items()) + '></p>')
     return Markup(f'<div class="table-wrap {cls}" tabindex="0" role="region" aria-label="{striptags(caption)}">'
                   f'<table class="dt"{sort_attr}><caption class="sr-only">{caption}</caption>'
                   f'<thead><tr>{"".join(th)}</tr></thead><tbody>{body}</tbody>'
-                  f'{f"<tfoot>{tfoot}</tfoot>" if tfoot else ""}</table></div>')
+                  f'{f"<tfoot>{tfoot}</tfoot>" if tfoot else ""}</table>{status}</div>')
 
 
 # ---------------------------------------------------------------- disclosure

@@ -83,6 +83,12 @@ Motion: Algeria's line draws as the chart scrolls into view (scroll-driven anima
 
 `djsite/pages/trends.py` draws all eight views at build time (four indicators, actual or indexed to 2020 Q1 = 100), each as a wide and a phone drawing with its downloads and data table. The metric tabs, the scale switch and the "Compare with" chips are radio buttons; CSS (`:has()`, in `static/css/51-index.css`) shows the chosen view and brings the chosen peer forward in amber, so all of it works without JavaScript. `static/js/trends.js` adds the crosshair readout: pointer and drag, ←/→ and Home/End on the focused chart, announced through a live region. It reads its positions and figures from a JSON block on the page (`#trends-data`), written by the builder from the same layout as the drawings, and lets a pressed peer chip clear when pressed again.
 
+## Peers
+
+`djsite/pages/peers.py` reuses the Overview's peers table (without its link to this page), then gives a rank table for North Africa and one for Africa (every economy with at least 20,000 accounts a year earlier, `scorecard.AFRICA_MIN_ACCOUNTS`, which a test keeps equal to the pipeline's). Rows come from the derived `ranks` table in order of accounts; each figure carries its rank in the group, read out as "rank 3 of 7", and the group median sits in the footer. The "How peers are chosen" button links to `methodology#peer-groups`.
+
+Every sortable table (`components.data_table(..., sortable=True, announce=components.sort_text(ctx))`) sorts by its header buttons, with a mouse or the keyboard, and `site.js` writes the new order ("Sorted by Growth, highest first") into the table's live region. A sort value of `''` marks a missing figure, which stays last whichever way the column runs.
+
 ## Holding page
 
 `holding/` is the pre-launch page. Deploy it with no build command and `site/holding` as the output directory.

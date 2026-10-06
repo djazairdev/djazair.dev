@@ -31,17 +31,21 @@ def zip_url(data) -> str:
     return f'/data/{data.folder.name}/{data.zip_name}'
 
 
-def head(ctx) -> Markup:
+def meta(ctx) -> list:
+    """Data quarter, release date, schedule and licence: the meta row of the Index pages."""
     data = ctx.site.data
-    q = data.quarter
-    meta = [(ctx.t('overview.meta_data'), _q(ctx, q)),
+    return [(ctx.t('overview.meta_data'), _q(ctx, data.quarter)),
             (ctx.t('overview.meta_released'), date_label(data.release_date, ctx.lang, short=ctx.en)),
             (ctx.t('overview.meta_updated'), ctx.t('overview.meta_quarterly')),
             (ctx.t('overview.meta_licence'), 'CC0')]
+
+
+def head(ctx) -> Markup:
+    data = ctx.site.data
     actions = [C.btn(ctx.t('overview.download_all'), zip_url(data), arrow=False, attrs=' download'),
                C.btn(ctx.t('overview.methodology'), ctx.url('methodology'), 'secondary')]
-    return C.page_head(eyebrow_text=ctx.t('overview.eyebrow'), title=ctx.t('overview.title', quarter=_q(ctx, q)),
-                       lede=ctx.t('overview.lede', n=data.overview()['yoy']['africa_ranked']), meta=meta, actions=actions)
+    return C.page_head(eyebrow_text=ctx.t('overview.eyebrow'), title=ctx.t('overview.title', quarter=_q(ctx, data.quarter)),
+                       lede=ctx.t('overview.lede', n=data.overview()['yoy']['africa_ranked']), meta=meta(ctx), actions=actions)
 
 
 def cards(ctx) -> Markup:
@@ -65,28 +69,37 @@ def cards(ctx) -> Markup:
                   f'<div class="ind-grid">{join(out)}</div>{src}</div></section>')
 
 
-def peers_table(ctx) -> Markup:
+def table_head(ctx) -> list:
+    return [(ctx.t('overview.col_economy'), 'start')] + [(ctx.t(label), 'end') for _, label, _ in COLUMNS]
+
+
+def economy_cell(ctx, code: str) -> tuple:
+    return Markup(f'<span class="eco"><span class="eco-sq" aria-hidden="true"></span>{name(ctx, code)}</span>'), None
+
+
+def peers_table(ctx, link: bool = True, lede=None) -> Markup:
+    """Algeria and the six core peers with the group medians. The Peers page shows it with a
+    lede and without the link to itself."""
     data = ctx.site.data
     lang = ctx.lang
     peers, ov = data.peers(), data.overview()
-    head = [(ctx.t('overview.col_economy'), 'start')] + [(ctx.t(label), 'end') for _, label, _ in COLUMNS]
 
     def cells(values: dict) -> list:
-        return [('—', None) if values.get(key) is None else (num(fmt(values[key], lang)), values[key]) for key, _, fmt in COLUMNS]
+        return [('—', '') if values.get(key) is None else (num(fmt(values[key], lang)), values[key]) for key, _, fmt in COLUMNS]
 
-    rows = [(code, [(Markup(f'<span class="eco"><span class="eco-sq" aria-hidden="true"></span>{name(ctx, code)}</span>'), None)]
-             + cells(peers[code])) for code in ('DZ',) + CORE_PEERS]
+    rows = [(code, [economy_cell(ctx, code)] + cells(peers[code])) for code in ('DZ',) + CORE_PEERS]
     foot = []
     for group, label in MEDIANS:
         values = {key: ov[key][f'{group}_median'] for key, _, _ in COLUMNS}
         foot.append((f'median_{group}', [ctx.t(label, n=ov['yoy'][f'{group}_ranked'])] + cells(values)))
-    table = C.data_table(ctx.t('overview.peers_caption', quarter=_q(ctx, data.quarter)), head, rows, sortable=True,
-                         cls='peers-wrap', highlight='DZ', foot=foot)
+    table = C.data_table(ctx.t('overview.peers_caption', quarter=_q(ctx, data.quarter)), table_head(ctx), rows, sortable=True,
+                         cls='peers-wrap', highlight='DZ', foot=foot, announce=C.sort_text(ctx))
     folder = data.folder.name
     acts = C.action_link('CSV', f'/data/{folder}/peers.csv') + C.action_link('JSON', f'/data/{folder}/peers.json')
     src = C.source_line(ctx.t('overview.peers_source', quarter=_q(ctx, data.quarter), year=peers['DZ']['population_year']), acts)
+    more = C.btn(ctx.t('overview.peers_open'), ctx.url('peers'), 'secondary', size='s') if link else ''
     return C.section('peers', ctx.t('overview.peers_eyebrow'), ctx.t('overview.peers_title'), Markup(f'{table}{src}'),
-                     size='s', head_extra=C.btn(ctx.t('overview.peers_open'), ctx.url('peers'), 'secondary', size='s'))
+                     lede=lede, size='s', head_extra=more)
 
 
 def limits(ctx) -> Markup:
