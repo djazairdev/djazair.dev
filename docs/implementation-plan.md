@@ -2,11 +2,13 @@
 
 **Version 1 · 6 October 2026.** Launch by **30 November 2026**; scope checkpoint on **15 November 2026**. Progress is tracked in [#1](https://github.com/djazairdev/djazair.dev/issues/1) and the milestones below.
 
-This plan turns the PRD (v0.2, 6 October 2026) into ordered, estimated tickets. Every ticket is a GitHub issue, and every designed page is attached to the ticket that builds it ([section 5](#5-designs-and-their-tickets)).
+This plan turns the PRD (v0.3, 6 October 2026) into ordered, estimated tickets. Every ticket is a GitHub issue, and every designed page is attached to the ticket that builds it ([section 5](#5-designs-and-their-tickets)).
 
 ## 1. Changes from the PRD
 
 **French is out of the MVP (decision D20, 6 October 2026).** The site launches in English and Arabic. This replaces D12 and the French parts of §3.3, §6.2, §11 and AC-IDX-6, and the translation reviewers in R2 are needed for Arabic only. The designs no longer show French: the language switcher offers **EN · ع**. Removing French saves about two developer-days (strings, number formats, review and testing).
+
+**The site is built by a small Python builder, not Astro (decision D21, 6 October 2026).** It uses only Python's standard library, like the pipeline and the Hub, so the project has one language and no npm dependency tree. The design generator's chart, tick and unit-map code is reused. Output is the same as planned: static HTML per language, build-time SVG charts and small scripts that only enhance.
 
 **Should items are planned for Phase 1.1 from the start.** The Topics, Collaboration and External rankings pages, Hub ideas and the localisation section don't fit the capacity below. They come back into the MVP only if the work is ahead at the checkpoint. Quarterly report #1 stays in the MVP as a Should item because the launch is built around it.
 
@@ -18,12 +20,12 @@ github/innovationgraph (CC0) ─ daily ─►  pipeline/ (Python 3.12) ─► da
 GitHub REST API ─ every 6 h ─────────►  hub/ (Python 3.12) ──────► data/derived/hub/
                                                   │
                                                   ▼
-                         site/ (Astro, /en/ + /ar/, build-time SVG charts) ─► Cloudflare Pages ─► djazair.dev
+                         site/ (Python builder, /en/ + /ar/, build-time SVG charts) ─► Cloudflare Pages ─► djazair.dev
 ```
 
 | Part | Choice | Why |
 |---|---|---|
-| Site | Astro, static output, `/en/` and `/ar/` | Built-in i18n routing, no client JavaScript by default; small scripts only for the Trends and Hub interactions (PRD §10) |
+| Site | Small static builder in Python (standard library only), `/en/` and `/ar/` | One language with the pipeline and Hub, no npm dependencies, and the design generator's chart code is reused; small scripts only enhance (PRD §10, D21) |
 | Charts | SVG rendered at build time, light and dark downloads | Readable without JavaScript and light on 4G (§11) |
 | Data | Python 3.12 pipeline → `data/derived/` | Reproducible and testable against Appendix A (§9) |
 | Hub | Python job every 6 h → `data/derived/hub/`; registry in `projects.yml` | No database, no accounts (§7.2) |
@@ -51,7 +53,7 @@ The Hub registry and submission checks sit in M2, before the pages, so maintaine
 
 | # | Ticket | Priority | Days | Depends on | Design |
 |--:|---|---|--:|---|---|
-| [#2](https://github.com/djazairdev/djazair.dev/issues/2) | Set up the site: Astro, English and Arabic routes, page shell | Must | 1 | — | [Home — English, desktop](design/home-en-desktop.png), [Home — Arabic, desktop](design/home-ar-desktop.png) |
+| [#2](https://github.com/djazairdev/djazair.dev/issues/2) | Set up the site: Python builder, English and Arabic routes, page shell | Must | 1 | — | [Home — English, desktop](design/home-en-desktop.png), [Home — Arabic, desktop](design/home-ar-desktop.png) |
 | [#3](https://github.com/djazairdev/djazair.dev/issues/3) | Implement the design tokens, fonts and base styles | Must | 0.5 | [#2](https://github.com/djazairdev/djazair.dev/issues/2) | [Foundations — colour, type, grid, motif](design/system-foundations.png) |
 | [#4](https://github.com/djazairdev/djazair.dev/issues/4) | Build the core components | Must | 1.5 | [#3](https://github.com/djazairdev/djazair.dev/issues/3) | [Components, charts and motion](design/system-components.png) |
 | [#5](https://github.com/djazairdev/djazair.dev/issues/5) | Set up interface strings and number formatting | Must | 0.75 | [#2](https://github.com/djazairdev/djazair.dev/issues/2) | [Overview — Arabic, desktop](design/overview-ar-desktop.png), [Overview — Arabic, phone](design/overview-ar-phone.png) |
@@ -191,3 +193,4 @@ If the work is ahead, Phase 1.1 Should tickets come in, in this order: Topics, E
 | Date | Change |
 |---|---|
 | 6 October 2026 | Version 1. French removed from the MVP (D20). |
+| 6 October 2026 | The site uses a Python static builder instead of Astro (D21); [#2](https://github.com/djazairdev/djazair.dev/issues/2) renamed. |

@@ -1,0 +1,66 @@
+/* Design tokens, from the Foundations board (docs/design/system-foundations.png).
+   Components use these custom properties, never raw colour values. */
+:root {
+  /* surfaces */
+  --bg: #0E1A15;
+  --sunk: #0A1511;
+  --s1: #122019;
+  --s1-hover: #14251D;
+  --s2: #17291F;
+  --header-bg: rgba(14, 26, 21, .78);
+  --well: rgba(10, 21, 17, .45);
+  --tint: rgba(238, 243, 236, .025);
+
+  /* hairlines */
+  --line: rgba(238, 243, 236, .08);
+  --line2: rgba(238, 243, 236, .14);
+  --line3: rgba(238, 243, 236, .24);
+
+  /* text */
+  --ink: #EEF3EC;
+  --ink2: #B4C2B9;
+  --ink3: #879890;
+
+  /* Algeria and actions */
+  --mint: #3DBE84;
+  --mint-hi: #7FE3B0;
+  --mint-hover: #56D198;
+  --on-mint: #06120D;
+  --mint-bg: rgba(61, 190, 132, .12);
+  --mint-line: rgba(61, 190, 132, .38);
+  --mint-tint: rgba(61, 190, 132, .07);
+  --selection: rgba(61, 190, 132, .35);
+
+  /* charts: peers and medians, one highlighted peer, negative change */
+  --cell-old: #2C7255;
+  --cell-flash: #CFF7E3;
+  --grey: #6B7D74;
+  --grey-hi: #A9B8AF;
+  --amber: #E8A75A;
+  --coral: #F08A74;
+  --coral-bg: rgba(240, 138, 116, .12);
+
+  /* language dots on Hub cards */
+  --sky: #79B8EE;
+  --lilac: #C3A3EE;
+  --straw: #DCCF78;
+  --slate: #9AABB9;
+
+  /* type: Tajawal for every word, JetBrains Mono for figures and labels.
+     The mono stack falls back to Tajawal so Arabic inside mono labels renders correctly. */
+  --sans: 'Tajawal', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'JetBrains Mono', 'Tajawal', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* layout */
+  --container: 1280px;
+  --gutter: clamp(16px, 4vw, 48px);
+  --header-h: 64px;
+  --shadow: 0 24px 48px rgba(0, 0, 0, .35);
+
+  /* motion */
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+  --spring: linear(0, .009, .035 2.1%, .141, .281 6.7%, .723 12.9%, .938 16.7%, 1.017, 1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%, 1.051 39.6%, 1.017 43.1%, .991, .977 51%, .974 53.8%, .975 57.1%, .997 69.8%, 1.003 76.9%, 1);
+
+  color-scheme: dark;
+}

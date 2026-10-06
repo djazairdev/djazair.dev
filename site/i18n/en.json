@@ -1,0 +1,111 @@
+{
+  "_meta": {
+    "language": "English",
+    "reviewed": true,
+    "note": "English is the source. Every key used by the site must exist here; ar.json falls back to it."
+  },
+  "site": {
+    "tagline": "Growing Algeria’s developer ecosystem",
+    "description": "The Algeria Developer Index compares Algeria’s GitHub activity with similar countries every quarter. The Project Hub lists open-source projects with beginner-friendly issues."
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "home": "djazair.dev home",
+    "main_nav": "Main",
+    "index_nav": "Index sections",
+    "language": "Language",
+    "source": "Source code on GitHub",
+    "menu": "Menu"
+  },
+  "nav": {
+    "index": "Index",
+    "hub": "Hub",
+    "reports": "Reports",
+    "methodology": "Methodology",
+    "data": "Data",
+    "source": "Source"
+  },
+  "subnav": {
+    "overview": "Overview",
+    "peers": "Peers",
+    "trends": "Trends",
+    "languages": "Languages",
+    "topics": "Topics",
+    "collaboration": "Collaboration",
+    "rankings": "Rankings"
+  },
+  "footer": {
+    "index": "Index",
+    "hub": "Hub",
+    "project": "Project",
+    "issues": "Issues",
+    "projects": "Projects",
+    "list": "List your project",
+    "data": "Data and downloads",
+    "changelog": "Changelog",
+    "corrections": "Corrections",
+    "about": "About",
+    "legal": "Data: GitHub Innovation Graph (CC0). Code MIT · Text and charts CC BY 4.0 · Data CC0.",
+    "independent": "An independent community project, not affiliated with GitHub."
+  },
+  "notice": {
+    "draft": "The Arabic text is a draft until a fluent reviewer checks it.",
+    "fallback": "Some text on this page isn’t translated yet, so it appears in English."
+  },
+  "stub": {
+    "eyebrow": "Coming soon",
+    "lede": "This page is being built. Follow the work in {issue}."
+  },
+  "pages": {
+    "home": {
+      "title": "djazair.dev",
+      "description": "Algeria’s developer accounts compared with similar countries every quarter, and open-source projects with beginner-friendly issues."
+    },
+    "overview": {
+      "title": "Algeria Developer Index",
+      "description": "Six indicators of Algeria’s GitHub activity, each compared with North Africa and with Africa’s largest developer communities. Updated every quarter."
+    },
+    "peers": {
+      "title": "Peers",
+      "description": "Algeria compared with Morocco, Tunisia, Egypt, Nigeria, Kenya and South Africa, with group medians and ranks."
+    },
+    "trends": {
+      "title": "Trends",
+      "description": "Quarterly series since 2020 for Algeria and its peers: developer accounts, growth and activity per account."
+    },
+    "languages": {
+      "title": "Languages",
+      "description": "The programming languages Algeria’s developer accounts push code in most, and how that changed in a year."
+    },
+    "hub": {
+      "title": "Project Hub",
+      "description": "Open-source projects by Algerian developers, or relevant to Algeria, with beginner-friendly issues to start on."
+    },
+    "reports": {
+      "title": "Reports",
+      "description": "Quarterly reports on Algeria’s developer ecosystem, in Arabic and English."
+    },
+    "report-2026-q1": {
+      "title": "Report: Q1 2026",
+      "description": "Algeria’s developer accounts in the first quarter of 2026, compared with North Africa and Africa."
+    },
+    "methodology": {
+      "title": "Methodology",
+      "description": "Sources, formulas, peer groups, known limitations, update schedule and corrections policy for the Algeria Developer Index."
+    },
+    "data": {
+      "title": "Data and downloads",
+      "description": "Download the Algeria Developer Index as CSV and JSON (CC0), with the changelog and the corrections log."
+    },
+    "about": {
+      "title": "About",
+      "description": "Who runs djazair.dev and why, the licences, and how to get in touch."
+    },
+    "notfound": {
+      "title": "Page not found",
+      "lede": "The page you asked for doesn’t exist, or it has moved.",
+      "home": "Go to the home page",
+      "index": "Open the Index"
+    }
+  }
+}

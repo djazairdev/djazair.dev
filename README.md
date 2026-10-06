@@ -29,6 +29,16 @@ The site will be in Arabic and English. The first version has no accounts and co
 | `docs/` | The implementation plan and the page designs |
 | `.github/workflows/` | Scheduled jobs and deployment |
 
+## Run it locally
+
+Everything is Python 3.12+ with the standard library only; there's nothing to install.
+
+```sh
+python3 site/build.py                                                # build the site into site/dist
+python3 -m http.server 4322 --bind 127.0.0.1 --directory site/dist   # preview at http://localhost:4322/
+python3 -m unittest discover -s tests                                # run the tests
+```
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md). To report a security problem, see [SECURITY.md](SECURITY.md).
