@@ -1,4 +1,58 @@
 {
- "generated_at": "2026-10-06T22:21:52Z",
- "issues": []
+ "generated_at": "2026-10-06T22:40:33Z",
+ "issues": [
+  {
+   "number": 48,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/48",
+   "title": "Test that each chart's CSV and JSON downloads hold the same numbers",
+   "labels": [
+    "help wanted",
+    "area: site"
+   ],
+   "created_at": "2026-10-06T22:39:46Z",
+   "needs": "Python, unittest",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 47,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/47",
+   "title": "Test the Hub filters with a screen reader",
+   "labels": [
+    "accessibility",
+    "help wanted",
+    "area: site"
+   ],
+   "created_at": "2026-10-06T22:39:44Z",
+   "needs": "a screen reader (NVDA, JAWS, VoiceOver or TalkBack)",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 46,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/46",
+   "title": "Proofread the Arabic text of the Hub page",
+   "labels": [
+    "good first issue",
+    "area: content"
+   ],
+   "created_at": "2026-10-06T22:39:42Z",
+   "needs": "Fluent Arabic",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 45,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/45",
+   "title": "Add language colours for Java, C, C++, C#, Rust, Swift, Ruby and Shell",
+   "labels": [
+    "good first issue",
+    "area: site"
+   ],
+   "created_at": "2026-10-06T22:39:41Z",
+   "needs": "Python, CSS",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  }
+ ]
 }

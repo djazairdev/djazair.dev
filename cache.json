@@ -1,4 +1,85 @@
 {
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
- "entries": {}
+ "entries": {
+  "/repos/djazairdev/djazair.dev": {
+   "etag": "\"ccf73515d291a93025b39b944d019474a97627e99e7de1c14a780b5bb0ad70ae\"",
+   "data": {
+    "full_name": "djazairdev/djazair.dev",
+    "url": "https://github.com/djazairdev/djazair.dev",
+    "description": "Growing Algeria's developer ecosystem",
+    "language": "Python",
+    "licence": "MIT",
+    "topic": true,
+    "default_branch": "main",
+    "archived": false,
+    "private": false,
+    "has_issues": true
+   }
+  },
+  "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
+   "etag": "\"5af9afd280d241d16b53d9d14786da91641712de69b51042b79f7ea08d676b43\"",
+   "data": "2026-10-06T22:40:18Z"
+  },
+  "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
+   "etag": "\"5a9135292f5c99771e882148d419b24903a8bfd22b24e96be5376d0a99d0173b\"",
+   "data": {
+    "n": 2,
+    "issues": [
+     {
+      "number": 46,
+      "url": "https://github.com/djazairdev/djazair.dev/issues/46",
+      "title": "Proofread the Arabic text of the Hub page",
+      "labels": [
+       "good first issue",
+       "area: content"
+      ],
+      "created_at": "2026-10-06T22:39:42Z",
+      "needs": "Fluent Arabic"
+     },
+     {
+      "number": 45,
+      "url": "https://github.com/djazairdev/djazair.dev/issues/45",
+      "title": "Add language colours for Java, C, C++, C#, Rust, Swift, Ruby and Shell",
+      "labels": [
+       "good first issue",
+       "area: site"
+      ],
+      "created_at": "2026-10-06T22:39:41Z",
+      "needs": "Python, CSS"
+     }
+    ]
+   }
+  },
+  "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
+   "etag": "\"8707cdddda5a9a005d7840202a3661adea8de7228e68096427d8b69edba0b8eb\"",
+   "data": {
+    "n": 2,
+    "issues": [
+     {
+      "number": 48,
+      "url": "https://github.com/djazairdev/djazair.dev/issues/48",
+      "title": "Test that each chart's CSV and JSON downloads hold the same numbers",
+      "labels": [
+       "help wanted",
+       "area: site"
+      ],
+      "created_at": "2026-10-06T22:39:46Z",
+      "needs": "Python, unittest"
+     },
+     {
+      "number": 47,
+      "url": "https://github.com/djazairdev/djazair.dev/issues/47",
+      "title": "Test the Hub filters with a screen reader",
+      "labels": [
+       "accessibility",
+       "help wanted",
+       "area: site"
+      ],
+      "created_at": "2026-10-06T22:39:44Z",
+      "needs": "a screen reader (NVDA, JAWS, VoiceOver or TalkBack)"
+     }
+    ]
+   }
+  }
+ }
 }
