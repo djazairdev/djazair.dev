@@ -14,9 +14,16 @@ The Hub lists active open-source projects with Algerian maintainers or a clear l
 6. The GitHub topic `djazairdev` on the repository. Only maintainers can set topics, so this shows the listing is yours to ask for.
 7. Algerian maintainers, or clear relevance to Algeria (local data, languages, payments, public services and so on).
 
-A code of conduct is recommended. No djazair.dev account is needed.
+A code of conduct is recommended. Datasets may use an open data licence instead (CC0, CC BY 4.0, CC BY-SA 4.0, ODbL, ODC-By or PDDL). No djazair.dev account is needed.
 
-To apply, add an entry at the end of [`projects.yml`](projects.yml) in a pull request:
+You can apply in two ways:
+
+- **Issue form**, if you'd rather not use git: [List a project in the Hub](https://github.com/djazairdev/djazair.dev/issues/new?template=hub-listing.yml).
+- **Pull request**: add an entry at the end of [`projects.yml`](projects.yml). The pull request template lists the seven checks.
+
+Either way, a bot runs checks 1 to 6 on GitHub within a minute and comments with the result (`listing-check · 6 of 7 passed, 1 waits for a reviewer`): what it found, and how to fix anything that fails. After fixing something, edit the issue or the pull request description to run the checks again. A person checks 7 and reviews the request within 7 days. You can run the same checks yourself with `python3 -m hub check-project owner/name --pledge`.
+
+An entry looks like this:
 
 ```yaml
   - repository: owner/name       # the GitHub repository

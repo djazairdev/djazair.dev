@@ -1,0 +1,55 @@
+name: List a project in the Hub
+description: Ask for an open-source project to be listed in the djazair.dev Hub, without using git.
+title: "Hub listing: owner/name"
+labels: ["hub listing"]
+body:
+  - type: markdown
+    attributes:
+      value: "The Hub lists active open-source projects with Algerian maintainers or a clear link to Algeria. A project needs all seven checks in [CONTRIBUTING.md](https://github.com/djazairdev/djazair.dev/blob/main/CONTRIBUTING.md#list-a-project-in-the-hub). When you submit, a bot runs the first six on GitHub and comments with the result; a person checks the seventh within 7 days. No djazair.dev account needed."
+  - type: input
+    id: repository
+    attributes:
+      label: Repository
+      description: "The public GitHub repository, as owner/name."
+      placeholder: owner/name
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: "app: something people use. library: code other programs use. tool: something developers use. dataset: data."
+      options: [app, library, tool, dataset]
+    validations:
+      required: true
+  - type: dropdown
+    id: tags
+    attributes:
+      label: Tags
+      description: "How the project relates to Algeria: pick one to five. CONTRIBUTING.md explains each."
+      multiple: true
+      options: [algerian-maintainers, arabic, darija, tamazight, localisation, open-data, public-services, payments, education, maps, health, transport, agriculture, accessibility, community]
+    validations:
+      required: true
+  - type: textarea
+    id: relevance
+    attributes:
+      label: How does the project relate to Algeria?
+      description: "Who maintains it, or what it does for people in Algeria. A person reads this for check 7."
+    validations:
+      required: true
+  - type: checkboxes
+    id: pledge
+    attributes:
+      label: Maintainer pledge
+      options:
+        - label: "I maintain this repository, and its maintainers will reply to newcomer pull requests within 7 days."
+          required: true
+  - type: checkboxes
+    id: topic
+    attributes:
+      label: GitHub topic
+      description: "Only maintainers can add topics, so the topic shows the request is yours."
+      options:
+        - label: "The repository has the topic djazairdev (About → Topics on the repository page)."
+          required: true

@@ -1,0 +1,70 @@
+# Runs the Hub inclusion checks on a listing request and comments with the result
+# (PRD HUB-02, HUB-03): on a pull request that changes projects.yml, and on an issue made
+# with the "List a project in the Hub" form. The comment is updated when the checks run again.
+#
+# Pull requests use pull_request_target so a comment can be posted on pull requests from
+# forks. The job runs the base branch's code only: the pull request's projects.yml is read
+# through the API as data and parsed by hub/miniyaml.py; nothing from the pull request runs.
+name: Hub listing check
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, edited]
+    paths: [projects.yml]
+  issues:
+    types: [opened, edited, labeled]
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: hub-listing-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
+jobs:
+  pull-request:
+    name: listing-check
+    if: github.event_name == 'pull_request_target'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7          # the base branch, never the pull request's code
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Read the proposed projects.yml
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          gh api "repos/${HEAD_REPO}/contents/projects.yml?ref=${HEAD_SHA}" \
+            -H 'Accept: application/vnd.github.raw' > "$RUNNER_TEMP/projects.yml"
+      - name: Run the inclusion checks
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          NUMBER: ${{ github.event.pull_request.number }}
+        run: python -m hub check-submission --proposed "$RUNNER_TEMP/projects.yml" --post-to "$NUMBER"
+
+  issue:
+    name: listing-check
+    if: github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'hub listing')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+      - name: Run the inclusion checks
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          NUMBER: ${{ github.event.issue.number }}
+        run: python -m hub check-issue --post-to "$NUMBER"
