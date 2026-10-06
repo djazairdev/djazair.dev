@@ -3,6 +3,7 @@
     fetch       archive the latest Innovation Graph release if it is new
     validate    check an archived release (the latest by default)
     population  refresh the World Bank population cache (data/population.json)
+    revisions   list past values a release changed, against the release before it
 """
 from __future__ import annotations
 
@@ -10,7 +11,7 @@ import argparse
 import os
 import sys
 
-from . import population, release
+from . import population, release, revisions
 from .config import RAW_DIR
 from .run import ValidationFailed, process
 
@@ -67,6 +68,24 @@ def cmd_population(args) -> int:
     return 0
 
 
+def cmd_revisions(args) -> int:
+    archive = pick(args.release)
+    found = release.archives(RAW_DIR)
+    earlier = [a for a in found if a.meta['date'] < archive.meta['date']]
+    if not earlier:
+        print(f'{archive.commit[:12]} is the first archived release: nothing to compare.')
+        _output(revisions='false')
+        return 0
+    report = revisions.compare(earlier[-1], archive)
+    body = report.markdown()
+    print(body)
+    if args.report:
+        with open(args.report, 'w', encoding='utf-8') as f:
+            f.write(body)
+    _output(revisions='true' if report.found else 'false')
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog='python3 -m pipeline', description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -77,6 +96,10 @@ def main(argv=None) -> int:
     v.add_argument('--report', type=str, help='also write the report, as Markdown, to this file')
     v.set_defaults(run=cmd_validate)
     sub.add_parser('population', help='refresh the World Bank population cache').set_defaults(run=cmd_population)
+    r = sub.add_parser('revisions', help='list past values a release changed')
+    r.add_argument('--release', default='latest', help='commit of an archived release (default: the latest)')
+    r.add_argument('--report', type=str, help='also write the report, as Markdown, to this file')
+    r.set_defaults(run=cmd_revisions)
     args = parser.parse_args(argv)
     return args.run(args)
 
