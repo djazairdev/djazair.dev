@@ -7,6 +7,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 import unittest
 from pathlib import Path
 
@@ -118,6 +119,25 @@ class Alerts(unittest.TestCase):
         self.assertIn('[Site down] [--body-file]', self.calls()[1])
 
 
+def run_commands(text: str):
+    """(line number, shell script) of every ``run:`` in a workflow, block scalars included."""
+    lines = text.splitlines()
+    for i, line in enumerate(lines):
+        m = re.match(r'^(\s*)(?:- )?run: (.*)$', line)
+        if not m:
+            continue
+        indent, value = len(m.group(1)), m.group(2).strip()
+        if value not in ('|', '>'):
+            yield i + 1, value
+            continue
+        block = []
+        for nxt in lines[i + 1:]:
+            if nxt.strip() and len(nxt) - len(nxt.lstrip()) <= indent:
+                break
+            block.append(nxt)
+        yield i + 1, textwrap.dedent('\n'.join(block))
+
+
 class Workflows(unittest.TestCase):
     ALERTS = {'data.yml': ('data-failed.sh', 'Data update failed'), 'hub.yml': ('hub-failed.sh', 'Hub sync failed'),
               'uptime.yml': ('uptime-failed.sh', 'Site down')}
@@ -146,6 +166,15 @@ class Workflows(unittest.TestCase):
                 first = min(text.index(s) for s in ('- name: Fetch', '- name: Get the last snapshot', '- name: Check\n')
                             if s in text)
                 self.assertLess(step, first, 'it fails before doing anything')
+
+    @unittest.skipUnless(shutil.which('bash'), 'needs bash')
+    def test_every_run_command_is_valid_bash(self):
+        for path in sorted(WORKFLOWS.glob('*.yml')):
+            for n, command in run_commands(path.read_text()):
+                with self.subTest(workflow=path.name, line=n):
+                    script = re.sub(r'\$\{\{.*?\}\}', 'X', command)      # GitHub fills these in first
+                    check = subprocess.run(['bash', '-n'], input=script, capture_output=True, text=True)
+                    self.assertEqual(check.returncode, 0, check.stderr + script)
 
     def test_uptime_every_30_minutes_from_github(self):
         text = (WORKFLOWS / 'uptime.yml').read_text()
