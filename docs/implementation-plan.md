@@ -1,0 +1,193 @@
+# MVP implementation plan
+
+**Version 1 · 6 October 2026.** Launch by **30 November 2026**; scope checkpoint on **15 November 2026**. Progress is tracked in [#1](https://github.com/djazairdev/djazair.dev/issues/1) and the milestones below.
+
+This plan turns the PRD (v0.2, 6 October 2026) into ordered, estimated tickets. Every ticket is a GitHub issue, and every designed page is attached to the ticket that builds it ([section 5](#5-designs-and-their-tickets)).
+
+## 1. Changes from the PRD
+
+**French is out of the MVP (decision D20, 6 October 2026).** The site launches in English and Arabic. This replaces D12 and the French parts of §3.3, §6.2, §11 and AC-IDX-6, and the translation reviewers in R2 are needed for Arabic only. The designs no longer show French: the language switcher offers **EN · ع**. Removing French saves about two developer-days (strings, number formats, review and testing).
+
+**Should items are planned for Phase 1.1 from the start.** The Topics, Collaboration and External rankings pages, Hub ideas and the localisation section don't fit the capacity below. They come back into the MVP only if the work is ahead at the checkpoint. Quarterly report #1 stays in the MVP as a Should item because the launch is built around it.
+
+## 2. How it is built
+
+```
+github/innovationgraph (CC0) ─ daily ─►  pipeline/ (Python 3.12) ─► data/raw/<sha>/      archived, checksummed
+                                                  │                 data/derived/<yyyy-qN>/  CSV + JSON (CC0)
+GitHub REST API ─ every 6 h ─────────►  hub/ (Python 3.12) ──────► data/derived/hub/
+                                                  │
+                                                  ▼
+                         site/ (Astro, /en/ + /ar/, build-time SVG charts) ─► Cloudflare Pages ─► djazair.dev
+```
+
+| Part | Choice | Why |
+|---|---|---|
+| Site | Astro, static output, `/en/` and `/ar/` | Built-in i18n routing, no client JavaScript by default; small scripts only for the Trends and Hub interactions (PRD §10) |
+| Charts | SVG rendered at build time, light and dark downloads | Readable without JavaScript and light on 4G (§11) |
+| Data | Python 3.12 pipeline → `data/derived/` | Reproducible and testable against Appendix A (§9) |
+| Hub | Python job every 6 h → `data/derived/hub/`; registry in `projects.yml` | No database, no accounts (§7.2) |
+| Hosting | Cloudflare Pages, deployed by GitHub Actions only when everything passes | The last good build stays live (§11) |
+| Analytics | Cloudflare Web Analytics | No cookies, no personal data (§12) |
+
+## 3. Schedule
+
+Capacity at about 30 hours a week is roughly **3.75 developer-days a week**, or **29.5 days** between 7 October and 30 November. The Must tickets add up to **25.5 days** and report #1 to **1.5**, which leaves about **2.5 days** of slack. Estimates are rough; compare them with actual time after M1 and apply the checkpoint cuts early if the work runs more than 20% over. Non-development work (Hub recruitment, the Arabic reviewer, the second admin) runs alongside and isn't counted.
+
+| Milestone | Due | Tickets | Days |
+|---|---|---|--:|
+| **M1 · Foundations**<br>Site shell in English and Arabic, design tokens, components, chart kit, CI and deploys. | 2026-10-18 | [#2](https://github.com/djazairdev/djazair.dev/issues/2), [#3](https://github.com/djazairdev/djazair.dev/issues/3), [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#6](https://github.com/djazairdev/djazair.dev/issues/6), [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#8](https://github.com/djazairdev/djazair.dev/issues/8) | 6.25 |
+| **M2 · Data pipeline and Hub registry**<br>Innovation Graph ingestion, validation, indicators and tests; the Hub registry and submission checks, so projects can apply early. | 2026-10-28 | [#9](https://github.com/djazairdev/djazair.dev/issues/9), [#10](https://github.com/djazairdev/djazair.dev/issues/10), [#11](https://github.com/djazairdev/djazair.dev/issues/11), [#12](https://github.com/djazairdev/djazair.dev/issues/12), [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#14](https://github.com/djazairdev/djazair.dev/issues/14), [#15](https://github.com/djazairdev/djazair.dev/issues/15), [#16](https://github.com/djazairdev/djazair.dev/issues/16) | 5.25 |
+| **M3 · Index pages**<br>Home, Overview, Trends, Peers, Languages, Methodology, About and Data, ready before the 15 November scope checkpoint. | 2026-11-13 | [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#18](https://github.com/djazairdev/djazair.dev/issues/18), [#19](https://github.com/djazairdev/djazair.dev/issues/19), [#20](https://github.com/djazairdev/djazair.dev/issues/20), [#21](https://github.com/djazairdev/djazair.dev/issues/21), [#22](https://github.com/djazairdev/djazair.dev/issues/22), [#23](https://github.com/djazairdev/djazair.dev/issues/23), [#24](https://github.com/djazairdev/djazair.dev/issues/24) | 8.25 |
+| **M4 · Hub feed and page**<br>Six-hourly sync, daily health checks, the Hub page and at least 15 listed projects. | 2026-11-20 | [#25](https://github.com/djazairdev/djazair.dev/issues/25), [#26](https://github.com/djazairdev/djazair.dev/issues/26), [#27](https://github.com/djazairdev/djazair.dev/issues/27), [#28](https://github.com/djazairdev/djazair.dev/issues/28) | 2.75 |
+| **M5 · Launch**<br>Accessibility and performance passes, Arabic sign-off, latest data, quarterly report #1 and go-live. | 2026-11-30 | [#29](https://github.com/djazairdev/djazair.dev/issues/29), [#30](https://github.com/djazairdev/djazair.dev/issues/30), [#31](https://github.com/djazairdev/djazair.dev/issues/31), [#32](https://github.com/djazairdev/djazair.dev/issues/32), [#33](https://github.com/djazairdev/djazair.dev/issues/33), [#34](https://github.com/djazairdev/djazair.dev/issues/34), [#35](https://github.com/djazairdev/djazair.dev/issues/35) | 4.5 |
+| **Phase 1.1**<br>After launch: the Should and Could items not pulled in at the checkpoint, plus the meetups section. | 2027-02-26 | [#36](https://github.com/djazairdev/djazair.dev/issues/36), [#37](https://github.com/djazairdev/djazair.dev/issues/37), [#38](https://github.com/djazairdev/djazair.dev/issues/38), [#39](https://github.com/djazairdev/djazair.dev/issues/39), [#40](https://github.com/djazairdev/djazair.dev/issues/40), [#41](https://github.com/djazairdev/djazair.dev/issues/41), [#42](https://github.com/djazairdev/djazair.dev/issues/42), [#43](https://github.com/djazairdev/djazair.dev/issues/43) | 6.25 |
+
+The Hub registry and submission checks sit in M2, before the pages, so maintainers can apply during November while the rest is built.
+
+## 4. Tickets
+
+### M1 · Foundations (due 2026-10-18)
+
+| # | Ticket | Priority | Days | Depends on | Design |
+|--:|---|---|--:|---|---|
+| [#2](https://github.com/djazairdev/djazair.dev/issues/2) | Set up the site: Astro, English and Arabic routes, page shell | Must | 1 | — | [Home — English, desktop](design/home-en-desktop.png), [Home — Arabic, desktop](design/home-ar-desktop.png) |
+| [#3](https://github.com/djazairdev/djazair.dev/issues/3) | Implement the design tokens, fonts and base styles | Must | 0.5 | [#2](https://github.com/djazairdev/djazair.dev/issues/2) | [Foundations — colour, type, grid, motif](design/system-foundations.png) |
+| [#4](https://github.com/djazairdev/djazair.dev/issues/4) | Build the core components | Must | 1.5 | [#3](https://github.com/djazairdev/djazair.dev/issues/3) | [Components, charts and motion](design/system-components.png) |
+| [#5](https://github.com/djazairdev/djazair.dev/issues/5) | Set up interface strings and number formatting | Must | 0.75 | [#2](https://github.com/djazairdev/djazair.dev/issues/2) | [Overview — Arabic, desktop](design/overview-ar-desktop.png), [Overview — Arabic, phone](design/overview-ar-phone.png) |
+| [#6](https://github.com/djazairdev/djazair.dev/issues/6) | Set up CI, deploys and repository protection | Must | 0.75 | [#2](https://github.com/djazairdev/djazair.dev/issues/2) | — |
+| [#7](https://github.com/djazairdev/djazair.dev/issues/7) | Build the chart kit | Must | 1.5 | [#3](https://github.com/djazairdev/djazair.dev/issues/3) | [Components, charts and motion](design/system-components.png), [Trends — desktop](design/trends-en-desktop.png) |
+| [#8](https://github.com/djazairdev/djazair.dev/issues/8) | Remove French from the README, CONTRIBUTING, site README and holding page | Must | 0.25 | — | — |
+
+### M2 · Data pipeline and Hub registry (due 2026-10-28)
+
+| # | Ticket | Priority | Days | Depends on | Design |
+|--:|---|---|--:|---|---|
+| [#9](https://github.com/djazairdev/djazair.dev/issues/9) | Detect, download and archive Innovation Graph releases | Must | 0.75 | — | — |
+| [#10](https://github.com/djazairdev/djazair.dev/issues/10) | Validate releases and fail safely | Must | 0.5 | [#9](https://github.com/djazairdev/djazair.dev/issues/9) | — |
+| [#11](https://github.com/djazairdev/djazair.dev/issues/11) | Compute the indicators for every economy | Must | 1.25 | [#10](https://github.com/djazairdev/djazair.dev/issues/10) | — |
+| [#12](https://github.com/djazairdev/djazair.dev/issues/12) | Add regression tests against the Q1 2026 baseline | Must | 0.5 | [#11](https://github.com/djazairdev/djazair.dev/issues/11) | — |
+| [#13](https://github.com/djazairdev/djazair.dev/issues/13) | Publish derived data as CSV and JSON | Must | 0.5 | [#11](https://github.com/djazairdev/djazair.dev/issues/11) | — |
+| [#14](https://github.com/djazairdev/djazair.dev/issues/14) | Schedule the pipeline and rebuild on new data | Must | 0.25 | [#6](https://github.com/djazairdev/djazair.dev/issues/6), [#12](https://github.com/djazairdev/djazair.dev/issues/12), [#13](https://github.com/djazairdev/djazair.dev/issues/13) | — |
+| [#15](https://github.com/djazairdev/djazair.dev/issues/15) | Define the Hub registry schema | Must | 0.25 | [#6](https://github.com/djazairdev/djazair.dev/issues/6) | — |
+| [#16](https://github.com/djazairdev/djazair.dev/issues/16) | Add the Hub submission flow and inclusion checks | Must | 1.25 | [#15](https://github.com/djazairdev/djazair.dev/issues/15) | [Hub — desktop](design/hub-en-desktop.png), [Hub — phone](design/hub-en-phone.png) |
+
+### M3 · Index pages (due 2026-11-13)
+
+| # | Ticket | Priority | Days | Depends on | Design |
+|--:|---|---|--:|---|---|
+| [#17](https://github.com/djazairdev/djazair.dev/issues/17) | Design the remaining MVP pages | Must | 0.25 | — | — |
+| [#18](https://github.com/djazairdev/djazair.dev/issues/18) | Build the Home page | Must | 1.5 | [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13) | [Home — English, desktop](design/home-en-desktop.png), [Home — English, phone](design/home-en-phone.png), [Home — Arabic, desktop](design/home-ar-desktop.png), [Home — Arabic, phone](design/home-ar-phone.png) |
+| [#19](https://github.com/djazairdev/djazair.dev/issues/19) | Build the Index overview page | Must | 1.25 | [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13) | [Overview — English, desktop](design/overview-en-desktop.png), [Overview — English, phone](design/overview-en-phone.png), [Overview — Arabic, desktop](design/overview-ar-desktop.png), [Overview — Arabic, phone](design/overview-ar-phone.png) |
+| [#20](https://github.com/djazairdev/djazair.dev/issues/20) | Build the Trends page | Must | 1.5 | [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | [Trends — desktop](design/trends-en-desktop.png), [Trends — phone](design/trends-en-phone.png) |
+| [#21](https://github.com/djazairdev/djazair.dev/issues/21) | Build the Peers page | Must | 0.75 | [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#19](https://github.com/djazairdev/djazair.dev/issues/19) | Pending |
+| [#22](https://github.com/djazairdev/djazair.dev/issues/22) | Build the Languages page | Must | 0.5 | [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | Pending |
+| [#23](https://github.com/djazairdev/djazair.dev/issues/23) | Build the Methodology and About pages | Must | 1.75 | [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | [Methodology — desktop](design/methodology-en-desktop.png), [Methodology — phone](design/methodology-en-phone.png) |
+| [#24](https://github.com/djazairdev/djazair.dev/issues/24) | Build the Data page: downloads, changelog and corrections | Must | 0.75 | [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | Pending |
+
+### M4 · Hub feed and page (due 2026-11-20)
+
+| # | Ticket | Priority | Days | Depends on | Design |
+|--:|---|---|--:|---|---|
+| [#25](https://github.com/djazairdev/djazair.dev/issues/25) | Sync Hub projects and issues every 6 hours | Must | 0.75 | [#6](https://github.com/djazairdev/djazair.dev/issues/6), [#15](https://github.com/djazairdev/djazair.dev/issues/15) | — |
+| [#26](https://github.com/djazairdev/djazair.dev/issues/26) | Run daily Hub health checks | Must | 0.5 | [#25](https://github.com/djazairdev/djazair.dev/issues/25) | — |
+| [#27](https://github.com/djazairdev/djazair.dev/issues/27) | Build the Hub page | Must | 1.25 | [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#25](https://github.com/djazairdev/djazair.dev/issues/25) | [Hub — desktop](design/hub-en-desktop.png), [Hub — phone](design/hub-en-phone.png) |
+| [#28](https://github.com/djazairdev/djazair.dev/issues/28) | Seed the Hub with at least 15 projects | Must | 0.25 | [#16](https://github.com/djazairdev/djazair.dev/issues/16) | — |
+
+### M5 · Launch (due 2026-11-30)
+
+| # | Ticket | Priority | Days | Depends on | Design |
+|--:|---|---|--:|---|---|
+| [#29](https://github.com/djazairdev/djazair.dev/issues/29) | Accessibility pass | Must | 0.75 | [#18](https://github.com/djazairdev/djazair.dev/issues/18), [#19](https://github.com/djazairdev/djazair.dev/issues/19), [#20](https://github.com/djazairdev/djazair.dev/issues/20), [#27](https://github.com/djazairdev/djazair.dev/issues/27) | — |
+| [#30](https://github.com/djazairdev/djazair.dev/issues/30) | Performance pass | Must | 0.5 | [#18](https://github.com/djazairdev/djazair.dev/issues/18), [#19](https://github.com/djazairdev/djazair.dev/issues/19), [#20](https://github.com/djazairdev/djazair.dev/issues/20), [#27](https://github.com/djazairdev/djazair.dev/issues/27) | — |
+| [#31](https://github.com/djazairdev/djazair.dev/issues/31) | Add search and sharing metadata | Must | 0.25 | [#2](https://github.com/djazairdev/djazair.dev/issues/2) | — |
+| [#32](https://github.com/djazairdev/djazair.dev/issues/32) | Add analytics, uptime checks and failure alerts | Must | 0.25 | [#14](https://github.com/djazairdev/djazair.dev/issues/14), [#25](https://github.com/djazairdev/djazair.dev/issues/25) | — |
+| [#33](https://github.com/djazairdev/djazair.dev/issues/33) | Review and sign off the Arabic text | Must | 0.25 | [#18](https://github.com/djazairdev/djazair.dev/issues/18), [#19](https://github.com/djazairdev/djazair.dev/issues/19), [#23](https://github.com/djazairdev/djazair.dev/issues/23), [#27](https://github.com/djazairdev/djazair.dev/issues/27) | — |
+| [#34](https://github.com/djazairdev/djazair.dev/issues/34) | Write and publish quarterly report #1 | Should | 1.5 | [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#33](https://github.com/djazairdev/djazair.dev/issues/33) | Pending |
+| [#35](https://github.com/djazairdev/djazair.dev/issues/35) | Launch | Must | 1 | [#21](https://github.com/djazairdev/djazair.dev/issues/21), [#22](https://github.com/djazairdev/djazair.dev/issues/22), [#24](https://github.com/djazairdev/djazair.dev/issues/24), [#28](https://github.com/djazairdev/djazair.dev/issues/28), [#29](https://github.com/djazairdev/djazair.dev/issues/29), [#30](https://github.com/djazairdev/djazair.dev/issues/30), [#31](https://github.com/djazairdev/djazair.dev/issues/31), [#32](https://github.com/djazairdev/djazair.dev/issues/32), [#33](https://github.com/djazairdev/djazair.dev/issues/33) | — |
+
+### Phase 1.1 (due 2027-02-26)
+
+| # | Ticket | Priority | Days | Depends on | Design |
+|--:|---|---|--:|---|---|
+| [#36](https://github.com/djazairdev/djazair.dev/issues/36) | Build the Topics page | Should | 0.75 | — | — |
+| [#37](https://github.com/djazairdev/djazair.dev/issues/37) | Build the Collaboration page | Should | 0.75 | — | — |
+| [#38](https://github.com/djazairdev/djazair.dev/issues/38) | Build the External rankings page (GDC26) | Should | 0.75 | — | — |
+| [#39](https://github.com/djazairdev/djazair.dev/issues/39) | Open Hub ideas in GitHub Discussions | Should | 0.5 | — | — |
+| [#40](https://github.com/djazairdev/djazair.dev/issues/40) | Add the Hub localisation section | Should | 0.5 | — | — |
+| [#41](https://github.com/djazairdev/djazair.dev/issues/41) | Publish Hub contributor metrics | Should | 1 | — | — |
+| [#42](https://github.com/djazairdev/djazair.dev/issues/42) | Add embeddable charts and share images | Could | 1 | — | — |
+| [#43](https://github.com/djazairdev/djazair.dev/issues/43) | Move founders.coffee under djazair.dev | Should | 1 | — | — |
+
+## 5. Designs and their tickets
+
+The images in [`docs/design/`](design/) are exported from the djazair.dev design canvas, where the boards stay the source of truth. Each issue shows the first screen and links the full pages.
+
+| Board | Image | Ticket |
+|---|---|---|
+| Home — English, desktop | [home-en-desktop.png](design/home-en-desktop.png) | [#18](https://github.com/djazairdev/djazair.dev/issues/18) (also [#2](https://github.com/djazairdev/djazair.dev/issues/2)) |
+| Home — English, phone | [home-en-phone.png](design/home-en-phone.png) | [#18](https://github.com/djazairdev/djazair.dev/issues/18) |
+| Home — Arabic, desktop | [home-ar-desktop.png](design/home-ar-desktop.png) | [#18](https://github.com/djazairdev/djazair.dev/issues/18) (also [#2](https://github.com/djazairdev/djazair.dev/issues/2)) |
+| Home — Arabic, phone | [home-ar-phone.png](design/home-ar-phone.png) | [#18](https://github.com/djazairdev/djazair.dev/issues/18) |
+| Overview — English, desktop | [overview-en-desktop.png](design/overview-en-desktop.png) | [#19](https://github.com/djazairdev/djazair.dev/issues/19) |
+| Overview — English, phone | [overview-en-phone.png](design/overview-en-phone.png) | [#19](https://github.com/djazairdev/djazair.dev/issues/19) |
+| Overview — Arabic, desktop | [overview-ar-desktop.png](design/overview-ar-desktop.png) | [#19](https://github.com/djazairdev/djazair.dev/issues/19) (also [#5](https://github.com/djazairdev/djazair.dev/issues/5)) |
+| Overview — Arabic, phone | [overview-ar-phone.png](design/overview-ar-phone.png) | [#19](https://github.com/djazairdev/djazair.dev/issues/19) (also [#5](https://github.com/djazairdev/djazair.dev/issues/5)) |
+| Trends — desktop | [trends-en-desktop.png](design/trends-en-desktop.png) | [#20](https://github.com/djazairdev/djazair.dev/issues/20) (also [#7](https://github.com/djazairdev/djazair.dev/issues/7)) |
+| Trends — phone | [trends-en-phone.png](design/trends-en-phone.png) | [#20](https://github.com/djazairdev/djazair.dev/issues/20) |
+| Hub — desktop | [hub-en-desktop.png](design/hub-en-desktop.png) | [#27](https://github.com/djazairdev/djazair.dev/issues/27) (also [#16](https://github.com/djazairdev/djazair.dev/issues/16)) |
+| Hub — phone | [hub-en-phone.png](design/hub-en-phone.png) | [#27](https://github.com/djazairdev/djazair.dev/issues/27) (also [#16](https://github.com/djazairdev/djazair.dev/issues/16)) |
+| Methodology — desktop | [methodology-en-desktop.png](design/methodology-en-desktop.png) | [#23](https://github.com/djazairdev/djazair.dev/issues/23) |
+| Methodology — phone | [methodology-en-phone.png](design/methodology-en-phone.png) | [#23](https://github.com/djazairdev/djazair.dev/issues/23) |
+| Foundations — colour, type, grid, motif | [system-foundations.png](design/system-foundations.png) | [#3](https://github.com/djazairdev/djazair.dev/issues/3) |
+| Components, charts and motion | [system-components.png](design/system-components.png) | [#4](https://github.com/djazairdev/djazair.dev/issues/4) (also [#7](https://github.com/djazairdev/djazair.dev/issues/7)) |
+| State: Indexed to 2020 Q1 = 100, Morocco brought forward, crosshair on 2024 Q2 | [trends-en-desktop-indexed-morocco.png](design/trends-en-desktop-indexed-morocco.png) | [#20](https://github.com/djazairdev/djazair.dev/issues/20) |
+| State: Pushes per account, Kenya brought forward, crosshair on 2021 Q3 | [trends-en-desktop-pushes-kenya.png](design/trends-en-desktop-pushes-kenya.png) | [#20](https://github.com/djazairdev/djazair.dev/issues/20) |
+| State: Filtered: good first issue + Markdown | [hub-en-desktop-filtered.png](design/hub-en-desktop-filtered.png) | [#27](https://github.com/djazairdev/djazair.dev/issues/27) |
+| State: Search: "kotlin" | [hub-en-desktop-search.png](design/hub-en-desktop-search.png) | [#27](https://github.com/djazairdev/djazair.dev/issues/27) |
+
+Pages without a design yet (Peers, Languages, Data, About, the report page, 404, and Arabic boards for Trends, Hub and Methodology) are covered by [#17](https://github.com/djazairdev/djazair.dev/issues/17).
+
+## 6. Definition of done
+
+Every MVP ticket that ships a page or feature also meets these:
+
+1. **English and Arabic.** Correct `lang` and `dir`; the layout mirrors in Arabic; numbers use `en` or `ar-DZ` (Western digits); chart time axes stay left to right and maps are never mirrored.
+2. **Matches the design** at 390 px and 1440 px and holds up in between. Phones never scroll sideways; wide tables scroll inside their card.
+3. **Every number shows its source and data quarter** (IDX-13).
+4. **Accessible:** keyboard operable with visible focus, a data table for every chart, WCAG AA contrast, and no motion under reduced motion.
+5. **Works without JavaScript;** interactions only enhance the page.
+6. **Within budget:** ≤ 300 KB compressed per page excluding fonts; Overview LCP ≤ 2.5 s on a mid-range Android phone over 4G.
+7. **Editorial rules:** "developer accounts" in headlines, group medians before single neighbours, and no claim GitHub didn't make.
+8. **No personal data;** Hub cards never show usernames.
+9. **Tested:** data logic has unit tests and CI is green.
+
+## 7. Scope checkpoint, 15 November
+
+M3 should be finished by the checkpoint. If it isn't, the launch keeps its date and these move out, in this order:
+
+1. Report #1 shrinks to a short note, or moves to Phase 1.1 with report #2.
+2. Motion polish beyond the defaults (scroll-linked drawing, the ticker).
+3. The Languages chart ships as a table first.
+4. Peers sorting ships as a fixed order.
+
+If the work is ahead, Phase 1.1 Should tickets come in, in this order: Topics, External rankings, Collaboration, Hub ideas, localisation section.
+
+## 8. Risks to the plan
+
+| Risk | Mitigation |
+|---|---|
+| Little slack (about 2.5 days) | Velocity check after M1; checkpoint cuts are agreed in advance (section 7) |
+| The Q2 2026 release slips past launch | Launch with Q1 2026 data and update when Q2 lands (PRD §1) |
+| No Arabic reviewer by November | Line one up in October (R2); unreviewed strings fall back to English with a notice |
+| The Hub launches with fewer than 15 projects | Submission checks ship in M2 so recruitment runs all of November; seed ticket tracks every invitation |
+| Design drift between canvas and code | Tokens come from one table; designs are re-exported here when a board changes |
+
+## 9. Keeping this plan current
+
+- Ticket status lives in GitHub. This file changes only when scope, estimates or dates change; note each change below.
+- When a board changes on the design canvas, re-export it to `docs/design/` with the same file name so the issues update.
+
+| Date | Change |
+|---|---|
+| 6 October 2026 | Version 1. French removed from the MVP (D20). |
