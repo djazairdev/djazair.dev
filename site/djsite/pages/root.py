@@ -11,6 +11,7 @@ from __future__ import annotations
 from ..config import SITE_URL, THEME_COLOR
 from ..context import Site
 from ..icons import mark, wordmark
+from ..layout import social
 from ..markup import esc
 
 REDIRECT_JS = (
@@ -25,7 +26,9 @@ REDIRECT_JS = (
 def render(site: Site) -> str:
     cat = site.catalog
     en_tag, ar_tag = esc(cat.lookup('en', 'site.tagline')[0]), esc(cat.lookup('ar', 'site.tagline')[0])
-    desc = esc(cat.lookup('en', 'site.description')[0])
+    desc = esc(cat.lookup('en', 'pages.home.description')[0])
+    share = social(site, 'en', f"djazair.dev · {cat.lookup('en', 'site.tagline')[0]}", cat.lookup('en', 'pages.home.description')[0],
+                   SITE_URL + '/', cat.lookup('en', 'share.alt')[0])
     return f'''<!doctype html>
 <html lang="en" dir="ltr">
 <head>
@@ -38,6 +41,7 @@ def render(site: Site) -> str:
 <link rel="alternate" hreflang="en" href="{SITE_URL}/en/">
 <link rel="alternate" hreflang="ar" href="{SITE_URL}/ar/">
 <link rel="alternate" hreflang="x-default" href="{SITE_URL}/">
+{share}
 <meta name="theme-color" content="{THEME_COLOR}">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">

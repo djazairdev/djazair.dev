@@ -36,8 +36,14 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `static/fonts/` | Self-hosted Tajawal and JetBrains Mono woff2 subsets, with their licences (SIL OFL 1.1) |
 | `tools/fetch_fonts.py` | Re-downloads the fonts and writes `static/css/05-fonts.css`; only needed to update them |
 | `tools/make_outline.py` | Rebuilds `geo/algeria.json` from Natural Earth (public domain); only needed to change the outline |
+| `tools/share.py`, `static/share/` | Draws the share images (1200 × 630, one per language) in Chrome; only needed to change them |
+| `tools/perf.py` | Measures load times in Chrome on a throttled phone profile ([docs/performance.md](../docs/performance.md)) |
 | `djsite/palette.py` | Chart colours: dark (the page, equal to the tokens) and light, for downloads |
 | `holding/` | The pre-launch page served at djazair.dev until launch |
+
+## Search and sharing
+
+Every page has its own title and description, a canonical link and `hreflang` links to both languages; Home's `x-default` is `/`, the language chooser. Shared links show an Open Graph and X card with the page's title and description and the share image in the page's language. The build writes `sitemap.xml`, with both languages of every page, and `robots.txt`, which points to it. A placeholder page (`pages/stub.py`) and the 404 page carry `noindex` and stay out of the sitemap. `tests/test_seo.py` checks all of it.
 
 ## Design tokens
 

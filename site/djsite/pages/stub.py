@@ -13,4 +13,5 @@ def render(ctx: Ctx) -> Page:
     link = Markup(f'<a class="lnk" href="{ISSUES_URL}/{n}" dir="ltr">#{n}</a>')
     body = page_head(eyebrow_text=ctx.t('stub.eyebrow'), title=ctx.t(f'pages.{key}.title'),
                      lede=ctx.t('stub.lede', issue=link))
-    return Page(title=ctx.s(f'pages.{key}.title'), description=ctx.s(f'pages.{key}.description'), body=body)
+    return Page(title=ctx.s(f'pages.{key}.title'), description=ctx.s(f'pages.{key}.description'), body=body,
+                indexed=False)

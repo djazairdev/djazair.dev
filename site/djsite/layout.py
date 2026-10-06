@@ -1,7 +1,7 @@
 """The page shell: document head, skip link, header, Index sub-nav, notices and footer."""
 from __future__ import annotations
 
-from .config import LANGS, OTHER, REPO_URL, SITE_URL, THEME_COLOR
+from .config import LANGS, OG_LOCALES, OTHER, REPO_URL, SITE_URL, THEME_COLOR
 from .context import Ctx, Page
 from .icons import icon, mark, wordmark
 from .markup import Markup, esc, join
@@ -112,15 +112,35 @@ def notices(ctx: Ctx) -> Markup:
     return Markup(f'<div class="notice" role="note"><div class="container">{body}</div></div>')
 
 
-def head_links(ctx: Ctx) -> Markup:
-    """Canonical and hreflang links (skipped for pages that aren't indexed)."""
-    if not ctx.route.indexed:
+def head_links(ctx: Ctx, page: Page) -> Markup:
+    """Canonical and hreflang links, or noindex for pages kept out of search."""
+    if not (ctx.route.indexed and page.indexed):
         return Markup('<meta name="robots" content="noindex">')
     key = ctx.route.key
     alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ctx.abs_url(key, l)}">' for l in LANGS)
     x_default = SITE_URL + '/' if key == 'home' else ctx.abs_url(key, 'en')
     return Markup(f'<link rel="canonical" href="{ctx.abs_url(key)}">{alts}'
                   f'<link rel="alternate" hreflang="x-default" href="{x_default}">')
+
+
+def social(site, lang: str, title: str, description: str, url: str, image_alt: str) -> Markup:
+    """Open Graph and X card tags: what a shared link shows. One image per language."""
+    image = site.assets.share.get(lang)
+    tags = [('og:type', 'website'), ('og:site_name', 'djazair.dev'), ('og:title', title), ('og:description', description),
+            ('og:url', url), ('og:locale', OG_LOCALES[lang]), ('og:locale:alternate', OG_LOCALES[OTHER[lang]])]
+    if image:
+        tags += [('og:image', SITE_URL + image), ('og:image:width', '1200'), ('og:image:height', '630'),
+                 ('og:image:alt', image_alt)]
+    out = ''.join(f'<meta property="{name}" content="{esc(value)}">' for name, value in tags)
+    return Markup(out + f'<meta name="twitter:card" content="{"summary_large_image" if image else "summary"}">')
+
+
+def share_tags(ctx: Ctx, page: Page, title: str) -> Markup:
+    if not (ctx.route.indexed and page.indexed):
+        return Markup('')
+    # Shared links name the site separately (og:site_name), so the title drops " · djazair.dev".
+    return social(ctx.site, ctx.lang, title.removesuffix(' · djazair.dev'), page.description,
+                  ctx.abs_url(ctx.route.key), ctx.s('share.alt'))
 
 
 def full_title(ctx: Ctx, page: Page) -> str:
@@ -146,7 +166,8 @@ def document(ctx: Ctx, page: Page) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(page.description)}">
-{head_links(ctx)}
+{head_links(ctx, page)}
+{share_tags(ctx, page, title)}
 <meta name="theme-color" content="{THEME_COLOR}">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">

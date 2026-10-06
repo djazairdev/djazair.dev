@@ -4,7 +4,7 @@ The `CI` workflow (`.github/workflows/ci.yml`) runs on every pull request and ev
 
 1. **Test**: a syntax check and the unit tests, on Python 3.12 and 3.13.
 2. **Build**: `python site/build.py`, uploaded as the `site` artifact.
-3. **Measure load times**: `python site/perf.py` loads the built pages in Chrome on a throttled phone profile and fails if a page is over its budget ([performance.md](performance.md)). It runs beside the deploy and doesn't hold it up.
+3. **Measure load times**: `python site/tools/perf.py` loads the built pages in Chrome on a throttled phone profile and fails if a page is over its budget ([performance.md](performance.md)). It runs beside the deploy and doesn't hold it up.
 4. **Deploy** to Cloudflare Pages, only after the tests and the build pass, so a failing change never replaces the live site:
    - a push to `main` deploys to the project's production branch (`main`);
    - a pull request from this repository deploys a preview at `pr-<number>.<project>.pages.dev`, linked from the pull request. Pull requests from forks never deploy, because they can't see the secrets.

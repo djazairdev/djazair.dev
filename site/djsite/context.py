@@ -31,6 +31,7 @@ class Page:
     scripts: tuple = ()            # extra script URLs, loaded with defer
     full_title: Optional[str] = None  # overrides "title · djazair.dev"
     head: Markup = Markup('')
+    indexed: bool = True           # False keeps the page out of search and the sitemap (placeholders)
 
 
 @dataclass
@@ -43,6 +44,7 @@ class Site:
     files: dict = field(default_factory=dict)   # generated downloads: URL path -> bytes
     charts: dict = field(default_factory=dict)  # chart id -> {route, title, csv, json}: the Data page lists them
     hub: object = None             # data.Hub: the Hub snapshot
+    indexed: dict = field(default_factory=dict)  # route key -> languages it is indexed in (the sitemap)
 
     def add_file(self, path: str, data: bytes) -> str:
         """Register a generated file, such as a chart download, and return its URL. Pages in

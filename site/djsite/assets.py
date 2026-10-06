@@ -40,6 +40,7 @@ class Assets:
     js: str
     fonts: set = field(default_factory=set)
     scripts: dict = field(default_factory=dict)   # name -> URL of page-specific scripts
+    share: dict = field(default_factory=dict)     # lang -> URL of the 1200 × 630 share image (site/tools/share.py)
 
     def inline_style(self) -> Markup:
         return Markup(f'<style>{self.style}</style>')
@@ -78,5 +79,8 @@ def build(out: Path, extra_css: str = '') -> Assets:
     for path in sorted((STATIC_DIR / 'fonts').glob('*.txt')):   # font licences travel with the fonts
         shutil.copy2(path, out / 'assets' / 'fonts' / path.name)
 
+    share = {path.stem: _write_hashed(out, f'share-{path.stem}', 'png', path.read_bytes())
+             for path in sorted((STATIC_DIR / 'share').glob('*.png'))}
+
     shutil.copy2(STATIC_DIR / 'favicon.svg', out / 'favicon.svg')
-    return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts)
+    return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts, share=share)

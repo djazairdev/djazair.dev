@@ -56,7 +56,7 @@ jobs:
           path: site/dist
           retention-days: 7
 
-  # Load times in Chrome, throttled like Lighthouse's mobile preset (site/perf.py,
+  # Load times in Chrome, throttled like Lighthouse's mobile preset (site/tools/perf.py,
   # docs/performance.md). Fails when a page is over 300 KB or the Overview's LCP is over 2.5 s;
   # it doesn't hold up deploys.
   performance:
@@ -76,7 +76,7 @@ jobs:
         # Ubuntu 24.04 blocks the unprivileged user namespaces Chrome's sandbox needs.
         run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
       - name: Measure
-        run: python site/perf.py --runs 3
+        run: python site/tools/perf.py --runs 3
 
   # Deploys need the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets and the
   # CLOUDFLARE_PAGES_PROJECT variable (docs/deploy.md). Until they exist, deploys are skipped.

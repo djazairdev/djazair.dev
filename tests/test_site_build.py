@@ -54,7 +54,7 @@ class BuiltSite(unittest.TestCase):
                 alternates = {l['hreflang']: l['href'] for l in doc.links if l.get('rel') == 'alternate'}
                 canonical = [l['href'] for l in doc.links if l.get('rel') == 'canonical']
                 with self.subTest(route=route.key, lang=lang):
-                    if not route.indexed:
+                    if not route.indexed or route.render is stub.render:    # placeholders stay out of search
                         self.assertEqual(alternates, {})
                         continue
                     self.assertEqual(set(alternates), {'en', 'ar', 'x-default'})

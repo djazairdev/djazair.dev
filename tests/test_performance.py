@@ -1,7 +1,7 @@
 """Performance budgets that hold without a browser (ticket #30): what each page transfers,
 compressed and fonts apart; nothing render-blocking but the page itself; small, subset fonts
 that swap in; a light unit map; long caching for hashed files. Load times are measured in
-Chrome by site/perf.py (docs/performance.md)."""
+Chrome by site/tools/perf.py (docs/performance.md)."""
 import gzip
 import re
 import shutil
@@ -13,6 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'site'))
+sys.path.insert(0, str(ROOT / 'site' / 'tools'))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import perf  # noqa: E402
@@ -91,7 +92,7 @@ class Budgets(unittest.TestCase):
 
 
 class LocalServer(unittest.TestCase):
-    """site/perf.py serves the site as Cloudflare does: gzipped, with the 404 page."""
+    """site/tools/perf.py serves the site as Cloudflare does: gzipped, with the 404 page."""
 
     def test_gzip_and_404(self):
         tmp = Path(tempfile.mkdtemp())

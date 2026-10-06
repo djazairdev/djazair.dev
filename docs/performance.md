@@ -6,18 +6,18 @@ Many readers in Algeria are on phones and mobile data, so pages stay small and s
 
 | Budget | Applies to | Checked by |
 | --- | --- | --- |
-| Largest Contentful Paint (LCP) ≤ 2.5 s on a mid-range Android phone over 4G | The Index Overview, both languages; other pages are reported | `site/perf.py`, in CI |
-| ≤ 300 KB transferred per page, compressed, fonts apart | Every page | `tests/test_performance.py` and `site/perf.py` |
+| Largest Contentful Paint (LCP) ≤ 2.5 s on a mid-range Android phone over 4G | The Index Overview, both languages; other pages are reported | `site/tools/perf.py`, in CI |
+| ≤ 300 KB transferred per page, compressed, fonts apart | Every page | `tests/test_performance.py` and `site/tools/perf.py` |
 | Nothing blocks the first paint but the page itself | Every page | `tests/test_performance.py` |
 
 ## Measuring load times
 
 ```bash
 python3 site/build.py
-python3 site/perf.py
+python3 site/tools/perf.py
 ```
 
-`site/perf.py` serves `site/dist` gzipped, as the live site is, and loads each page cold in Chrome the way Lighthouse's mobile preset does: a 412 px phone screen, a CPU four times slower and slow 4G (562 ms per request, 1.5 Mbit/s). It reports the median LCP and First Contentful Paint (FCP) of three loads, the bytes transferred and the element that was the LCP. It uses the installed Chrome and the Python standard library only; set `CHROME` to Chrome's path if it isn't found. `--cpu 8` simulates a slower phone.
+`site/tools/perf.py` serves `site/dist` gzipped, as the live site is, and loads each page cold in Chrome the way Lighthouse's mobile preset does: a 412 px phone screen, a CPU four times slower and slow 4G (562 ms per request, 1.5 Mbit/s). It reports the median LCP and First Contentful Paint (FCP) of three loads, the bytes transferred and the element that was the LCP. It uses the installed Chrome and the Python standard library only; set `CHROME` to Chrome's path if it isn't found. `--cpu 8` simulates a slower phone.
 
 CI runs it on every pull request and push in the *Measure load times* job, and prints the table in the job summary. Lab numbers are an estimate: real phones and networks vary. Lighthouse itself isn't used because it needs Node, which the project doesn't (decision D21).
 

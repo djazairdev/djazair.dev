@@ -19,5 +19,6 @@ ISSUES_URL = f'{REPO_URL}/issues'
 LANGS = ('en', 'ar')
 DIRS = {'en': 'ltr', 'ar': 'rtl'}
 OTHER = {'en': 'ar', 'ar': 'en'}
+OG_LOCALES = {'en': 'en_GB', 'ar': 'ar_DZ'}    # Open Graph: British spelling; Algerian Arabic
 
 THEME_COLOR = '#0E1A15'

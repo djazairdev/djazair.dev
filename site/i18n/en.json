@@ -5,8 +5,12 @@
     "note": "English is the source. Every key used by the site must exist here; ar.json falls back to it."
   },
   "site": {
-    "tagline": "Growing Algeria’s developer ecosystem",
-    "description": "The Algeria Developer Index compares Algeria’s GitHub activity with similar countries every quarter. The Project Hub lists open-source projects with beginner-friendly issues."
+    "tagline": "Growing Algeria’s developer ecosystem"
+  },
+  "share": {
+    "eyebrow": "Algeria Developer Index · Project Hub",
+    "lede": "Algeria’s GitHub activity compared with similar countries every quarter, and open-source projects to start on.",
+    "alt": "djazair.dev: Growing Algeria’s developer ecosystem. The Algeria Developer Index and the Project Hub."
   },
   "a11y": {
     "skip": "Skip to content",

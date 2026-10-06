@@ -5,8 +5,8 @@ four times slower, slow 4G) and reports Largest Contentful Paint, First Contentf
 the bytes transferred, fonts apart. Exits 1 when a page is over 300 KB or the Overview's LCP
 is over 2.5 s (PRD §11); slower LCPs elsewhere are reported.
 
-    python3 site/perf.py                        # Home, Overview, Trends and Hub, both languages
-    python3 site/perf.py /en/index/ --runs 5    # one page, median of five cold loads
+    python3 site/tools/perf.py                        # Home, Overview, Trends and Hub, both languages
+    python3 site/tools/perf.py /en/index/ --runs 5    # one page, median of five cold loads
 
 It serves site/dist itself, gzipped like the live site, and drives the installed Chrome over
 the DevTools protocol, with the standard library only. Set CHROME to Chrome's path if it isn't
@@ -34,7 +34,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import unquote, urlparse
 
-DIST = Path(__file__).resolve().parent / 'dist'
+DIST = Path(__file__).resolve().parent.parent / 'dist'
 PAGES = ['/en/', '/en/index/', '/en/index/trends/', '/en/hub/', '/ar/', '/ar/index/', '/ar/index/trends/', '/ar/hub/']
 LCP_BUDGET_MS = 2500           # PRD §11: fails for the Overview, a warning for other pages
 LCP_BUDGET_PAGES = ('/en/index/', '/ar/index/')
@@ -76,6 +76,9 @@ class Handler(SimpleHTTPRequestHandler):
         status = 200
         if not path.is_file():
             path, status = Path(self.directory) / '404.html', 404
+            if not path.is_file():
+                self.send_error(404)
+                return
         body = path.read_bytes()
         kind = mimetypes.guess_type(path.name)[0] or 'application/octet-stream'
         self.send_response(status)
