@@ -1,0 +1,11 @@
+# The pipeline, the Hub and the site use only Python's standard library, so GitHub Actions
+# are the only dependencies to keep up to date. Add pip or npm here if that ever changes.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        patterns: ['*']
