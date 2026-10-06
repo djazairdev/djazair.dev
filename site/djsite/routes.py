@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from .context import Route
-from .pages import about, home, languages, methodology, notfound, overview, peers, stub, trends
+from .pages import about, datapage, home, languages, methodology, notfound, overview, peers, stub, trends
 
 ROUTES = [
     Route('home', '', home.render, ticket=18),
@@ -14,7 +14,7 @@ ROUTES = [
     Route('reports', 'reports/', stub.render, section='reports', ticket=34),
     Route('report-2026-q1', 'reports/2026-q1/', stub.render, section='reports', ticket=34),
     Route('methodology', 'methodology/', methodology.render, section='methodology', ticket=23),
-    Route('data', 'data/', stub.render, section='data', ticket=24),
+    Route('data', 'data/', datapage.render, section='data', ticket=24, last=True),
     Route('about', 'about/', about.render, ticket=23),
     Route('notfound', '404.html', notfound.render, switchable=False, indexed=False),
 ]

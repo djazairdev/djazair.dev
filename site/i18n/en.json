@@ -503,12 +503,92 @@
     "data_title": "{quarter} data.",
     "data_text": "Innovation Graph release {release}.",
     "revised": "Past values revised: {n}.",
-    "not_revised": "No past values revised."
+    "not_revised": "No past values revised.",
+    "found": "Found {found} · fixed {fixed}"
   },
   "about": {
     "eyebrow": "About",
     "title": "About djazair.dev",
     "lede": "An open scorecard of Algeria’s developer ecosystem and a hub for its open-source projects, built in the open."
+  },
+  "downloads": {
+    "eyebrow": "Data",
+    "title": "Data and downloads",
+    "lede": "Every table behind the Index as CSV and JSON, free to reuse under CC0. Each quarter’s files stay online with a manifest of checksums, and every change is logged.",
+    "meta_tables": "Tables",
+    "download_all": "Download all (CSV)",
+    "dictionary": "Data dictionary",
+    "sec_tables": "Tables",
+    "sec_charts": "Chart data",
+    "sec_addresses": "Addresses for code",
+    "sec_changelog": "Changelog",
+    "sec_corrections": "Corrections",
+    "sec_licence": "Licence and attribution",
+    "tables_lede": "The {n} tables of the {quarter} data, computed from GitHub Innovation Graph release {release}. The data dictionary describes every column.",
+    "rows": "{n} rows",
+    "checksums": "The manifest lists every file with its size and SHA-256 checksum, so you can check what you downloaded.",
+    "manifest": "manifest.json",
+    "readme": "README.md",
+    "earlier": "Earlier quarters stay online, unchanged:",
+    "earlier_none": "{quarter} is the first quarter published. Earlier quarters will stay online, unchanged, as new ones arrive.",
+    "charts_lede": "The figures behind every chart on the site, as CSV and JSON. Each chart’s download menu also has SVG and PNG files, dark or light.",
+    "page_home": "Home",
+    "addresses_lede": "Stable addresses, served with CORS, so code and pages on other sites can fetch them. latest.json names the newest quarter’s folder; a folder never changes once a newer quarter is out.",
+    "code_latest": "The newest quarter, as {\"folder\": \"yyyy-qn\", …}",
+    "code_quarter": "One quarter’s files ({quarter})",
+    "code_charts": "The data behind a chart",
+    "changelog_lede": "One entry per data release, with any revised past values flagged, and the changes to the site worth knowing about.",
+    "corrections_lede": "Every correction to a published number or statement, with the date the error was found and the date it was fixed. Corrections are published within 7 days of discovery.",
+    "licence_lede": "The derived data is CC0 1.0: use it for anything, without asking. Credit is welcome, not required. Accounts per million people also uses World Bank population, which is CC BY 4.0: when you reuse that column, credit the World Bank. Text and charts on the site are CC BY 4.0.",
+    "attribution": "Attribution",
+    "attribution_text": "Data: GitHub Innovation Graph (CC0) · djazair.dev. Population: World Bank (CC BY 4.0).",
+    "attribution_note": "Population figures are the World Bank’s for {year}.",
+    "t": {
+      "overview": {
+        "title": "Algeria at a glance",
+        "text": "Algeria’s latest value of each indicator, a year earlier, and its place and the median in each peer group."
+      },
+      "peers": {
+        "title": "Algeria and its peers",
+        "text": "Algeria, the rest of North Africa and the core peers in the latest quarter, with the counts behind each ratio."
+      },
+      "groups": {
+        "title": "Peer groups and medians",
+        "text": "The members of each peer group in every quarter, and the median of each indicator across them."
+      },
+      "ranks": {
+        "title": "Ranks",
+        "text": "Every member’s place in each peer group for each indicator, in the latest quarter."
+      },
+      "trends": {
+        "title": "Quarterly series",
+        "text": "Every indicator in every quarter since 2020 Q1 for Algeria, North Africa and the core peers, with the group medians."
+      },
+      "languages": {
+        "title": "Languages",
+        "text": "Developers who pushed in each language in the latest quarter and a year earlier, for Algeria and its peers."
+      },
+      "languages_algeria": {
+        "title": "Languages in Algeria since 2020",
+        "text": "Developers in Algeria who pushed in each language, every quarter since 2020 Q1."
+      },
+      "topics": {
+        "title": "Topics",
+        "text": "The topics GitHub publishes for each economy in the latest quarter: those with 100 or more developers pushing."
+      },
+      "collaboration": {
+        "title": "Algeria’s collaboration partners",
+        "text": "The economies Algerian developers collaborate with, by GitHub’s collaboration weight, every quarter."
+      },
+      "indicators": {
+        "title": "Every economy, every quarter",
+        "text": "Every indicator for every economy in the release, every quarter since 2020 Q1. Empty where an input is missing, never zero."
+      },
+      "revisions": {
+        "title": "Revised past values",
+        "text": "Past values this release changed, against the release archived before it."
+      }
+    }
   },
   "pages": {
     "home": {

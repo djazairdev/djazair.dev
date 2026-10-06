@@ -23,10 +23,11 @@ REPO = 'https://github.com/djazairdev/djazair.dev'
 
 @dataclass
 class Entry:
-    date: Optional[str]            # YYYY-MM-DD; None until the change is live ("at launch")
+    date: Optional[str]            # YYYY-MM-DD; None until the change is live ("at launch"). Corrections: when fixed
     html: Markup
     kind: str                      # site, data or correction
     link: Optional[str] = None     # the issue that reported a correction
+    found: Optional[str] = None    # when a correction's error was found
 
 
 def _load(name: str) -> list:
@@ -53,7 +54,7 @@ def changelog(ctx, root=data_mod.DERIVED_DIR) -> list:
 
 def corrections(ctx) -> list:
     md = _md(ctx)
-    found = [Entry(e['date'], md.inline(e[ctx.lang]), 'correction', e.get('issue')) for e in _load('corrections.json')]
+    found = [Entry(e['fixed'], md.inline(e[ctx.lang]), 'correction', e.get('issue'), e['found']) for e in _load('corrections.json')]
     return sorted(found, key=lambda e: e.date, reverse=True)
 
 
@@ -66,7 +67,9 @@ def entry_list(ctx, entries: list, empty, limit: Optional[int] = None) -> Markup
         when = (f'<time datetime="{e.date}">{esc(date_label(e.date, ctx.lang, short=ctx.en))}</time>' if e.date
                 else f'<span class="log-soon">{ctx.t("logs.at_launch")}</span>')
         issue = f' <a href="{esc(e.link)}">{ctx.t("logs.issue")}</a>' if e.link else ''
-        rows.append(f'<li class="log-{e.kind}"><span class="log-d">{when}</span><span class="log-t">{e.html}{issue}</span></li>')
+        found = (f'<span class="log-f">{ctx.t("logs.found", found=date_label(e.found, ctx.lang, short=ctx.en), fixed=date_label(e.date, ctx.lang, short=ctx.en))}</span>'
+                 if e.found else '')
+        rows.append(f'<li class="log-{e.kind}"><span class="log-d">{when}</span><span class="log-t">{e.html}{issue}{found}</span></li>')
     return Markup(f'<ol class="log">{"".join(rows)}</ol>')
 
 

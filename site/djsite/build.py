@@ -93,7 +93,7 @@ def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool =
     add_data_files(site, derived_dir)
 
     for lang in LANGS:
-        for route in site.routes.values():
+        for route in sorted(site.routes.values(), key=lambda r: r.last):
             ctx = Ctx(site, lang, route)
             page = route.render(ctx)
             dest = output_path(out, lang, route.path)

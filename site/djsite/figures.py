@@ -28,6 +28,8 @@ def downloads(ctx, chart) -> dict:
     base = f'/charts/{folder}/{chart.id}'
     files = {'csv': (site.add_file(f'{base}.csv', chart.csv()), f'{stem}.csv'),
              'json': (site.add_file(f'{base}.json', chart.json()), f'{stem}.json')}
+    if ctx.route.indexed:
+        site.charts.setdefault(chart.id, {'route': ctx.route.key, 'title': chart.title, 'csv': files['csv'], 'json': files['json']})
     for theme, pal in THEMES.items():
         url = site.add_file(f'/charts/{folder}/{lang}/{chart.id}-{theme}.svg', charts.download_svg(chart, lang, pal))
         files[f'svg-{theme}'] = (url, f'{stem}-{lang}-{theme}.svg')

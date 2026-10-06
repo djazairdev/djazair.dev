@@ -19,6 +19,7 @@ class Route:
     ticket: Optional[int] = None   # GitHub issue that builds the page
     switchable: bool = True        # the language switcher keeps the reader on this page
     indexed: bool = True           # canonical and hreflang links; False adds noindex
+    last: bool = False             # rendered after the other pages (the Data page lists the files they register)
 
 
 @dataclass
@@ -40,6 +41,7 @@ class Site:
     dev: bool = False
     data: object = None            # data.Derived: the quarter being built
     files: dict = field(default_factory=dict)   # generated downloads: URL path -> bytes
+    charts: dict = field(default_factory=dict)  # chart id -> {route, title, csv, json}: the Data page lists them
 
     def add_file(self, path: str, data: bytes) -> str:
         """Register a generated file, such as a chart download, and return its URL. Pages in

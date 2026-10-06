@@ -99,6 +99,10 @@ The words live in `content/methodology/<lang>.md` and `content/about/<lang>.md`,
 
 `djsite/logs.py` builds the changelog (`content/changelog.json` plus one entry per published data quarter, from the manifests) and the corrections log (`content/corrections.json`); the Methodology page shows the latest entries and the Data page all of them. "Report an error" opens the `correction` issue form.
 
+## Data and downloads
+
+`djsite/pages/datapage.py` lists every derived table of the quarter with its CSV and JSON sizes (from the manifest), the data behind every chart, stable addresses for code (`/data/latest.json`, served with CORS), the full changelog and corrections log (`#changelog`, `#corrections`) and the licence and attribution. Charts are listed from `Site.charts`, which `figures.downloads` fills as pages register their files, so the route is marked `last=True` and the build renders it after every other page.
+
 ## Holding page
 
 `holding/` is the pre-launch page. Deploy it with no build command and `site/holding` as the output directory.

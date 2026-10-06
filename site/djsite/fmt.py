@@ -60,6 +60,16 @@ def fnum(x, digits: int, lang: str = 'en') -> str:
     return fint(x, lang) if digits == 0 else fdec(x, digits, lang)
 
 
+def fsize(n: int, lang: str = 'en') -> str:
+    """A file size: '940 B', '12 KB', '1.7 MB' / '1,7 MB'."""
+    if n < 1000:
+        return f'{n} B'
+    if n < 1_000_000:
+        kb = n / 1000
+        return _local(f'{kb:.0f}' if kb >= 10 else f'{kb:.1f}', lang) + ' KB'
+    return _local(f'{n / 1_000_000:.1f}', lang) + ' MB'
+
+
 def fcompact(n, lang: str = 'en') -> str:
     """Axis labels: 500k, 1.5M (en); 500 ألف, 1,5 مليون (ar)."""
     a = abs(n)

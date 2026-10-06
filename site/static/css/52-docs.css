@@ -20,10 +20,10 @@
 .doc-sec > h2 { display: flex; align-items: baseline; gap: 14px; font-size: clamp(26px, 2.6vw, 34px); line-height: 1.15; font-weight: 800; letter-spacing: -0.02em; }
 .doc-sec > h2:lang(ar) { letter-spacing: 0; line-height: 1.35; }
 .sec-n { flex: none; font-family: var(--mono); font-size: 14px; font-weight: 500; letter-spacing: 0; color: var(--mint); }
-.doc-sec > p, .doc-sec > ul, .doc-sec > ol { max-width: 66ch; font-size: 16px; line-height: 1.75; color: var(--ink2); }
+.doc-sec > p, .doc-sec > ul:not([class]), .doc-sec > ol:not([class]) { max-width: 66ch; font-size: 16px; line-height: 1.75; color: var(--ink2); }
 .doc-sec > p:lang(ar), .doc-sec > ul:lang(ar) { line-height: 1.9; }
-.doc-sec > ul { padding-inline-start: 20px; }
-.doc-sec > ul li + li { margin-top: 8px; }
+.doc-sec > ul:not([class]) { padding-inline-start: 20px; }
+.doc-sec > ul:not([class]) li + li { margin-top: 8px; }
 .doc-main strong { font-weight: 700; color: var(--ink); }
 .doc-main a:not([class]) { color: var(--mint-hi); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .doc-main p code, .doc-main li code, .fm-n code { padding: 1px 6px; border: 1px solid var(--line2); border-radius: 6px; background: var(--sunk);
@@ -156,4 +156,39 @@
   .rel-line li { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 2px 14px; padding: 0; text-align: start; }
   .rel-gap { position: static; flex-basis: 100%; width: auto; padding-inline-start: 28px; font-size: 11.5px; }
   .rel-q { flex-basis: 100%; margin: -2px 0 0; padding-inline-start: 28px; }
+}
+
+/* ---- Data page (ticket #24): tables with their files, chart data, logs */
+.tb-list { margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 14px; background: var(--s1); }
+.tb-row { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.6fr) auto; grid-template-areas: "a d f" "a n f";
+          gap: 4px 28px; align-items: start; padding: 18px 20px; scroll-margin-top: calc(var(--header-h) + 16px); }
+.tb-row + .tb-row { border-top: 1px solid var(--line); }
+.tb-a { grid-area: a; display: flex; flex-direction: column; gap: 6px; }
+.tb-a h3 { font-size: 15px; font-weight: 700; }
+.doc-main .tb-a code, .doc-main .ch-list code { padding: 0; border: 0; background: none; font-family: var(--mono); font-size: 12.5px; color: var(--ink3); }
+.tb-d { grid-area: d; font-size: 13.5px; line-height: 1.65; color: var(--ink2); }
+.tb-n { grid-area: n; font-size: 12.5px; color: var(--ink3); }
+.tb-f { grid-area: f; display: flex; flex-wrap: wrap; gap: 8px; }
+.tb-f .act { gap: 8px; }
+.dl-size { font-family: var(--mono); font-size: 11.5px; color: var(--ink3); }
+.tb-extra { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
+.tb-extra p { max-width: 60ch; font-size: 14px; line-height: 1.7; color: var(--ink2); }
+.tb-more { font-size: 14px; color: var(--ink3); }
+.tb-past { display: flex; flex-wrap: wrap; gap: 8px 16px; margin: 8px 0 0; padding: 0; list-style: none; }
+.ch { display: grid; gap: 12px; }
+.ch-group { border: 1px solid var(--line); border-radius: 14px; background: var(--s1); }
+.ch-group h3 { padding: 14px 20px; border-bottom: 1px solid var(--line); font-size: 14px; font-weight: 700; }
+.ch-group h3 a { color: var(--ink); text-decoration: none; }
+.ch-group h3 a:hover { color: var(--mint-hi); }
+.ch-list { margin: 0; padding: 4px 20px; list-style: none; }
+.ch-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 6px 18px; padding-block: 12px; }
+.ch-list li + li { border-top: 1px solid var(--line); }
+.ch-t { font-size: 14px; line-height: 1.5; color: var(--ink2); }
+.ch-list .tb-f { grid-area: auto; }
+.doc-sec > .log-card .log { padding-block: 6px; }
+.log-f { display: block; margin-top: 4px; font-size: 12.5px; color: var(--ink3); }
+@media (max-width: 760px) {
+  .tb-row { grid-template-columns: minmax(0, 1fr); grid-template-areas: "a" "d" "n" "f"; gap: 8px; }
+  .ch-list li { grid-template-columns: minmax(0, 1fr) auto; }
+  .ch-list code { grid-row: 2; }
 }
