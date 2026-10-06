@@ -18,6 +18,7 @@ from djsite import data  # noqa: E402
 from djsite.build import build  # noqa: E402
 from djsite.fmt import fdec, fint  # noqa: E402
 from djsite.pages.trends import INDS, SCALES, SERIES  # noqa: E402
+from htmlcheck import stylesheet  # noqa: E402
 
 BASELINE = '2026-Q1'
 VIEWS = [f'{k}-{s}' for k, _ in INDS for s in SCALES]
@@ -35,7 +36,7 @@ class Trends(unittest.TestCase):
         build(cls.dist, quiet=True)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index' / 'trends' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
-        cls.css = next((cls.dist / 'assets').glob('site.*.css')).read_text('utf-8')
+        cls.css = stylesheet(cls.dist)
         cls.payload = {lang: json.loads(re.search(r'<script type="application/json" id="trends-data">(.*?)</script>',
                                                   html, re.S).group(1).replace('<\\/', '</')) for lang, html in cls.html.items()}
 

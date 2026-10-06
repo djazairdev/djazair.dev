@@ -18,7 +18,7 @@ from djsite import data, editorial  # noqa: E402
 from djsite.build import build  # noqa: E402
 from djsite.fmt import fint, fpct, rank_text  # noqa: E402
 from djsite.pages import home  # noqa: E402
-from htmlcheck import Doc  # noqa: E402
+from htmlcheck import Doc, stylesheet  # noqa: E402
 
 BASELINE = '2026-Q1'           # the quarter the hand-checked expectations below describe
 
@@ -121,7 +121,7 @@ class HomePage(unittest.TestCase):
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
         cls.text = {lang: text_of(h) for lang, h in cls.html.items()}
-        cls.css = next((cls.dist / 'assets').glob('site.*.css')).read_text('utf-8')
+        cls.css = stylesheet(cls.dist)
 
     @classmethod
     def tearDownClass(cls):

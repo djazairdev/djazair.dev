@@ -19,7 +19,7 @@ from djsite.charts import (Bar, BarChart, Line, LineChart, UnitMap, nice_ticks, 
                            tick_compact, tick_decimals)
 from djsite.fmt import fint, fpct  # noqa: E402
 from djsite.palette import DARK, LIGHT  # noqa: E402
-from htmlcheck import Doc, resolve  # noqa: E402
+from htmlcheck import Doc, resolve, stylesheet  # noqa: E402
 
 QUARTERS = [f'{y}-Q{q}' for y in range(2020, 2027) for q in range(1, 5)][:25]
 
@@ -227,7 +227,7 @@ class Figures(unittest.TestCase):
         self.assertEqual(len(en), 10)
 
     def test_chart_motion_only_runs_when_motion_is_welcome(self):
-        css = next((self.dist / 'assets').glob('site.*.css')).read_text('utf-8')
+        css = stylesheet(self.dist)
         inside, outside, pos = '', '', 0
         for m in re.finditer(r'@media \(prefers-reduced-motion: ?no-preference\)', css):
             depth, i = 0, css.index('{', m.start())

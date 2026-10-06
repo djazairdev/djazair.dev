@@ -42,7 +42,7 @@ def render(site: Site) -> str:
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {site.assets.preloads('en')}
-<link rel="stylesheet" href="{site.assets.css}">
+{site.assets.inline_style()}
 </head>
 <body class="chooser-page">
 <main class="chooser">

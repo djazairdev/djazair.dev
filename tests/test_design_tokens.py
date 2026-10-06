@@ -8,9 +8,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'site'))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite.build import build  # noqa: E402
 from djsite.palette import CSS_SOURCE, DARK  # noqa: E402
+from htmlcheck import stylesheet  # noqa: E402
 
 CSS_DIR = ROOT / 'site' / 'static' / 'css'
 TOKEN_FILES = {'00-tokens.css', '05-fonts.css'}
@@ -76,7 +78,7 @@ class Fonts(unittest.TestCase):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
         build(cls.dist, quiet=True)
-        cls.css = next((cls.dist / 'assets').glob('site.*.css')).read_text('utf-8')
+        cls.css = stylesheet(cls.dist)
 
     @classmethod
     def tearDownClass(cls):

@@ -31,7 +31,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `djsite/pages/` | One renderer per page; `root.py` is the language chooser at `/` |
 | `djsite/i18n.py`, `i18n/*.json` | Interface strings (see below) |
 | `djsite/markup.py` | HTML escaping: everything that isn't our own markup goes through `esc()` |
-| `static/css/` | Stylesheets, concatenated in file-name order into one hashed file |
+| `static/css/` | Stylesheets, concatenated in file-name order and inlined in every page ([docs/performance.md](../docs/performance.md)) |
 | `static/js/` | `site.js` (every page) and page-specific scripts (`trends.js`, `hub.js`) |
 | `static/fonts/` | Self-hosted Tajawal and JetBrains Mono woff2 subsets, with their licences (SIL OFL 1.1) |
 | `tools/fetch_fonts.py` | Re-downloads the fonts and writes `static/css/05-fonts.css`; only needed to update them |

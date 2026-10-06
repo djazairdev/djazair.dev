@@ -1,4 +1,10 @@
-"""Stylesheet, script, fonts and icons: copied to ``dist/assets`` with content-hashed names."""
+"""Stylesheet, scripts, fonts and icons.
+
+Scripts and fonts are copied to ``dist/assets`` with content-hashed names, so they can be cached
+for a year. The stylesheet (about 15 KB compressed) is inlined in every page instead: on a first
+visit over a slow mobile network that saves a round trip before anything shows (ticket #30,
+docs/performance.md).
+"""
 from __future__ import annotations
 
 import hashlib
@@ -30,10 +36,13 @@ def minify_css(css: str) -> str:
 
 @dataclass
 class Assets:
-    css: str
+    style: str                 # the whole stylesheet, for a <style> element in each page
     js: str
     fonts: set = field(default_factory=set)
     scripts: dict = field(default_factory=dict)   # name -> URL of page-specific scripts
+
+    def inline_style(self) -> Markup:
+        return Markup(f'<style>{self.style}</style>')
 
     def preloads(self, lang: str) -> Markup:
         return Markup(''.join(
@@ -53,7 +62,8 @@ def build(out: Path, extra_css: str = '') -> Assets:
 
     css_files = sorted((STATIC_DIR / 'css').glob('*.css'))
     css = '\n'.join([minify_css(p.read_text('utf-8')) for p in css_files] + ([minify_css(extra_css)] if extra_css else []))
-    css_url = _write_hashed(out, 'site', 'css', css.encode('utf-8'))
+    if '</' in css:
+        raise ValueError('the stylesheet must not contain "</": it is inlined in a <style> element')
 
     js_url = _write_hashed(out, 'site', 'js', (STATIC_DIR / 'js' / 'site.js').read_bytes())
     scripts = {}
@@ -69,4 +79,4 @@ def build(out: Path, extra_css: str = '') -> Assets:
         shutil.copy2(path, out / 'assets' / 'fonts' / path.name)
 
     shutil.copy2(STATIC_DIR / 'favicon.svg', out / 'favicon.svg')
-    return Assets(css=css_url, js=js_url, fonts=fonts, scripts=scripts)
+    return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts)

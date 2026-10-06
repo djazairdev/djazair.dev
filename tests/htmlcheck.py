@@ -108,3 +108,9 @@ class Texts(HTMLParser):
             return
         direction = next((d for _, d in reversed(self.stack) if d), None)
         self.items.append((data, direction))
+
+
+def stylesheet(dist: Path) -> str:
+    """The site's stylesheet, as every page inlines it (here, the English home page's copy)."""
+    html = (dist / 'en' / 'index.html').read_text('utf-8')
+    return html.split('<style>', 1)[1].split('</style>', 1)[0]

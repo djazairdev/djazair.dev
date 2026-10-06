@@ -145,7 +145,7 @@ class EmptyHub(unittest.TestCase):
         build(tmp / 'dist', quiet=True, hub_dir=tmp / 'none')
         page = (tmp / 'dist' / 'en' / 'hub' / 'index.html').read_text('utf-8')
         self.assertIn('The first projects are being listed.', page)
-        self.assertNotIn('hub-tools', page)
+        self.assertNotIn('class="hub-tools"', page)
         self.assertNotRegex(page, r'/assets/hub\.[0-9a-f]+\.js')
         self.assertEqual(page.count('class="pj pj-wanted"'), 3, 'the open slots still show')
         for anchor in ('issues', 'projects', 'list'):

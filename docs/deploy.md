@@ -4,7 +4,8 @@ The `CI` workflow (`.github/workflows/ci.yml`) runs on every pull request and ev
 
 1. **Test**: a syntax check and the unit tests, on Python 3.12 and 3.13.
 2. **Build**: `python site/build.py`, uploaded as the `site` artifact.
-3. **Deploy** to Cloudflare Pages, only after both pass, so a failing change never replaces the live site:
+3. **Measure load times**: `python site/perf.py` loads the built pages in Chrome on a throttled phone profile and fails if a page is over its budget ([performance.md](performance.md)). It runs beside the deploy and doesn't hold it up.
+4. **Deploy** to Cloudflare Pages, only after the tests and the build pass, so a failing change never replaces the live site:
    - a push to `main` deploys to the project's production branch (`main`);
    - a pull request from this repository deploys a preview at `pr-<number>.<project>.pages.dev`, linked from the pull request. Pull requests from forks never deploy, because they can't see the secrets.
 
@@ -20,7 +21,7 @@ These need account access, so they aren't automated.
    - secret `CLOUDFLARE_API_TOKEN`: the token;
    - secret `CLOUDFLARE_ACCOUNT_ID`: the account ID (shown in the Cloudflare dashboard sidebar);
    - variable `CLOUDFLARE_PAGES_PROJECT`: the project name from step 1.
-4. **Protect `main`.** *Settings → Rules → Rulesets → New branch ruleset* targeting `main`: require a pull request before merging; require the status checks `Test (Python 3.12)`, `Test (Python 3.13)` and `Build the site`; block force pushes; restrict deletions.
+4. **Protect `main`.** *Settings → Rules → Rulesets → New branch ruleset* targeting `main`: require a pull request before merging; require the status checks `Test (Python 3.12)`, `Test (Python 3.13)` and `Build the site` (add `Measure load times` once it has run reliably for a few weeks); block force pushes; restrict deletions.
 5. **Add the second admin** (PRD R2) to the GitHub organisation and the Cloudflare account, with two-factor authentication.
 
 Secrets are only read by the deploy step, are passed to Wrangler through its inputs and are never printed. The built site contains no secrets.
