@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import argparse
+import io
 import shutil
 import sys
 import time
+import zipfile
 from pathlib import Path
 
 from . import assets, layout
@@ -52,7 +54,25 @@ def add_data_files(site: Site, derived_dir: Path) -> None:
         for name in ('manifest.json', 'README.md'):
             if (folder / name).is_file():
                 site.add_file(f'/data/{folder.name}/{name}', (folder / name).read_bytes())
+        site.add_file(f'/data/{folder.name}/{quarter.zip_name}', csv_zip(quarter))
     site.add_file('/data/latest.json', (Path(derived_dir) / 'latest.json').read_bytes())
+
+
+def csv_zip(quarter) -> bytes:
+    """A quarter's CSV tables with its README and manifest, in one zip. Names, order and
+    timestamps are fixed, so the same data always gives the same file."""
+    stamp = tuple(int(x) for x in quarter.release_date.split('-')) + (0, 0, 0)
+    names = sorted(n for n in quarter.files if n.endswith('.csv'))
+    extra = [n for n in ('README.md', 'manifest.json') if (quarter.folder / n).is_file()]
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, 'w') as z:
+        for name in names + extra:
+            data = quarter.read(name) if name in quarter.files else (quarter.folder / name).read_bytes()
+            info = zipfile.ZipInfo(f'{quarter.folder.name}/{name}', date_time=stamp)
+            info.compress_type = zipfile.ZIP_DEFLATED
+            info.external_attr = 0o644 << 16
+            z.writestr(info, data, compresslevel=9)
+    return buf.getvalue()
 
 
 def output_path(out: Path, lang: str, path: str) -> Path:

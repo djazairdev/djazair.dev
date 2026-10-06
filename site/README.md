@@ -71,7 +71,11 @@ Colours come from `djsite/palette.py`; on-page charts use the dark palette, whic
 
 `djsite/pages/home.py` builds the hero (the account count, three stats, the unit map), the scorecard, the growth trend, the Hub teaser and the open-by-default links, all from the derived data. The count ticks up from the year-earlier value with CSS counters and no JavaScript; its rules depend on the data, so the builder generates them and adds them to the stylesheet (`ticker_css`). Readers who prefer reduced motion, and browsers without registered custom properties, see the plain number. The trend headline comes from `content/editorial/<yyyy-qN>.json` when the file exists and every claim it lists still holds; otherwise the section uses computed text.
 
-The build also publishes the derived data as it is in `data/derived/`: `/data/<yyyy-qN>/<table>.csv` and `.json`, with `manifest.json` and `README.md`, and `/data/latest.json`.
+The build also publishes the derived data as it is in `data/derived/`: `/data/<yyyy-qN>/<table>.csv` and `.json`, with `manifest.json` and `README.md`, every CSV table in one zip (`djazair.dev-index-<yyyy-qN>-csv.zip`, byte-identical for the same data), and `/data/latest.json`.
+
+## Index overview
+
+`djsite/pages/overview.py` shows the six indicators as full cards (`components.indicator_card`, with `id="ind-<key>"` so Home's tiles link to them), each with its change, medians, ranks, what it measures and its source; Algeria and six peers in a sortable table whose group medians sit in the table footer, so sorting leaves them below; and four limits to read before quoting the numbers.
 
 Motion: Algeria's line draws as the chart scrolls into view (scroll-driven animations where the browser has them; elsewhere `site.js` draws charts below the fold over one second when they arrive), then the end dot and notes pop in, and unit-map squares appear in bands from Algiers. With `prefers-reduced-motion: reduce`, nothing moves.
 

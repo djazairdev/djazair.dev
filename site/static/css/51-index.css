@@ -1,0 +1,26 @@
+/* Index pages (tickets #19 to #22; Overview, Trends and Index boards in docs/design) */
+
+/* ---- overview: the six indicator cards */
+.ov-cards { padding-bottom: clamp(56px, 7vw, 96px); }
+.ind-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr)); gap: 16px; }
+.ind-grid + .src { margin-top: 28px; }
+.ind-src { padding-top: 14px; font-size: 13px; line-height: 1.5; color: var(--ink3); }
+.ind-src:lang(ar) { line-height: 1.8; }
+
+/* ---- peers table: Algeria first, then the core peers; group medians stay below when sorting */
+.eco { display: inline-flex; align-items: center; gap: 10px; }
+.eco-sq { flex: none; width: 8px; height: 8px; border-radius: 2px; background: var(--line3); }
+.is-dz .eco-sq { background: var(--mint); }
+.peers-wrap .dt { min-width: 860px; }
+.dt tfoot th, .dt tfoot td { padding-block: 11px; font-size: 13px; color: var(--ink3); }
+.dt tfoot th { font-weight: 500; text-align: start; }
+.dt tfoot tr:first-child > * { border-top-color: var(--line3); }
+.table-wrap + .src { margin-top: 18px; }
+
+/* ---- what the numbers can't tell you */
+.limits { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 12px; }
+.limit { display: flex; flex-direction: column; gap: 6px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--tint); }
+.limit h3 { font-size: 16px; line-height: 1.35; font-weight: 700; }
+.limit p { font-size: 14px; line-height: 1.55; color: var(--ink2); }
+.limit p:lang(ar) { line-height: 1.8; }
+.limits-more { margin-top: 22px; }

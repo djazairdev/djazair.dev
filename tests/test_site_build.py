@@ -14,6 +14,7 @@ from djsite.build import build, output_path  # noqa: E402
 from djsite.config import LANGS  # noqa: E402
 from djsite.context import Ctx, Route, Site  # noqa: E402
 from djsite.i18n import Catalog, MissingString  # noqa: E402
+from djsite.pages import stub  # noqa: E402
 from djsite.routes import ROUTES  # noqa: E402
 from htmlcheck import Doc, resolve  # noqa: E402
 
@@ -88,6 +89,8 @@ class BuiltSite(unittest.TestCase):
         self.assertEqual(hrefs.get('/en/index/trends/'), 'page')     # sub-nav: this page
 
     def test_internal_links_resolve(self):
+        # Links into a section of a page whose ticket isn't done yet can't be checked until it is.
+        stubs = {output_path(self.dist, lang, r.path) for r in ROUTES if r.render is stub.render for lang in LANGS}
         for path, doc in self.docs.items():
             refs = [a.get('href', '') for a in doc.anchors] + [l.get('href', '') for l in doc.links]
             for href in refs:
@@ -96,6 +99,9 @@ class BuiltSite(unittest.TestCase):
                     target = resolve(self.dist, href)
                     if target is not None:
                         self.assertTrue(target.exists(), f'{href} → {target} is missing')
+                        fragment = href.partition('#')[2]
+                        if fragment and target.suffix == '.html' and target not in stubs:
+                            self.assertIn(fragment, self.docs[target].ids, f'{href}: no element with that id')
                     elif href.startswith('#'):
                         self.assertIn(href[1:], doc.ids)
 

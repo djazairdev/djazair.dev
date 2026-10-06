@@ -55,6 +55,11 @@ class Derived:
     def files(self) -> dict:                   # file name -> {bytes, sha256, table, title, rows}
         return self.manifest['files']
 
+    @property
+    def zip_name(self) -> str:
+        """Every CSV table of the quarter in one file, which the build writes next to them."""
+        return f'djazair.dev-index-{self.folder.name}-csv.zip'
+
     def read(self, name: str) -> bytes:
         """A file of the folder, after checking it against the manifest."""
         entry = self.files.get(name)

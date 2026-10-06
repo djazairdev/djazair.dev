@@ -126,11 +126,12 @@ def tile(*, n: int, title, value: str, chip_html, viz, ranks: Iterable, note, la
 
 
 def indicator_card(*, n: int, title, quarter: str, value: str, extras: str = '', viz, ranks: Iterable,
-                   medians: Iterable = (), measures_html='', lang: str) -> Markup:
+                   medians: Iterable = (), measures_html='', lang: str, id_: str = '') -> Markup:
     """Full indicator card (Index overview): value, change, chart, ranks, medians, 'What this measures'."""
     rank_html = ''.join(rank_row(lb, r, of, lang) for lb, r, of in ranks)
     med_html = ''.join(f'<div class="med"><span>{k}</span>{num(v)}</div>' for k, v in medians)
-    return Markup(f'''<article class="card indicator reveal">
+    ident = f' id="{esc(id_)}"' if id_ else ''
+    return Markup(f'''<article class="card indicator reveal"{ident}>
 <div class="ind-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h2>{title}</h2></div><span class="ind-q">{esc(quarter)}</span></div>
 <div class="ind-value"><span class="ind-v num" dir="ltr">{esc(value)}</span>{extras}</div>
 {viz}
@@ -185,19 +186,20 @@ def download_menu(ctx, files: dict) -> Markup:
 
 # ---------------------------------------------------------------- tables
 def data_table(caption, head: Sequence, rows: Iterable, *, sortable: bool = False, cls: str = '',
-               highlight: Optional[str] = None, sorted_by: Optional[tuple] = None) -> Markup:
+               highlight: Optional[str] = None, sorted_by: Optional[tuple] = None, foot: Iterable = ()) -> Markup:
     """Data table. ``head``: [(label, align)] where align is 'start' or 'end'.
     ``rows``: [(key, [cells])]; the first cell is the row header. A cell is HTML, or
     ``(html, sort_value)`` so sorting works whatever the number format.
     ``sorted_by``: (column index, 'descending' | 'ascending') for the order the rows come in.
+    ``foot``: rows in the same shape, such as group medians, which stay below when sorting.
     Sorting is added by site.js; without JavaScript the table keeps its order."""
     th = []
     for i, (label, align) in enumerate(head):
         sort = ' data-sort' if sortable else ''
         state = f' aria-sort="{sorted_by[1]}"' if sorted_by and sorted_by[0] == i else ''
         th.append(f'<th scope="col" class="{align}"{sort}{state}>{label}</th>')
-    body = []
-    for key, cells in rows:
+
+    def tr(key, cells) -> str:
         tr_cls = ' class="is-dz"' if highlight and key == highlight else ''
         out = []
         for i, cell in enumerate(cells):
@@ -207,11 +209,15 @@ def data_table(caption, head: Sequence, rows: Iterable, *, sortable: bool = Fals
                 out.append(f'<th scope="row"{v}>{html}</th>')
             else:
                 out.append(f'<td class="{head[i][1]}"{v}>{html}</td>')
-        body.append(f'<tr{tr_cls} data-key="{esc(key)}">{"".join(out)}</tr>')
+        return f'<tr{tr_cls} data-key="{esc(key)}">{"".join(out)}</tr>'
+
+    body = ''.join(tr(key, cells) for key, cells in rows)
+    tfoot = ''.join(tr(key, cells) for key, cells in foot)
     sort_attr = ' data-sortable' if sortable else ''
     return Markup(f'<div class="table-wrap {cls}" tabindex="0" role="region" aria-label="{striptags(caption)}">'
                   f'<table class="dt"{sort_attr}><caption class="sr-only">{caption}</caption>'
-                  f'<thead><tr>{"".join(th)}</tr></thead><tbody>{"".join(body)}</tbody></table></div>')
+                  f'<thead><tr>{"".join(th)}</tr></thead><tbody>{body}</tbody>'
+                  f'{f"<tfoot>{tfoot}</tfoot>" if tfoot else ""}</table></div>')
 
 
 # ---------------------------------------------------------------- disclosure
