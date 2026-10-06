@@ -51,7 +51,33 @@
   --sans: 'Tajawal', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
   --mono: 'JetBrains Mono', 'Tajawal', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 
-  /* layout */
+  /* type scale (Foundations board, section 02) */
+  --fs-display: clamp(38px, 5vw, 68px);
+  --fs-section: clamp(30px, 3.4vw, 46px);
+  --fs-title: 18px;
+  --fs-lede: clamp(17px, 1.4vw, 19px);
+  --fs-body: 16px;
+  --fs-caption: 13px;
+  --fs-eyebrow: 12px;
+
+  /* spacing (4 px base) and radii */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+  --r-figure: 4px;
+  --r-control: 8px;
+  --r-panel: 12px;
+  --r-card: 16px;
+  --r-chip: 999px;
+  --section-pad: clamp(64px, 7.5vw, 104px);
+
+  /* layout (breakpoints: 760 chart switch, 900 navigation, 980 home hero) */
   --container: 1280px;
   --gutter: clamp(16px, 4vw, 48px);
   --header-h: 64px;

@@ -64,6 +64,8 @@ def build(out: Path) -> Assets:
     for path in sorted((STATIC_DIR / 'fonts').glob('*.woff2')):
         shutil.copy2(path, out / 'assets' / 'fonts' / path.name)
         fonts.add(path.name)
+    for path in sorted((STATIC_DIR / 'fonts').glob('*.txt')):   # font licences travel with the fonts
+        shutil.copy2(path, out / 'assets' / 'fonts' / path.name)
 
     shutil.copy2(STATIC_DIR / 'favicon.svg', out / 'favicon.svg')
     return Assets(css=css_url, js=js_url, fonts=fonts, scripts=scripts)

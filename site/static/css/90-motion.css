@@ -1,0 +1,17 @@
+/* Motion. Hover and press transitions live with each component; shared keyframes live here.
+   Everything is CSS, and with reduced motion every element shows at rest, fully drawn. */
+@keyframes fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+@keyframes pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
+@keyframes pulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
+
+.enter { animation: fade-up .8s var(--ease) both; animation-delay: var(--d, 0ms); }
+.live { animation: pulse 2.4s var(--ease-io) 3; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

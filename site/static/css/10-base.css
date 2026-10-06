@@ -33,6 +33,7 @@ a { color: var(--ink); }
 a:hover { color: var(--mint-hi); }
 
 button, input, select, textarea { font: inherit; color: inherit; }
+code, kbd, samp, pre { font-family: var(--mono); font-size: .92em; }
 button { cursor: pointer; }
 
 img, svg, video { max-width: 100%; }

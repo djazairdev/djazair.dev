@@ -26,8 +26,14 @@ Then open <http://localhost:4322/>.
 | `djsite/markup.py` | HTML escaping: everything that isn't our own markup goes through `esc()` |
 | `static/css/` | Stylesheets, concatenated in file-name order into one hashed file |
 | `static/js/` | `site.js` (every page) and page-specific scripts |
-| `static/fonts/` | Self-hosted fonts |
+| `static/fonts/` | Self-hosted Tajawal and JetBrains Mono woff2 subsets, with their licences (SIL OFL 1.1) |
+| `tools/fetch_fonts.py` | Re-downloads the fonts and writes `static/css/05-fonts.css`; only needed to update them |
+| `djsite/palette.py` | Chart colours for downloaded SVG and PNG files (dark and light) |
 | `holding/` | The pre-launch page served at djazair.dev until launch |
+
+## Design tokens
+
+`static/css/00-tokens.css` holds every colour, type size, spacing step, radius and easing from the Foundations board ([docs/design/system-foundations.png](../docs/design/system-foundations.png)). Other stylesheets use only these custom properties; `tests/test_design_tokens.py` fails on a raw colour anywhere else and checks that text colours meet WCAG AA on every surface. With `prefers-reduced-motion: reduce`, nothing animates.
 
 ## Routes and languages
 
