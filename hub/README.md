@@ -46,7 +46,7 @@ Pull requests are checked with `pull_request_target`, so the bot can comment on 
 | File | What it does |
 |---|---|
 | `github.py` | A small GitHub REST client: retries, rate limits, and the comment that is created once and then updated |
-| `checks.py` | The seven checks; each failure says what was found and how to fix it. The daily health checks (#26) reuse them |
+| `checks.py` | The seven checks; each failure says what was found and how to fix it. The health checks use the same 90 days and topic |
 | `submission.py` | Finds the entries a pull request adds or changes, reads the issue form, and writes the comment |
 
 ## Sync (issues feed)
@@ -58,8 +58,9 @@ Pull requests are checked with `pull_request_target`, so the bot can comment on 
 | `projects.json` | Every listed project: its registry entry, what GitHub says about it, its number of open beginner issues, and `shown` |
 | `issues.json` | The open beginner issues of the projects the Hub shows, newest first: `repo`, `number`, `url`, `title`, `labels`, `created_at`, the repository's `language`, and `needs` |
 | `cache.json` | The ETag of each answer and what was kept from it, for the next run |
+| `HEALTH.md` | The health report |
 
-A project shows on the Hub while its repository is public, not archived, and carries the `djazairdev` topic. A maintainer who removes the topic takes the project off at the next sync, within 6 hours (AC-HUB-3).
+Which projects show is decided by the health checks below.
 
 **No personal data** (AC-HUB-5). Nothing about who opened, commented on or was assigned an issue is kept: no usernames, avatars or assignees, and no issue text but the title and its *You'll need* line (`needs`). That line is read from an issue that says, for example, `You'll need: Python, pytest`, or from an issue form field called *You'll need*; an aside that names someone is taken out, and a line that still names someone is left out. Commits give only their date.
 
@@ -87,4 +88,18 @@ To see the Hub locally, get the snapshot (or run `python3 -m hub sync` with a to
 .github/scripts/hub-snapshot.sh
 ```
 
-Still to come: the daily health checks (#26).
+## Health checks
+
+Every sync, so four times a day, checks each listed project with what it has just fetched, at no extra cost (`health.py`; PRD HUB-06):
+
+| Flag | When | Hidden |
+|---|---|---|
+| `inactive` | No commit on the default branch in the last 90 days | After 14 days flagged |
+| `no_issues` | No open issues labelled `good first issue` or `help wanted` | After 14 days flagged |
+| `topic` | The repository no longer carries the `djazairdev` topic | At once (AC-HUB-3): only maintainers set topics, so removing it withdraws consent |
+| `archived` | The repository is archived | At once |
+| `missing` | The repository is gone or private | At once |
+
+A project shows again as soon as the problem is fixed. `projects.json` gives each project its `flags` (reason, the date it was first flagged, what was found), `status` (`healthy`, `flagged` or `hidden`), `hide_on` and `shown`; the next sync reads the dates from it, so a flag keeps its first date. The Hub only shows projects with `shown`, and the feed only their issues.
+
+The health report, [`HEALTH.md` on the `hub-data` branch](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md), lists every flagged and hidden project with the reason, what was found, the date it was flagged and the date it is or was hidden. A project stays in `projects.yml` while it is hidden; remove its entry by pull request if it won't come back.

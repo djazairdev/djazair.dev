@@ -2,7 +2,8 @@
 
 Six run against GitHub; the seventh, Algerian maintainers or clear relevance to Algeria, is
 checked by a person, so a submission shows it as waiting for a reviewer. Every failure says
-what was found and how to fix it. The daily health checks (#26) reuse these.
+what was found and how to fix it. The health checks (#26, ``health.py``) use the same 90 days
+and topic.
 """
 from __future__ import annotations
 

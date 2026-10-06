@@ -1,5 +1,7 @@
 """The Hub sync (ticket #25), against a stand-in for the GitHub API that answers with ETags
 the way GitHub does: no personal data kept, conditional requests, the quota checked first."""
+import contextlib
+import io
 import json
 import re
 import shutil
@@ -154,7 +156,7 @@ class Sync(unittest.TestCase):
                           'pledge': True, 'added': '2026-10-01', 'found': True, 'language': 'Python', 'licence': 'MIT',
                           'topic': True, 'archived': False, 'last_commit': '2026-10-02T09:00:00Z', 'issues': 2, 'shown': True})
         self.assertEqual(pay['description'], 'Accept Edahabia and CIB payments. From Python.')
-        self.assertIn('Hub: 2 projects (2 shown), 3 open issues.', line)
+        self.assertIn('Hub: 2 projects (2 healthy, 0 flagged, 0 hidden), 3 open issues.', line)
         self.assertRegex(line, r'GitHub API: 10 requests, 0 unchanged \(304, free\); 4,982 of 5,000 left, resets at \d\d:\d\d UTC')
 
     def test_no_personal_data_is_kept(self):
@@ -236,7 +238,9 @@ class Sync(unittest.TestCase):
 
     def test_the_command(self):
         self.registry.write_text('projects:\n  - repository: nope\n')
-        self.assertEqual(cli.main(['sync', '--registry', str(self.registry), '--out', str(self.out)]), 1)
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            self.assertEqual(cli.main(['sync', '--registry', str(self.registry), '--out', str(self.out)]), 1)
+        self.assertIn('nothing was written', err.getvalue())
         self.assertFalse(self.out.exists())
 
     def test_the_site_reads_the_snapshot(self):

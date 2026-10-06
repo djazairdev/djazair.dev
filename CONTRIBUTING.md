@@ -35,6 +35,8 @@ An entry looks like this:
 
 Don't add the language, licence or activity: they're read from GitHub. CI checks the entry against [`hub/projects.schema.json`](hub/projects.schema.json) and names any field to fix; you can run the same check with `python3 -m hub check-registry`. Editors that read the `yaml-language-server` comment at the top of the file check it as you type.
 
+**Staying listed.** Every 6 hours the Hub refreshes each project's beginner issues and checks its health. A project with no commit in 90 days or no open `good first issue` or `help wanted` issues is flagged, and hidden after 14 days if nothing changes; it comes back as soon as it's fixed. Removing the `djazairdev` topic takes a project off the Hub at the next refresh. The [health report](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md) lists every flagged project, why, and since when. To help newcomers, add a line such as `You'll need: Python, pytest` to an issue; the Hub shows it on the issue's card.
+
 **Categories:** `app` (something people use), `library` (code other programs use), `tool` (something developers use) or `dataset`.
 
 **Tags** say how the project relates to Algeria:

@@ -31,7 +31,7 @@ Scheduled workflows (the Innovation Graph check and the Hub sync) only run when 
 
 ### Hub sync
 
-The `Hub sync` workflow (`.github/workflows/hub.yml`) runs every 6 hours, at 00:41, 06:41, 12:41 and 18:41 UTC. It fetches the listed projects and their beginner issues with `python -m hub sync`, checks the site builds with them, saves the snapshot on the `hub-data` branch, and runs CI on `main`, which deploys (details in [hub/README.md](../hub/README.md#sync-issues-feed)). `main` never changes, so it needs no pull request.
+The `Hub sync` workflow (`.github/workflows/hub.yml`) runs every 6 hours, at 00:41, 06:41, 12:41 and 18:41 UTC. It fetches the listed projects and their beginner issues with `python -m hub sync`, runs the health checks (a project without the `djazairdev` topic leaves the Hub at once; one flagged for 14 days is hidden), checks the site builds with them, saves the snapshot on the `hub-data` branch, and runs CI on `main`, which deploys (details in [hub/README.md](../hub/README.md#sync-issues-feed)). `main` never changes, so it needs no pull request.
 
 **Setup (founder):** nothing beyond `SCHEDULES_ENABLED`. Keep the `hub-data` branch out of the `main` ruleset: the workflow pushes to it. Don't delete it either: it holds the snapshot every build uses. If it is deleted, the next sync starts it again.
 

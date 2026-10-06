@@ -5,9 +5,11 @@ the repository itself (description, primary language, licence, topics), its last
 the default branch, and its open issues labelled ``good first issue`` or ``help wanted``.
 It writes the snapshot the site builds the Hub from, in ``data/derived/hub/``:
 
-    projects.json   every listed project: its registry entry and what GitHub says about it
+    projects.json   every listed project: its registry entry, what GitHub says about it, and
+                    its health (``hub/health.py``)
     issues.json     the open beginner issues of the projects the Hub shows, newest first
     cache.json      the ETag of each answer and what was kept from it, for the next run
+    HEALTH.md       the health report: every flagged or hidden project, why and since when
 
 GitHub Actions runs it every 6 hours and keeps the snapshot on the ``hub-data`` branch
 (``.github/workflows/hub.yml``); the site build reads it from there.
@@ -31,7 +33,7 @@ from pathlib import Path
 from typing import Callable, Optional
 from urllib.parse import quote
 
-from . import registry
+from . import health, registry
 from .checks import BEGINNER_LABELS, TOPIC
 from .github import GitHub, GitHubError, _repo
 
@@ -54,6 +56,7 @@ reads it from this branch (`.github/scripts/hub-snapshot.sh`).
 | `projects.json` | Every listed project: its registry entry and what GitHub says about it |
 | `issues.json` | The open `good first issue` and `help wanted` issues of the projects the Hub shows |
 | `cache.json` | The ETag of each GitHub answer and what was kept from it, for the next sync |
+| `HEALTH.md` | The health report: every flagged or hidden project, why, and since when |
 
 Nothing here identifies a person: no usernames, avatars or assignees, and no issue text but
 the title and its "You'll need" line. See `hub/README.md` on `main`.
@@ -167,32 +170,32 @@ def labelled(cache: Cache, github: GitHub, repo: str, label: str) -> list:
     return out
 
 
-def shown(project: dict) -> bool:
-    """Whether the Hub shows the project: it exists, is public and not archived, and its
-    maintainers keep the topic (a removed topic takes it off at the next sync, AC-HUB-3)."""
-    return project['found'] and project['topic'] and not project['archived']
-
-
 @dataclass
 class Snapshot:
-    generated_at: str
+    checked: datetime
     projects: list
     issues: list
     cache: dict
 
+    @property
+    def generated_at(self) -> str:
+        return self.checked.strftime('%Y-%m-%dT%H:%M:%SZ')
 
-def collect(projects: list, github: GitHub, cache_entries: Optional[dict] = None, now: Optional[datetime] = None) -> Snapshot:
-    """Ask GitHub about every registry project (``registry.Project``)."""
+
+def collect(projects: list, github: GitHub, cache_entries: Optional[dict] = None, now: Optional[datetime] = None,
+            previous: Optional[dict] = None) -> Snapshot:
+    """Ask GitHub about every registry project (``registry.Project``), then run the health
+    checks (``previous``: the last snapshot's projects, by repository)."""
     now = now or datetime.now(timezone.utc)
     cache = Cache(cache_entries)
-    out, issues = [], []
+    out, found_issues = [], {}
     for p in projects:
         project = {'repository': p.repository, 'category': p.category, 'tags': list(p.tags), 'pledge': p.maintainer_pledge,
                    'added': p.added}
+        out.append(project)
         info = cache.get(github, f'/repos/{_repo(p.repository)}', keep_repository)
         if info is None or info['private']:
             project.update(found=False, topic=False, archived=False, issues=0)
-            out.append(project)
             continue
         name = info['full_name'] or p.repository
         project.update(found=True, name=name, url=info['url'] or f'https://github.com/{name}',
@@ -207,14 +210,11 @@ def collect(projects: list, github: GitHub, cache_entries: Optional[dict] = None
                 for issue in labelled(cache, github, name, label):
                     found.setdefault(issue['number'], issue)
         project['issues'] = len(found)
-        project['shown'] = shown(project)
-        out.append(project)
-        if project['shown']:
-            issues += [dict(issue, repo=name, language=info['language']) for issue in found.values()]
-    for project in out:
-        project.setdefault('shown', False)
+        found_issues[p.repository] = [dict(issue, repo=name, language=info['language']) for issue in found.values()]
+    health.apply(out, previous, now.astimezone(timezone.utc).date())
+    issues = [i for p in out if p['shown'] for i in found_issues.get(p['repository'], [])]
     issues.sort(key=lambda i: (i['created_at'], i['repo'], i['number']), reverse=True)
-    return Snapshot(now.strftime('%Y-%m-%dT%H:%M:%SZ'), out, issues, cache.new)
+    return Snapshot(now, out, issues, cache.new)
 
 
 def write(snapshot: Snapshot, out: Path = OUT) -> None:
@@ -227,20 +227,30 @@ def write(snapshot: Snapshot, out: Path = OUT) -> None:
                            'entries': snapshot.cache}}
     texts = {name: json.dumps(doc, ensure_ascii=False, indent=1) + '\n' for name, doc in docs.items()}
     texts['README.md'] = README
+    texts['HEALTH.md'] = health.report(snapshot.projects, snapshot.checked)
     for name, text in texts.items():
         (out / f'{name}.tmp').write_text(text, 'utf-8')
     for name in texts:
         (out / f'{name}.tmp').replace(out / name)
 
 
-def load_cache(out: Path = OUT) -> dict:
-    path = Path(out) / 'cache.json'
+def _last(out: Path, name: str, key: str):
+    path = Path(out) / name
     if not path.is_file():
-        return {}
+        return None
     try:
-        return json.loads(path.read_text('utf-8')).get('entries') or {}
+        return json.loads(path.read_text('utf-8')).get(key)
     except (ValueError, AttributeError):
-        return {}
+        return None
+
+
+def load_cache(out: Path = OUT) -> dict:
+    return _last(out, 'cache.json', 'entries') or {}
+
+
+def load_previous(out: Path = OUT) -> dict:
+    """The last snapshot's projects, by repository: when each flag was first raised."""
+    return {p['repository']: p for p in _last(out, 'projects.json', 'projects') or [] if isinstance(p, dict) and 'repository' in p}
 
 
 def _reset(rate: dict) -> str:
@@ -263,13 +273,14 @@ def run(registry_path: Path = registry.REGISTRY, out: Path = OUT, github: Option
     if before and int(before.get('remaining', 0)) < needed:
         raise GitHubError(f'only {before["remaining"]} of {before.get("limit")} API requests are left until {_reset(before)}, '
                           f'and a sync needs up to {needed}. Set GITHUB_TOKEN, or wait.')
-    snapshot = collect(reg.projects, github, load_cache(out), now)
+    snapshot = collect(reg.projects, github, load_cache(out), now, load_previous(out))
     write(snapshot, out)
     after = github.rate_limit() or github.rate or {}
-    shown_n = sum(1 for p in snapshot.projects if p['shown'])
+    status = {k: sum(1 for p in snapshot.projects if p['status'] == k) for k in ('healthy', 'flagged', 'hidden')}
     quota = (f'{int(after["remaining"]):,} of {int(after["limit"]):,} left, resets at {_reset(after)}'
              if after.get('remaining') not in (None, '') else 'quota unknown')
-    return (f'Hub: {len(snapshot.projects)} project{"s" if len(snapshot.projects) != 1 else ""} ({shown_n} shown), '
+    return (f'Hub: {len(snapshot.projects)} project{"s" if len(snapshot.projects) != 1 else ""} ({status["healthy"]} healthy, '
+            f'{status["flagged"]} flagged, {status["hidden"]} hidden), '
             f'{len(snapshot.issues)} open issue{"s" if len(snapshot.issues) != 1 else ""}. GitHub API: {github.calls} '
             f'request{"s" if github.calls != 1 else ""}, {github.unchanged} unchanged (304{", free" if github.token else ""}); '
             f'{quota}.')
