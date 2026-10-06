@@ -42,9 +42,9 @@ def output_path(out: Path, lang: str, path: str) -> Path:
     return dest / 'index.html' if path == '' or path.endswith('/') else dest
 
 
-def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool = False) -> Site:
+def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool = False, i18n_dir: Path = I18N_DIR) -> Site:
     started = time.time()
-    catalog = Catalog(I18N_DIR)
+    catalog = Catalog(i18n_dir)
     all_routes = list(routes or ROUTES)
     if dev:
         all_routes.append(Route('dev-components', '_dev/components/', dev_page.render, indexed=False))

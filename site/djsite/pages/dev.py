@@ -11,7 +11,7 @@ from .. import components as C
 from ..charts import hbars, spark
 from ..config import SITE_DIR
 from ..context import Ctx, Page
-from ..fmt import fdec, fint, fpct, quarter_label
+from ..fmt import fdec, fint, fpct, num, quarter_label
 from ..markup import Markup, esc
 
 SAMPLE = SITE_DIR / 'dev' / 'sample.json'
@@ -25,11 +25,11 @@ T = {
         buttons='Buttons', chips='Chips and labels', controls='Chart controls', tiles='Indicator tiles',
         figure='Figure frame and source line', table='Data table', disclosure='Disclosure', hub='Hub', code='Code sample',
         explore='Explore the Index', method='Methodology', disabled='Unavailable', more='Read more',
-        up='▲ 49.1% in a year', flat='▼ 26% vs Q1 2025', neutral='−81% vs peers', down='▼ fall in accounts',
+        up='▲ 49.1% in a year', flat='▼ 26% vs Q1 2025', neutral='vs peers', down='▼ fall in accounts',
         mode='Chart mode', actual='Actual', indexed='2020 Q1 = 100', peers='Highlight a peer',
         accounts='Developer accounts', pushes='Pushes per account', repos='Repositories per account', orgs='Organisations per account',
         topics='Topics above GitHub’s threshold', north='North Africa', africa='Africa', peer_group='Algeria and 6 peers',
-        acc_note='Growth rank. North Africa median +44.0%', topics_note='GitHub publishes a topic once 100+ developers use it',
+        acc_note='Growth rank. North Africa median', topics_note='GitHub publishes a topic once 100+ developers use it',
         in_year='in a year', vs_q='vs Q1 2025', med_na='N. Africa', med_cp='Core peers', med_af='Africa (29)',
         does=['Pushes in the quarter, divided by all accounts', 'Web-interface edits, which count as pushes'],
         doesnt=['Commits: one push can hold many', 'Code quality or impact'],
@@ -47,11 +47,11 @@ T = {
         buttons='الأزرار', chips='الشارات والوسوم', controls='أدوات الرسوم', tiles='بطاقات المؤشرات',
         figure='إطار الشكل وسطر المصدر', table='جدول البيانات', disclosure='قسم قابل للطي', hub='مركز المشاريع', code='مثال شيفرة',
         explore='استكشف المؤشر', method='المنهجية', disabled='غير متاح', more='اقرأ المزيد',
-        up='▲ 49,1% خلال عام', flat='▼ 26% مقارنة بالربع 1 · 2025', neutral='−81% مقابل النظراء', down='▼ تراجع في الحسابات',
+        up='▲ 49,1% خلال عام', flat='▼ 26% مقارنة بالربع 1 · 2025', neutral='مقابل النظراء', down='▼ تراجع في الحسابات',
         mode='نمط الرسم', actual='القيم الفعلية', indexed='2020 Q1 = 100', peers='أبرِز أحد النظراء',
         accounts='حسابات المطوّرين', pushes='عمليات الدفع لكل حساب', repos='المستودعات لكل حساب', orgs='المنظّمات لكل حساب',
         topics='المواضيع فوق عتبة GitHub', north='شمال أفريقيا', africa='أفريقيا', peer_group='الجزائر و6 نظراء',
-        acc_note='ترتيب النموّ. وسيط شمال أفريقيا ‎+44,0%‎', topics_note='ينشر GitHub الموضوع حين يستخدمه 100 مطوّر أو أكثر',
+        acc_note='ترتيب النموّ. وسيط شمال أفريقيا', topics_note='ينشر GitHub الموضوع حين يستخدمه 100 مطوّر أو أكثر',
         in_year='خلال عام', vs_q='مقارنة بالربع 1 · 2025', med_na='شمال أفريقيا', med_cp='النظراء', med_af='أفريقيا (29)',
         does=['عمليات الدفع خلال الربع مقسومة على كل الحسابات', 'التعديلات من واجهة الويب، فهي تُحتسب عمليات دفع'],
         doesnt=['الالتزامات: قد تضمّ عملية دفع واحدة عدّة التزامات', 'جودة الشيفرة أو أثرها'],
@@ -92,7 +92,7 @@ def render(ctx: Ctx) -> Page:
                      + C.btn(t['explore'], '#', size='s') + C.btn(t['more'], '#', 'secondary', size='s')
                      + C.button(t['disabled'], 'primary', 'm', disabled=True) + C.button(t['disabled'], 'secondary', 's', disabled=True)
                      + '</div>')
-    chips = Markup('<div class="dev-row">' + C.chip(t['up'], 'up') + C.chip(t['flat'], 'flat') + C.chip(t['neutral'], 'flat')
+    chips = Markup('<div class="dev-row">' + C.chip(t['up'], 'up') + C.chip(t['flat'], 'flat') + C.chip(Markup(f'{num(fpct(-0.81, 0, lang))} {esc(t["neutral"])}'), 'flat')
                    + C.chip(t['down'], 'down') + '</div><div class="dev-row">'
                    + C.label_chip('good first issue') + C.label_chip('help wanted') + C.label_chip('accessibility') + '</div>')
 
@@ -116,7 +116,7 @@ def render(ctx: Ctx) -> Page:
                    + C.tile(n=1, title=esc(t['accounts']), value=fint(a['value'], lang),
                             chip_html=C.chip(f'▲ {fpct(a["yoy"], 1, lang, sign=False)} {t["in_year"]}', 'up'), viz=acc_spark,
                             ranks=[(esc(t['north']), a['growth_north_rank'], 7), (esc(t['africa']), a['growth_africa_rank'], 29)],
-                            note=esc(t['acc_note']), lang=lang, href='#')
+                            note=Markup(f'{esc(t["acc_note"])} {num(fpct(a["growth_north_median"], 1, lang))}'), lang=lang, href='#')
                    + C.tile(n=5, title=esc(t['topics']), value=fint(d['topics']['DZ'], lang),
                             chip_html=C.chip(f'{fpct(-0.81, 0, lang)}', 'flat'), viz=bars,
                             ranks=[(esc(t['peer_group']), 7, 7)], note=esc(t['topics_note']), lang=lang)

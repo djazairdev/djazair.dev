@@ -47,6 +47,10 @@ Pages live at `/en/<path>` and `/ar/<path>` with matching `lang`, `dir`, `hrefla
 
 English (`i18n/en.json`) is the source: a key a page uses but `en.json` lacks fails the build. A key missing from `ar.json` falls back to English, marked `lang="en"`, and the page says that some text isn't translated yet. Arabic is AI-drafted, so until a fluent reviewer signs it off (`_meta.reviewed` in `ar.json`), Arabic pages say the text is a draft (PRD D13).
 
+## Numbers, quarters and dates
+
+`djsite/fmt.py` formats numbers the way `Intl.NumberFormat` does for `en` (`586,990.5`) and `ar-DZ` (`586.990,5`, Western digits), with the typographic minus `−` for negative values. Quarters read "Q1 2026" or "الربع الأول 2026" in text and "2026 Q1" on axes and in tables; dates are Gregorian with Algerian month names in Arabic. Inside Arabic text, every figure goes through `num()`, which isolates it left to right so `+49,1%` keeps its sign on the left; `tests/test_i18n_format.py` checks every signed value on every Arabic page.
+
 ## Holding page
 
 `holding/` is the pre-launch page. Deploy it with no build command and `site/holding` as the output directory.

@@ -77,3 +77,34 @@ def resolve(dist: Path, href: str):
     if path.endswith('/'):
         target = target / 'index.html'
     return target
+
+
+VOID = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'}
+
+
+class Texts(HTMLParser):
+    """Text nodes with the direction of their nearest ancestor that sets one (dir or SVG direction)."""
+
+    def __init__(self, text: str):
+        super().__init__(convert_charrefs=True)
+        self.stack = []          # (tag, direction or None)
+        self.items = []          # (text, direction)
+        self.feed(text)
+
+    def handle_starttag(self, tag, attrs):
+        if tag in VOID:
+            return
+        a = dict(attrs)
+        self.stack.append((tag, a.get('dir') or a.get('direction')))
+
+    def handle_endtag(self, tag):
+        for i in range(len(self.stack) - 1, -1, -1):
+            if self.stack[i][0] == tag:
+                del self.stack[i:]
+                break
+
+    def handle_data(self, data):
+        if not data.strip() or any(t in ('script', 'style') for t, _ in self.stack):
+            return
+        direction = next((d for _, d in reversed(self.stack) if d), None)
+        self.items.append((data, direction))
