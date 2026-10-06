@@ -4,6 +4,7 @@
 |---|---|---|
 | `raw/<commit>/` | One archived GitHub Innovation Graph release per folder, named after the source commit | CC0 (as published by GitHub) |
 | `derived/<yyyy-qN>/` | The Index: indicators computed by `pipeline/`, as CSV and JSON | CC0 ([LICENSE-data](../LICENSE-data)) |
+| `population.json` | World Bank population (`SP.POP.TOTL`) and working-age population (`SP.POP.1564.TO`), every economy, every year since 2015 | CC BY 4.0 (World Bank) |
 
 Data: GitHub Innovation Graph (CC0).
 

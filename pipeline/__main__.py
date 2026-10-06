@@ -1,7 +1,8 @@
 """Command line: ``python3 -m pipeline <command>``.
 
-    fetch     archive the latest Innovation Graph release if it is new
-    validate  check an archived release (the latest by default)
+    fetch       archive the latest Innovation Graph release if it is new
+    validate    check an archived release (the latest by default)
+    population  refresh the World Bank population cache (data/population.json)
 """
 from __future__ import annotations
 
@@ -9,7 +10,7 @@ import argparse
 import os
 import sys
 
-from . import release
+from . import population, release
 from .config import RAW_DIR
 from .run import ValidationFailed, process
 
@@ -57,6 +58,15 @@ def cmd_validate(args) -> int:
     return 0
 
 
+def cmd_population(args) -> int:
+    data = population.download()
+    population.save(data)
+    totals = data['series']['SP.POP.TOTL']
+    print(f'World Bank population for {len(totals["values"])} economies (updated {totals["updated"]}) '
+          f'saved to {population.PATH.relative_to(population.PATH.parent.parent)}')
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog='python3 -m pipeline', description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -66,6 +76,7 @@ def main(argv=None) -> int:
     v.add_argument('--release', default='latest', help='commit of an archived release (default: the latest)')
     v.add_argument('--report', type=str, help='also write the report, as Markdown, to this file')
     v.set_defaults(run=cmd_validate)
+    sub.add_parser('population', help='refresh the World Bank population cache').set_defaults(run=cmd_population)
     args = parser.parse_args(argv)
     return args.run(args)
 
