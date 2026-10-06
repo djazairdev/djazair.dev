@@ -63,7 +63,7 @@ If no tag fits, propose a new one in your pull request (add it to the schema and
 
 ## Review translations
 
-Text is written in English and translated into Arabic. Nothing is published until a fluent speaker has reviewed it. If you can review Arabic, open an issue.
+Text is written in English and translated into Arabic. Nothing is published until a fluent speaker has reviewed it. If you can review Arabic, open an issue: [docs/arabic-review.md](docs/arabic-review.md) explains what to check, the terms already used, and how to review every string in a spreadsheet.
 
 ## Report a problem
 

@@ -38,6 +38,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `tools/make_outline.py` | Rebuilds `geo/algeria.json` from Natural Earth (public domain); only needed to change the outline |
 | `tools/share.py`, `static/share/` | Draws the share images (1200 × 630, one per language) in Chrome; only needed to change them |
 | `tools/perf.py` | Measures load times in Chrome on a throttled phone profile ([docs/performance.md](../docs/performance.md)) |
+| `tools/strings.py` | Exports every string to a spreadsheet for the Arabic review and imports the corrections ([docs/arabic-review.md](../docs/arabic-review.md)) |
 | `djsite/palette.py` | Chart colours: dark (the page, equal to the tokens) and light, for downloads |
 | `holding/` | The pre-launch page served at djazair.dev until launch |
 
@@ -57,7 +58,7 @@ Pages live at `/en/<path>` and `/ar/<path>` with matching `lang`, `dir`, `hrefla
 
 ## Strings
 
-English (`i18n/en.json`) is the source: a key a page uses but `en.json` lacks fails the build. A key missing from `ar.json` falls back to English, marked `lang="en"`, and the page says that some text isn't translated yet. Arabic is AI-drafted, so until a fluent reviewer signs it off (`_meta.reviewed` in `ar.json`), Arabic pages say the text is a draft (PRD D13).
+English (`i18n/en.json`) is the source: a key a page uses but `en.json` lacks fails the build. A key missing from `ar.json` falls back to English, marked `lang="en"`, and the page says that some text isn't translated yet. Arabic is AI-drafted, so until a fluent reviewer signs it off (`_meta.reviewed` in `ar.json`), Arabic pages say the text is a draft (PRD D13). [docs/arabic-review.md](../docs/arabic-review.md) explains the review.
 
 ## Numbers, quarters and dates
 
