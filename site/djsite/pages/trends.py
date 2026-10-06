@@ -126,7 +126,8 @@ def peer_control(ctx) -> Markup:
                  f'{ctx.t(f"economy.{c}")}</label>' for c in CORE_PEERS)
     return Markup(f'<div class="tr-ctl tr-peers"><span class="ctl-label" id="tr-peers-label">{ctx.t("trends.compare")}</span>'
                   f'<div class="pks" role="radiogroup" aria-labelledby="tr-peers-label">'
-                  f'<input type="radio" name="tr-hl" value="none" id="tr-hl-none" checked hidden>{chips}</div></div>')
+                  f'<input type="radio" name="tr-hl" value="none" id="tr-hl-none" checked hidden'
+                  f' aria-label="{ctx.ta("trends.compare_none")}">{chips}</div></div>')
 
 
 # ---------------------------------------------------------------- readout
@@ -146,8 +147,9 @@ def readout_rows(ctx, key: str, scale: str, chart: LineChart, i: int) -> str:
 def payload(ctx, items) -> str:
     """What trends.js needs to place the crosshair and fill the readout, for this language."""
     data = ctx.site.data
-    out = {'q': [quarter_label(q, ctx.lang, 'axis') for q in data.quarters], 'series': list(SERIES),
-           'names': {}, 'views': {}}
+    out = {'q': [quarter_label(q, ctx.lang, 'axis') for q in data.quarters],
+           'said': [quarter_label(q, ctx.lang) for q in data.quarters],      # for screen readers
+           'series': list(SERIES), 'names': {}, 'views': {}}
     for key, scale, chart in items:
         by_key = {ln.key: ln for ln in chart.lines}
         out['names'] = {s: loc(by_key[s].name, ctx.lang) for s in SERIES}

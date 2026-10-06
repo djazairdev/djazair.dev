@@ -30,6 +30,7 @@ Four public sources. The scorecard uses the Innovation Graph and World Bank popu
 | **GDC26 supplementary data** | VPN-corrected pushes and pushes per 1,000 working-age people, top 10 per region. | CC0 | One-off, September 2026 |
 | **World Bank** | Population and working-age population. | CC BY 4.0 | Yearly |
 | **GitHub REST API** | Hub only: repository details, issues and pull requests. | GitHub terms | Every 6 hours |
+Table: The four sources and what each provides
 
 ::: releases
 - 2025-08-13

@@ -22,6 +22,7 @@ djazair.dev is an independent community project, started in Algeria in 2026 and 
 | **Text and charts** | CC BY 4.0: reuse them, crediting djazair.dev |
 | **Derived data** | CC0 1.0: no rights reserved |
 | **Source data** | GitHub Innovation Graph, CC0 1.0 · World Bank population, CC BY 4.0 |
+Table: Licences for djazair.dev’s code, text and data
 
 ## Contact {#contact}
 

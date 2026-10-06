@@ -73,4 +73,5 @@ Open an issue for wrong data, broken pages or unclear text. For security problem
 
 - Keep each pull request to one change, and explain why it's needed.
 - Never commit secrets, tokens or personal data.
+- Changes to pages keep them usable with a keyboard, a screen reader and zoom, in both languages. The tests check the markup; [docs/accessibility.md](docs/accessibility.md) lists the checks to make by hand.
 - By contributing, you agree that your work is released under the matching licence: MIT for code, CC BY 4.0 for text and charts, CC0 for derived data.

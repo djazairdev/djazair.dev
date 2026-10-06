@@ -78,7 +78,8 @@
     var c = current();
     var parts = [data.names.DZ + ' ' + c.v.t.DZ[state.i], data.names.median_north_africa + ' ' + c.v.t.median_north_africa[state.i]];
     if (c.hl !== 'none') parts.push(data.names[c.hl] + ' ' + c.v.t[c.hl][state.i]);
-    live.textContent = data.q[state.i] + ': ' + parts.join(comma);
+    // Spoken as 'Q2 2025' / 'الربع الثاني 2025', not the compact '2025 Q2' shown in the readout.
+    live.textContent = data.said[state.i] + ': ' + parts.join(comma);
   }
 
   function indexAt(e, cw, size) {

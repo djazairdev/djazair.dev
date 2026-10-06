@@ -99,6 +99,7 @@ class Trends(unittest.TestCase):
             self.assertEqual(sorted(p['views']), sorted(VIEWS))
             self.assertEqual(p['series'], list(SERIES))
             self.assertEqual(len(p['q']), len(self.data.quarters))
+            self.assertEqual(len(p['said']), len(self.data.quarters))
             for view, v in p['views'].items():
                 with self.subTest(lang=lang, view=view):
                     for size in ('w', 'n'):
@@ -117,6 +118,8 @@ class Trends(unittest.TestCase):
         self.assertIn('In 2026 Q1, Algeria stands at 639: 6.4 times its level in 2020 Q1. Nigeria stands at 1,033, the highest of the six peers.', text)
         self.assertIn('One large value, like Egypt’s 1,626,418 accounts, would pull an average up.', text)
         ind = self.payload['en']['views']['accounts-indexed']['t']
+        self.assertEqual(self.payload['en']['said'][self.payload['en']['q'].index('2024 Q2')], 'Q2 2024')
+        self.assertEqual(self.payload['ar']['said'][self.payload['ar']['q'].index('2024 Q2')], 'الربع الثاني 2024')
         i = self.payload['en']['q'].index('2024 Q2')
         self.assertEqual((ind['DZ'][i], ind['median_north_africa'][i], ind['MA'][i]), ('361', '308', '379'))
         pushes = self.payload['en']['views']['pushes-actual']['t']

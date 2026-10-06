@@ -3,7 +3,7 @@
 It covers what ``content/`` uses and nothing more:
 
 - ``## Heading {#id}`` (the page module usually splits a file into sections at ``##`` first);
-- paragraphs, ``-`` and ``1.`` lists, pipe tables;
+- paragraphs, ``-`` and ``1.`` lists, pipe tables (a ``Table: caption`` line after one names it);
 - ``**bold**``, ``*italic*``, `` `code` `` (always left to right) and ``[links](url)``. A link to
   ``route:<key>`` or ``route:<key>#<id>`` goes to that page in the reader's language;
 - ``{{name}}`` placeholders, filled with values the page computes from the data, so figures
@@ -119,7 +119,10 @@ class Renderer:
                 j = i
                 while j < len(lines) and lines[j].lstrip().startswith('|'):
                     j += 1
-                out.append(str(self.table(lines[i:j])))
+                caption = None
+                if j < len(lines) and lines[j].startswith('Table: '):       # Pandoc's caption line
+                    caption, j = lines[j][len('Table: '):].strip(), j + 1
+                out.append(str(self.table(lines[i:j - (caption is not None)], caption)))
                 i = j
                 continue
             for pattern, tag in ((_UL, 'ul'), (_OL, 'ol')):
@@ -157,19 +160,24 @@ class Renderer:
             i += 1
         return items, i
 
-    def table(self, lines: list) -> Markup:
+    def table(self, lines: list, caption: Optional[str] = None) -> Markup:
+        """A pipe table. ``caption`` (a ``Table: ...`` line after it) names it for screen readers;
+        without one the table is named by its first header."""
         rows = [[c.strip() for c in line.strip().strip('|').split('|')] for line in lines]
         if len(rows) < 2 or not all(re.fullmatch(r':?-{3,}:?', c) for c in rows[1]):
             raise ValueError(f'not a pipe table: {lines[0]!r}')
         head = ''.join(f'<th scope="col">{self.inline(c)}</th>' for c in rows[0])
         body = ''.join('<tr>' + ''.join(f'<th scope="row">{self.inline(c)}</th>' if n == 0 else f'<td>{self.inline(c)}</td>'
                                         for n, c in enumerate(r)) + '</tr>' for r in rows[2:])
-        return Markup(f'<div class="table-wrap md-table" tabindex="0" role="region" aria-label="{esc(_text(rows[0][0]))}">'
-                      f'<table class="dt cols-{len(rows[0])}"><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>')
+        name = _text(caption or rows[0][0])
+        cap = f'<caption class="sr-only">{self.inline(caption)}</caption>' if caption else ''
+        return Markup(f'<div class="table-wrap md-table" tabindex="0" role="region" aria-label="{esc(name)}">'
+                      f'<table class="dt cols-{len(rows[0])}">{cap}<thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>')
 
 
 def _text(md: str) -> str:
-    return re.sub(r'[*`]', '', md)
+    """Inline Markdown as plain text, for an attribute (escaped where it is used)."""
+    return re.sub(r'[*`]', '', _LINK.sub(r'\1', md))
 
 
 def sections(text: str) -> list:

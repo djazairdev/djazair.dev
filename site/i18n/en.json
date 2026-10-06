@@ -496,6 +496,7 @@
     "actual": "Actual",
     "indexed": "{quarter} = 100",
     "compare": "Compare with",
+    "compare_none": "None",
     "na_median": "N. Africa median",
     "six_peers": "Six peers",
     "readout": "Chart readout. Use the left and right arrow keys to move between quarters, and Home and End for the first and last.",
