@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"ccf73515d291a93025b39b944d019474a97627e99e7de1c14a780b5bb0ad70ae\"",
+   "etag": "\"482d940601058e550e14b174c3df930fe1dc9b66d06728c8a6956f28209b967f\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -17,11 +17,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"5af9afd280d241d16b53d9d14786da91641712de69b51042b79f7ea08d676b43\"",
-   "data": "2026-10-06T22:40:18Z"
+   "etag": "\"c04ad85a9535a97157fc452b4e1551bd9db40a094da63228314e4333935e3d17\"",
+   "data": "2026-10-06T23:36:34Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"5a9135292f5c99771e882148d419b24903a8bfd22b24e96be5376d0a99d0173b\"",
+   "etag": "\"d0c368686550b8b721a4193230ffb424159451d1449efbe67ccc9630866100b5\"",
    "data": {
     "n": 2,
     "issues": [
@@ -51,10 +51,22 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"8707cdddda5a9a005d7840202a3661adea8de7228e68096427d8b69edba0b8eb\"",
+   "etag": "\"1cafe196ce3e03c4498f8625a49100c017e478cc5f9a579e14d0e91d3abd1397\"",
    "data": {
-    "n": 2,
+    "n": 3,
     "issues": [
+     {
+      "number": 49,
+      "url": "https://github.com/djazairdev/djazair.dev/issues/49",
+      "title": "Test the Trends chart with a screen reader",
+      "labels": [
+       "accessibility",
+       "help wanted",
+       "area: site"
+      ],
+      "created_at": "2026-10-06T22:57:08Z",
+      "needs": "a screen reader (NVDA, JAWS, VoiceOver or TalkBack)"
+     },
      {
       "number": 48,
       "url": "https://github.com/djazairdev/djazair.dev/issues/48",
