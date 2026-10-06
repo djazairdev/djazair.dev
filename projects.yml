@@ -14,4 +14,9 @@
 #     maintainer_pledge: true      # maintainers reply to newcomer pull requests within 7 days
 #     added: 2026-10-06
 
-projects: []
+projects:
+  - repository: djazairdev/djazair.dev
+    category: tool
+    tags: [open-data, arabic, accessibility]
+    maintainer_pledge: true
+    added: 2026-10-06
