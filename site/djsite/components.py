@@ -140,14 +140,17 @@ def indicator_card(*, n: int, title, quarter: str, value: str, extras: str = '',
 
 
 # ---------------------------------------------------------------- figures
-def frame(inner, cls: str = '') -> Markup:
+def frame(inner, cls: str = '', labelledby: str = '') -> Markup:
     """Figure frame with engineering-drawing corner marks."""
     corners = ''.join(f'<span class="cm cm-{c}" aria-hidden="true"></span>' for c in ('tl', 'tr', 'bl', 'br'))
-    return Markup(f'<figure class="frame {cls}">{corners}{inner}</figure>')
+    label = f' aria-labelledby="{esc(labelledby)}"' if labelledby else ''
+    return Markup(f'<figure class="frame {cls}"{label}>{corners}{inner}</figure>')
 
 
-def fig_label(ctx, n: int, title) -> Markup:
-    return Markup(f'<div class="fig-label"><span class="fig-n">{ctx.t("fig.label")} {n:02d}</span><span class="fig-t">{title}</span></div>')
+def fig_label(ctx, n: int, title, id_: str = '') -> Markup:
+    ident = f' id="{esc(id_)}"' if id_ else ''
+    return Markup(f'<div class="fig-label"{ident}><span class="fig-n">{ctx.t("fig.label")} {n:02d}</span>'
+                  f'<span class="fig-t">{title}</span></div>')
 
 
 def source_line(text, actions='') -> Markup:
@@ -163,16 +166,19 @@ def action_link(label, href: str, icon_name: str = 'download', mono: bool = True
 
 
 def download_menu(ctx, files: dict) -> Markup:
-    """'Download' disclosure listing a chart's files: {'csv': url, 'json': url, 'svg-dark': url, ...}.
-    PNG items need JavaScript (they are drawn from the SVG in the browser), so they start hidden."""
+    """'Download' disclosure listing a chart's files: {key: (url, file name)} with the keys csv,
+    json, svg-dark, svg-light, png-dark and png-light. A PNG is drawn in the browser from the
+    SVG at its URL, so PNG items start hidden and site.js shows them."""
     order = [('csv', 'CSV'), ('json', 'JSON'), ('svg-dark', ctx.t('dl.svg_dark')), ('svg-light', ctx.t('dl.svg_light')),
              ('png-dark', ctx.t('dl.png_dark')), ('png-light', ctx.t('dl.png_light'))]
     items = []
     for key, label in order:
         if key not in files:
             continue
-        hidden = ' hidden data-png' if key.startswith('png') else ''
-        items.append(f'<li{hidden}><a href="{esc(files[key])}" download>{label}</a></li>')
+        url, name = files[key]
+        png = key.startswith('png')
+        items.append(f'<li{" hidden data-png" if png else ""}><a href="{esc(url)}" download="{esc(name)}"'
+                     f'{" data-png" if png else ""}>{label}</a></li>')
     return Markup(f'<details class="dl"><summary class="act">{icon("download", 15)}{ctx.t("dl.download")}</summary>'
                   f'<ul class="dl-menu">{join(items)}</ul></details>')
 
@@ -209,9 +215,10 @@ def data_table(caption, head: Sequence, rows: Iterable, *, sortable: bool = Fals
 
 
 # ---------------------------------------------------------------- disclosure
-def details(summary, body, open_: bool = False, cls: str = '') -> Markup:
-    return Markup(f'<details class="disclosure {cls}"{" open" if open_ else ""}>'
-                  f'<summary><span class="disc-s">{icon("info", 16)}{summary}</span><span class="chev">{icon("chev", 18)}</span></summary>'
+def details(summary, body, open_: bool = False, cls: str = '', icon_name: str = 'info', id_: str = '') -> Markup:
+    ident = f' id="{esc(id_)}"' if id_ else ''
+    return Markup(f'<details class="disclosure {cls}"{ident}{" open" if open_ else ""}>'
+                  f'<summary><span class="disc-s">{icon(icon_name, 16)}{summary}</span><span class="chev">{icon("chev", 18)}</span></summary>'
                   f'<div class="disc-body">{body}</div></details>')
 
 

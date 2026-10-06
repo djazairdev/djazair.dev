@@ -1,0 +1,35 @@
+/* Chart figures (Components board, "Charts"). Colours inside each SVG come from the chart
+   palette (djsite/palette.py), which a test keeps equal to the tokens; this file lays the
+   figure out. Motion for charts lives in 90-motion.css. */
+.fig { display: flex; flex-direction: column; gap: 22px; }
+.fig-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px 24px; }
+.fig-lede { max-width: 68ch; font-size: 15px; line-height: 1.6; color: var(--ink2); text-wrap: pretty; }
+.fig-body { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+.chart { display: block; width: 100%; height: auto; overflow: visible; }
+.chart-bar { max-inline-size: 640px; }
+.um { max-inline-size: 620px; margin-inline: auto; }
+.um-new { filter: drop-shadow(0 0 5px var(--mint-glow)); }
+
+/* key: names the lines where the drawing has no direct labels (phones), and the unit map's squares */
+.chart-key { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px; margin: 0; padding: 0; list-style: none; font-size: 13px; color: var(--ink2); }
+.chart-key li { display: inline-flex; align-items: center; gap: 8px; }
+.chart-key .num { font-size: 12px; color: var(--ink); }
+.sw { flex: none; display: inline-block; inline-size: 16px; block-size: 3px; border-radius: 2px; background: var(--peer-line); }
+.sw-dz { background: var(--mint); }
+.sw-hl { background: var(--amber); }
+.sw-ref { background: var(--grey); }
+.sw-peer { block-size: 2px; }
+.sw-median { block-size: 0; border-radius: 0; border-top: 2px dashed var(--grey-hi); background: none; }
+.sw-old, .sw-new { inline-size: 11px; block-size: 11px; border-radius: 2px; background: var(--cell-old); }
+.sw-new { background: var(--mint); box-shadow: 0 0 6px var(--mint-glow); }
+.um-note { margin-inline-start: auto; color: var(--ink3); }
+
+/* data table under every chart (AC-IDX-7) */
+.fig-table > summary { min-height: 52px; }
+.fig-dt { max-block-size: 440px; overflow: auto; border-radius: 12px; }
+.fig-dt thead th { position: sticky; top: 0; z-index: 1; background: var(--s2); }
+.fig-dt th, .fig-dt td { padding: 9px 14px; font-size: 13px; }
+.fig-dt tbody th { font-family: var(--mono); font-size: 13px; color: var(--ink2); }
+.dz-col thead th:nth-child(2), .dz-col td:nth-child(2) { color: var(--mint); }
+.fig-note { padding-top: 10px; font-size: 13px; color: var(--ink3); }

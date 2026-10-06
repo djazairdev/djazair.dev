@@ -1,0 +1,88 @@
+"""Chart figures (Components board, "Charts"): the numbered label, the wide and phone
+drawings, a key where the drawing has no direct labels, the source line with downloads, and
+the data table that every chart has (AC-IDX-7).
+
+Each figure registers its chart's downloads with the site (IDX-15): CSV and JSON, the same
+in both languages, and SVG files in the dark and light palettes in the page's language.
+PNG files are drawn from those SVG files in the browser by site.js.
+"""
+from __future__ import annotations
+
+from dataclasses import replace
+
+from . import charts
+from .charts import LineChart, UnitMap, loc
+from .components import data_table, details, download_menu, fig_label, frame, source_line
+from .config import LANGS
+from .fmt import fint, num
+from .markup import Markup, esc
+from .palette import THEMES
+
+KEY_ORDER = ('dz', 'hl', 'median', 'ref', 'peer')
+
+
+def downloads(ctx, chart) -> dict:
+    """Register the chart's files and return them for ``download_menu``."""
+    site, lang, folder = ctx.site, ctx.lang, chart.folder
+    stem = f'djazair.dev-{chart.id}-{folder}'
+    base = f'/charts/{folder}/{chart.id}'
+    files = {'csv': (site.add_file(f'{base}.csv', chart.csv()), f'{stem}.csv'),
+             'json': (site.add_file(f'{base}.json', chart.json()), f'{stem}.json')}
+    for theme, pal in THEMES.items():
+        url = site.add_file(f'/charts/{folder}/{lang}/{chart.id}-{theme}.svg', charts.download_svg(chart, lang, pal))
+        files[f'svg-{theme}'] = (url, f'{stem}-{lang}-{theme}.svg')
+        files[f'png-{theme}'] = (url, f'{stem}-{lang}-{theme}.png')
+    return files
+
+
+def line_key(ctx, chart: LineChart) -> Markup:
+    """The phone drawing has no end labels, so a key names the lines."""
+    items = []
+    for ln in sorted(chart.lines, key=lambda ln: KEY_ORDER.index(ln.role)):
+        if ln.role == 'peer' and chart.peers_label:
+            continue
+        items.append(f'<li><span class="sw sw-{ln.role}" aria-hidden="true"></span>{esc(loc(ln.name, ctx.lang))}</li>')
+    if chart.peers_label and any(ln.role == 'peer' for ln in chart.lines):
+        items.append(f'<li><span class="sw sw-peer" aria-hidden="true"></span>{esc(loc(chart.peers_label, ctx.lang))}</li>')
+    return Markup(f'<ul class="chart-key narrow" aria-label="{ctx.ta("chart.legend")}">{"".join(items)}</ul>')
+
+
+def unit_key(ctx, chart: UnitMap) -> Markup:
+    total, added = chart.squares
+    lang = ctx.lang
+    return Markup(
+        f'<ul class="chart-key um-key" aria-label="{ctx.ta("chart.legend")}">'
+        f'<li><span class="sw sw-old" aria-hidden="true"></span>{esc(loc(chart.start_label, lang))} {num(fint(total - added, lang))}</li>'
+        f'<li><span class="sw sw-new" aria-hidden="true"></span>{esc(loc(chart.added_label, lang))} {num(fint(added, lang))}</li>'
+        f'<li class="um-note">{esc(loc(chart.square_label, lang))}</li></ul>')
+
+
+def table(ctx, chart) -> Markup:
+    names = {k: ctx.t(f'chart.{k}') for k in ('quarter', 'series', 'category', 'value', 'accounts', 'squares')}
+    head, rows = charts.table(chart, ctx.lang, names)
+    dz_first = isinstance(chart, LineChart) and chart.ordered()[0].role == 'dz'
+    tbl = data_table(esc(loc(chart.title, ctx.lang)), head, rows, cls='fig-dt dz-col' if dz_first else 'fig-dt')
+    return details(ctx.t('chart.table'), Markup(f'{tbl}<p class="fig-note">{ctx.t("chart.table_note")}</p>'),
+                   cls='fig-table', icon_name='table', id_=f'{chart.id}-table')
+
+
+def figure(ctx, chart, n: int, *, source, controls='', lede='', cls: str = '') -> Markup:
+    """Figure ``n``. ``source``: HTML for the source line, naming the source and the data
+    quarter (IDX-13). ``controls`` sit beside the label; ``lede`` goes under it."""
+    if not chart.credit:
+        chart = replace(chart, credit={lang: ctx.site.catalog.lookup(lang, 'chart.credit')[0] for lang in LANGS})
+    lang = ctx.lang
+    desc = f'{loc(chart.summary, lang)} {ctx.s("chart.desc_table")}'
+    label_id = f'{chart.id}-label'
+    head = Markup(f'<div class="fig-head">{fig_label(ctx, n, esc(loc(chart.title, lang)), label_id)}{controls}</div>')
+    if isinstance(chart, UnitMap):
+        body = charts.svg(chart, lang, 'wide', f'{chart.id}-m', desc) + unit_key(ctx, chart)
+    else:
+        body = (charts.svg(chart, lang, 'wide', f'{chart.id}-w', desc, cls='wide')
+                + charts.svg(chart, lang, 'narrow', f'{chart.id}-n', desc, cls='narrow'))
+        if isinstance(chart, LineChart):
+            body += line_key(ctx, chart)
+    lede_html = Markup(f'<p class="fig-lede">{lede}</p>') if lede else ''
+    inner = (head + lede_html + Markup(f'<div class="fig-body">{body}</div>')
+             + source_line(source, download_menu(ctx, downloads(ctx, chart))) + table(ctx, chart))
+    return frame(inner, cls=f'fig {cls}'.strip(), labelledby=label_id)

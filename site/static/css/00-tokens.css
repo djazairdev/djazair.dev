@@ -56,6 +56,9 @@
   --grid-line: rgba(238, 243, 236, .07);
   --axis-line: rgba(238, 243, 236, .16);
   --tick-line: rgba(238, 243, 236, .3);
+  --bar: rgba(238, 243, 236, .16);
+  --map-line: rgba(238, 243, 236, .22);
+  --map-fill: rgba(61, 190, 132, .035);
 
   /* language dots on Hub cards */
   --sky: #79B8EE;

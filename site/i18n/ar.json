@@ -59,6 +59,19 @@
   "fig": {
     "label": "الشكل"
   },
+  "chart": {
+    "table": "جدول البيانات",
+    "table_note": "كل القيم التي يرسمها الشكل، وهي نفسها في ملف CSV.",
+    "quarter": "الربع",
+    "series": "السلسلة",
+    "category": "الفئة",
+    "value": "القيمة",
+    "accounts": "الحسابات",
+    "squares": "المربّعات",
+    "legend": "مفتاح الرسم",
+    "desc_table": "يسرد جدول البيانات أسفل الرسم كل القيم.",
+    "credit": "البيانات: GitHub Innovation Graph ‏(CC0) · الرسم: djazair.dev ‏(CC BY 4.0)"
+  },
   "measures": {
     "summary": "ماذا يقيس هذا المؤشر",
     "does": "ما يقيسه",

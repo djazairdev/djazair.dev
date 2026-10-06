@@ -106,6 +106,95 @@
     });
   });
 
+  // Charts below the fold draw in when they arrive, where CSS can't tie drawing to scrolling.
+  var scrollDriven = window.CSS && CSS.supports && CSS.supports('animation-timeline: view()');
+  var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!scrollDriven && !still && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        en.target.classList.remove('draw-wait');
+        en.target.classList.add('draw-go');
+        io.unobserve(en.target);
+      });
+    }, { threshold: 0.3 });
+    doc.querySelectorAll('svg.chart').forEach(function (svg) {
+      if (svg.getBoundingClientRect().top > window.innerHeight) {
+        svg.classList.add('draw-wait');
+        io.observe(svg);
+      }
+    });
+  }
+
+  // PNG downloads: drawn here from the chart's SVG file, with the site's fonts embedded so
+  // the text looks as it does on the page. Without JavaScript these menu items stay hidden.
+  var canPng = window.fetch && window.Promise && window.FileReader && window.URL && HTMLCanvasElement.prototype.toBlob;
+  if (canPng) {
+    doc.querySelectorAll('li[data-png]').forEach(function (li) { li.hidden = false; });
+  }
+  var fontCss = null;
+  function inlineFonts() {
+    if (fontCss) return fontCss;
+    var rules = [];
+    Array.prototype.forEach.call(doc.styleSheets, function (sheet) {
+      try {
+        Array.prototype.forEach.call(sheet.cssRules, function (r) {
+          if (window.CSSFontFaceRule && r instanceof CSSFontFaceRule) rules.push(r.cssText);
+        });
+      } catch (err) { /* another origin's stylesheet */ }
+    });
+    fontCss = Promise.all(rules.map(function (css) {
+      var m = css.match(/url\("?([^")]+)"?\)/);
+      if (!m) return css;
+      return fetch(m[1]).then(function (r) { return r.blob(); }).then(function (blob) {
+        return new Promise(function (resolve) {
+          var reader = new FileReader();
+          reader.onload = function () { resolve(css.replace(m[0], 'url("' + reader.result + '")')); };
+          reader.onerror = function () { resolve(''); };
+          reader.readAsDataURL(blob);
+        });
+      });
+    })).then(function (list) { return list.join('\n'); });
+    return fontCss;
+  }
+  function save(blob, name) {
+    var link = doc.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = name;
+    doc.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(link.href); }, 4000);
+  }
+  doc.addEventListener('click', function (e) {
+    var a = canPng && e.target.closest && e.target.closest('a[data-png]');
+    if (!a) return;
+    e.preventDefault();
+    var menu = a.closest('details');
+    if (menu) menu.open = false;
+    Promise.all([fetch(a.href).then(function (r) { return r.text(); }), inlineFonts()]).then(function (res) {
+      var svg = res[0].replace(/(<svg[^>]*>)/, '$1<style>' + res[1] + '</style>');
+      var w = Number(svg.match(/width="([\d.]+)"/)[1]);
+      var h = Number(svg.match(/height="([\d.]+)"/)[1]);
+      var url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+      var img = new Image();
+      img.onload = function () {
+        // A beat for the embedded fonts, then draw at twice the size for sharp text.
+        setTimeout(function () {
+          var canvas = doc.createElement('canvas');
+          canvas.width = Math.round(w * 2);
+          canvas.height = Math.round(h * 2);
+          var c = canvas.getContext('2d');
+          c.scale(2, 2);
+          c.drawImage(img, 0, 0, w, h);
+          URL.revokeObjectURL(url);
+          canvas.toBlob(function (blob) { if (blob) save(blob, a.getAttribute('download')); }, 'image/png');
+        }, 60);
+      };
+      img.src = url;
+    });
+  });
+
   // Copy buttons on code samples.
   doc.querySelectorAll('[data-copy]').forEach(function (b) {
     if (!navigator.clipboard) return;

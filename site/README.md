@@ -11,7 +11,7 @@ python3 site/build.py                                         # writes site/dist
 python3 -m http.server 4322 --bind 127.0.0.1 --directory site/dist
 ```
 
-Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/en/_dev/components/` and `/ar/_dev/components/`, which show every shared component; they are never deployed.
+Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/en/_dev/components/` and `/ar/_dev/components/`, which show every shared component and the chart kit on real data; they are never deployed.
 
 ## How it's organised
 
@@ -21,7 +21,9 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `djsite/routes.py` | Every page and its path under `/en/` and `/ar/` |
 | `djsite/layout.py` | The page shell: head, skip link, header, Index sub-nav, notices, footer |
 | `djsite/components.py` | Shared components: buttons, chips, chart controls, tiles, figure frame, source line, tables, disclosure, Hub issue rows, check panel, code sample |
-| `djsite/charts.py` | Build-time SVG charts |
+| `djsite/charts.py` | Build-time SVG charts: line, bar and unit map, sparklines, rank strips; their CSV, JSON and SVG downloads |
+| `djsite/figures.py` | A chart on a page: numbered label, wide and phone drawings, key, source line, downloads, data table |
+| `djsite/unitmap.py`, `geo/algeria.json` | The unit map's layout inside Algeria's outline |
 | `djsite/fmt.py` | Number, quarter and date formats for `en` and `ar-DZ` |
 | `djsite/pages/` | One renderer per page; `root.py` is the language chooser at `/` |
 | `djsite/i18n.py`, `i18n/*.json` | Interface strings (see below) |
@@ -30,7 +32,8 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `static/js/` | `site.js` (every page) and page-specific scripts |
 | `static/fonts/` | Self-hosted Tajawal and JetBrains Mono woff2 subsets, with their licences (SIL OFL 1.1) |
 | `tools/fetch_fonts.py` | Re-downloads the fonts and writes `static/css/05-fonts.css`; only needed to update them |
-| `djsite/palette.py` | Chart colours for downloaded SVG and PNG files (dark and light) |
+| `tools/make_outline.py` | Rebuilds `geo/algeria.json` from Natural Earth (public domain); only needed to change the outline |
+| `djsite/palette.py` | Chart colours: dark (the page, equal to the tokens) and light, for downloads |
 | `holding/` | The pre-launch page served at djazair.dev until launch |
 
 ## Design tokens
@@ -50,6 +53,18 @@ English (`i18n/en.json`) is the source: a key a page uses but `en.json` lacks fa
 ## Numbers, quarters and dates
 
 `djsite/fmt.py` formats numbers the way `Intl.NumberFormat` does for `en` (`586,990.5`) and `ar-DZ` (`586.990,5`, Western digits), with the typographic minus `−` for negative values. Quarters read "Q1 2026" or "الربع الأول 2026" in text and "2026 Q1" on axes and in tables; dates are Gregorian with Algerian month names in Arabic. Inside Arabic text, every figure goes through `num()`, which isolates it left to right so `+49,1%` keeps its sign on the left; `tests/test_i18n_format.py` checks every signed value on every Arabic page.
+
+## Charts
+
+Every chart is drawn at build time as SVG, so a page can be read without fetching data or running JavaScript. A chart is a language-neutral spec, `LineChart`, `BarChart` or `UnitMap` in `djsite/charts.py`: names and titles are `{'en': …, 'ar': …}` and formatters take `(value, lang)`. `figures.figure(ctx, chart, n, source=…)` puts it on a page with:
+
+- a wide drawing and a phone drawing (they switch at 760 px), and a key on phones, where lines have no end labels;
+- `role="img"` with a title and a description, and a data table with every value in a disclosure under the chart (AC-IDX-7);
+- downloads (IDX-15): CSV and JSON (CC0, the same for both languages) at `/charts/<yyyy-qN>/<id>.csv` and `.json`, and SVG files in the dark and light palettes at `/charts/<yyyy-qN>/<lang>/<id>-dark.svg` and `-light.svg`, each with its title and credit line. PNG files are drawn from those SVG files in the browser, with the site's fonts embedded, so their menu items appear only with JavaScript.
+
+Colours come from `djsite/palette.py`; on-page charts use the dark palette, which a test keeps equal to the CSS tokens. Time runs left to right in Arabic too; Arabic words are set right to left and figures left to right. End labels never overlap: labels that would collide form a group centred on their lines. The unit map fills Algeria's outline with one square per 1,000 accounts; the squares show quantity, never location, and the map is never mirrored. The same data always gives byte-identical files (`tests/test_charts.py`).
+
+Motion: Algeria's line draws as the chart scrolls into view (scroll-driven animations where the browser has them; elsewhere `site.js` draws charts below the fold over one second when they arrive), then the end dot and notes pop in, and unit-map squares appear in bands from Algiers. With `prefers-reduced-motion: reduce`, nothing moves.
 
 ## Holding page
 

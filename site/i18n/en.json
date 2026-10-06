@@ -59,6 +59,19 @@
   "fig": {
     "label": "FIG."
   },
+  "chart": {
+    "table": "Data table",
+    "table_note": "Every value the chart draws. The same figures are in the CSV.",
+    "quarter": "Quarter",
+    "series": "Series",
+    "category": "Category",
+    "value": "Value",
+    "accounts": "Accounts",
+    "squares": "Squares",
+    "legend": "Chart key",
+    "desc_table": "The data table under the chart lists every value.",
+    "credit": "Data: GitHub Innovation Graph (CC0) · Chart: djazair.dev (CC BY 4.0)"
+  },
   "measures": {
     "summary": "What this measures",
     "does": "Measures",

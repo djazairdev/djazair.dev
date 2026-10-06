@@ -39,6 +39,17 @@ class Site:
     assets: object = None          # assets.Assets
     dev: bool = False
     data: dict = field(default_factory=dict)
+    files: dict = field(default_factory=dict)   # generated downloads: URL path -> bytes
+
+    def add_file(self, path: str, data: bytes) -> str:
+        """Register a generated file, such as a chart download, and return its URL. Pages in
+        both languages may register the same file; it must be the same bytes each time."""
+        if not path.startswith('/') or '..' in path:
+            raise ValueError(f'bad file path: {path}')
+        if self.files.get(path, data) != data:
+            raise ValueError(f'{path} was generated twice with different content')
+        self.files[path] = data
+        return path
 
 
 class Ctx:

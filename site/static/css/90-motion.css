@@ -5,8 +5,43 @@
 @keyframes pop { from { opacity: 0; transform: scale(.6); } to { opacity: 1; transform: none; } }
 @keyframes pulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
 
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cell-in { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: none; } }
+@keyframes cell-new {
+  0% { opacity: 0; transform: scale(.2); fill: var(--cell-flash); }
+  55% { opacity: 1; transform: scale(1.35); fill: var(--cell-flash); }
+  100% { opacity: 1; transform: none; fill: var(--mint); }
+}
+
 .enter { animation: fade-up .8s var(--ease) both; animation-delay: var(--d, 0ms); }
 .live { animation: pulse 2.4s var(--ease-io) 3; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Charts draw as they scroll into view: context fades in, Algeria's line draws, then its
+     end dot and the notes pop in. */
+  @supports (animation-timeline: view()) {
+    .chart { view-timeline: --chart block; }
+    .chart .fd { animation: fade-in linear both; animation-timeline: --chart; animation-range: entry 0% entry 60%; }
+    .chart .ln { stroke-dasharray: 1; animation: draw linear both; animation-timeline: --chart; animation-range: entry 15% entry 100%; }
+    .chart .ann { animation: pop linear both; animation-timeline: --chart; animation-range: entry 85% entry 100%; transform-box: fill-box; transform-origin: center; }
+  }
+  /* Without scroll-driven animations, site.js holds charts below the fold (draw-wait) and
+     draws them over one second when they arrive (draw-go). */
+  .chart.draw-wait .ln { stroke-dasharray: 1; stroke-dashoffset: 1; }
+  .chart.draw-wait .fd, .chart.draw-wait .ann { opacity: 0; }
+  .chart.draw-go .fd { animation: fade-in .6s var(--ease) both; }
+  .chart.draw-go .ln { stroke-dasharray: 1; animation: draw 1s var(--ease-io) both; }
+  .chart.draw-go .ann { animation: pop .45s var(--spring) .85s both; transform-box: fill-box; transform-origin: center; }
+
+  /* The unit map fills in twelve bands outward from Algiers: last year's squares first,
+     then the squares added since. */
+  .um rect { transform-box: fill-box; transform-origin: center; }
+  .um .o rect { animation: cell-in .5s var(--ease) both; animation-delay: calc(90ms + var(--b, 0) * 62ms); }
+  .um .n rect { animation: cell-new .7s var(--spring) both; animation-delay: calc(1180ms + var(--b, 0) * 58ms); }
+  .um .b1 { --b: 1; } .um .b2 { --b: 2; } .um .b3 { --b: 3; } .um .b4 { --b: 4; } .um .b5 { --b: 5; } .um .b6 { --b: 6; }
+  .um .b7 { --b: 7; } .um .b8 { --b: 8; } .um .b9 { --b: 9; } .um .b10 { --b: 10; } .um .b11 { --b: 11; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
