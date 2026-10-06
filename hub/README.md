@@ -64,10 +64,10 @@ Which projects show is decided by the health checks below.
 
 **No personal data** (AC-HUB-5). Nothing about who opened, commented on or was assigned an issue is kept: no usernames, avatars or assignees, and no issue text but the title and its *You'll need* line (`needs`). That line is read from an issue that says, for example, `You'll need: Python, pytest`, or from an issue form field called *You'll need*; an aside that names someone is taken out, and a line that still names someone is left out. Commits give only their date.
 
-**Rate limits** (AC-HUB-4). A run makes about 4 requests per project (the repository, its last commit and one page of issues per label), so about 100 for 25 projects, against the 1,000 an hour the workflow token allows. Every request carries the ETag of the last answer; when nothing changed GitHub answers *304 Not Modified*, which doesn't count against the limit. Before it starts, the sync checks the quota left covers a whole run, and otherwise stops without writing anything. It logs the requests made, how many were unchanged, and the quota left:
+**Rate limits** (AC-HUB-4). A run makes about 4 requests per project (the repository, its last commit and one page of issues per label), so about 100 for 25 projects, far below the workflow token's hourly limit (GitHub reported 5,000 on the first run). Every request carries the ETag of the last answer; when nothing changed GitHub answers *304 Not Modified*, which doesn't count against the limit. Before it starts, the sync checks the quota left covers a whole run, and otherwise stops without writing anything. It logs the requests made, how many were unchanged, and the quota left:
 
 ```
-Hub: 25 projects (24 shown), 131 open issues. GitHub API: 102 requests, 87 unchanged (304, free); 912 of 1,000 left, resets at 13:04 UTC.
+Hub: 25 projects (23 healthy, 1 flagged, 1 hidden), 131 open issues. GitHub API: 102 requests, 87 unchanged (304, free); 4,912 of 5,000 left, resets at 13:04 UTC.
 ```
 
 Without `GITHUB_TOKEN`, GitHub allows 60 requests an hour, which covers about a dozen projects.

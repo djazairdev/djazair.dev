@@ -19,7 +19,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 |---|---|
 | `build.py` | Entry point |
 | `djsite/routes.py` | Every page and its path under `/en/` and `/ar/` |
-| `djsite/data.py` | The Index data: the quarter `data/derived/latest.json` names, each file checked against its `manifest.json`, and the Hub's synced issues. The site reads no other data |
+| `djsite/data.py` | The Index data: the quarter `data/derived/latest.json` names, each file checked against its `manifest.json`; and the Hub snapshot in `data/derived/hub/` (`Hub`), read once per build. The site reads no other data |
 | `djsite/scorecard.py` | The six headline indicators as Home and the Index overview show them |
 | `djsite/editorial.py` | Sentences tied to the data: computed facts (growth streaks) and the per-quarter headlines in `content/editorial/`, used only while their claims hold |
 | `djsite/layout.py` | The page shell: head, skip link, header, Index sub-nav, notices, footer |
@@ -32,7 +32,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `djsite/i18n.py`, `i18n/*.json` | Interface strings (see below) |
 | `djsite/markup.py` | HTML escaping: everything that isn't our own markup goes through `esc()` |
 | `static/css/` | Stylesheets, concatenated in file-name order into one hashed file |
-| `static/js/` | `site.js` (every page) and page-specific scripts (`trends.js`) |
+| `static/js/` | `site.js` (every page) and page-specific scripts (`trends.js`, `hub.js`) |
 | `static/fonts/` | Self-hosted Tajawal and JetBrains Mono woff2 subsets, with their licences (SIL OFL 1.1) |
 | `tools/fetch_fonts.py` | Re-downloads the fonts and writes `static/css/05-fonts.css`; only needed to update them |
 | `tools/make_outline.py` | Rebuilds `geo/algeria.json` from Natural Earth (public domain); only needed to change the outline |
@@ -102,6 +102,12 @@ The words live in `content/methodology/<lang>.md` and `content/about/<lang>.md`,
 ## Data and downloads
 
 `djsite/pages/datapage.py` lists every derived table of the quarter with its CSV and JSON sizes (from the manifest), the data behind every chart, stable addresses for code (`/data/latest.json`, served with CORS), the full changelog and corrections log (`#changelog`, `#corrections`) and the licence and attribution. Charts are listed from `Site.charts`, which `figures.downloads` fills as pages register their files, so the route is marked `last=True` and the build renders it after every other page.
+
+## Hub
+
+`pages/hub.py` builds the Project Hub (ticket #27) from the snapshot the Hub sync writes (`data/derived/hub/`, see [hub/README.md](../hub/README.md#sync-issues-feed)): the projects whose health checks let them show, and their open `good first issue` and `help wanted` issues, newest first. Locally, `.github/scripts/hub-snapshot.sh` fetches the latest snapshot; without one the page shows its empty state. Cards show the title, labels (beginner labels first), the repository, its language, the *You'll need* line and the age at the last sync, and link to GitHub; nothing about who opened an issue is read (AC-HUB-5).
+
+Without JavaScript the whole list shows. `hub.js` reveals the search, the label tabs (radio buttons) and the language, project and age filters (radio groups, with their counts from the build), hides the cards that don't match, and updates the count, a `role="status"` region, so screen readers hear it (after a pause while typing). Filters are kept in the address (`?lang=Python&kind=gfi`), so a filtered view can be shared; a project card's issue count links to its issues the same way. On phones the filters fold under *Filters*. Counted phrases use the CLDR plural categories (`fmt.plural`, `Intl.PluralRules` in the browser), so Arabic gets its zero, one, two, few and many forms.
 
 ## Holding page
 

@@ -88,7 +88,118 @@
     "copied": "Link copied"
   },
   "hub": {
-    "need": "You’ll need:"
+    "need": "You’ll need:",
+    "eyebrow": "Project Hub",
+    "title": "Your first pull request starts here",
+    "lede": "Beginner-friendly issues from open-source projects with Algerian maintainers or a clear link to Algeria. Every listed project pledges to answer newcomers within 7 days.",
+    "meta_projects": "Projects",
+    "meta_issues": "Open issues",
+    "meta_refreshed": "Refreshed",
+    "every": "every {n} h",
+    "list": "List your project",
+    "contribute": "How to contribute",
+    "feed_title": "Open issues",
+    "search": "Search issues",
+    "filters": "Filters",
+    "filters_none": "none active",
+    "filters_some": "{n} active",
+    "language": "Language",
+    "all_languages": "All languages",
+    "other_language": "Other",
+    "project": "Project",
+    "all_projects": "All projects",
+    "opened": "Opened",
+    "age_any": "Any time",
+    "age_7": "Last 7 days",
+    "age_30": "Last 30 days",
+    "kind_legend": "Label",
+    "kind_all": "All",
+    "count": {
+      "zero": "{n} open issues",
+      "one": "{n} open issue",
+      "two": "{n} open issues",
+      "few": "{n} open issues",
+      "many": "{n} open issues",
+      "other": "{n} open issues"
+    },
+    "open_issues": {
+      "zero": "{n} open issues",
+      "one": "{n} open issue",
+      "two": "{n} open issues",
+      "few": "{n} open issues",
+      "many": "{n} open issues",
+      "other": "{n} open issues"
+    },
+    "clear": "Clear filters",
+    "no_match_title": "No issues match these filters",
+    "no_match": "Try another language or label, or clear the filters.",
+    "note": "Open issues labelled {gfi} or {hw} in listed projects, refreshed from GitHub every {hours} hours. Each card links to the issue on GitHub.",
+    "synced": "Last refreshed {when}.",
+    "empty_title": "The first projects are being listed.",
+    "empty": "Their beginner issues appear here as soon as they pass the seven listing checks. Maintain an open-source project with a link to Algeria? Listing it takes one pull request, and no account.",
+    "steps_eyebrow": "New to open source?",
+    "steps_title": "How a first contribution works",
+    "step1_t": "Pick an issue",
+    "step1": "Comment on it to say you’re working on it, so nobody duplicates your work.",
+    "step2_t": "Open a draft pull request early",
+    "step2": "Push a first version and ask questions in the pull request. Small is fine.",
+    "step3_t": "Get a reply within 7 days",
+    "step3": "Listed maintainers pledge to review or answer newcomers within a week.",
+    "projects_eyebrow": "Projects",
+    "projects_title": "Listed projects and open slots",
+    "projects_lede": "Every listed project passes a daily health check: recent commits, open beginner issues and the djazairdev topic. Dashed cards are projects Algeria’s ecosystem still needs.",
+    "projects_note": "A project that fails a check for 14 days is hidden until it’s fixed, and one that removes the topic leaves at once. {report}.",
+    "health_report": "Read the health report",
+    "listed": "{category} · listed {date}",
+    "category": {
+      "app": "App",
+      "library": "Library",
+      "tool": "Tool",
+      "dataset": "Dataset"
+    },
+    "tags": "Tags",
+    "healthy": "Health check passing",
+    "flagged": "Health check: {reason}",
+    "pledge": "Replies within 7 days",
+    "reason": {
+      "inactive": "no commit in 90 days",
+      "no_issues": "no open beginner issues"
+    },
+    "wanted": "Wanted",
+    "want": {
+      "divisions": {
+        "category": "Dataset",
+        "title": "Administrative divisions as open data",
+        "text": "Wilayas and communes after the April 2026 reorganisation, with official codes, under an open licence."
+      },
+      "payments": {
+        "category": "Library",
+        "title": "Payment software kits",
+        "text": "Open SDKs for Algerian payment gateways, with tests and examples. Maintain one? List it."
+      },
+      "languages": {
+        "category": "Tool",
+        "title": "Darija and Tamazight language tools",
+        "text": "Tokenisers, spell-checkers and open datasets for languages spoken in Algeria."
+      }
+    },
+    "start": "Start or list one",
+    "list_eyebrow": "Get listed",
+    "list_title": "Seven checks, one pull request",
+    "list_lede": "Add one entry to projects.yml, or fill in the issue form if you’d rather not use git. No djazair.dev account needed: the djazairdev topic proves you maintain the repository.",
+    "check": {
+      "licence": "An OSI-approved open-source licence",
+      "activity": "At least one commit in the last 90 days",
+      "docs": "A README and a CONTRIBUTING file",
+      "issues": "At least 3 open issues labelled {gfi} or {hw}",
+      "pledge": "Maintainers pledge to reply to newcomer pull requests within 7 days",
+      "topic": "The repository carries the GitHub topic {topic}",
+      "relevance": "Algerian maintainers, or clear relevance to Algeria"
+    },
+    "check_note": "A failing check names what to fix. A code of conduct is recommended, not required.",
+    "open_pr": "Open a pull request",
+    "issue_form": "Use the issue form",
+    "list_note": "Submissions are reviewed in public within 7 days. Language, licence and activity are read from GitHub, so the entry stays short."
   },
   "checks": {
     "passed": "{n} of {total} passed",

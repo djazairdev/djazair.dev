@@ -115,14 +115,26 @@ def _time(text: str) -> datetime:
     return datetime.fromisoformat(text.replace('Z', '+00:00'))
 
 
+class Hub:
+    """The Hub snapshot the sync writes (ticket #25): the projects the Hub shows and their
+    beginner issues. Empty before the first sync."""
+
+    def __init__(self, root: Path = HUB_DIR):
+        root = Path(root)
+        projects = _read(root / 'projects.json')
+        issues = _read(root / 'issues.json')
+        self.synced: Optional[datetime] = _time(issues['generated_at']) if issues else None
+        self.projects = [p for p in (projects or {}).get('projects', []) if p.get('shown')]
+        # Each issue gets ``days``: its age when the Hub was last synced, so a build gives the
+        # same page for the same data.
+        self.issues = sorted((dict(i, days=max(0, (self.synced - _time(i['created_at'])).days))
+                              for i in (issues or {}).get('issues', [])), key=lambda i: i['created_at'], reverse=True)
+
+
+def _read(path: Path) -> Optional[dict]:
+    return json.loads(path.read_text('utf-8')) if path.is_file() else None
+
+
 def hub_issues(root: Path = HUB_DIR) -> list:
-    """Beginner issues from the Hub's listed projects, newest first, each with ``days``: its age
-    when the Hub was last synced (so a build gives the same page for the same data). Empty
-    until the first sync writes ``hub/issues.json`` (ticket #25)."""
-    path = Path(root) / 'issues.json'
-    if not path.is_file():
-        return []
-    doc = json.loads(path.read_text('utf-8'))
-    synced = _time(doc['generated_at'])
-    out = [dict(issue, days=max(0, (synced - _time(issue['created_at'])).days)) for issue in doc['issues']]
-    return sorted(out, key=lambda i: i['created_at'], reverse=True)
+    """Beginner issues from the Hub's listed projects, newest first (see ``Hub``)."""
+    return Hub(root).issues

@@ -8,11 +8,12 @@ import sys
 import time
 import zipfile
 from pathlib import Path
+from typing import Optional
 
 from . import assets, layout
 from .config import DEFAULT_OUT, I18N_DIR, LANGS
 from .context import Ctx, Route, Site
-from .data import DERIVED_DIR, load as load_data
+from .data import DERIVED_DIR, Hub, load as load_data
 from .i18n import Catalog
 from .pages import dev as dev_page, home, root
 from .routes import ROUTES
@@ -81,13 +82,14 @@ def output_path(out: Path, lang: str, path: str) -> Path:
 
 
 def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool = False, i18n_dir: Path = I18N_DIR,
-          derived_dir: Path = DERIVED_DIR) -> Site:
+          derived_dir: Path = DERIVED_DIR, hub_dir: Optional[Path] = None) -> Site:
     started = time.time()
     catalog = Catalog(i18n_dir)
     all_routes = list(routes or ROUTES)
     if dev:
         all_routes.append(Route('dev-components', '_dev/components/', dev_page.render, indexed=False))
-    site = Site(catalog=catalog, routes={r.key: r for r in all_routes}, dev=dev, data=load_data(derived_dir))
+    site = Site(catalog=catalog, routes={r.key: r for r in all_routes}, dev=dev, data=load_data(derived_dir),
+                hub=Hub(hub_dir or Path(derived_dir) / 'hub'))
     _prepare(out)
     site.assets = assets.build(out, extra_css=home.ticker_css(site.data))
     add_data_files(site, derived_dir)

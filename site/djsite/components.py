@@ -286,12 +286,12 @@ def ago(days: int, lang: str) -> str:
 
 def issue_card(ctx, issue: dict) -> Markup:
     """A beginner issue from a listed project. Links to GitHub; shows what you'll need, never who opened it.
-    ``issue``: url, title, labels, repo, language, days, need (optional). Every field is escaped."""
+    ``issue``: url, title, labels, repo, language, days, needs (optional). Every field is escaped."""
     labels = ''.join(label_chip(l) for l in issue.get('labels', []))
     lang_name = issue.get('language') or ''
     dot = LANG_DOT.get(lang_name, 'neutral')
     lang_html = f'<span class="ic-lang"><span class="dot dot-{dot}" aria-hidden="true"></span>{esc(lang_name)}</span>' if lang_name else ''
-    need = issue.get('need')
+    need = issue.get('needs')
     need_html = f'<span class="ic-need">{ctx.t("hub.need")} <span dir="auto">{esc(need)}</span></span>' if need else ''
     attrs = ''.join(f' data-{k}="{esc(v)}"' for k, v in (issue.get('data') or {}).items())
     return Markup(f'''<a class="issue" href="{esc(issue["url"])}"{attrs}>

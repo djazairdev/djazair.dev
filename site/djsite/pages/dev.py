@@ -106,11 +106,11 @@ T = {
 
 ISSUES = [
     dict(url='https://github.com/djazairdev/djazair.dev/issues', title='Proofread the Arabic methodology page',
-         labels=['good first issue', 'translation'], repo='djazairdev/djazair.dev', language='Markdown', days=2, need='Fluent Arabic, Markdown'),
+         labels=['good first issue', 'translation'], repo='djazairdev/djazair.dev', language='Markdown', days=2, needs='Fluent Arabic, Markdown'),
     dict(url='https://github.com/djazairdev/djazair.dev/issues', title='Test the Trends data table with a screen reader',
-         labels=['good first issue', 'accessibility'], repo='djazairdev/djazair.dev', language='TypeScript', days=5, need='NVDA, JAWS or VoiceOver'),
+         labels=['good first issue', 'accessibility'], repo='djazairdev/djazair.dev', language='TypeScript', days=5, needs='NVDA, JAWS or VoiceOver'),
     dict(url='https://github.com/djazairdev/djazair.dev/issues', title='Test the year-on-year growth calculation against the baseline',
-         labels=['help wanted', 'tests'], repo='djazairdev/djazair.dev', language='Python', days=22, need='Python'),
+         labels=['help wanted', 'tests'], repo='djazairdev/djazair.dev', language='Python', days=22, needs='Python'),
 ]
 
 

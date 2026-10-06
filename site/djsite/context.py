@@ -42,6 +42,7 @@ class Site:
     data: object = None            # data.Derived: the quarter being built
     files: dict = field(default_factory=dict)   # generated downloads: URL path -> bytes
     charts: dict = field(default_factory=dict)  # chart id -> {route, title, csv, json}: the Data page lists them
+    hub: object = None             # data.Hub: the Hub snapshot
 
     def add_file(self, path: str, data: bytes) -> str:
         """Register a generated file, such as a chart download, and return its URL. Pages in

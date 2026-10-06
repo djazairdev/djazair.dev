@@ -13,7 +13,6 @@ from .. import editorial
 from ..charts import Line, LineChart, Note, UnitMap, loc, tick_pct
 from ..config import LANGS, REPO_URL
 from ..context import Ctx, Page
-from ..data import hub_issues
 from ..figures import figure, table, unit_key
 from ..fmt import date_label, fint, fpct, num, quarter_label, rank_text
 from ..icons import icon
@@ -212,7 +211,7 @@ def trend(ctx) -> Markup:
 
 # ---------------------------------------------------------------- Hub teaser
 def hub_teaser(ctx) -> Markup:
-    issues = hub_issues()[:3]
+    issues = ctx.site.hub.issues[:3]
     actions = Markup(f'<div class="section-actions">{C.btn(ctx.t("home.hub_browse"), ctx.url("hub"))}'
                      f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "secondary", arrow=False)}</div>')
     if issues:

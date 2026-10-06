@@ -137,6 +137,16 @@ def date_label(d, lang: str = 'en', short: bool = False) -> str:
     return f'{d.day} {month[:3] if short else month} {d.year}'
 
 
+def plural(n: int, lang: str = 'en') -> str:
+    """The CLDR plural category of a count, as ``Intl.PluralRules`` gives it: one or other in
+    English; zero, one, two, few (3 to 10), many (11 to 99) or other in Arabic."""
+    if lang != 'ar':
+        return 'one' if n == 1 else 'other'
+    if n in (0, 1, 2):
+        return ('zero', 'one', 'two')[n]
+    return 'few' if 3 <= n % 100 <= 10 else 'many' if 11 <= n % 100 <= 99 else 'other'
+
+
 def has_arabic(text) -> bool:
     return bool(_ARABIC.search(str(text)))
 
