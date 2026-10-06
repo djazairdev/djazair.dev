@@ -1,0 +1,3 @@
+# Archived source data and published indicators: no text diffs in reviews, collapsed on GitHub.
+data/raw/** -diff linguist-generated=true
+data/derived/** linguist-generated=true
