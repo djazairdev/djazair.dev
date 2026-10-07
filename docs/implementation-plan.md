@@ -112,9 +112,9 @@ The Hub registry and submission checks sit in M2, before the pages, so maintaine
 
 | # | Ticket | Priority | Days | Depends on | Design |
 |--:|---|---|--:|---|---|
-| [#36](https://github.com/djazairdev/djazair.dev/issues/36) | Build the Topics page | Should | 0.75 | — | — |
-| [#37](https://github.com/djazairdev/djazair.dev/issues/37) | Build the Collaboration page | Should | 0.75 | — | — |
-| [#38](https://github.com/djazairdev/djazair.dev/issues/38) | Build the External rankings page (GDC26) | Should | 0.75 | — | — |
+| [#36](https://github.com/djazairdev/djazair.dev/issues/36) | Build the Topics page | Should | 0.75 | — | [Topics — desktop](design/topics-en-desktop.png), [Topics — phone](design/topics-en-phone.png) |
+| [#37](https://github.com/djazairdev/djazair.dev/issues/37) | Build the Collaboration page | Should | 0.75 | — | [Collaboration — desktop](design/collaboration-en-desktop.png), [Collaboration — phone](design/collaboration-en-phone.png) |
+| [#38](https://github.com/djazairdev/djazair.dev/issues/38) | Build the External rankings page (GDC26) | Should | 0.75 | — | [Rankings — desktop](design/rankings-en-desktop.png), [Rankings — phone](design/rankings-en-phone.png) |
 | [#39](https://github.com/djazairdev/djazair.dev/issues/39) | Open Hub ideas in GitHub Discussions | Should | 0.5 | — | — |
 | [#40](https://github.com/djazairdev/djazair.dev/issues/40) | Add the Hub localisation section | Should | 0.5 | — | — |
 | [#41](https://github.com/djazairdev/djazair.dev/issues/41) | Publish Hub contributor metrics | Should | 1 | — | — |
@@ -167,8 +167,14 @@ The images in [`docs/design/`](design/) are exported from the djazair.dev design
 | Methodology — Arabic, phone (built site) | [methodology-ar-phone.png](design/methodology-ar-phone.png) | [#23](https://github.com/djazairdev/djazair.dev/issues/23) |
 | 404 — desktop (built site) | [404-desktop.png](design/404-desktop.png) | [#2](https://github.com/djazairdev/djazair.dev/issues/2) |
 | 404 — phone (built site) | [404-phone.png](design/404-phone.png) | [#2](https://github.com/djazairdev/djazair.dev/issues/2) |
+| Topics — English, desktop (built site) | [topics-en-desktop.png](design/topics-en-desktop.png) | [#36](https://github.com/djazairdev/djazair.dev/issues/36) |
+| Topics — English, phone (built site) | [topics-en-phone.png](design/topics-en-phone.png) | [#36](https://github.com/djazairdev/djazair.dev/issues/36) |
+| Collaboration — English, desktop (built site) | [collaboration-en-desktop.png](design/collaboration-en-desktop.png) | [#37](https://github.com/djazairdev/djazair.dev/issues/37) |
+| Collaboration — English, phone (built site) | [collaboration-en-phone.png](design/collaboration-en-phone.png) | [#37](https://github.com/djazairdev/djazair.dev/issues/37) |
+| Rankings — English, desktop (built site) | [rankings-en-desktop.png](design/rankings-en-desktop.png) | [#38](https://github.com/djazairdev/djazair.dev/issues/38) |
+| Rankings — English, phone (built site) | [rankings-en-phone.png](design/rankings-en-phone.png) | [#38](https://github.com/djazairdev/djazair.dev/issues/38) |
 
-Peers, Languages, Data, About, Reports, the report page and 404, and the Arabic Trends, Hub and Methodology, were built straight in the design system. Their pictures, marked *built site*, are taken from the built pages with `site/tools/screens.py` ([#17](https://github.com/djazairdev/djazair.dev/issues/17)).
+Peers, Languages, Data, About, Reports, the report page and 404, the Arabic Trends, Hub and Methodology, and in Phase 1.1 Topics, Collaboration and Rankings, were built straight in the design system. Their pictures, marked *built site*, are taken from the built pages with `site/tools/screens.py` ([#17](https://github.com/djazairdev/djazair.dev/issues/17)).
 
 ## 6. Definition of done
 
@@ -215,3 +221,4 @@ If the work is ahead, Phase 1.1 Should tickets come in, in this order: Topics, E
 | 6 October 2026 | Version 1. French removed from the MVP (D20). |
 | 6 October 2026 | The site uses a Python static builder instead of Astro (D21); [#2](https://github.com/djazairdev/djazair.dev/issues/2) renamed. |
 | 7 October 2026 | [#17](https://github.com/djazairdev/djazair.dev/issues/17): the pages without a canvas board were built straight in the design system, so their designs in `docs/design/` are pictures of the built pages (`site/tools/screens.py`). |
+| 7 October 2026 | Phase 1.1 pages built ahead of the checkpoint: Topics ([#36](https://github.com/djazairdev/djazair.dev/issues/36)), Collaboration ([#37](https://github.com/djazairdev/djazair.dev/issues/37)) and External rankings ([#38](https://github.com/djazairdev/djazair.dev/issues/38)), with pictures of the built pages. They ship with the launch unless they are hidden from the navigation. |

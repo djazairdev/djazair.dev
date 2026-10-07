@@ -30,6 +30,9 @@ OUT = Path(__file__).resolve().parents[2] / 'docs' / 'design'
 PAGES = {                      # name in docs/design: address in the built site
     'peers-en': '/en/index/peers/',
     'languages-en': '/en/index/languages/',
+    'topics-en': '/en/index/topics/',
+    'collaboration-en': '/en/index/collaboration/',
+    'rankings-en': '/en/index/rankings/',
     'data-en': '/en/data/',
     'about-en': '/en/about/',
     'reports-en': '/en/reports/',
