@@ -39,6 +39,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `tools/make_outline.py` | Rebuilds `geo/algeria.json` from Natural Earth (public domain); only needed to change the outline |
 | `tools/share.py`, `static/share/` | Draws the share images (1200 × 630, one per language) in Chrome; only needed to change them |
 | `tools/perf.py` | Measures load times in Chrome on a throttled phone profile ([docs/performance.md](../docs/performance.md)) |
+| `tools/smoke.py` | Checks a deployed copy of the site from the outside: every page in the sitemap and every link to the site answer, the downloads, the 404 page and Cloudflare's headers ([docs/launch.md](../docs/launch.md)) |
 | `tools/strings.py` | Exports every string to a spreadsheet for the Arabic review and imports the corrections ([docs/arabic-review.md](../docs/arabic-review.md)) |
 | `djsite/palette.py` | Chart colours: dark (the page, equal to the tokens) and light, for downloads |
 | `holding/` | The pre-launch page served at djazair.dev until launch |

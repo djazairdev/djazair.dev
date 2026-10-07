@@ -80,4 +80,4 @@ The site can count visits with [Cloudflare Web Analytics](https://www.cloudflare
 
 ## Launch
 
-At launch, move the `djazair.dev` custom domain from the holding-page project to the site project (*Custom domains* tab), then check that `https://djazair.dev/` redirects to a language and that `https://djazair.dev/en/` loads.
+At launch, move the `djazair.dev` custom domain from the holding-page project to the site project (*Custom domains* tab). Before and after the move, `python3 site/tools/smoke.py <address>` checks the deployed site from the outside: every page in the sitemap, every link to the site, the downloads, the 404 page and the response headers. [launch.md](launch.md) has the full launch-day list.

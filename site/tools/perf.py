@@ -97,6 +97,7 @@ class Handler(SimpleHTTPRequestHandler):
 
 class Server(ThreadingHTTPServer):
     daemon_threads = True
+    request_queue_size = 64        # site/tools/smoke.py makes several requests at once
 
     def server_bind(self):
         # HTTPServer.server_bind looks up the host's name, which can take half a minute offline.

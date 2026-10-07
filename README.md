@@ -26,7 +26,7 @@ The site will be in Arabic and English. The first version has no accounts and co
 | `projects.yml` | The Hub registry |
 | `site/` | The static website |
 | `content/` | Quarterly reports and the meetups section |
-| `docs/` | The implementation plan, the page designs, [how deploys work](docs/deploy.md), [accessibility](docs/accessibility.md), [performance](docs/performance.md), the [Arabic review](docs/arabic-review.md) and [quarterly reports](docs/reports.md) |
+| `docs/` | The implementation plan, the page designs, [how deploys work](docs/deploy.md), [accessibility](docs/accessibility.md), [performance](docs/performance.md), the [Arabic review](docs/arabic-review.md), [quarterly reports](docs/reports.md) and the [launch](docs/launch.md) |
 | `.github/workflows/` | Scheduled jobs and deployment |
 
 ## Run it locally
