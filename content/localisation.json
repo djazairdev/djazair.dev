@@ -1,0 +1,77 @@
+{
+  "about": "Translation teams the Hub's localisation page links to (ticket #40, PRD HUB-08): public teams on Pontoon, Weblate or Crowdin that translate open-source software into Arabic or Tamazight and accept new translators. Each team has a name, its platform (pontoon, weblate or crowdin), what is translated there in English and Arabic (Markdown), and one link per language: ar (Arabic), kab (Kabyle, in Latin script) or zgh (Tamazight in Tifinagh, the standard used in Morocco). checked: the day the list was last reviewed. site/tools/links.py opens every link, and the Link check workflow runs it every week.",
+  "checked": "2026-10-07",
+  "teams": [
+    {
+      "name": "Mozilla",
+      "platform": "pontoon",
+      "en": "Firefox on computers and phones, Thunderbird and Common Voice, Mozilla’s open speech dataset.",
+      "ar": "Firefox على الحاسوب والهاتف، وThunderbird، وCommon Voice، مجموعة البيانات الصوتية المفتوحة من Mozilla.",
+      "links": {
+        "ar": "https://pontoon.mozilla.org/ar/",
+        "kab": "https://pontoon.mozilla.org/kab/",
+        "zgh": "https://pontoon.mozilla.org/zgh/"
+      }
+    },
+    {
+      "name": "Hosted Weblate",
+      "platform": "weblate",
+      "en": "Many free software projects in one place, among them F‑Droid, NewPipe, Tor and the Debian installer.",
+      "ar": "مشاريع حرة كثيرة في مكان واحد، منها F‑Droid وNewPipe وTor ومثبّت Debian.",
+      "links": {
+        "ar": "https://hosted.weblate.org/languages/ar/",
+        "kab": "https://hosted.weblate.org/languages/kab/"
+      }
+    },
+    {
+      "name": "LibreOffice",
+      "platform": "weblate",
+      "en": "The office suite: Writer, Calc, Impress and their help pages.",
+      "ar": "حزمة المكتب: Writer وCalc وImpress وصفحات المساعدة الخاصة بها.",
+      "links": {
+        "ar": "https://translations.documentfoundation.org/languages/ar/",
+        "kab": "https://translations.documentfoundation.org/languages/kab/"
+      }
+    },
+    {
+      "name": "Fedora",
+      "platform": "weblate",
+      "en": "The Linux distribution: its installer, its tools and its websites.",
+      "ar": "توزيعة Linux: مثبّتها وأدواتها ومواقعها.",
+      "links": {
+        "ar": "https://translate.fedoraproject.org/languages/ar/",
+        "kab": "https://translate.fedoraproject.org/languages/kab/"
+      }
+    },
+    {
+      "name": "Mastodon",
+      "platform": "crowdin",
+      "en": "The decentralised social network: its web app and its server.",
+      "ar": "الشبكة الاجتماعية اللامركزية: تطبيق الويب والخادم.",
+      "links": {
+        "ar": "https://crowdin.com/project/mastodon/ar",
+        "kab": "https://crowdin.com/project/mastodon/kab",
+        "zgh": "https://crowdin.com/project/mastodon/zgh"
+      }
+    },
+    {
+      "name": "OBS Studio",
+      "platform": "crowdin",
+      "en": "Software for recording and live streaming.",
+      "ar": "برنامج التسجيل والبث المباشر.",
+      "links": {
+        "ar": "https://crowdin.com/project/obs-studio/ar",
+        "kab": "https://crowdin.com/project/obs-studio/kab"
+      }
+    },
+    {
+      "name": "Lichess",
+      "platform": "crowdin",
+      "en": "The free, open-source chess server.",
+      "ar": "خادم الشطرنج المجاني ومفتوح المصدر.",
+      "links": {
+        "ar": "https://crowdin.com/project/lichess/ar"
+      }
+    }
+  ]
+}

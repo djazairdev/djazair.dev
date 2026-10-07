@@ -206,3 +206,16 @@
 .list-side .hub-note { margin-top: 0; font-size: 13.5px; }
 @media (max-width: 960px) { .list-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; } }
 .hub-ideas-actions { margin-top: clamp(20px, 3vw, 28px); }
+
+/* ---- localisation (ticket #40): one card per project, a link to each of its teams */
+#translate .section-head { margin-bottom: 0; }
+.lz-hero h1 { max-width: 20ch; }
+.lz .pj-name { font-size: 16px; }
+.lz-links { display: flex; flex-wrap: wrap; gap: 4px 22px; margin: auto 0 0; padding: 14px 0 0; border-top: 1px solid var(--line); list-style: none; }
+.lz-link { margin-top: 0; padding-top: 0; min-height: 32px; }
+.lz-link:hover .arr { transform: translate(2px, -2px); }
+[dir=rtl] .lz-link:hover .arr { transform: translate(-2px, -2px) scaleX(-1); }
+.lz-rules { font-size: 15px; line-height: 1.7; color: var(--ink2); text-wrap: pretty; }
+.lz-rules:lang(ar) { line-height: 1.9; }
+.lz-rules code, .lz-note code { font-family: var(--mono); font-size: .88em; color: var(--ink); }
+.lz-note a { color: var(--mint-hi); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }

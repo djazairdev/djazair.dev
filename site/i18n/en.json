@@ -45,6 +45,7 @@
     "issues": "Issues",
     "projects": "Projects",
     "list": "List your project",
+    "localisation": "Translate software",
     "data": "Data and downloads",
     "changelog": "Changelog",
     "corrections": "Corrections",
@@ -160,6 +161,10 @@
     "idea3": "Once the champion links a repository, the idea is marked adopted. When the project meets the checks, it joins the Hub.",
     "ideas_new": "Propose an idea",
     "ideas_browse": "Browse ideas",
+    "translate_eyebrow": "Localisation",
+    "translate_title": "Prefer words to code?",
+    "translate_lede": "Volunteer teams translate Firefox, LibreOffice, Mastodon and other open-source software into Arabic and Tamazight. You can join one with a browser and a free account.",
+    "translate_cta": "Find a translation team",
     "projects_eyebrow": "Projects",
     "projects_title": "Listed projects and open slots",
     "projects_lede": "Every listed project passes a daily health check: recent commits, open beginner issues and the djazairdev topic. Dashed cards are projects Algeria’s ecosystem still needs.",
@@ -215,6 +220,45 @@
     "open_pr": "Open a pull request",
     "issue_form": "Use the issue form",
     "list_note": "Submissions are reviewed in public within 7 days. Language, licence and activity are read from GitHub, so the entry stays short."
+  },
+  "localisation": {
+    "eyebrow": "Project Hub · Localisation",
+    "title": "Translate software into Arabic and Tamazight",
+    "lede": "Volunteer teams translate Firefox, LibreOffice, Mastodon and other open-source software on Pontoon, Weblate and Crowdin. No code needed: a browser, a free account and a good command of the language are enough.",
+    "meta_projects": "Projects",
+    "meta_links": "Team links",
+    "meta_checked": "Links checked",
+    "go_arabic": "Arabic teams",
+    "go_tamazight": "Tamazight teams",
+    "on": "on {platform}",
+    "team": {
+      "ar": "Arabic team",
+      "kab": "Kabyle team",
+      "zgh": "Tifinagh team"
+    },
+    "arabic_eyebrow": "Arabic",
+    "arabic_title": "Translate into Arabic",
+    "arabic_lede": "Most of these projects are partly translated into Arabic. Every release brings new strings, and suggestions wait for a reviewer before they reach users.",
+    "tamazight_eyebrow": "Tamazight",
+    "tamazight_title": "Translate into Tamazight",
+    "tamazight_lede": "Kabyle (Taqbaylit), written in Latin script, has teams on all three platforms. Tamazight in Tifinagh has smaller teams that follow the standard used in Morocco. Chaouia, Mozabite and Tamahaq don’t have their own language on these platforms yet: a new team starts by asking the platform to add one.",
+    "steps_eyebrow": "No code needed",
+    "steps_title": "How to start",
+    "step1_t": "Pick a project you use",
+    "step1": "Your translation reaches everyone who uses it in your language. Each link above opens the team’s page.",
+    "step2_t": "Sign up and read the guide",
+    "step2": "Create a free account on the platform. If the team has a style guide or a glossary, read it first: it keeps each term translated the same way everywhere.",
+    "step3_t": "Suggest, then review",
+    "step3": "New translators usually make suggestions that an experienced member approves. Once you know the terms, offer to review: it is where many teams fall behind.",
+    "suggest_eyebrow": "Suggest a team",
+    "suggest_title": "Know a team we’ve missed?",
+    "rules": "The list lives in {file}. Add a team with a pull request, or open an issue with its link. It should be a public team on Pontoon, Weblate or Crowdin that translates open-source software into Arabic or Tamazight and welcomes new translators.",
+    "edit": "Edit the list",
+    "issue": "Open an issue",
+    "checked": "Every link was checked on {date}, and a weekly check reports any that break.",
+    "index_t": "This work doesn’t show up in the Index",
+    "index": "Pontoon, Weblate and Crowdin commit translations to the projects’ repositories from their own servers, and GitHub places each push where it comes from. So translation work counts where the servers are, not in Algeria. The Index can’t see it, but everyone using the software in Arabic or Tamazight can. See the {limits}.",
+    "limits": "known limitations"
   },
   "checks": {
     "passed": "{n} of {total} passed",
@@ -1065,6 +1109,10 @@
     "hub": {
       "title": "Project Hub",
       "description": "Open-source projects by Algerian developers, or relevant to Algeria, with beginner-friendly issues to start on."
+    },
+    "localisation": {
+      "title": "Translate software",
+      "description": "Teams on Pontoon, Weblate and Crowdin that translate Firefox, LibreOffice and other open-source software into Arabic and Tamazight, and how to join one."
     },
     "reports": {
       "title": "Reports",

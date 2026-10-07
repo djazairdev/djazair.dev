@@ -65,6 +65,10 @@ If no tag fits, propose a new one in your pull request (add it to the schema and
 
 Have an idea for an open-source project that would help people in Algeria, but no repository yet? Ideas will live in GitHub Discussions, in an **Ideas** category with a short form: the problem, who benefits, a champion who will lead it, and the skills it needs. An idea is marked *adopted* once its champion links a repository. Discussions isn't on yet: [docs/hub-ideas.md](docs/hub-ideas.md) explains how it starts. Until then, open an issue.
 
+## Add a translation team
+
+The Hub's [localisation page](https://djazair.dev/en/hub/localisation/) links to teams that translate open-source software into Arabic or Tamazight on Pontoon, Weblate or Crowdin. To add one, edit [`content/localisation.json`](content/localisation.json): the project's name, its platform, one sentence in English and Arabic on what is translated there, and the link to each language team. List public teams that welcome new translators, and link to the team's page for the language, not the project's home page. The *Link check* workflow opens every link each Monday.
+
 ## Review translations
 
 Text is written in English and translated into Arabic. Nothing is published until a fluent speaker has reviewed it. If you can review Arabic, open an issue: [docs/arabic-review.md](docs/arabic-review.md) explains what to check, the terms already used, and how to review every string in a spreadsheet. Quarterly reports follow their own checklist, including a second reader for every number: see [docs/reports.md](docs/reports.md).

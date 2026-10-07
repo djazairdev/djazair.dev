@@ -93,6 +93,17 @@ class Alerts(unittest.TestCase):
         self.assertIn('failed on purpose', body)
         self.assertIn('[Hub sync failed]', self.calls()[1])
 
+    def test_broken_links_report(self):
+        (self.runner / 'links.md').write_text('1 of 15 links on the localisation page are broken:\n\n| Mastodon | `kab` | x | not found (404) |\n')
+        result = self.run_script('links-failed.sh')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        body = (self.runner / 'issue.md').read_text()
+        self.assertIn('[run 42](https://github.com/o/r/actions/runs/42)', body)
+        self.assertIn('content/localisation.json', body)
+        self.assertIn('not found (404)', body)
+        self.assertIn('[Broken links]', self.calls()[1])
+        self.assertIn('[--label] [area: content]', self.calls()[1])
+
     def test_uptime_up_and_down(self):
         site = self.tmp / 'site'
         site.mkdir()
@@ -140,7 +151,7 @@ def run_commands(text: str):
 
 class Workflows(unittest.TestCase):
     ALERTS = {'data.yml': ('data-failed.sh', 'Data update failed'), 'hub.yml': ('hub-failed.sh', 'Hub sync failed'),
-              'uptime.yml': ('uptime-failed.sh', 'Site down')}
+              'uptime.yml': ('uptime-failed.sh', 'Site down'), 'links.yml': ('links-failed.sh', 'Broken links')}
 
     def test_every_scheduled_workflow_reports_failures_and_closes_them(self):
         scheduled = {p.name for p in WORKFLOWS.glob('*.yml') if re.search(r'^\s+schedule:', p.read_text(), re.M)}

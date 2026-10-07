@@ -28,13 +28,17 @@ Secrets are only read by the deploy step, are passed to Wrangler through its inp
 
 ## Scheduled jobs
 
-Scheduled workflows (the Innovation Graph check, the Hub sync and the uptime check) only run when the repository variable `SCHEDULES_ENABLED` is `true`, so nothing runs on a timer until you turn it on. Each can also be started by hand from the *Actions* tab. When one fails, it opens an issue ([Alerts](#alerts)).
+Scheduled workflows (the Innovation Graph check, the Hub sync, the uptime check and the weekly link check) only run when the repository variable `SCHEDULES_ENABLED` is `true`, so nothing runs on a timer until you turn it on. Each can also be started by hand from the *Actions* tab. When one fails, it opens an issue ([Alerts](#alerts)).
 
 ### Hub sync
 
 The `Hub sync` workflow (`.github/workflows/hub.yml`) runs every 6 hours, at 00:41, 06:41, 12:41 and 18:41 UTC. It fetches the listed projects and their beginner issues with `python -m hub sync`, runs the health checks (a project without the `djazairdev` topic leaves the Hub at once; one flagged for 14 days is hidden), checks the site builds with them, saves the snapshot on the `hub-data` branch, and runs CI on `main`, which deploys (details in [hub/README.md](../hub/README.md#sync-issues-feed)). `main` never changes, so it needs no pull request.
 
 **Setup (founder):** nothing beyond `SCHEDULES_ENABLED`. Keep the `hub-data` branch out of the `main` ruleset: the workflow pushes to it. Don't delete it either: it holds the snapshot every build uses. If it is deleted, the next sync starts it again.
+
+### Link check
+
+The `Link check` workflow (`.github/workflows/links.yml`) runs every Monday at 06:23 UTC. It opens every link the site curates, the translation teams on the Hub's localisation page (`content/localisation.json`), with `python site/tools/links.py`. A link is broken when it doesn't answer 200 at the same address with a page that names the team's language: a team that moved, closed or became a sign-in page. A site that turns robots away (401, 403, 429, 5xx) or doesn't answer is listed in the log as not checked, without failing the run.
 
 ### Data updates
 
@@ -64,6 +68,7 @@ Each scheduled workflow opens a GitHub issue when it fails, or comments on the o
 | --- | --- | --- |
 | *Data update failed* | `Data` | The Innovation Graph update fails: fetching, validating, testing, building or merging. |
 | *Hub sync failed* | `Hub sync` | The Hub sync fails, health checks included. The site keeps the last snapshot. |
+| *Broken links* | `Link check` | A translation team's link on the localisation page is broken. Fix or remove it in `content/localisation.json`. |
 | *Site down* | `Uptime` | `https://djazair.dev/` doesn't answer 200 with the site in it, three tries 30 seconds apart. The check runs from GitHub Actions every 30 minutes. |
 
 **Who gets them:** the founder and the second admin. Set the repository variable `ALERT_ASSIGNEES` to their GitHub usernames, comma-separated (for example `founder,second-admin`). New alert issues are assigned to them, so GitHub notifies them by email and in the app, depending on their notification settings. Both should also *Watch* the repository for issues as a backstop.

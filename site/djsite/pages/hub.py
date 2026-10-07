@@ -1,6 +1,6 @@
 """The Project Hub (ticket #27; PRD §7.2, HUB-04): beginner issues from the listed projects,
 the projects themselves, how a first contribution works, project ideas (ticket #39, once
-``config.HUB_IDEAS`` is on), and how to get listed.
+``config.HUB_IDEAS`` is on), the way to translation teams (ticket #40) and how to get listed.
 
 Everything comes from the snapshot the Hub sync writes every 6 hours (``data/derived/hub/``,
 tickets #25 and #26), read once per build (``Site.hub``): only the projects that pass their
@@ -241,6 +241,15 @@ def ideas(ctx) -> Markup:
 
 
 # ---------------------------------------------------------------- get listed
+def translate(ctx) -> Markup:
+    """Translation instead of code: the localisation page (ticket #40)."""
+    if not ctx.has('localisation'):
+        return Markup('')
+    action = C.btn(ctx.t('hub.translate_cta'), ctx.url('localisation'))
+    return C.section('translate', ctx.t('hub.translate_eyebrow'), ctx.t('hub.translate_title'), Markup(''),
+                     lede=ctx.t('hub.translate_lede'), size='s', head_extra=action)
+
+
 def listing(ctx) -> Markup:
     labels = {'gfi': Markup('<bdi>good first issue</bdi>'), 'hw': Markup('<bdi>help wanted</bdi>'),
               'topic': Markup('<bdi>djazairdev</bdi>')}
@@ -255,7 +264,7 @@ def listing(ctx) -> Markup:
 
 def render(ctx: Ctx) -> Page:
     hub = ctx.site.hub
-    body = head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + ideas(ctx) + listing(ctx)
+    body = head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + ideas(ctx) + translate(ctx) + listing(ctx)
     script = ctx.site.assets.scripts.get('hub')
     return Page(title=ctx.s('pages.hub.title'), description=ctx.s('pages.hub.description'), body=body,
                 scripts=(script,) if script and hub.issues else ())

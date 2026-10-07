@@ -1,0 +1,61 @@
+# Every Monday: open every link the site curates, the translation teams in
+# content/localisation.json (ticket #40), with site/tools/links.py. A broken link opens a
+# "Broken links" issue (or comments on the open one); the next check that passes closes it.
+# Sites that turn robots away are listed in the log as not checked, without failing the run.
+name: Link check
+
+on:
+  schedule:
+    - cron: '23 6 * * 1'          # Mondays at 06:23 UTC
+  workflow_dispatch:
+    inputs:
+      fail:
+        description: Fail on purpose, to test the alert issue
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+  issues: write                   # report broken links
+
+concurrency:
+  group: links
+  cancel-in-progress: false
+
+jobs:
+  check:
+    name: Check the curated links
+    # The schedule only runs once the SCHEDULES_ENABLED variable is 'true' (docs/deploy.md).
+    if: github.event_name == 'workflow_dispatch' || vars.SCHEDULES_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Fail on purpose
+        if: inputs.fail
+        run: |
+          echo 'This run failed on purpose (the *fail* input), to test this alert.' > "$RUNNER_TEMP/failure-notes.md"
+          echo '::error::Failing on purpose (the fail input), to test the alert.'
+          exit 1
+
+      - name: Check
+        run: python site/tools/links.py --report "$RUNNER_TEMP/links.md"
+
+      - name: Report broken links
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ALERT_ASSIGNEES: ${{ vars.ALERT_ASSIGNEES }}
+        run: .github/scripts/links-failed.sh
+
+      - name: Close the broken-links issue, if one is open
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          .github/scripts/alert.sh close 'Broken links' "Fixed: [this check]($RUN_URL) found every link working."

@@ -18,7 +18,7 @@ FOOTER = [
                       ('subnav.trends', 'trends', ''), ('subnav.languages', 'languages', ''), ('subnav.topics', 'topics', ''),
                       ('subnav.collaboration', 'collaboration', ''), ('subnav.rankings', 'rankings', '')]),
     ('footer.hub', [('footer.issues', 'hub', 'issues'), ('footer.projects', 'hub', 'projects'),
-                    ('footer.list', 'hub', 'list')]),
+                    ('footer.list', 'hub', 'list'), ('footer.localisation', 'localisation', '')]),
     ('footer.project', [('nav.methodology', 'methodology', ''), ('footer.data', 'data', ''),
                         ('footer.changelog', 'data', 'changelog'), ('footer.corrections', 'data', 'corrections'),
                         ('footer.about', 'about', '')]),
@@ -151,6 +151,8 @@ def full_title(ctx: Ctx, page: Page) -> str:
         return f'djazair.dev · {ctx.s("site.tagline")}'
     if ctx.route.section == 'index' and ctx.route.key != 'overview':
         return f'{page.title} · {ctx.s("pages.overview.title")} · djazair.dev'
+    if ctx.route.section == 'hub' and ctx.route.key != 'hub':
+        return f'{page.title} · {ctx.s("pages.hub.title")} · djazair.dev'
     return f'{page.title} · djazair.dev'
 
 
