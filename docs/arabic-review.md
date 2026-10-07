@@ -6,14 +6,14 @@ The Arabic text was drafted with AI and hasn't been checked by a fluent reader y
 
 | What | Where it lives | How to review it |
 | --- | --- | --- |
-| Interface strings: navigation, headings, chart titles and labels, buttons, notes (672) | `site/i18n/ar.json` | In a spreadsheet (below), or on the pages |
+| Interface strings: navigation, headings, chart titles and labels, buttons, notes (725) | `site/i18n/ar.json` | In a spreadsheet (below), or on the pages |
 | Methodology and About | `content/methodology/ar.md`, `content/about/ar.md` | On the pages; suggest changes in a pull request or an issue |
 | Quarterly report #1 | `content/reports/2026-q1/ar.md` | On the page (`/ar/reports/2026-q1/`); its figures are filled in by the site ([reports.md](reports.md)) |
 | Numbers, quarters and dates | `site/djsite/fmt.py` | On the pages: `586.990`, `49,1%`, `الربع الأول 2026`, `7 جويلية 2026` |
 | The tagline | `site.tagline` | «نُنمّي منظومة المطوّرين في الجزائر» |
 | The share image | `site/static/share/ar.png` | Its text comes from `share.*` and the tagline |
 
-Pages to read, in Arabic: Home, the Index (Overview, Peers, Trends, Languages), the Hub, Reports and report #1, Methodology, Data and About. Run the site locally (see the [README](../README.md#run-it-locally)) and open `/ar/`, or use the pull request's preview link.
+Pages to read, in Arabic: Home, the Index (Overview, Peers, Trends, Languages, Topics), the Hub, Reports and report #1, Methodology, Data and About. Run the site locally (see the [README](../README.md#run-it-locally)) and open `/ar/`, or use the pull request's preview link.
 
 ## Reviewing in a spreadsheet
 

@@ -171,7 +171,7 @@ Developers in Algeria who pushed in each language, every quarter since 2020 Q1.
 
 ### `topics`
 
-The topics GitHub publishes for each economy in the latest quarter: those with 100 or more developers pushing.
+The topics GitHub publishes for each economy in the latest quarter, and a year earlier: those with 100 or more developers pushing.
 
 | Column | Type | Meaning |
 |---|---|---|
@@ -180,6 +180,9 @@ The topics GitHub publishes for each economy in the latest quarter: those with 1
 | `rank` | integer | Place by developers pushing |
 | `topic` | string | Repository topic |
 | `pushers` | integer | Developers who pushed to repositories with the topic |
+| `rank_year_earlier` | integer | Place in the same quarter a year earlier; empty if GitHub didn’t publish the topic then |
+| `pushers_year_earlier` | integer | Developers who pushed to repositories with the topic a year earlier |
+| `change` | number | pushers / pushers_year_earlier − 1 |
 
 ### `collaboration`
 

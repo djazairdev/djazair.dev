@@ -377,7 +377,11 @@ class HBar:
 class HBarChart(Spec):
     """Horizontal bars, largest first. Each bar is what it was a year earlier plus what it
     gained since, in the unit map's two greens; a loss shows as a dashed outline. The bars
-    are categories, not time, so the Arabic drawing is mirrored: names on the right."""
+    are categories, not time, so the Arabic drawing is mirrored: names on the right.
+
+    With ``highlight``, only that bar is green and the others are grey, for economies side by
+    side. ``change`` is a ratio (+12.5%), or with ``change_kind='diff'`` a difference (+1),
+    which suits small counts."""
     bars: Sequence[HBar] = ()
     fmt: Callable = None               # (value, lang) -> str
     change_fmt: Callable = None        # (change, lang) -> str
@@ -386,9 +390,15 @@ class HBarChart(Spec):
     before_label: Text = ''            # 'Q1 2025'
     added_label: Text = ''             # 'Added since'
     change_label: Text = ''            # 'Change'
+    highlight: Optional[str] = None    # the one bar drawn in green, others grey ('DZ')
+    highlight_label: Text = ''         # its legend entry: 'Algeria'
+    change_kind: str = 'ratio'         # ratio | diff
 
-    @staticmethod
-    def change(b: HBar) -> Optional[float]:
+    def change(self, b: HBar) -> Optional[float]:
+        if b.before is None:
+            return None
+        if self.change_kind == 'diff':
+            return b.value - b.before
         return b.value / b.before - 1 if b.before else None
 
     def csv(self) -> bytes:
@@ -623,16 +633,19 @@ def hbar_drawing(chart: HBarChart, lang: str, size: str, pal: dict = DARK) -> Dr
             name_y = bar_y + bh / 2 + font * 0.36
         value_y = bar_y + bh / 2 + (font - 1) * 0.36
         name = loc(b.label, lang)
+        grey = bool(chart.highlight) and b.key != chart.highlight          # a peer beside the highlighted bar
+        lit = bool(chart.highlight) and b.key == chart.highlight
         if b.rank is not None:
             out.append(svg_text(X(0), name_y, str(b.rank), size=font - 1.5, fill=pal['ink3'], font=MONO, align=near, cls='fd'))
-        out.append(svg_text(X(26 if b.rank is not None else 0), name_y, name, size=font, fill=pal['ink'], weight=500,
-                            align=near, cls='fd'))
+        out.append(svg_text(X(26 if b.rank is not None else 0), name_y, name, size=font, fill=pal['algeria'] if lit else pal['ink'],
+                            weight=700 if lit else 500, align=near, cls='fd'))
         before = b.before or 0
         kept = min(before, b.value)
+        old, new = ('peer_dim', 'peer') if grey else ('cell_old', 'algeria')
         if kept:
-            out.append(rect(x0, D(kept), bar_y, f'rx="2" fill="{pal["cell_old"]}" class="hb-o fd"'))
+            out.append(rect(x0, D(kept), bar_y, f'rx="2" fill="{pal[old]}" class="hb-o fd"'))
         if b.value > before:
-            out.append(rect(D(kept), D(b.value), bar_y, f'rx="2" fill="{pal["algeria"]}" class="hb-n gr"'))
+            out.append(rect(D(kept), D(b.value), bar_y, f'rx="2" fill="{pal[new]}" class="hb-n gr"'))
         elif b.value < before:
             out.append(rect(D(b.value), D(before), bar_y + 0.5,
                             f'rx="2" fill="none" stroke="{pal["negative"]}" stroke-dasharray="3 3" class="hb-l fd"')
@@ -643,8 +656,9 @@ def hbar_drawing(chart: HBarChart, lang: str, size: str, pal: dict = DARK) -> Dr
         change = chart.change(b)
         if change is not None:
             d += text_width(value, font - 1, mono=True) + 10
+            colour = pal['negative'] if change < 0 else pal['ink3'] if grey else pal['algeria']
             out.append(svg_text(X(d), value_y, chart.change_fmt(change, lang), size=font - 1.5, font=MONO, align=near,
-                                fill=pal['algeria'] if change >= 0 else pal['negative'], cls='ann'))
+                                fill=colour, cls='ann'))
     H = 8 + len(chart.bars) * row
     return Drawing(W, H, ''.join(out), cls=f'chart-hbar{" rtl" if rtl else ""}')
 
@@ -711,6 +725,9 @@ def legend_items(chart: Spec, lang: str, pal: dict) -> list:
                 ('square', pal['algeria'], f'{loc(chart.added_label, lang)} {fint(added, lang)}'),
                 ('none', '', loc(chart.square_label, lang))]
     if isinstance(chart, HBarChart):
+        if chart.highlight:
+            return [('square', pal['peer_dim'], loc(chart.before_label, lang)), ('square', pal['peer'], loc(chart.added_label, lang)),
+                    ('square', pal['algeria'], loc(chart.highlight_label, lang))]
         return [('square', pal['cell_old'], loc(chart.before_label, lang)), ('square', pal['algeria'], loc(chart.added_label, lang))]
     return []
 

@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from .context import Route
-from .pages import about, datapage, home, hub, languages, methodology, notfound, overview, peers, report, trends
+from .pages import about, datapage, home, hub, languages, methodology, notfound, overview, peers, report, topics, trends
 from .reports import all_reports
 
 ROUTES = [
@@ -11,6 +11,7 @@ ROUTES = [
     Route('peers', 'index/peers/', peers.render, section='index', sub='peers', ticket=21),
     Route('trends', 'index/trends/', trends.render, section='index', sub='trends', ticket=20),
     Route('languages', 'index/languages/', languages.render, section='index', sub='languages', ticket=22),
+    Route('topics', 'index/topics/', topics.render, section='index', sub='topics', ticket=36),
     Route('hub', 'hub/', hub.render, section='hub'),
     Route('reports', 'reports/', report.render_index, section='reports', ticket=34),
     *(Route(r.key, r.path, report.render, section='reports', ticket=34) for r in all_reports()),

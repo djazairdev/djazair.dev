@@ -274,12 +274,20 @@ class Publisher:
 
     def topics(self) -> Table:
         cols = [ECONOMY, QUARTER, I('rank', 'Place by developers pushing'), S('topic', 'Repository topic'),
-                I('pushers', 'Developers who pushed to repositories with the topic')]
-        rows = [[code, qkey(self.q), rank, topic, n] for code in PEERS
-                for rank, (topic, n) in enumerate(self.ix.topic_list(code, self.q), 1)]
+                I('pushers', 'Developers who pushed to repositories with the topic'),
+                I('rank_year_earlier', 'Place in the same quarter a year earlier; empty if GitHub didn’t publish the topic then'),
+                I('pushers_year_earlier', 'Developers who pushed to repositories with the topic a year earlier'),
+                N('change', 'pushers / pushers_year_earlier − 1')]
+        rows = []
+        for code in PEERS:
+            before = ({topic: (rank, n) for rank, (topic, n) in enumerate(self.ix.topic_list(code, self.year_before), 1)}
+                      if self.year_before else {})
+            for rank, (topic, n) in enumerate(self.ix.topic_list(code, self.q), 1):
+                prev_rank, prev = before.get(topic, (None, None))
+                rows.append([code, qkey(self.q), rank, topic, n, prev_rank, prev, n / prev - 1 if prev else None])
         return Table('topics', 'Topics',
-                     'The topics GitHub publishes for each economy in the latest quarter: those with 100 or more developers '
-                     'pushing.', cols, rows)
+                     'The topics GitHub publishes for each economy in the latest quarter, and a year earlier: those with 100 or '
+                     'more developers pushing.', cols, rows)
 
     def collaboration(self) -> Table:
         cols = [QUARTER, I('rank', 'Place by weight'), S('partner', 'ISO code of the partner economy'),

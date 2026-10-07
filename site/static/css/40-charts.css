@@ -23,6 +23,8 @@
 .sw-median { block-size: 0; border-radius: 0; border-top: 2px dashed var(--grey-hi); background: none; }
 .sw-old, .sw-new { inline-size: 11px; block-size: 11px; border-radius: 2px; background: var(--cell-old); }
 .sw-new { background: var(--mint); box-shadow: 0 0 6px var(--mint-glow); }
+.sw-pold, .sw-pnew { inline-size: 11px; block-size: 11px; border-radius: 2px; background: var(--peer-dim); }
+.sw-pnew { background: var(--peer-line); }
 .um-note { margin-inline-start: auto; color: var(--ink3); }
 
 /* data table under every chart (AC-IDX-7) */

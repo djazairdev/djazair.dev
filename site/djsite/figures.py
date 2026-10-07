@@ -60,11 +60,15 @@ def unit_key(ctx, chart: UnitMap) -> Markup:
 
 
 def hbar_key(ctx, chart: HBarChart) -> Markup:
+    """Year earlier and added since; with a highlighted bar, those in grey and the bar's own name in green."""
     lang = ctx.lang
+    old, new = ('sw-pold', 'sw-pnew') if chart.highlight else ('sw-old', 'sw-new')
+    lit = (f'<li><span class="sw sw-new" aria-hidden="true"></span>{esc(loc(chart.highlight_label, lang))}</li>'
+           if chart.highlight else '')
     return Markup(
         f'<ul class="chart-key" aria-label="{ctx.ta("chart.legend")}">'
-        f'<li><span class="sw sw-old" aria-hidden="true"></span>{esc(loc(chart.before_label, lang))}</li>'
-        f'<li><span class="sw sw-new" aria-hidden="true"></span>{esc(loc(chart.added_label, lang))}</li></ul>')
+        f'<li><span class="sw {old}" aria-hidden="true"></span>{esc(loc(chart.before_label, lang))}</li>'
+        f'<li><span class="sw {new}" aria-hidden="true"></span>{esc(loc(chart.added_label, lang))}</li>{lit}</ul>')
 
 
 def table(ctx, chart) -> Markup:
