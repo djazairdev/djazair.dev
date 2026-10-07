@@ -88,7 +88,7 @@ def _option(name: str, value: str, label, n: int, lang: str, checked: bool = Fal
     dot_html = f'<span class="dot dot-{dot}" aria-hidden="true"></span>' if dot else ''
     cls = ' hf-mono' if mono else ''
     return (f'<label class="hf-opt{cls}"><input class="sr-only" type="radio" name="{name}" value="{esc(value)}"'
-            f'{" checked" if checked else ""}><span class="hf-name">{dot_html}<span{" dir=ltr" if mono else ""}>{label}</span></span>'
+            f'{" checked" if checked else ""}><span class="hf-name">{dot_html}<span{' dir="ltr"' if mono else ""}>{label}</span></span>'
             f'<span class="hf-n num">{fint(n, lang)}</span></label>')
 
 
@@ -136,7 +136,7 @@ def feed(ctx, hub) -> Markup:
                       f'<h2 class="sr-only" id="issues-h">{ctx.t("hub.feed_title")}</h2>{empty}'
                       f'<p class="hub-note">{note}</p></div></section>')
     tabs = ''.join(f'<label class="{"mono" if value else ""}"><input class="sr-only" type="radio" name="kind" value="{value}"'
-                   f'{" checked" if not value else ""}><span{" dir=ltr" if value else ""}>{text}</span></label>'
+                   f'{" checked" if not value else ""}><span{' dir="ltr"' if value else ""}>{text}</span></label>'
                    for value, text in (('', ctx.t('hub.kind_all')), ('gfi', 'good first issue'), ('hw', 'help wanted')))
     cards = join(card(ctx, i) for i in issues)
     return Markup(f'''<section class="hub-feed" id="issues" aria-labelledby="issues-h"><div class="container">

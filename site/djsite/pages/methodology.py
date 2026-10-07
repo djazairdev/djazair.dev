@@ -111,7 +111,7 @@ def releases(ctx):
             gap = f'<span class="rel-gap" dir="auto">{esc(days_text((d - dates[i - 1]).days, ctx.lang))}</span>' if i else ''
             last = i == len(dates) - 1
             q = f'<span class="rel-q" dir="auto">{ctx.t("methodology.releases_data", quarter=_q(ctx, data.quarter))}</span>' if last else ''
-            lis.append(f'<li{" class=is-last" if last else ""}>{gap}<span class="rel-dot" aria-hidden="true"></span>'
+            lis.append(f'<li{' class="is-last"' if last else ""}>{gap}<span class="rel-dot" aria-hidden="true"></span>'
                        f'<time datetime="{d.isoformat()}" dir="auto">{esc(date_label(d, ctx.lang, short=ctx.en))}</time>{q}</li>')
         return Markup(f'<figure class="rel"><figcaption><span class="rel-t">{ctx.t("methodology.releases_title")}</span>'
                       f'<span class="rel-s">{ctx.t("methodology.releases_sub")}</span></figcaption>'
@@ -179,7 +179,7 @@ def groups(ctx):
             else:
                 order = ([c for c in CORE_PEERS if c in members] if key == 'core_peers'
                          else sorted(members, key=lambda c: (c != 'DZ', ctx.s(f'economy.{c}'))))
-                chips = ''.join(f'<li{" class=is-dz" if c == "DZ" else ""}>{ctx.t(f"economy.{c}")}</li>' for c in order)
+                chips = ''.join(f'<li{' class="is-dz"' if c == "DZ" else ""}>{ctx.t(f"economy.{c}")}</li>' for c in order)
                 inner = f'<ul class="pg-chips">{chips}</ul>'
             cards_html.append(f'<div class="pg-card"><div class="pg-h"><h3>{md.inline(title)}</h3>'
                               f'<span class="pg-n">{num(str(g["members"]))}</span></div>{inner}'
