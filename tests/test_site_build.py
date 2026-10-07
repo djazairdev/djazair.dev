@@ -15,10 +15,12 @@ from djsite.config import LANGS  # noqa: E402
 from djsite.context import Ctx, Route, Site  # noqa: E402
 from djsite.i18n import Catalog, MissingString  # noqa: E402
 from djsite.pages import stub  # noqa: E402
+from djsite.reports import all_reports  # noqa: E402
 from djsite.routes import ROUTES  # noqa: E402
 from htmlcheck import Doc, resolve  # noqa: E402
 
 DIRS = {'en': 'ltr', 'ar': 'rtl'}
+DRAFTS = {r.key for r in all_reports() if r.draft}
 
 
 class BuiltSite(unittest.TestCase):
@@ -54,7 +56,7 @@ class BuiltSite(unittest.TestCase):
                 alternates = {l['hreflang']: l['href'] for l in doc.links if l.get('rel') == 'alternate'}
                 canonical = [l['href'] for l in doc.links if l.get('rel') == 'canonical']
                 with self.subTest(route=route.key, lang=lang):
-                    if not route.indexed or route.render is stub.render:    # placeholders stay out of search
+                    if not route.indexed or route.render is stub.render or route.key in DRAFTS:    # placeholders and drafts stay out of search
                         self.assertEqual(alternates, {})
                         continue
                     self.assertEqual(set(alternates), {'en', 'ar', 'x-default'})

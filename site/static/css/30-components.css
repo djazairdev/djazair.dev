@@ -324,6 +324,7 @@ a.tile:hover { color: var(--ink); }
   background: var(--s2);
   box-shadow: var(--shadow);
 }
+.dl-menu.dl-flip { inset-inline-start: 0; inset-inline-end: auto; }   /* site.js: when the end side has no room */
 .dl-menu a { display: flex; align-items: center; min-height: 36px; padding-inline: 10px; border-radius: 6px; font-size: 14px; color: var(--ink2); text-decoration: none; }
 .dl-menu a:hover { background: var(--hover-tint); color: var(--ink); }
 

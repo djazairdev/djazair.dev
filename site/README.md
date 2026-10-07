@@ -21,7 +21,8 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `djsite/routes.py` | Every page and its path under `/en/` and `/ar/` |
 | `djsite/data.py` | The Index data: the quarter `data/derived/latest.json` names, each file checked against its `manifest.json`; and the Hub snapshot in `data/derived/hub/` (`Hub`), read once per build. The site reads no other data |
 | `djsite/scorecard.py` | The six headline indicators as Home and the Index overview show them |
-| `djsite/editorial.py` | Sentences tied to the data: computed facts (growth streaks) and the per-quarter headlines in `content/editorial/`, used only while their claims hold |
+| `djsite/editorial.py` | Sentences tied to the data: computed facts (growth streaks) and the per-quarter headlines in `content/editorial/`, used only while their claims hold; `verify` checks the claims of headlines and reports |
+| `djsite/reports.py` | The quarterly reports in `content/reports/`: one page each, read from the report's own data quarter ([docs/reports.md](../docs/reports.md)) |
 | `djsite/layout.py` | The page shell: head, skip link, header, Index sub-nav, notices, footer |
 | `djsite/components.py` | Shared components: buttons, chips, chart controls, tiles, figure frame, source line, tables, disclosure, Hub issue rows, check panel, code sample |
 | `djsite/charts.py` | Build-time SVG charts: line, bar and unit map, sparklines, rank strips; their CSV, JSON and SVG downloads |
@@ -44,7 +45,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 
 ## Search and sharing
 
-Every page has its own title and description, a canonical link and `hreflang` links to both languages; Home's `x-default` is `/`, the language chooser. Shared links show an Open Graph and X card with the page's title and description and the share image in the page's language. The build writes `sitemap.xml`, with both languages of every page, and `robots.txt`, which points to it. A placeholder page (`pages/stub.py`) and the 404 page carry `noindex` and stay out of the sitemap. `tests/test_seo.py` checks all of it.
+Every page has its own title and description, a canonical link and `hreflang` links to both languages; Home's `x-default` is `/`, the language chooser. Shared links show an Open Graph and X card with the page's title and description and the share image in the page's language. The build writes `sitemap.xml`, with both languages of every page, and `robots.txt`, which points to it. A placeholder page (`pages/stub.py`), a report still in draft and the 404 page carry `noindex` and stay out of the sitemap. `tests/test_seo.py` checks all of it.
 
 ## Design tokens
 
@@ -76,7 +77,7 @@ Colours come from `djsite/palette.py`; on-page charts use the dark palette, whic
 
 ## Home
 
-`djsite/pages/home.py` builds the hero (the account count, three stats, the unit map), the scorecard, the growth trend, the Hub teaser and the open-by-default links, all from the derived data. The count ticks up from the year-earlier value with CSS counters and no JavaScript; its rules depend on the data, so the builder generates them and adds them to the stylesheet (`ticker_css`). Readers who prefer reduced motion, and browsers without registered custom properties, see the plain number. The trend headline comes from `content/editorial/<yyyy-qN>.json` when the file exists and every claim it lists still holds; otherwise the section uses computed text.
+`djsite/pages/home.py` builds the hero (the account count, three stats, the unit map), the scorecard, the growth trend, the latest quarterly report, the Hub teaser and the open-by-default links, all from the derived data. The count ticks up from the year-earlier value with CSS counters and no JavaScript; its rules depend on the data, so the builder generates them and adds them to the stylesheet (`ticker_css`). Readers who prefer reduced motion, and browsers without registered custom properties, see the plain number. The trend headline comes from `content/editorial/<yyyy-qN>.json` when the file exists and every claim it lists still holds; otherwise the section uses computed text.
 
 The build also publishes the derived data as it is in `data/derived/`: `/data/<yyyy-qN>/<table>.csv` and `.json`, with `manifest.json` and `README.md`, every CSV table in one zip (`djazair.dev-index-<yyyy-qN>-csv.zip`, byte-identical for the same data), and `/data/latest.json`.
 
@@ -105,6 +106,10 @@ Every sortable table (`components.data_table(..., sortable=True, announce=compon
 The words live in `content/methodology/<lang>.md` and `content/about/<lang>.md`, in a small Markdown subset that `djsite/markdown.py` renders with the standard library: `## Title {#id}` starts a numbered section (and an entry in the table of contents, sticky beside the text on wide screens and a disclosure on phones), `:::` blocks are drawn by `djsite/pages/methodology.py` with the page's components (callout, cards, the release timeline, formulas, the worked example, peer groups, limitations, update steps, logs, citation), and `{{name}}` values are computed from the derived data. Text is always escaped. `tests/test_methodology.py` checks that every formula matches `pipeline/indicators.py` and that the worked example, built from the counts in the published peers table, gives the published values.
 
 `djsite/logs.py` builds the changelog (`content/changelog.json` plus one entry per published data quarter, from the manifests) and the corrections log (`content/corrections.json`); the Methodology page shows the latest entries and the Data page all of them. "Report an error" opens the `correction` issue form.
+
+## Reports
+
+`djsite/pages/report.py` draws each report in `content/reports/<yyyy-qN>/` like the Methodology page (numbered sections, table of contents) and gives its `:::` blocks their components: the headline figures, five charts from `figures.figure`, tables of the quarter against the previous one, the peer medians and the languages' ranks, the Hub numbers, the press kit and the citation. Its `{{name}}` figures are computed from the report's own quarter in `data/derived/`, so a report keeps its numbers when newer data arrives, and every claim its words make is listed in `report.json` and checked by `tests/test_reports.py`. The press kit is a zip of the five charts in both languages and themes, their CSV and JSON, the methodology summary and a README, with fixed names and timestamps so the same report gives the same file. A report whose `status` is `draft` says so at the top, carries `noindex` and stays out of the sitemap. The Reports page lists every report with its sections; Home shows the latest (`report.teaser`). [docs/reports.md](../docs/reports.md) explains how to write and publish one.
 
 ## Data and downloads
 

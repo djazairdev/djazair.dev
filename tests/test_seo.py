@@ -1,6 +1,6 @@
 """Search and sharing metadata (ticket #31): titles and descriptions, canonical and hreflang
 links, Open Graph and X card tags with a share image per language, sitemap.xml and robots.txt.
-Placeholder pages stay out of search until their ticket is done."""
+Placeholder pages and report drafts stay out of search."""
 import re
 import shutil
 import struct
@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / 'site'))
 
 from djsite.build import build  # noqa: E402
 from djsite.config import LANGS, SITE_URL  # noqa: E402
+from djsite.reports import all_reports  # noqa: E402
 from djsite.routes import ROUTES  # noqa: E402
 
 NS = {'s': 'http://www.sitemaps.org/schemas/sitemap/0.9', 'x': 'http://www.w3.org/1999/xhtml'}
@@ -73,7 +74,7 @@ class Metadata(unittest.TestCase):
                 for kind in ('title', 'description'):
                     self.assertNotIn(m[kind], seen[lang][kind], f'{kind} used twice')
                     seen[lang][kind].add(m[kind])
-        self.assertEqual(count, 18, 'nine pages in two languages')
+        self.assertEqual(count, 20, 'ten pages in two languages; report drafts stay out')
 
     def test_canonical_and_language_links(self):
         for route, lang, url, m in self.indexed():
@@ -100,14 +101,17 @@ class Metadata(unittest.TestCase):
         self.assertEqual(root['og:url'], f'{SITE_URL}/')
         self.assertIn('/assets/share-en.', root['og:image'])
 
-    def test_placeholders_stay_out_of_search(self):
+    def test_drafts_stay_out_of_search(self):
+        drafts = [r.path for r in all_reports() if r.draft]
+        self.assertTrue(drafts, 'report no. 1 is a draft until it is reviewed (docs/reports.md)')
         for lang in LANGS:
-            for path in ('reports/', 'reports/2026-q1/'):
+            for path in drafts:
                 html = (self.dist / lang / path / 'index.html').read_text('utf-8')
                 with self.subTest(page=f'{lang}/{path}'):
                     self.assertIn('<meta name="robots" content="noindex">', html)
                     self.assertNotIn('rel="canonical"', html)
                     self.assertNotIn('og:title', html)
+            self.assertNotIn('noindex', (self.dist / lang / 'reports' / 'index.html').read_text('utf-8'), 'the Reports page is indexed')
         self.assertIn('<meta name="robots" content="noindex">', (self.dist / 'en' / '404.html').read_text('utf-8'))
 
     def test_sitemap_lists_both_languages_of_every_page(self):

@@ -40,6 +40,28 @@
     });
   });
 
+  // A download menu opens towards the side with room. Its button can sit at either end of a
+  // line (a long source line wraps it to the start), and on phones the menu must stay on screen.
+  doc.addEventListener('toggle', function (e) {
+    var d = e.target;
+    if (!d.matches || !d.matches('details.dl') || !d.open) return;
+    var m = d.querySelector('.dl-menu');
+    var vw = doc.documentElement.clientWidth;
+    var over = function () {
+      var r = m.getBoundingClientRect();
+      return Math.max(0, 8 - r.left) + Math.max(0, r.right - (vw - 8));
+    };
+    m.classList.remove('dl-flip');
+    m.style.translate = '';
+    var before = over();
+    if (!before) return;
+    m.classList.add('dl-flip');
+    if (over() > before) m.classList.remove('dl-flip');
+    var r = m.getBoundingClientRect();
+    var shift = Math.max(0, 8 - r.left) - Math.max(0, r.right - (vw - 8));
+    if (shift) m.style.translate = shift + 'px 0';
+  }, true);
+
   // Index sub-nav: on phones, bring the current section into view.
   var current = doc.querySelector('.subnav-row [aria-current]');
   if (current) {

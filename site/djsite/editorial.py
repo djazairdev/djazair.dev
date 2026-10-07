@@ -82,6 +82,9 @@ def verify(doc: dict, data) -> list:
     quarters = data.quarters
     failures = []
     for check in doc.get('checks', []):
+        if 'language' in check:
+            failures += verify_language(check, data)
+            continue
         ind = check['indicator']
         # A claim runs to the file's own quarter unless it says otherwise.
         span = [q for q in quarters if check.get('from', quarters[0]) <= q <= check.get('to', doc['quarter'])]
@@ -89,15 +92,26 @@ def verify(doc: dict, data) -> list:
             failures.append(f'{check.get("claim", check)}: no data for the quarters it covers')
             continue
         claim = check.get('claim', str(check))
-        if 'rising' in check:
-            for series in check['rising']:
+        if 'rising' in check or 'falling' in check:
+            up = 'rising' in check
+            for series in check['rising' if up else 'falling']:
                 values = dict(zip(quarters, data.series(ind, series)))
                 start, end = values.get(span[0]), values.get(span[-1])
-                if start is None or end is None or not end > start:
-                    failures.append(f'{claim}: {series} did not rise from {span[0]} to {span[-1]}')
-        elif 'at_least' in check or 'below' in check:
+                if start is None or end is None or not (end > start if up else end < start):
+                    failures.append(f'{claim}: {series} did not {"rise" if up else "fall"} from {span[0]} to {span[-1]}')
+        elif 'grew_at_least' in check:
+            values = dict(zip(quarters, data.series(ind, check['series'])))
+            start, end = values.get(span[0]), values.get(span[-1])
+            if not start or end is None or end / start - 1 < check['grew_at_least']:
+                failures.append(f'{claim}: {check["series"]} grew less than {check["grew_at_least"]:.0%} from {span[0]} to {span[-1]}')
+        elif 'streak' in check:
+            values = [v for q, v in zip(quarters, data.series(ind, check['series'])) if q <= span[-1]]
+            n, direction, _ = streak(values)
+            if direction != (1 if check['streak'] == 'up' else -1) or n < check.get('min', 2):
+                failures.append(f'{claim}: {check["series"]} has not moved {check["streak"]} for {check.get("min", 2)} quarters in a row')
+        elif 'at_least' in check or 'below' in check or 'equals' in check:
             mine = dict(zip(quarters, data.series(ind, check['series'])))
-            other_key = check.get('at_least') or check.get('below')
+            other_key = check.get('at_least') or check.get('below') or check.get('equals')
             other = dict(zip(quarters, data.series(ind, other_key)))
             for q in span:
                 a, b = mine.get(q), other.get(q)
@@ -107,6 +121,46 @@ def verify(doc: dict, data) -> list:
                     failures.append(f'{claim}: {check["series"]} {a:.4f} < {other_key} {b:.4f} in {q}')
                 elif 'below' in check and not a < b:
                     failures.append(f'{claim}: {check["series"]} {a:.4f} is not below {other_key} {b:.4f} in {q}')
+                elif 'equals' in check and round(a, 6) != round(b, 6):
+                    failures.append(f'{claim}: {check["series"]} {a:.4f} is not {other_key} {b:.4f} in {q}')
+        elif 'bottom' in check:
+            # Algeria's rank in a group in the data's quarter: among the last ``bottom`` places.
+            row = data.overview()[ind]
+            rank, ranked = row[f'{check["group"]}_rank'], row[f'{check["group"]}_ranked']
+            if rank is None or rank <= ranked - check['bottom']:
+                failures.append(f'{claim}: Algeria is {rank} of {ranked} in {check["group"]}, not in the last {check["bottom"]}')
         else:
             failures.append(f'{claim}: unknown check {check}')
     return failures
+
+
+def verify_language(check: dict, data) -> list:
+    """A claim about one of Algeria's languages in the data's quarter: ``grew_at_least`` (change
+    on a year earlier), ``rank_at_most`` (in the top n), ``rank_over`` (outside it),
+    ``entered_top`` and ``left_top`` (in the top n now and not a year earlier, or the reverse) or
+    ``always_first`` (first in every quarter since the series starts)."""
+    claim, name = check.get('claim', str(check)), check['language']
+    row = next((r for r in data.rows('languages') if r['economy'] == 'DZ' and r['quarter'] == data.quarter
+                and r['language'] == name), None)
+    if row is None:
+        return [f'{claim}: {name} is not in Algeria’s languages in {data.quarter}']
+    out = []
+    if 'grew_at_least' in check and (row['change'] is None or row['change'] < check['grew_at_least']):
+        out.append(f'{claim}: {name} grew {row["change"]} on a year earlier, less than {check["grew_at_least"]}')
+    if 'rank_at_most' in check and row['rank'] > check['rank_at_most']:
+        out.append(f'{claim}: {name} is ranked {row["rank"]}, not in the top {check["rank_at_most"]}')
+    if 'rank_over' in check and row['rank'] <= check['rank_over']:
+        out.append(f'{claim}: {name} is ranked {row["rank"]}, inside the top {check["rank_over"]}')
+    before = row['rank_year_earlier']
+    if 'entered_top' in check and not (row['rank'] <= check['entered_top'] and (before is None or before > check['entered_top'])):
+        out.append(f'{claim}: {name} went from {before} to {row["rank"]}, so it did not enter the top {check["entered_top"]}')
+    if 'left_top' in check and not (row['rank'] > check['left_top'] and before is not None and before <= check['left_top']):
+        out.append(f'{claim}: {name} went from {before} to {row["rank"]}, so it did not leave the top {check["left_top"]}')
+    if check.get('always_first'):
+        first = {r['quarter']: r['language'] for r in data.rows('languages_algeria') if r['rank'] == 1}
+        if any(first.get(q) != name for q in data.quarters):
+            out.append(f'{claim}: {name} was not first in every quarter')
+    known = {'language', 'claim', 'grew_at_least', 'rank_at_most', 'rank_over', 'entered_top', 'left_top', 'always_first'}
+    if set(check) - known or not set(check) & (known - {'language', 'claim'}):
+        out.append(f'{claim}: unknown check {check}')
+    return out

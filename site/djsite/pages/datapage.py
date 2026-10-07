@@ -15,6 +15,7 @@ from ..data import manifests
 from ..fmt import date_label, fint, fsize, num, quarter_label
 from ..markup import Markup, esc, join
 from ..charts import loc
+from ..reports import all_reports
 from . import overview
 from .methodology import REPO, toc
 
@@ -81,6 +82,14 @@ def tables(ctx) -> Markup:
                   f'<div class="tb-extra"><p>{ctx.t("downloads.checksums")}</p><div class="tb-f">{extras}</div></div>{earlier_html}')
 
 
+def page_name(ctx, key: str) -> Markup:
+    """A page's name in the chart list: a report's own title, or the page title."""
+    report = next((r for r in all_reports() if r.key == key), None)
+    if report is not None:
+        return esc(report.source(ctx.lang)[0]['title'])
+    return ctx.t(f'pages.{key}.title')
+
+
 def charts(ctx) -> Markup:
     lang = ctx.lang
     groups = {}
@@ -93,7 +102,7 @@ def charts(ctx) -> Markup:
             f'<span class="tb-f"><a class="act" href="{esc(c["csv"][0])}" download="{esc(c["csv"][1])}">CSV</a>'
             f'<a class="act" href="{esc(c["json"][0])}" download="{esc(c["json"][1])}">JSON</a></span></li>'
             for chart_id, c in groups[key])
-        name = ctx.t('downloads.page_home') if key == 'home' else ctx.t(f'pages.{key}.title')
+        name = ctx.t('downloads.page_home') if key == 'home' else page_name(ctx, key)
         out.append(f'<div class="ch-group"><h3><a class="ch-link" href="{ctx.url(key)}">{name}</a></h3><ul class="ch-list">{items}</ul></div>')
     return Markup(f'<p>{ctx.t("downloads.charts_lede")}</p><div class="ch">{"".join(out)}</div>')
 

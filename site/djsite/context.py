@@ -46,6 +46,7 @@ class Site:
     hub: object = None             # data.Hub: the Hub snapshot
     indexed: dict = field(default_factory=dict)  # route key -> languages it is indexed in (the sitemap)
     analytics: str = ''            # Cloudflare Web Analytics token; '' adds no beacon
+    cache: dict = field(default_factory=dict)   # what pages read once per build, such as a report's quarter
 
     def add_file(self, path: str, data: bytes) -> str:
         """Register a generated file, such as a chart download, and return its URL. Pages in

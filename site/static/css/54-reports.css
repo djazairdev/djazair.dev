@@ -1,0 +1,79 @@
+/* Quarterly reports (ticket #34): the report page uses the Methodology layout (52-docs.css);
+   these are its blocks, the report card on the Reports page and Home, and the press kit. */
+
+/* ---- headline numbers: one card per figure, each with its source and quarter */
+.kf { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr)); gap: 12px; margin: 0; }
+.kf-card { display: flex; flex-direction: column; min-width: 0; padding: 20px 20px 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--s1); }
+.kf-l { font-size: 13.5px; line-height: 1.4; font-weight: 700; color: var(--ink2); }
+.kf-v { margin: 12px 0 0; font-size: clamp(30px, 2.8vw, 36px); line-height: 1; font-weight: 600; letter-spacing: -0.035em; color: var(--ink); }
+[dir=rtl] .kf-v { text-align: right; }
+.kf-c { margin: 14px 0 0; }
+.kf-c .chip { display: inline-block; max-width: 100%; height: auto; min-height: 26px; padding-block: 4px; line-height: 1.35; white-space: normal; }
+.kf-x { margin: 10px 0 16px; font-size: 13px; line-height: 1.55; color: var(--ink2); }
+.kf-s { margin: auto 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11.5px; line-height: 1.5; color: var(--ink3); }
+.kf-s:lang(ar) { font-family: var(--sans); font-size: 12.5px; }
+
+/* ---- notes above the text: draft, re-released data */
+.rp .rp-note { margin-top: clamp(32px, 4vw, 48px); border-color: var(--line2); background: var(--amber-bg); }
+.rp .rp-note + .rp-note { margin-top: 12px; }
+.rp-note .callout-i { background: var(--amber-bg); color: var(--amber); }
+.callout .rp-note-t { margin: 0; font-size: 16px; font-weight: 700; color: var(--ink); }
+.rp .rp-note + .doc-sec { margin-top: clamp(32px, 4vw, 48px); }
+
+/* ---- tables: the first column names the indicator */
+.rp-table .dt tbody th { white-space: normal; min-width: 150px; }
+.rp-table .dt td:lang(ar) .num.nums { font-size: 13px; }
+
+/* ---- the Hub when the report was written */
+.rp-hub dl { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); gap: 12px; margin: 0; }
+.rp-hub dl > div { padding: 16px 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--s1); }
+.rp-hub dt { font-size: 13px; color: var(--ink3); }
+.rp-hub dd { margin: 6px 0 0; font-size: 28px; line-height: 1.1; font-weight: 600; color: var(--ink); }
+.rp-hub p { margin-top: 10px; font-size: 12.5px; color: var(--ink3); }
+
+/* ---- press kit: the zip, then each chart with its own downloads */
+.kit { border: 1px solid var(--line); border-radius: 14px; background: var(--s1); }
+.kit-head { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 24px; padding: 20px 22px; border-bottom: 1px solid var(--line); }
+.kit-head p { flex: 1 1 260px; font-size: 13.5px; line-height: 1.65; color: var(--ink2); }
+.kit-head .btn .dl-size { color: inherit; font-weight: 500; }
+.kit-list { margin: 0; padding: 4px 22px; list-style: none; }
+.kit-list li { display: grid; grid-template-columns: 92px minmax(0, 1fr) auto; align-items: center; gap: 6px 18px; padding-block: 12px; }
+.kit-list li + li { border-top: 1px solid var(--line); }
+.kit-n { font-size: 12px; color: var(--ink3); white-space: nowrap; }
+.kit-n:lang(ar) { font-family: var(--sans); font-size: 13px; }
+.kit-t { font-size: 14px; line-height: 1.5; color: var(--ink2); text-decoration: none; }
+.kit-t:hover { color: var(--ink); }
+.rp-method { padding: 18px 22px 8px; border: 1px solid var(--line); border-radius: 14px; background: var(--sunk); }
+.rp-method h3 { padding-bottom: 12px; font-size: 15px; font-weight: 700; }
+.rp-method ul { margin: 0; padding: 0; list-style: none; }
+.rp-method li { padding-block: 12px; border-top: 1px dashed var(--line2); font-size: 13.5px; line-height: 1.7; color: var(--ink2); }
+.rp-method li:lang(ar) { line-height: 1.85; }
+
+/* ---- report card: the Reports page and Home */
+.rp-list { display: grid; gap: 16px; }
+.rp-card { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(240px, 1fr); gap: 28px clamp(28px, 4vw, 56px); padding: clamp(22px, 3vw, 36px); border-radius: var(--r-card); }
+.rp-card-k { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; color: var(--ink3); }
+.rp-no { font-size: 12px; color: var(--mint); }
+.rp-no:lang(ar) { font-family: var(--sans); font-size: 13px; }
+.rp-card h3 { margin-top: 14px; font-size: clamp(24px, 2.4vw, 32px); line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; text-wrap: balance; }
+.rp-card h3:lang(ar) { line-height: 1.4; letter-spacing: 0; }
+.rp-card h3 a { color: var(--ink); text-decoration: none; }
+.rp-card h3 a:hover { color: var(--mint-hi); }
+.rp-card-s { max-width: 62ch; margin-top: 14px; font-size: 16px; line-height: 1.7; color: var(--ink2); }
+.rp-card-s:lang(ar) { line-height: 1.9; }
+.rp-card .section-actions { margin-top: 26px; }
+.rp-toc { align-self: center; margin: 0; padding: 0 0 0; padding-inline-start: clamp(20px, 3vw, 32px); border-inline-start: 1px solid var(--line); list-style: none; }
+.rp-toc a { display: flex; gap: 14px; padding-block: 8px; font-size: 14px; line-height: 1.4; color: var(--ink2); text-decoration: none; }
+.rp-toc a:hover { color: var(--ink); }
+.rp-toc .toc-n { color: var(--ink3); }
+
+.rp-rules { grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); }
+
+@media (max-width: 860px) {
+  .rp-card { grid-template-columns: minmax(0, 1fr); }
+  .rp-toc { padding-inline-start: 0; padding-top: 18px; border-inline-start: 0; border-top: 1px solid var(--line); }
+}
+@media (max-width: 640px) {
+  .kit-list li { grid-template-columns: minmax(0, 1fr) auto; }
+  .kit-n { grid-column: 1 / -1; }
+}
