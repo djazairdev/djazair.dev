@@ -145,6 +145,16 @@ class TickerMaths(unittest.TestCase):
     def test_one_year_has_nothing_to_replay(self):
         self.assertEqual(home.hero_css('en', self.YEARS[:1]), '')
 
+    def test_the_figures_take_turns_with_the_years(self):
+        stats = [('—', '—', '—'), ('▲ 44.6%', '6th of 7', '+40,925'), ('▲ 37.0%', '4th of 7', '+49,137')]
+        css = home.hero_css('en', self.YEARS, stats)
+        for k, row in enumerate(stats):
+            self.assertIn(f'@keyframes hero-y{k}{{', css)
+            for i, value in enumerate(row):
+                self.assertIn(f'.hs-a.hv{i} .y{k}::after{{content:"{value}"}}', css)
+        self.assertIn('.um-years rect,.hs-a span){animation-play-state:paused}', css)
+        self.assertNotIn('.hs-a .y0', home.hero_css('en', self.YEARS), 'without the figures, the latest stay')
+
 
 class HomePage(unittest.TestCase):
     @classmethod
@@ -192,6 +202,30 @@ class HomePage(unittest.TestCase):
         hub = (self.dist / 'en' / 'hub' / 'index.html').read_text('utf-8')
         self.assertNotIn('hero-tick', hub, 'only Home carries the replay')
         self.assertEqual(self.html['en'].count('<style>'), 1, 'in the one inlined stylesheet')
+
+    def test_the_figures_follow_the_year(self):
+        years = home.history(self.data)
+        ov = self.data.overview()
+        a, y = ov['accounts'], ov['yoy']
+        for lang in ('en', 'ar'):
+            figs = home.year_figures(self.data, years, lang)
+            with self.subTest(lang=lang):
+                self.assertEqual(len(figs), len(years))
+                self.assertEqual(figs[0], ('—', '—', '—'), 'the first year has no year before it')
+                self.assertEqual(figs[-1], (f'▲ {fpct(y["value"], 1, lang, sign=False)}',
+                                            rank_text(y['north_africa_rank'], y['north_africa_ranked'], lang),
+                                            fint(a['value'] - a['year_earlier'], lang, sign=True)), 'the latest, as the Overview has them')
+                css = self.html[lang].split('<style>')[1].split('</style>')[0]
+                for k, row in enumerate(figs):
+                    for i, value in enumerate(row):
+                        self.assertIn(f'.hs-a.hv{i} .y{k}::after{{content:"{value}"}}', css)
+                self.assertEqual(self.html[lang].count('aria-hidden="true"><span class="y0"></span>'), 3)
+        self.assertIn('accounts added in a year', self.text['en'])
+        if self.data.quarter == BASELINE:
+            self.assertEqual(home.year_figures(self.data, years, 'en')[1:-1],
+                             [('▲ 44.6%', '6th of 7', '+40,925'), ('▲ 37.0%', '4th of 7', '+49,137'),
+                              ('▲ 30.9%', '6th of 7', '+56,276'), ('▲ 31.5%', '3rd of 7', '+75,137'),
+                              ('▲ 25.6%', '4th of 7', '+80,271')])
 
     def test_baseline_sentences(self):
         if self.data.quarter != BASELINE:

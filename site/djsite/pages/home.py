@@ -16,7 +16,7 @@ from ..charts import Line, LineChart, Note, UnitMap, loc, tick_pct
 from ..config import LANGS, REPO_URL
 from ..context import Ctx, Page
 from ..figures import figure, table, unit_key
-from ..fmt import date_label, fint, fpct, num, quarter_label, rank_text
+from ..fmt import date_label, fint, fpct, has_arabic, num, quarter_label, rank_text
 from ..icons import icon
 from ..markup import Markup, esc, join
 from ..scorecard import indicators, year_earlier
@@ -26,7 +26,7 @@ PER = 1000                     # accounts per square on the unit map
 GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
 # The hero replays the years, in seconds: it holds the first year while the page fades in,
 # counts up to each next year, rests on the latest, rewinds, and starts again.
-HOLD, FLIP, COUNT, REST, REWIND = 1.4, 1.2, 0.9, 3.0, 0.6
+HOLD, FLIP, COUNT, REST, REWIND = 1.4, 1.2, 0.9, 4.0, 0.6
 
 
 # ---------------------------------------------------------------- the years the hero replays
@@ -45,21 +45,42 @@ def timeline(years: int) -> tuple:
     return rewind + REWIND, flips, rewind
 
 
+def year_figures(data, years: list, lang: str) -> list:
+    """The hero's three figures for each year it replays, as text: growth in a year with its
+    arrow, the rank for it among the North African economies, and the accounts added since the
+    year before. The first year has no year before it in the data, so it gets dashes."""
+    north = [k for k, row in data.peers().items() if row['north_africa']]
+    growth = {k: dict(zip(data.quarters, data.series('yoy', k))) for k in north}
+    out = []
+    for i, (q, accounts) in enumerate(years):
+        g = growth['DZ'].get(q)
+        if i == 0 or g is None:
+            out.append(('—', '—', '—'))
+            continue
+        ranked = [v for v in (growth[k].get(q) for k in north) if v is not None]
+        out.append((f'{"▲" if g >= 0 else "▼"} {fpct(abs(g), 1, lang, sign=False)}',
+                    rank_text(1 + sum(v > g for v in ranked), len(ranked), lang),
+                    fint(accounts - years[i - 1][1], lang, sign=True)))
+    return out
+
+
 def _groups(value: int) -> list:
     return f'{value:,}'.split(',')
 
 
-def hero_css(lang: str, years: list) -> str:
+def hero_css(lang: str, years: list, stats: list = ()) -> str:
     """Home's own stylesheet, generated from the data: with CSS only, the hero replays the
-    years. The count goes up to each year's value as the year above it turns over and the map
-    adds that year's squares.
+    years. The count goes up to each year's value as the year above it turns over, the map
+    adds that year's squares, and the three figures under the count (``stats``, from
+    ``year_figures``) show that year's.
 
     The count is a registered <integer> property, --tick. CSS can't print a property, but it
     can print counters: each group of three digits is worked out from --tick and printed with
     its separator and leading zeros, and counter styles print nothing for a group that is still
     0, so the count can gain a digit group on the way. An <integer> property rounds to the
     nearest integer, so floor(n / d) is written round((n - (d - 1) / 2) / d). The year is a
-    counter too, and each year's squares have keyframes of their own."""
+    counter too, each year's squares have keyframes of their own, and so does each year's
+    turn of the figures, which the stylesheet prints."""
     if len(years) < 2:
         return ''
     length, flips, rewind = timeline(len(years))
@@ -99,6 +120,26 @@ def hero_css(lang: str, years: list) -> str:
     tick += [f'{at(rewind)}{{--tick:{values[-1]}}}', f'100%{{--tick:{values[0]}}}']
     year += [f'{at(rewind)}{{--yr:{yr[-1]}}}', f'100%{{--yr:{yr[0]}}}']
 
+    # The figures: each year's slide in as the year turns over and leave when the next comes;
+    # the first year's come back as the rewind ends.
+    shown, turns = '', ''
+    if len(stats) == len(years):
+        for k in range(len(years)):
+            if k == 0:
+                frames = f'0%,{at(flips[0])}{{opacity:1}}{at(flips[0] + .01)}{{opacity:0}}{at(rewind + .3)}{{opacity:0}}100%{{opacity:1}}'
+            else:
+                t, end = flips[k - 1], flips[k] if k < len(flips) else rewind
+                leave = f'{at(end + .01)}{{opacity:0}}' if k < len(flips) else f'{at(end + .25)}{{opacity:0}}'
+                frames = (f'0%,{at(t + .01)}{{opacity:0;transform:translateY(.4em);animation-timing-function:var(--ease)}}'
+                          f'{at(t + .4)}{{opacity:1;transform:none}}{at(end)}{{opacity:1}}{leave}100%{{opacity:0}}')
+            shown += f'@keyframes hero-y{k}{{{frames}}}\n'
+        text = lambda v: '"' + v.replace('\\', '\\\\').replace('"', '\\"') + '"'     # as a CSS string
+        turns = ('.hero-stats .hs-v{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n'
+                 '.hero-stats .hs-a{display:inline-grid}.hs-a>span{grid-area:1/1}\n'
+                 + ''.join(f'.hs-a .y{k}{{animation:hero-y{k} {length:g}s linear infinite both}}' for k in range(len(years))) + '\n'
+                 + ''.join(f'.hs-a.hv{i} .y{k}::after{{content:{text(v)}}}' for k, row in enumerate(stats) for i, v in enumerate(row))
+                 + '\n')
+
     width = max(len(_groups(v)) for v in values)
     digits = ''.join(f'.tick-anim .tg{i}{{--ta:{floor_div(width - 1 - i)};--th:{floor_div(width - i)}}}' for i in range(width))
     props = ''.join(f"@property --{name}{{syntax:'<integer>';inherits:true;initial-value:{value}}}\n"
@@ -112,7 +153,7 @@ def hero_css(lang: str, years: list) -> str:
             '@counter-style tick-blank{system:fixed 0;symbols:""}\n'
             '@counter-style tick-digits{system:extends decimal;range:1 infinite;fallback:tick-blank}\n'
             f'@keyframes hero-tick{{{"".join(tick)}}}\n@keyframes hero-yr{{{"".join(year)}}}\n'
-            + ''.join(steps)
+            + ''.join(steps) + shown
             + '@media (prefers-reduced-motion:no-preference){@supports (color:rgb(from white r g b)){\n'
             f'.hero-n .tick-anim{{display:inline;animation:hero-tick {length:g}s var(--ease-io) infinite both}}\n'
             '.hero-n .tick-static{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n'
@@ -127,10 +168,11 @@ def hero_css(lang: str, years: list) -> str:
             f'.hero-when .yr-anim{{display:inline-block;counter-reset:yr var(--yr);animation:hero-yr {length:g}s linear infinite both}}\n'
             f'.hero-when .yr-anim::after{{content:"{prefix}" counter(yr)}}\n'
             '.hero-pause{display:inline-flex}\n'
+            + turns
             # the first year's squares grow in as the page loads (90-motion.css); the later years' are this loop's
-            f'.um.um-years :is({later}) rect{{animation:none}}\n'
+            + f'.um.um-years :is({later}) rect{{animation:none}}\n'
             + ''.join(rules)
-            + '.hero:is(.hero-idle,:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.um-years g,.um-years rect)'
+            + '.hero:is(.hero-idle,:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span)'
             '{animation-play-state:paused}\n}}\n')
 
 
@@ -194,7 +236,8 @@ def _stat(value: Markup, label, up: bool = False) -> str:
 
 def figures(ctx) -> list:
     """The hero's three figures, (value, label): growth in a year, the rank for it in North
-    Africa and the accounts added. The release's share images show them too (site/tools/share.py)."""
+    Africa and the accounts added. The release's share images show them too (site/tools/share.py);
+    the hero labels the last one without a quarter, since it follows the year it replays."""
     data = ctx.site.data
     lang = ctx.lang
     ov = data.overview()
@@ -209,9 +252,20 @@ def hero(ctx) -> Markup:
     lang, q = ctx.lang, data.quarter
     a = data.overview()['accounts']
     years = history(data)
-    (growth, growth_label), (rank, rank_label), (added, added_label) = figures(ctx)
-    growth = Markup(f'<span class="num" dir="ltr"><span aria-hidden="true">▲ </span>{esc(growth)}</span>')
-    stats = _stat(growth, growth_label, up=True) + _stat(num(rank), rank_label) + _stat(num(added), added_label)
+    (growth, growth_label), (rank, rank_label), (added, _) = figures(ctx)
+
+    def each_year(i: int, latest: str) -> str:
+        """Where the replay shows each year's figure in turn, printed by Home's stylesheet."""
+        if len(years) < 2:
+            return ''
+        cls, direction = ('num nums', 'rtl') if has_arabic(latest) else ('num', 'ltr')     # as num() would
+        return (f'<span class="hs-a hv{i} {cls}" dir="{direction}" aria-hidden="true">'
+                + ''.join(f'<span class="y{k}"></span>' for k in range(len(years))) + '</span>')
+
+    growth_html = f'<span class="num hs-v" dir="ltr"><span aria-hidden="true">▲ </span>{esc(growth)}</span>'
+    stats = (_stat(Markup(growth_html + each_year(0, growth)), growth_label, up=True)
+             + _stat(Markup(num(rank, 'num hs-v') + each_year(1, rank)), rank_label)
+             + _stat(Markup(num(added, 'num hs-v') + each_year(2, added)), ctx.t('home.stat_added_year')))
 
     n, direction, _ = editorial.streak(data.series('yoy', 'DZ'))
     lead = ''
@@ -331,5 +385,6 @@ def open_row(ctx) -> Markup:
 
 def render(ctx: Ctx) -> Page:
     body = hero(ctx) + scorecard(ctx) + trend(ctx) + report.teaser(ctx) + hub_teaser(ctx) + open_row(ctx)
+    years = history(ctx.site.data)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
-                css=minify_css(hero_css(ctx.lang, history(ctx.site.data))))   # only Home needs these rules
+                css=minify_css(hero_css(ctx.lang, years, year_figures(ctx.site.data, years, ctx.lang))))   # Home's alone

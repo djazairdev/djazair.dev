@@ -44,7 +44,7 @@ At eight times slower CPU, the Overview's LCP was 1.80 s before the stylesheet w
 - **Fonts are subset and swap in.** Tajawal comes in separate Latin and Arabic files per weight (about 10 KB each), and the browser only fetches the ones a page uses. JetBrains Mono is one variable file of 31 KB. Each page preloads the two the first screen needs, and text shows at once in a system font while they load (`font-display: swap`).
 - **Scripts only enhance**, load with `defer` and are under 10 KB each (2 to 4 KB compressed). Nothing on the page waits for them.
 - **Charts are drawn at build time** as inline SVG, so no chart library is downloaded. The unit map on Home is 587 squares, grouped by the year they joined: 42 KB of markup that compresses to under 5 KB.
-- **Home's replay is CSS made for Home.** Its rules depend on the data, so the builder adds them to Home's inlined stylesheet only (about 1.7 KB compressed), and the loop rests while it is scrolled out of view, so it doesn't keep a phone busy further down the page.
+- **Home's replay is CSS made for Home.** Its rules depend on the data, so the builder adds them to Home's inlined stylesheet only (about 2 KB compressed), and the loop rests while it is scrolled out of view, so it doesn't keep a phone busy further down the page.
 - **Hashed files are cached for a year** (`_headers`): scripts and fonts download once.
 
 ## Known trade-offs

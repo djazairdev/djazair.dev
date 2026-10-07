@@ -579,6 +579,7 @@
     "stat_growth": "growth in a year",
     "stat_rank": "in North Africa, by growth",
     "stat_added": "accounts since {quarter}",
+    "stat_added_year": "accounts added in a year",
     "streak_many": "Growth has sped up for {count} in a row.",
     "streak_one": "Growth sped up this quarter.",
     "slowed_many": "Growth has slowed for {count} in a row.",

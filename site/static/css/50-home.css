@@ -22,7 +22,7 @@
 .hero-h { display: flex; flex-direction: column; gap: 14px; }
 .hero-n { align-self: flex-start; font-size: clamp(60px, 8.6vw, 128px); line-height: .86; font-weight: 600; letter-spacing: -0.055em; white-space: nowrap; }
 .hero-n .ts { margin-inline: -.16em; }
-.tick-anim, .yr-anim, .hero-pause { display: none; }
+.tick-anim, .yr-anim, .hero-pause, .hs-a { display: none; }
 
 /* the quarter the count is for, and the button that pauses the replay of the years */
 .hero-when { display: flex; align-items: center; gap: 14px; min-height: 32px; }
