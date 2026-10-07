@@ -2,7 +2,8 @@
 
 Squares show quantity, never location: the grid fills the outline evenly, and the
 squares added in the last year are scattered with a fixed hash, so the same numbers
-always give the same picture. The outline comes from ``site/geo/algeria.json``
+always give the same picture. For a replay of the years, the squares each earlier year
+added follow in the same hashed order. The outline comes from ``site/geo/algeria.json``
 (see ``tools/make_outline.py``).
 """
 from __future__ import annotations
@@ -75,6 +76,7 @@ class Cell:
     y: float
     new: bool
     t: float          # distance from Algiers, 0 to 1 (the order cells appear in)
+    step: int = 0     # with a history, the first step the square is in
 
 
 @dataclass(frozen=True)
@@ -99,13 +101,21 @@ def _rank(seed: str, i: int) -> str:
 
 
 @lru_cache(maxsize=32)
-def layout(total: int, new: int, box: float = 600.0, seed: str = 'djazair.dev') -> Layout:
+def layout(total: int, new: int, box: float = 600.0, seed: str = 'djazair.dev', history: tuple = ()) -> Layout:
     """``total`` squares inside the outline, ``new`` of them marked as added in the last year.
 
     The grid pitch is the largest that still fits ``total`` squares; extra squares nearest
-    the coast and borders are dropped so the count is exact."""
+    the coast and borders are dropped so the count is exact.
+
+    ``history``: the number of squares at each step of a replay, oldest first, ending with
+    ``total`` after ``total - new``. Each square gets the first step it is in: the ``new``
+    squares make the last step, and each earlier step takes the next squares in the same
+    hashed order, so every step holds the one before it."""
     if not 0 <= new <= total:
         raise ValueError(f'new ({new}) must be between 0 and total ({total})')
+    if history and (history[-1] != total or list(history) != sorted(history)
+                    or (len(history) > 1 and history[-2] != total - new)):
+        raise ValueError(f'history {history} must rise to {total}, from {total - new} the step before')
     geo = outline()
     s = box / 1000
     poly = [(x * s, y * s) for x, y in geo['outline']]
@@ -133,9 +143,14 @@ def layout(total: int, new: int, box: float = 600.0, seed: str = 'djazair.dev') 
         drop = set(sorted(range(len(cells)), key=lambda i: (edge(cells[i]), cells[i][1], cells[i][0]))[:len(cells) - total])
         cells = [c for i, c in enumerate(cells) if i not in drop]
 
-    fresh = set(sorted(range(total), key=lambda i: _rank(seed, i))[:new])
+    order = sorted(range(total), key=lambda i: _rank(seed, i))
+    fresh = set(order[:new])
+    step = [0] * total
+    for k in range(len(history) - 1, 0, -1):
+        for i in order[total - history[k]:total - history[k - 1]]:
+            step[i] = k
     ax, ay = geo['algiers'][0] * s, geo['algiers'][1] * s
     dist = [math.hypot(c[0] + p / 2 - ax, c[1] + p / 2 - ay) for c in cells]
     far = max(dist) or 1
-    out = tuple(Cell(round(c[0], 2), round(c[1], 2), i in fresh, round(dist[i] / far, 4)) for i, c in enumerate(cells))
+    out = tuple(Cell(round(c[0], 2), round(c[1], 2), i in fresh, round(dist[i] / far, 4), step[i]) for i, c in enumerate(cells))
     return Layout(width=round(w, 2), height=round(h, 2), pitch=round(p, 4), cells=out, outline=outline_path(poly, box / 1000))

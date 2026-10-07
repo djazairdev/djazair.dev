@@ -156,6 +156,15 @@
     });
   }
 
+  // Home's hero replays the years in a loop (pages/home.py); it rests while it's out of sight.
+  var hero = doc.querySelector('.hero-pause');
+  hero = hero && hero.closest('.hero');
+  if (hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      hero.classList.toggle('hero-idle', !entries[entries.length - 1].isIntersecting);
+    }).observe(hero);
+  }
+
   // PNG downloads: drawn here from the chart's SVG file, with the site's fonts embedded so
   // the text looks as it does on the page. Without JavaScript these menu items stay hidden.
   var canPng = window.fetch && window.Promise && window.FileReader && window.URL && HTMLCanvasElement.prototype.toBlob;

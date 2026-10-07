@@ -18,7 +18,7 @@ from .config import ANALYTICS_ENV, DEFAULT_OUT, I18N_DIR, LANGS, SITE_URL
 from .context import Ctx, Route, Site
 from .data import DERIVED_DIR, Hub, load as load_data
 from .i18n import Catalog
-from .pages import dev as dev_page, home, root
+from .pages import dev as dev_page, root
 from .routes import ROUTES
 
 MARKER = '.djsite-build'
@@ -138,7 +138,7 @@ def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool =
     site = Site(catalog=catalog, routes={r.key: r for r in all_routes}, dev=dev, data=load_data(derived_dir),
                 hub=Hub(hub_dir or Path(derived_dir) / 'hub'), analytics=analytics_token(analytics))
     _prepare(out)
-    site.assets = assets.build(out, extra_css=home.ticker_css(site.data), release=site.data.folder.name)
+    site.assets = assets.build(out, release=site.data.folder.name)
     add_data_files(site, derived_dir)
 
     for lang in LANGS:

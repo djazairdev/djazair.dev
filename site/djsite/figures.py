@@ -71,12 +71,14 @@ def line_key(ctx, chart: LineChart) -> Markup:
 
 
 def unit_key(ctx, chart: UnitMap) -> Markup:
+    """The squares' colours, with their counts; a map that replays the years has no one count."""
     total, added = chart.squares
     lang = ctx.lang
+    old, new = ('', '') if chart.history else (f' {num(fint(total - added, lang))}', f' {num(fint(added, lang))}')
     return Markup(
         f'<ul class="chart-key um-key" aria-label="{ctx.ta("chart.legend")}">'
-        f'<li><span class="sw sw-old" aria-hidden="true"></span>{esc(loc(chart.start_label, lang))} {num(fint(total - added, lang))}</li>'
-        f'<li><span class="sw sw-new" aria-hidden="true"></span>{esc(loc(chart.added_label, lang))} {num(fint(added, lang))}</li>'
+        f'<li><span class="sw sw-old" aria-hidden="true"></span>{esc(loc(chart.start_label, lang))}{old}</li>'
+        f'<li><span class="sw sw-new" aria-hidden="true"></span>{esc(loc(chart.added_label, lang))}{new}</li>'
         f'<li class="um-note">{esc(loc(chart.square_label, lang))}</li></ul>')
 
 

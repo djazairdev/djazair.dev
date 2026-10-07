@@ -10,7 +10,7 @@ djazair.dev aims for [WCAG 2.1](https://www.w3.org/TR/WCAG21/) level AA on every
 - **Controls.** Choices are real radio buttons and links, so they work without JavaScript and with the keyboard. The Hub's filter count is a live region with the plural forms of each language, updated once after typing stops.
 - **Focus.** Everything that takes focus shows a 2 px mint ring (`:focus-visible`), at least 3:1 against every surface. Radio buttons drawn as chips or tabs pass their ring to their label.
 - **Colour.** One dark theme. Text colours reach at least 4.5:1 on every surface, including the tinted badges and chips. Chart lines reach 3:1, except the peers dimmed while another peer is brought forward; their values stay in the table.
-- **Motion.** With *Reduce motion* turned on in the operating system, nothing animates: charts and the unit map show fully drawn at once.
+- **Motion.** With *Reduce motion* turned on in the operating system, nothing animates: charts and the unit map show fully drawn at once. Home's hero replays the years in a loop, so a button beside the year pauses it (WCAG 2.2.2). The button is a checkbox, so it works with the keyboard and without JavaScript. The loop also rests while it is scrolled out of view.
 
 ## Tested on every pull request
 
@@ -41,6 +41,7 @@ Last full pass: 6 October 2026, in Chrome, on every page in both languages.
 | Reflow (zoom) | Every page at 320 px and 640 px wide, the same as 400% and 200% zoom of a 1280 px window | No page scrolls sideways. Wide tables scroll inside their own frame. |
 | Text spacing | Line height 1.5, letter spacing 0.12 em, word spacing 0.16 em and paragraph spacing 2 em, at 390 px and 1280 px | Nothing overflows or is cut off. |
 | Reduced motion | The home page with reduced motion on, captured 0.15 s after loading | The unit map and the headline figure show complete at once. Without reduced motion they are still animating at that point. |
+| Hero replay | Home in both languages at 1440 px and 375 px, on 7 October 2026: the pause button with the mouse and with Tab and Space, scrolling the hero out of view, and Home without its replay rules | The button pauses and resumes the count, the year and the map, and shows the focus ring. The loop rests out of view and resumes when the hero is back. Without the rules, the latest quarter and the plain number show, and no button. |
 | Unit map | Its name and description in both languages | "One square, 1,000 developer accounts", then what the squares mean and where the data table is. The Arabic text says the same. |
 
 Run the manual checks again after changes to layout, navigation or a chart.

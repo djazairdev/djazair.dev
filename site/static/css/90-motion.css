@@ -42,7 +42,8 @@
   .chart.draw-go .ann { animation: pop .45s var(--spring) .85s both; transform-box: fill-box; transform-origin: center; }
 
   /* The unit map fills in twelve bands outward from Algiers: last year's squares first,
-     then the squares added since. */
+     then the squares added since. On Home, the first year's squares grow in this way and the
+     later years replay with rules generated from the data (pages/home.py). */
   .um rect { transform-box: fill-box; transform-origin: center; }
   .um .o rect { animation: cell-in .5s var(--ease) both; animation-delay: calc(90ms + var(--b, 0) * 62ms); }
   .um .n rect { animation: cell-new .7s var(--spring) both; animation-delay: calc(1180ms + var(--b, 0) * 58ms); }

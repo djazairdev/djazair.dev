@@ -195,7 +195,7 @@ def document(ctx: Ctx, page: Page) -> str:
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {assets.preloads(ctx.lang)}
-{assets.inline_style()}
+{assets.inline_style(page.css)}
 {scripts}
 {page.head}
 </head>

@@ -11,6 +11,7 @@ from __future__ import annotations
 from .. import charts
 from .. import components as C
 from .. import editorial
+from ..assets import minify_css
 from ..charts import Line, LineChart, Note, UnitMap, loc, tick_pct
 from ..config import LANGS, REPO_URL
 from ..context import Ctx, Page
@@ -23,81 +24,161 @@ from . import report
 
 PER = 1000                     # accounts per square on the unit map
 GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
+# The hero replays the years, in seconds: it holds the first year while the page fades in,
+# counts up to each next year, rests on the latest, rewinds, and starts again.
+HOLD, FLIP, COUNT, REST, REWIND = 1.4, 1.2, 0.9, 3.0, 0.6
 
 
-# ---------------------------------------------------------------- the account ticker
+# ---------------------------------------------------------------- the years the hero replays
+def history(data) -> list:
+    """Algeria's accounts in the same quarter of each year, oldest first, up to the latest:
+    [('2020-Q1', 91819), ..., ('2026-Q1', 586990)]."""
+    values = zip(data.quarters, data.series('accounts', 'DZ'))
+    return [(q, int(v)) for q, v in values if q[-2:] == data.quarter[-2:] and v is not None]
+
+
+def timeline(years: int) -> tuple:
+    """(the loop's length, when each later year starts, when the rewind starts), in seconds
+    from the start of the loop."""
+    flips = [HOLD + FLIP * k for k in range(years - 1)]
+    rewind = HOLD + FLIP * (years - 1) + REST
+    return rewind + REWIND, flips, rewind
+
+
 def _groups(value: int) -> list:
     return f'{value:,}'.split(',')
 
 
-def animated(data) -> bool:
-    """The count animates from a year earlier only when both numbers have as many digit
-    groups (a counter can't add a group mid-count)."""
-    a = data.overview()['accounts']
-    return len(_groups(int(a['value']))) == len(_groups(int(a['year_earlier'])))
+def hero_css(lang: str, years: list) -> str:
+    """Home's own stylesheet, generated from the data: with CSS only, the hero replays the
+    years. The count goes up to each year's value as the year above it turns over and the map
+    adds that year's squares.
 
-
-def ticker_css(data) -> str:
-    """The ticker's stylesheet, which depends on the data: it counts from the year-earlier
-    value to now with CSS counters, three digits per counter (no JavaScript). Each group is
-    floor(n / 1000^k) - 1000 × floor(n / 1000^(k+1)); an <integer> property rounds to the
-    nearest integer, so floor(n / d) is written round((n - (d - 1) / 2) / d)."""
-    if not animated(data):
+    The count is a registered <integer> property, --tick. CSS can't print a property, but it
+    can print counters: each group of three digits is worked out from --tick and printed with
+    its separator and leading zeros, and counter styles print nothing for a group that is still
+    0, so the count can gain a digit group on the way. An <integer> property rounds to the
+    nearest integer, so floor(n / d) is written round((n - (d - 1) / 2) / d). The year is a
+    counter too, and each year's squares have keyframes of their own."""
+    if len(years) < 2:
         return ''
-    a = data.overview()['accounts']
-    now, before = int(a['value']), int(a['year_earlier'])
-    groups = len(_groups(now))
+    length, flips, rewind = timeline(len(years))
+
+    def at(t: float) -> str:                            # a time in the loop, as a keyframe
+        return f'{100 * t / length:.3f}'.rstrip('0').rstrip('.') + '%'
 
     def floor_div(k: int) -> str:                       # floor(n / 1000^k)
         d = 1000 ** k
         return 'var(--tick)' if k == 0 else f'calc((var(--tick) - {(d - 1) / 2}) / {d})'   # 499.5, 499999.5
 
-    rules = []
-    for i in range(groups):
-        k = groups - 1 - i                              # groups to the right of this one
-        if i == 0:
-            decl = f'--tka:{floor_div(k)};counter-reset:tg var(--tka);content:counter(tg)'
-        else:
-            decl = (f'--tka:{floor_div(k)};--tkb:{floor_div(k + 1)};--tkc:calc(var(--tka) - 1000 * var(--tkb));'
-                    f'counter-reset:tg var(--tkc);content:counter(tg,tick-pad3)')
-        rules.append(f'.tick-anim .tg{i}::after{{{decl}}}')
-    props = ''.join(f"@property --{name}{{syntax:'<integer>';inherits:false;initial-value:0}}\n" for name in ('tka', 'tkb', 'tkc'))
-    return (f'/* Home: the account ticker, generated from data/derived by site/djsite/pages/home.py */\n'
-            f"@property --tick{{syntax:'<integer>';inherits:true;initial-value:{now}}}\n{props}"
-            f'@counter-style tick-pad3{{system:extends decimal;pad:3 "0"}}\n'
-            f'@keyframes tick{{from{{--tick:{before}}}to{{--tick:{now}}}}}\n'
-            f'@media (prefers-reduced-motion:no-preference){{@supports (color:rgb(from white r g b)){{\n'
-            f'.hero-n .tick-anim{{display:inline;--tick:{now};animation:tick 1.1s var(--ease-io) 1.15s both}}\n'
-            f'.hero-n .tick-static{{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}}\n'
-            + '\n'.join(rules) + '\n}}\n')
+    values = [v for _, v in years]
+    yr = [int(q[:4]) for q, _ in years]
+    prefix = quarter_label(years[-1][0], lang).removesuffix(str(yr[-1]))   # 'Q1 ', 'الربع الأول ': the year comes last
+    tick, year = [f'0%{{--tick:{values[0]}}}'], [f'0%{{--yr:{yr[0]}}}']
+    steps, rules = [], []
+    glow = 'drop-shadow(0 0 5px var(--mint-glow))'
+    for k, t in enumerate(flips, 1):
+        tick += [f'{at(t)}{{--tick:{values[k - 1]}}}', f'{at(t + COUNT)}{{--tick:{values[k]}}}']
+        year += [f'{at(t)}{{--yr:{yr[k - 1]};opacity:1;transform:none}}',
+                 f'{at(t + .01)}{{--yr:{yr[k]};opacity:0;transform:translateY(.4em);animation-timing-function:var(--ease)}}',
+                 f'{at(t + .4)}{{opacity:1;transform:none}}']
+        # Year k's squares flash in and settle to mint, dim to the earlier years' colour when the
+        # next year comes, and fade out in the rewind; the latest year stays bright to the end.
+        latest = k == len(flips)
+        dim = '' if latest else f'{at(flips[k])}{{fill:var(--mint)}}{at(flips[k] + .5)}{{fill:var(--cell-old)}}'
+        unlit = (f'{at(flips[k])}{{filter:{glow}}}{at(flips[k] + .5)}{{filter:none}}' if not latest
+                 else f'{at(rewind)}{{filter:{glow}}}{at(rewind + .45)}{{filter:none}}')
+        steps.append(f'@keyframes um-s{k}{{0%,{at(t)}{{opacity:0;fill:var(--cell-flash);stroke-width:3}}'
+                     f'{at(t + .15)}{{fill:var(--cell-flash)}}{at(t + .3)}{{opacity:1}}{at(t + .55)}{{stroke-width:0}}'
+                     f'{at(t + .75)}{{fill:var(--mint)}}{dim}{at(rewind)}{{opacity:1}}{at(rewind + .45)}{{opacity:0}}'
+                     f'100%{{opacity:0;stroke-width:0;fill:var({"--mint" if latest else "--cell-old"})}}}}\n'
+                     f'@keyframes um-g{k}{{0%,{at(t + .2)}{{filter:none}}{at(t + .75)}{{filter:{glow}}}{unlit}100%{{filter:none}}}}\n')
+        rules.append(f'.um-years .s{k}{{animation:um-g{k} {length:g}s var(--ease) infinite both}}'
+                     f'.um-years .s{k}>g{{stroke:var(--cell-flash);animation:um-s{k} {length:g}s var(--ease) infinite both;'
+                     f'animation-delay:calc(var(--b,0) * 24ms)}}\n')
+    tick += [f'{at(rewind)}{{--tick:{values[-1]}}}', f'100%{{--tick:{values[0]}}}']
+    year += [f'{at(rewind)}{{--yr:{yr[-1]}}}', f'100%{{--yr:{yr[0]}}}']
+
+    width = max(len(_groups(v)) for v in values)
+    digits = ''.join(f'.tick-anim .tg{i}{{--ta:{floor_div(width - 1 - i)};--th:{floor_div(width - i)}}}' for i in range(width))
+    props = ''.join(f"@property --{name}{{syntax:'<integer>';inherits:true;initial-value:{value}}}\n"
+                    for name, value in (('tick', values[-1]), ('yr', yr[-1]), ('ta', 0), ('th', 0), ('tg', 0), ('tl', 0),
+                                        ('td', 0), ('tz', 0)))
+    later = ','.join(f'.s{k}' for k in range(1, len(years)))
+    return ('/* Home: the hero replays the years, generated from data/derived by site/djsite/pages/home.py */\n'
+            + props
+            + f'@counter-style tick-sep{{system:fixed 0;symbols:"" "{GROUP[lang]}"}}\n'
+            '@counter-style tick-zeros{system:fixed 0;symbols:"" "0" "00" "000"}\n'
+            '@counter-style tick-blank{system:fixed 0;symbols:""}\n'
+            '@counter-style tick-digits{system:extends decimal;range:1 infinite;fallback:tick-blank}\n'
+            f'@keyframes hero-tick{{{"".join(tick)}}}\n@keyframes hero-yr{{{"".join(year)}}}\n'
+            + ''.join(steps)
+            + '@media (prefers-reduced-motion:no-preference){@supports (color:rgb(from white r g b)){\n'
+            f'.hero-n .tick-anim{{display:inline;animation:hero-tick {length:g}s var(--ease-io) infinite both}}\n'
+            '.hero-n .tick-static{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n'
+            # each digit group: this group's value, whether digits come before it (then it takes its
+            # separator and leading zeros), and how many digits it has without them
+            + digits + '\n'
+            '.tick-anim span{--tg:calc(var(--ta) - 1000 * var(--th));--tl:clamp(0,var(--th),1);'
+            '--td:calc(clamp(0,var(--tg),1) + clamp(0,var(--tg) - 9,1) + clamp(0,var(--tg) - 99,1));--tz:calc(var(--tl) * (3 - var(--td)))}\n'
+            '.tick-anim span::before{counter-reset:tks var(--tl);content:counter(tks,tick-sep);margin-inline:calc(var(--tl) * -.16em)}\n'
+            '.tick-anim span::after{counter-reset:tkz var(--tz) tkg var(--tg);content:counter(tkz,tick-zeros) counter(tkg,tick-digits)}\n'
+            '.hero-when .yr-static{display:none}\n'
+            f'.hero-when .yr-anim{{display:inline-block;counter-reset:yr var(--yr);animation:hero-yr {length:g}s linear infinite both}}\n'
+            f'.hero-when .yr-anim::after{{content:"{prefix}" counter(yr)}}\n'
+            '.hero-pause{display:inline-flex}\n'
+            # the first year's squares grow in as the page loads (90-motion.css); the later years' are this loop's
+            f'.um.um-years :is({later}) rect{{animation:none}}\n'
+            + ''.join(rules)
+            + '.hero:is(.hero-idle,:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.um-years g,.um-years rect)'
+            '{animation-play-state:paused}\n}}\n')
 
 
-def ticker(ctx, value: int) -> Markup:
+# ---------------------------------------------------------------- the account ticker
+def ticker(ctx, value: int, years: list) -> Markup:
     """The account count. Everyone gets the plain number; where motion is welcome and the
-    browser can animate it, the stylesheet swaps in a copy that counts up to it."""
+    browser can animate it, the page's stylesheet swaps in a copy that counts through the years."""
     sep = f'<span class="ts">{GROUP[ctx.lang]}</span>'
     static = sep.join(_groups(value))
     anim = ''
-    if animated(ctx.site.data):
-        anim = '<span class="tick-anim" aria-hidden="true">' + sep.join(
-            f'<span class="tg{i}"></span>' for i in range(len(_groups(value)))) + '</span>'
+    if len(years) > 1:
+        width = max(len(_groups(v)) for _, v in years)
+        anim = '<span class="tick-anim" aria-hidden="true">' + ''.join(f'<span class="tg{i}"></span>' for i in range(width)) + '</span>'
     return Markup(f'<span class="hero-n num" dir="ltr"><span class="tick-static">{static}</span>{anim}</span>')
+
+
+def when(ctx, years: list) -> Markup:
+    """Above the count, the quarter it is for: the latest, or the year the replay has reached,
+    beside a button that pauses the replay (WCAG 2.2.2)."""
+    if len(years) < 2:
+        anim = pause = ''
+    else:
+        anim = '<span class="yr-anim"></span>'
+        pause = (f'<label class="hero-pause"><input class="sr-only" type="checkbox">{icon("pause", 16, 2, "icon i-pause")}'
+                 f'{icon("play", 16, 2, "icon i-play")}<span class="sr-only">{ctx.t("home.pause")}</span></label>')
+    return Markup(f'<div class="hero-when"><span class="hero-yr" aria-hidden="true"><span class="yr-static">'
+                  f'{quarter_label(ctx.site.data.quarter, ctx.lang)}</span>{anim}</span>{pause}</div>')
 
 
 # ---------------------------------------------------------------- hero
 def units_chart(ctx) -> UnitMap:
+    """The hero's unit map, drawn a year at a time for the replay."""
     data = ctx.site.data
     a = data.overview()['accounts']
     q, before = data.quarter, year_earlier(data.quarter)
+    years = history(data)
     chart = UnitMap(id='home-units', quarter=q, title={}, summary={}, total=int(a['value']), start=int(a['year_earlier']),
-                    per=PER)
+                    per=PER, history=tuple(years) if len(years) > 1 else ())
     squares, added = chart.squares
+    first, first_squares = years[0][0], (chart.steps() or (squares,))[0]
     per = lambda lang: fint(PER, lang)
     chart.title = ctx.both('home.fig_map', per=per)
-    chart.summary = ctx.both('home.map_desc', total=lambda lang: fint(squares, lang), per=per,
-                             added=lambda lang: fint(added, lang), quarter=lambda lang: quarter_label(before, lang))
-    chart.start_label = {lang: quarter_label(before, lang) for lang in LANGS}
-    chart.added_label = ctx.both('home.map_new')
+    chart.summary = ctx.both('home.map_desc_years', per=per, first=lambda lang: quarter_label(first, lang),
+                             first_total=lambda lang: fint(first_squares, lang), last=lambda lang: quarter_label(q, lang),
+                             total=lambda lang: fint(squares, lang), added=lambda lang: fint(added, lang),
+                             quarter=lambda lang: quarter_label(before, lang))
+    chart.start_label = ctx.both('home.map_earlier')
+    chart.added_label = ctx.both('home.map_new_year')
     chart.total_label = {lang: quarter_label(q, lang) for lang in LANGS}
     chart.square_label = ctx.both('home.map_quantity')
     return chart
@@ -127,6 +208,7 @@ def hero(ctx) -> Markup:
     data = ctx.site.data
     lang, q = ctx.lang, data.quarter
     a = data.overview()['accounts']
+    years = history(data)
     (growth, growth_label), (rank, rank_label), (added, added_label) = figures(ctx)
     growth = Markup(f'<span class="num" dir="ltr"><span aria-hidden="true">▲ </span>{esc(growth)}</span>')
     stats = _stat(growth, growth_label, up=True) + _stat(num(rank), rank_label) + _stat(num(added), added_label)
@@ -136,7 +218,7 @@ def hero(ctx) -> Markup:
     if direction:
         many, one = ('home.streak_many', 'home.streak_one') if direction > 0 else ('home.slowed_many', 'home.slowed_one')
         lead = ctx.t(many, count=editorial.count_phrase(ctx, n)) if n > 1 else ctx.t(one)
-    lede = Markup(f'{lead} {ctx.t("home.map_note", per=fint(PER, lang))}'.strip())
+    lede = Markup(f'{lead} {ctx.t("home.map_note", per=fint(PER, lang), first=years[0][0][:4])}'.strip())
     source = ctx.t('home.source', quarter=_q(ctx, q), date=date_label(data.release_date, lang))
 
     chart = units_chart(ctx)
@@ -151,7 +233,8 @@ def hero(ctx) -> Markup:
 <div class="container hero-grid">
 <div class="hero-text">
 {C.eyebrow(ctx.t('home.eyebrow', quarter=_q(ctx, q)), cls='enter')}
-<h1 id="hero-h" class="hero-h enter d1">{ticker(ctx, int(a['value']))} <span class="hero-tail">{ctx.t('home.h1_tail')}</span></h1>
+<div class="hero-count enter d1">{when(ctx, years)}
+<h1 id="hero-h" class="hero-h">{ticker(ctx, int(a['value']), years)} <span class="hero-tail">{ctx.t('home.h1_tail')}</span></h1></div>
 <dl class="hero-stats enter d2">{stats}</dl>
 <p class="lede hero-lede enter d3">{lede}</p>
 <div class="hero-ctas enter d4">{C.btn(ctx.t('home.cta_index'), ctx.url('overview'))}{C.btn(ctx.t('home.cta_hub'), ctx.url('hub'), 'secondary', arrow=False)}</div>
@@ -248,4 +331,5 @@ def open_row(ctx) -> Markup:
 
 def render(ctx: Ctx) -> Page:
     body = hero(ctx) + scorecard(ctx) + trend(ctx) + report.teaser(ctx) + hub_teaser(ctx) + open_row(ctx)
-    return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body))
+    return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
+                css=minify_css(hero_css(ctx.lang, history(ctx.site.data))))   # only Home needs these rules

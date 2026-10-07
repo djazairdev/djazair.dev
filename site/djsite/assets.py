@@ -43,8 +43,12 @@ class Assets:
     share: dict = field(default_factory=dict)     # lang -> URL of the 1200 × 630 share image (site/tools/share.py)
     release_share: dict = field(default_factory=dict)   # lang -> URL of the quarter's share image, when there is one
 
-    def inline_style(self) -> Markup:
-        return Markup(f'<style>{self.style}</style>')
+    def inline_style(self, extra: str = '') -> Markup:
+        """The stylesheet for a <style> element, with the page's own rules after it (Home's hero)."""
+        if '</' in extra:
+            raise ValueError('a page\'s rules must not contain "</": they are inlined in a <style> element')
+        css = f'{self.style}\n{extra}' if extra else self.style
+        return Markup(f'<style>{css}</style>')
 
     def preloads(self, lang: str) -> Markup:
         return Markup(''.join(
@@ -58,14 +62,13 @@ def _write_hashed(out: Path, stem: str, ext: str, data: bytes) -> str:
     return f'/assets/{name}'
 
 
-def build(out: Path, extra_css: str = '', release: str = '') -> Assets:
-    """``extra_css``: rules generated from the data (the Home ticker), added after the static files.
-    ``release``: the folder of the quarter being built (2026-q1), whose share images are used
+def build(out: Path, release: str = '') -> Assets:
+    """``release``: the folder of the quarter being built (2026-q1), whose share images are used
     when site/tools/share.py --release drew them."""
     (out / 'assets' / 'fonts').mkdir(parents=True, exist_ok=True)
 
     css_files = sorted((STATIC_DIR / 'css').glob('*.css'))
-    css = '\n'.join([minify_css(p.read_text('utf-8')) for p in css_files] + ([minify_css(extra_css)] if extra_css else []))
+    css = '\n'.join(minify_css(p.read_text('utf-8')) for p in css_files)
     if '</' in css:
         raise ValueError('the stylesheet must not contain "</": it is inlined in a <style> element')
 

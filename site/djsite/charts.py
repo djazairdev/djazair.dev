@@ -431,6 +431,9 @@ class UnitMap(Spec):
     added_label: Text = ''         # 'Added since'
     total_label: Text = ''         # 'Q1 2026'
     square_label: Text = ''        # 'One square = 1,000 accounts'
+    # ((quarter, accounts), ...) a year apart, oldest first, ending with ``quarter`` and ``total``:
+    # each year's squares are then drawn as a group of their own, which Home's hero replays.
+    history: tuple = ()
 
     @property
     def squares(self) -> tuple:
@@ -439,12 +442,29 @@ class UnitMap(Spec):
         added = min(total, max(0, round((self.total - self.start) / self.per)))
         return total, added
 
+    def steps(self) -> tuple:
+        """The squares at each step of ``history``: the total last, the year earlier before it,
+        and never more than the step after."""
+        if not self.history:
+            return ()
+        total, added = self.squares
+        counts = [round(v / self.per) for _, v in self.history]
+        counts[-1] = total
+        if len(counts) > 1:
+            counts[-2] = total - added
+        for i in range(len(counts) - 2, -1, -1):
+            counts[i] = min(counts[i], counts[i + 1])
+        return tuple(counts)
+
     def layout(self) -> unitmap.Layout:
         total, added = self.squares
-        return unitmap.layout(total, added)
+        return unitmap.layout(total, added, history=self.steps())
 
     def rows(self) -> list:
         total, added = self.squares
+        if self.history:
+            return [(q, {lang: quarter_label(q, lang) for lang in ('en', 'ar')}, v, n)
+                    for (q, v), n in zip(self.history, self.steps())]
         return [('start', self.start_label, self.start, total - added), ('added', self.added_label, self.total - self.start, added),
                 ('total', self.total_label, self.total, total)]
 
@@ -689,14 +709,22 @@ def unit_drawing(chart: UnitMap, lang: str, size: str = 'wide', pal: dict = DARK
     p = m.pitch
     s = p * 0.8
     o = (p - s) / 2
-    old, new = {}, {}
-    for c in m.cells:
-        band = min(11, int(c.t * 12))
-        (new if c.new else old).setdefault(band, []).append(
-            f'<rect x="{c.x + o:.1f}" y="{c.y + o:.1f}" width="{s:.1f}" height="{s:.1f}" rx="{s * .2:.1f}"/>')
-    cells = (f'<g fill="{pal["cell_old"]}">' + ''.join(f'<g class="o b{b}">{"".join(r)}</g>' for b, r in sorted(old.items())) + '</g>'
-             + f'<g class="um-new" fill="{pal["algeria"]}">'
-             + ''.join(f'<g class="n b{b}">{"".join(r)}</g>' for b, r in sorted(new.items())) + '</g>')
+
+    def rings(squares: list, kind: str) -> str:
+        """Squares in twelve rings outward from Algiers, the order they appear in."""
+        bands: dict = {}
+        for c in squares:
+            bands.setdefault(min(11, int(c.t * 12)), []).append(
+                f'<rect x="{c.x + o:.1f}" y="{c.y + o:.1f}" width="{s:.1f}" height="{s:.1f}" rx="{s * .2:.1f}"/>')
+        return ''.join(f'<g class="{kind} b{b}">{"".join(r)}</g>' for b, r in sorted(bands.items()))
+
+    if chart.history:              # a group for each year, the last one's squares bright
+        last = len(chart.history) - 1
+        cells = ''.join(f'<g class="s{k}{" um-new" if k == last else ""}" fill="{pal["algeria" if k == last else "cell_old"]}">'
+                        f'{rings([c for c in m.cells if c.step == k], "n" if k == last else "o")}</g>' for k in range(last + 1))
+    else:
+        cells = (f'<g fill="{pal["cell_old"]}">{rings([c for c in m.cells if not c.new], "o")}</g>'
+                 f'<g class="um-new" fill="{pal["algeria"]}">{rings([c for c in m.cells if c.new], "n")}</g>')
     defs, back = '', ''
     if texture:
         first = m.cells[0]
@@ -709,7 +737,7 @@ def unit_drawing(chart: UnitMap, lang: str, size: str = 'wide', pal: dict = DARK
         back = f'<rect width="{W:.0f}" height="{H:.0f}" fill="url(#{uid}-g)" mask="url(#{uid}-m)"/>'
     body = (back + f'<g transform="translate({pad} {pad})"><path d="{m.outline}" fill="{pal["map_fill"]}" stroke="{pal["map_line"]}" '
             f'stroke-width="1" stroke-linejoin="round"/>{cells}</g>')
-    return Drawing(round(W, 1), round(H, 1), body, cls='um', defs=defs)
+    return Drawing(round(W, 1), round(H, 1), body, cls='um um-years' if chart.history else 'um', defs=defs)
 
 
 def drawing(chart: Spec, lang: str, size: str = 'wide', pal: dict = DARK, uid: str = 'c') -> Drawing:
@@ -740,8 +768,9 @@ def legend_items(chart: Spec, lang: str, pal: dict) -> list:
     """(swatch kind, colour, text) for downloads and the phone legend."""
     if isinstance(chart, UnitMap):
         total, added = chart.squares
-        return [('square', pal['cell_old'], f'{loc(chart.start_label, lang)} {fint(total - added, lang)}'),
-                ('square', pal['algeria'], f'{loc(chart.added_label, lang)} {fint(added, lang)}'),
+        counts = ('', '') if chart.history else (f' {fint(total - added, lang)}', f' {fint(added, lang)}')  # a replay has no one count
+        return [('square', pal['cell_old'], f'{loc(chart.start_label, lang)}{counts[0]}'),
+                ('square', pal['algeria'], f'{loc(chart.added_label, lang)}{counts[1]}'),
                 ('none', '', loc(chart.square_label, lang))]
     if isinstance(chart, HBarChart):
         if not chart.split:
@@ -824,7 +853,8 @@ def table(chart: Spec, lang: str, names: dict) -> tuple:
                                  change_cell]))
         return head, rows
     if isinstance(chart, UnitMap):
-        head = [(esc(names['series']), 'start'), (esc(names['accounts']), 'end'), (esc(names['squares']), 'end')]
+        head = [(esc(names['quarter' if chart.history else 'series']), 'start'), (esc(names['accounts']), 'end'),
+                (esc(names['squares']), 'end')]
         rows = [(k, [esc(loc(lab, lang)), (num(fint(v, lang)), v), (num(fint(sq, lang)), sq)]) for k, lab, v, sq in chart.rows()]
         return head, rows
     raise TypeError(type(chart).__name__)

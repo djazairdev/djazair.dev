@@ -77,7 +77,7 @@ class Budgets(unittest.TestCase):
 
     def test_the_unit_map_stays_light(self):
         for lang in ('en', 'ar'):
-            svg = re.search(r'<svg class="chart um".*?</svg>', self.pages[self.dist / lang / 'index.html'], re.S).group(0)
+            svg = re.search(r'<svg class="chart um[ "].*?</svg>', self.pages[self.dist / lang / 'index.html'], re.S).group(0)
             with self.subTest(lang=lang):
                 self.assertLessEqual(len(svg.encode('utf-8')), 48 * 1024)
                 self.assertLessEqual(gz(svg.encode('utf-8')), 6 * 1024)
