@@ -6,7 +6,7 @@ The Arabic text was drafted with AI and hasn't been checked by a fluent reader y
 
 | What | Where it lives | How to review it |
 | --- | --- | --- |
-| Interface strings: navigation, headings, chart titles and labels, buttons, notes (998) | `site/i18n/ar.json` | In a spreadsheet (below), or on the pages |
+| Interface strings: navigation, headings, chart titles and labels, buttons, notes (1,044) | `site/i18n/ar.json` | In a spreadsheet (below), or on the pages |
 | Methodology and About | `content/methodology/ar.md`, `content/about/ar.md` | On the pages; suggest changes in a pull request or an issue |
 | Quarterly report #1 | `content/reports/2026-q1/ar.md` | On the page (`/ar/reports/2026-q1/`); its figures are filled in by the site ([reports.md](reports.md)) |
 | Numbers, quarters and dates | `site/djsite/fmt.py` | On the pages: `586.990`, `49,1%`, `الربع الأول 2026`, `7 جويلية 2026` |
@@ -51,6 +51,11 @@ Keep these consistent, or change them everywhere:
 | topic (on GitHub) | موضوع |
 | label (on GitHub) | وسم |
 | licence | ترخيص |
+| project idea | فكرة مشروع |
+| vote (noun, verb) | صوت، أصوات؛ صوّت |
+| round (of the vote) | جولة |
+| champion (of an idea) | قائد |
+| adopted (idea) | اعتُمدت؛ الاعتماد |
 
 Numbers use Western digits, a full stop between thousands and a comma before decimals (`586.990`, `49,1%`), as `ar-DZ` does. Months use the Algerian names (جانفي، فيفري، مارس، أفريل، ماي، جوان، جويلية، أوت، سبتمبر، أكتوبر، نوفمبر، ديسمبر). Chart time axes run left to right, as in English.
 

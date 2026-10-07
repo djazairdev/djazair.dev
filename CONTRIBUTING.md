@@ -63,7 +63,7 @@ If no tag fits, propose a new one in your pull request (add it to the schema and
 
 ## Propose a project idea
 
-Have an idea for an open-source project that would help people in Algeria, but no repository yet? Ideas will live in GitHub Discussions, in an **Ideas** category with a short form: the problem, who benefits, a champion who will lead it, and the skills it needs. An idea is marked *adopted* once its champion links a repository. Discussions isn't on yet: [docs/hub-ideas.md](docs/hub-ideas.md) explains how it starts. Until then, open an issue.
+Have an idea for an open-source project that would help people in Algeria, but no repository yet? Ideas will live in GitHub Discussions, in an **Ideas** category with a short form: the problem, who benefits, a champion who will lead it, and the skills it needs. Anyone with a GitHub account can upvote an idea. Every quarter, djazair.dev adopts the idea with the most votes among those with a champion and at least 10 votes, and gives it a repository in the djazairdev organisation. Discussions isn't on yet: [docs/hub-ideas.md](docs/hub-ideas.md) explains the vote and how it starts. Until then, open an issue.
 
 ## Add a translation team
 

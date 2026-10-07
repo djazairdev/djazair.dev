@@ -9,9 +9,10 @@ python3 -m hub check-submission --proposed FILE  # check the entries a new proje
 python3 -m hub check-issue --body-file FILE      # check a request made with the issue form
 python3 -m hub sync                              # fetch the listed projects and their beginner issues
 python3 -m hub metrics                           # count new contributors and response times (counts only)
+python3 -m hub ideas                             # read the project ideas and their votes (titles and counts only)
 ```
 
-Set `GITHUB_TOKEN` for the higher API rate limit; public data needs no token.
+Set `GITHUB_TOKEN` for the higher API rate limit; public data needs no token, except for `metrics` and `ideas`, which use GitHub's GraphQL API.
 
 ## Registry
 
@@ -78,7 +79,7 @@ Without `GITHUB_TOKEN`, GitHub allows 60 requests an hour, which covers about a 
 The snapshot isn't committed to `main`. The `Hub sync` workflow (`.github/workflows/hub.yml`) runs every 6 hours:
 
 1. `.github/scripts/hub-snapshot.sh` puts the last snapshot in `data/derived/hub/`, so its ETags are reused.
-2. `python -m hub sync` refreshes it, and `python site/build.py` checks the site builds with it.
+2. `python -m hub sync` refreshes it, `python -m hub ideas` reads the project ideas, and `python site/build.py` checks the site builds with them.
 3. `.github/scripts/hub-publish.sh` saves it as a commit on the **`hub-data`** branch, which holds only the snapshot, then runs CI on `main`, which deploys.
 
 Every CI build runs `hub-snapshot.sh` first, so a deploy from `main` always carries the latest snapshot. If the branch can't be reached the build fails, and the live site keeps its Hub. Before the first sync, and in forks, there is no branch: the site builds with an empty Hub.
@@ -108,6 +109,16 @@ Maintainers are the people GitHub marks `OWNER`, `MEMBER` or `COLLABORATOR` on t
 **Cost.** GraphQL queries cost about one point per page of 50 to 100 items: a few points per project a day, against the workflow token's 1,000 points an hour. A run stops without writing anything if fewer than 100 points are left.
 
 The counts follow the projects the Hub shows on the day: when a project joins or leaves, past quarters change with it.
+
+## Ideas
+
+`python -m hub ideas` reads the project ideas in the *Ideas* category of GitHub Discussions, with their votes (PRD HUB-07, ticket #39; `ideas.py`, GraphQL API). A vote is the discussion's upvote, one per GitHub account. It writes `ideas.json` next to the snapshot: the open ideas by votes, then the adopted ones (the `adopted` label), each with its title, votes, comments, whether it has a champion, and the skills its form asks for. Closed ideas that weren't adopted are left out.
+
+Every quarter is a round. The first run after a round closes saves that round's count in `rounds`, once: the ten open ideas with the most votes. The maintainers adopt an idea from it; the rules are in [docs/hub-ideas.md](../docs/hub-ideas.md).
+
+**Titles and counts only.** Nothing says who proposed, voted or commented, and for the champion it keeps only whether there is one. The idea's text is read in memory, for the champion and the skills, and never written. While Discussions is off, or the repository has no *ideas* category, it writes an empty list.
+
+**Cost.** One query for the category, then one per 100 ideas: a few points against the workflow token's 1,000 points an hour. If GitHub fails or the quota runs low, it stops without writing anything.
 
 ## Health checks
 

@@ -26,7 +26,7 @@ Table: Licences for djazair.dev’s code, text and data
 
 ## Privacy {#privacy}
 
-djazair.dev sets no cookies and asks for no personal data. {{analytics}} If you pick a language with the switcher, your browser remembers it on your device, and nowhere else. The Hub shows issue titles from GitHub, never who opened them. {{hub_counts}}
+djazair.dev sets no cookies and asks for no personal data. {{analytics}} If you pick a language with the switcher, your browser remembers it on your device, and nowhere else. The Hub shows issue titles from GitHub, never who opened them. {{hub_ideas}} {{hub_counts}}
 
 ## Contact {#contact}
 

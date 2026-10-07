@@ -17,11 +17,17 @@ REPO_URL = f'https://github.com/{REPO}'
 ISSUES_URL = f'{REPO_URL}/issues'
 
 # Hub ideas (ticket #39, PRD HUB-07) live in the "Ideas" category of GitHub Discussions, with the
-# form in .github/DISCUSSION_TEMPLATE/ideas.yml. Discussions is off until a maintainer turns it on
-# (docs/hub-ideas.md); set HUB_IDEAS to True then, and the Hub shows its Ideas section.
+# form in .github/DISCUSSION_TEMPLATE/ideas.yml. Anyone with a GitHub account votes by upvoting,
+# and every quarter the organisation adopts the idea with the most votes (docs/hub-ideas.md).
+# Discussions is off until a maintainer turns it on; set HUB_IDEAS to True then, and the Hub
+# shows its Ideas section, with the round's top ideas from the Hub sync (hub/ideas.py).
 HUB_IDEAS = False
 IDEAS_URL = f'{REPO_URL}/discussions/categories/ideas'
 NEW_IDEA_URL = f'{REPO_URL}/discussions/new?category=ideas'
+IDEAS_BY_VOTES_URL = f'{IDEAS_URL}?discussions_q=is%3Aopen+category%3AIdeas+sort%3Atop'
+IDEAS_RESULTS_URL = f'{REPO_URL}/blob/hub-data/ideas.json'      # each round's count, saved by the Hub sync
+IDEAS_MIN_VOTES = 10                # the votes an idea needs before it can be adopted
+IDEAS_SHOWN = 5                     # the ideas the Hub lists, most votes first
 
 LANGS = ('en', 'ar')
 DIRS = {'en': 'ltr', 'ar': 'rtl'}

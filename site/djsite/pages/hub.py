@@ -1,7 +1,7 @@
 """The Project Hub (ticket #27; PRD §7.2, HUB-04): beginner issues from the listed projects,
-the projects themselves, how a first contribution works, project ideas (ticket #39, once
-``config.HUB_IDEAS`` is on), contributor counts (ticket #41, once there are any), the way to
-translation teams (ticket #40) and how to get listed.
+the projects themselves, how a first contribution works, project ideas and the quarterly vote
+on them (ticket #39, once ``config.HUB_IDEAS`` is on), contributor counts (ticket #41, once
+there are any), the way to translation teams (ticket #40) and how to get listed.
 
 Everything comes from the snapshot the Hub sync writes every 6 hours (``data/derived/hub/``,
 tickets #25 and #26), read once per build (``Site.hub``): only the projects that pass their
@@ -15,14 +15,14 @@ address so a view can be shared, and announces the count.
 from __future__ import annotations
 
 from collections import Counter
-from datetime import timezone
+from datetime import date, datetime, timezone
 from urllib.parse import quote
 
 from .. import components as C
 from .. import config
 from ..config import REPO_URL
 from ..context import Ctx, Page
-from ..fmt import date_label, fdec, fint, num, plural, quarter_label
+from ..fmt import and_list, date_label, fdec, fint, num, plural, quarter_label
 from ..icons import icon, mark
 from ..markup import Markup, esc, join
 
@@ -34,6 +34,8 @@ HEALTH_REPORT = f'{REPO_URL}/blob/hub-data/HEALTH.md'
 OPEN_PR = f'{REPO_URL}/edit/main/projects.yml'
 ISSUE_FORM = f'{REPO_URL}/issues/new?template=hub-listing.yml'
 REFRESH_HOURS = 6
+# The skills the ideas form offers (hub/ideas.py SKILLS), each with a string hub.skill.<key>.
+SKILLS = ('web', 'backend', 'mobile', 'data', 'ml', 'design', 'language', 'translation', 'docs', 'ops', 'hardware')
 
 
 def counted(ctx, key: str, n: int, plain: bool = False) -> Markup:
@@ -227,7 +229,6 @@ def projects(ctx, hub) -> Markup:
                      Markup(f'<ul class="pj-grid">{cards}</ul>{note}'), lede=ctx.t('hub.projects_lede'))
 
 
-# ---------------------------------------------------------------- ideas
 # ---------------------------------------------------------------- the Hub in numbers
 def response_time(ctx, hours) -> Markup:
     """A median response time: hours under two days, days from there."""
@@ -262,16 +263,80 @@ def numbers(ctx, hub) -> Markup:
                      lede=ctx.t('hub.numbers_lede'))
 
 
-def ideas(ctx) -> Markup:
-    """Project ideas in GitHub Discussions (HUB-07): how they work, and where to post one."""
+# ---------------------------------------------------------------- ideas and the vote
+def round_of(when: datetime) -> tuple:
+    """The round ``when`` falls in: its quarter ('2026-Q4') and its last day. Voting closes at
+    the end of that day, UTC."""
+    n = (when.month - 1) // 3 + 1
+    return f'{when.year}-Q{n}', date(when.year, 3 * n, (31, 30, 30, 31)[n - 1])
+
+
+def idea_row(ctx, idea: dict, rank: int) -> Markup:
+    """One idea: its place, title, champion, comments and skills, and its votes. The whole row
+    links to the idea on GitHub, where the vote is."""
+    lang = ctx.lang
+    if idea.get('champion'):
+        champion = f'<span class="badge">{icon("check", 14, 2.4)}<span>{ctx.t("hub.ideas_champion")}</span></span>'
+    else:
+        champion = f'<span class="badge badge-warn">{icon("info", 14, 2)}<span>{ctx.t("hub.ideas_wanted")}</span></span>'
+    comments = f'<span class="idea-c">{icon("comment", 15)}<span>{counted(ctx, "hub.ideas_comments", idea.get("comments", 0))}</span></span>'
+    skills = ''.join(f'<span class="lbl">{ctx.t(f"hub.skill.{k}")}</span>' for k in idea.get('skills', []) if k in SKILLS)
+    skills = f'<span class="idea-skills">{skills}</span>' if skills else ''
+    votes = idea.get('votes', 0)
+    return Markup(f'''<li><a class="idea" href="{esc(idea['url'])}">
+<span class="idea-n num" aria-hidden="true">{fint(rank, lang)}</span>
+<span class="idea-main"><span class="idea-title" dir="auto">{esc(idea['title'])}</span>
+<span class="idea-meta">{champion}{comments}{skills}</span></span>
+<span class="idea-votes">{icon("vote", 16, 2.2)}<span class="idea-v num">{fint(votes, lang)}</span><span class="idea-vl">{ctx.t(f"hub.ideas_vote_word.{plural(votes, lang)}")}</span></span>
+</a></li>''')
+
+
+def ideas_board(ctx, data: dict) -> Markup:
+    """The round, from the last Hub sync: when voting closes, and the open ideas with the most
+    votes. Ideas the organisation adopted are named under them."""
+    lang = ctx.lang
+    listed = data.get('ideas') or []
+    open_ = [i for i in listed if i.get('status') == 'open']
+    adopted = [i for i in listed if i.get('status') == 'adopted']
+    q, closes = round_of(datetime.fromisoformat(data['generated_at'].replace('Z', '+00:00')))
+    when = Markup(f'<time datetime="{closes.isoformat()}">{esc(date_label(closes, lang))}</time>')
+    total = ''
+    if open_:
+        votes = sum(i.get('votes', 0) for i in open_)
+        total = (f'<p class="ib-total">{counted(ctx, "hub.ideas_count", len(open_))} · '
+                 f'{counted(ctx, "hub.ideas_votes", votes)}</p>')
+    head = (f'<div class="ib-head"><div class="ib-round"><h3>{ctx.t("hub.ideas_round", quarter=quarter_label(q, lang))}</h3>'
+            f'<p>{ctx.t("hub.ideas_closes", date=when)}</p></div>{total}</div>')
+    if open_:
+        rows = ''.join(idea_row(ctx, i, n) for n, i in enumerate(open_[:config.IDEAS_SHOWN], 1))
+        body = f'<ol class="ib-list" aria-label="{ctx.ta("hub.ideas_top")}">{rows}</ol>'
+    else:
+        body = (f'<div class="ib-empty"><span class="empty-icon">{icon("plus", 18)}</span>'
+                f'<p class="ib-empty-t">{ctx.t("hub.ideas_empty_title")}</p><p>{ctx.t("hub.ideas_empty")}</p></div>')
+    foot = ''
+    if adopted:
+        links = [f'<a href="{esc(i["url"])}" dir="auto">{esc(i["title"])}</a>' for i in adopted]
+        foot = f'<p class="ib-foot">{ctx.t("hub.ideas_adopted", ideas=Markup(and_list(links, lang)))}</p>'
+    return Markup(f'<div class="ib">{head}{body}{foot}</div>')
+
+
+def ideas(ctx, hub) -> Markup:
+    """Project ideas in GitHub Discussions and the quarterly vote on them (HUB-07, ticket #39):
+    the round's top ideas from the Hub sync (``hub/ideas.py``), how proposing, voting and
+    adoption work, and where to post an idea."""
     if not config.HUB_IDEAS:
         return Markup('')
+    data = hub.ideas
+    board = ideas_board(ctx, data) if data and data.get('category') else ''
+    votes = counted(ctx, 'hub.ideas_votes', config.IDEAS_MIN_VOTES)
     cards = join(f'<li class="step card"><span class="step-n num">0{i}</span><h3>{ctx.t(f"hub.idea{i}_t")}</h3>'
-                 f'<p>{ctx.t(f"hub.idea{i}")}</p></li>' for i in (1, 2, 3))
-    actions = join([C.btn(ctx.t('hub.ideas_new'), config.NEW_IDEA_URL),
-                    C.btn(ctx.t('hub.ideas_browse'), config.IDEAS_URL, 'secondary', arrow=False)])
+                 f'<p>{ctx.t(f"hub.idea{i}", votes=votes)}</p></li>' for i in (1, 2, 3))
+    actions = join([C.btn(ctx.t('hub.ideas_new'), config.NEW_IDEA_URL, out=True),
+                    C.btn(ctx.t('hub.ideas_browse'), config.IDEAS_BY_VOTES_URL, 'secondary', out=True)])
+    results = Markup(f'<a href="{config.IDEAS_RESULTS_URL}">{ctx.t("hub.ideas_results")}</a>')
+    note = f'<p class="hub-note">{ctx.t("hub.ideas_note", hours=num(REFRESH_HOURS), results=results)}</p>'
     return C.section('ideas', ctx.t('hub.ideas_eyebrow'), ctx.t('hub.ideas_title'),
-                     Markup(f'<ol class="steps-row">{cards}</ol><div class="page-actions hub-ideas-actions">{actions}</div>'),
+                     Markup(f'{board}<ol class="steps-row">{cards}</ol><div class="page-actions hub-ideas-actions">{actions}</div>{note}'),
                      lede=ctx.t('hub.ideas_lede'))
 
 
@@ -299,7 +364,7 @@ def listing(ctx) -> Markup:
 
 def render(ctx: Ctx) -> Page:
     hub = ctx.site.hub
-    body = (head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + numbers(ctx, hub) + ideas(ctx) + translate(ctx)
+    body = (head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + numbers(ctx, hub) + ideas(ctx, hub) + translate(ctx)
             + listing(ctx))
     script = ctx.site.assets.scripts.get('hub')
     return Page(title=ctx.s('pages.hub.title'), description=ctx.s('pages.hub.description'), body=body,
