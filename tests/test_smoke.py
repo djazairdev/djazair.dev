@@ -119,14 +119,18 @@ class Smoke(unittest.TestCase):
         result, _ = self.check(broken)
         report = result.report()
         self.assertFalse(result.ok)
-        self.assertIn(f'{chart.relative_to(broken).as_posix()} answered 404, not 200', report)
-        self.assertIn("/ar/hub/ says it is in 'en', not 'ar'", report)
-        self.assertIn('/en/about/ is in the sitemap but asks search engines not to index it', report)
-        self.assertIn("a missing page doesn't show the site's own 404 page", report)
-        self.assertRegex(report, r'/reports/\S+\.zip is not a zip file')
-        self.assertIn('/robots.txt does not name the sitemap', report)
-        self.assertIn('/ does not send readers to their language', report)
-        self.assertTrue(report.endswith('8 problems.'), report)
+        expected = [re.escape(f'{chart.relative_to(broken).as_posix()} answered 404, not 200'),
+                    r"/ar/hub/(\?repo=\S+)? says it is in 'en', not 'ar'",      # with the Hub's project pages, if any
+                    re.escape('/en/about/ is in the sitemap but asks search engines not to index it'),
+                    re.escape("a missing page doesn't show the site's own 404 page"),
+                    r'/reports/\S+\.zip is not a zip file',
+                    re.escape('/robots.txt does not name the sitemap'),
+                    re.escape('/ does not send readers to their language')]
+        for pattern in expected:
+            self.assertRegex(report, pattern)
+        fails = [line for line in report.splitlines() if line.startswith('FAIL')]
+        self.assertEqual([line for line in fails if not any(re.search(p, line) for p in expected)], [])
+        self.assertTrue(report.endswith(f'{len(fails)} problems.'), report)
 
     def test_no_answer(self):
         result = smoke.Smoke('http://127.0.0.1:9').run()
