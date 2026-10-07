@@ -152,6 +152,47 @@ class EmptyHub(unittest.TestCase):
             self.assertIn(f'id="{anchor}"', page)
 
 
+
+class Numbers(unittest.TestCase):
+    """Contributor counts (ticket #41): shown only once the metrics job has written them."""
+    METRICS = {'generated_at': '2026-10-07T06:41:00Z', 'projects': 2, 'pledge_days': 7, 'quarters': [
+        {'quarter': '2026-Q1', 'complete': True, 'new_contributors': 1, 'opened': 3, 'answered': 3, 'within_pledge': 2,
+         'waiting': 0, 'median_hours': 96.0},
+        {'quarter': '2026-Q2', 'complete': True, 'new_contributors': 4, 'opened': 2, 'answered': 2, 'within_pledge': 2,
+         'waiting': 0, 'median_hours': 26.5},
+        {'quarter': '2026-Q3', 'complete': False, 'new_contributors': 0, 'opened': 0, 'answered': 0, 'within_pledge': 0,
+         'waiting': 0, 'median_hours': None}]}
+
+    def test_the_table_once_there_are_counts(self):
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp)
+        write_snapshot(tmp / 'hub', PROJECTS, ISSUES)
+        (tmp / 'hub' / 'metrics.json').write_text(json.dumps(self.METRICS))
+        build(tmp / 'dist', quiet=True, hub_dir=tmp / 'hub')
+        for lang, cells in (('en', ['1', '2 of 3', '4.0 days']), ('ar', ['1', '2 من 3', '4,0 يوم'])):
+            page = (tmp / 'dist' / lang / 'hub' / 'index.html').read_text('utf-8')
+            section = re.search(r'<section class="section section-m" id="numbers".*?</section>', page, re.S).group(0)
+            rows = re.findall(r'<tr data-key="([^"]+)">(.*?)</tr>', section, re.S)
+            self.assertEqual([k for k, _ in rows], ['2026-Q3', '2026-Q2', '2026-Q1'], 'newest first')
+            first = [re.sub(r'<[^>]+>', '', c) for c in re.findall(r'<td[^>]*>(.*?)</td>', rows[2][1])]
+            self.assertEqual(first, cells)
+            self.assertIn('26' + ('.' if lang == 'en' else ',') + '5', rows[1][1], 'under two days, in hours')
+            self.assertIn('hn-part', rows[0][1], 'the current quarter says it is not over')
+            self.assertLess(page.index('id="projects"'), page.index('id="numbers"'))
+        about = (tmp / 'dist' / 'en' / 'about' / 'index.html').read_text('utf-8')
+        self.assertIn('usernames are read during the count and never kept', about, 'the privacy section says so')
+
+    def test_no_section_without_counts(self):
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp)
+        write_snapshot(tmp / 'hub', PROJECTS, ISSUES)
+        build(tmp / 'dist', quiet=True, hub_dir=tmp / 'hub')
+        page = (tmp / 'dist' / 'en' / 'hub' / 'index.html').read_text('utf-8')
+        self.assertNotIn('id="numbers"', page)
+        about = (tmp / 'dist' / 'en' / 'about' / 'index.html').read_text('utf-8')
+        self.assertNotIn('during the count', about)
+
+
 class Ideas(unittest.TestCase):
     """Hub ideas (ticket #39): the Discussions form, and the Hub section once the switch is on."""
 

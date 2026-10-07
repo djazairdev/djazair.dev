@@ -1,6 +1,7 @@
 """The Project Hub (ticket #27; PRD §7.2, HUB-04): beginner issues from the listed projects,
 the projects themselves, how a first contribution works, project ideas (ticket #39, once
-``config.HUB_IDEAS`` is on), the way to translation teams (ticket #40) and how to get listed.
+``config.HUB_IDEAS`` is on), contributor counts (ticket #41, once there are any), the way to
+translation teams (ticket #40) and how to get listed.
 
 Everything comes from the snapshot the Hub sync writes every 6 hours (``data/derived/hub/``,
 tickets #25 and #26), read once per build (``Site.hub``): only the projects that pass their
@@ -21,7 +22,7 @@ from .. import components as C
 from .. import config
 from ..config import REPO_URL
 from ..context import Ctx, Page
-from ..fmt import date_label, fint, num, plural
+from ..fmt import date_label, fdec, fint, num, plural, quarter_label
 from ..icons import icon, mark
 from ..markup import Markup, esc, join
 
@@ -227,6 +228,40 @@ def projects(ctx, hub) -> Markup:
 
 
 # ---------------------------------------------------------------- ideas
+# ---------------------------------------------------------------- the Hub in numbers
+def response_time(ctx, hours) -> Markup:
+    """A median response time: hours under two days, days from there."""
+    if hours is None:
+        return Markup('–')
+    if hours < 48:
+        return ctx.t('hub.hours', n=num(fdec(hours, 1, ctx.lang)))
+    return ctx.t('hub.days', n=num(fdec(hours / 24, 1, ctx.lang)))
+
+
+def numbers(ctx, hub) -> Markup:
+    """New contributors and first responses by quarter (ticket #41, PRD HUB-10): counts only,
+    from hub/metrics.py, and only once the founder has turned it on."""
+    m = hub.metrics
+    if not m or not m.get('quarters'):
+        return Markup('')
+    lang, days = ctx.lang, m.get('pledge_days', 7)
+    head = [(ctx.t('hub.col_quarter'), 'start'), (ctx.t('hub.col_new'), 'end'),
+            (ctx.t('hub.col_pledge', days=num(fint(days, lang))), 'end'), (ctx.t('hub.col_median'), 'end')]
+    rows = []
+    for r in reversed(m['quarters']):
+        label = Markup(f'<span dir="ltr">{quarter_label(r["quarter"], lang, "axis")}</span>')
+        name = label if r['complete'] else Markup(f'{label} <span class="hn-part">{ctx.t("hub.to_date")}</span>')
+        pledge = (ctx.t('hub.of', k=num(fint(r['within_pledge'], lang)), n=num(fint(r['opened'], lang)))
+                  if r['opened'] else Markup('–'))
+        rows.append((r['quarter'], [name, (num(fint(r['new_contributors'], lang)), r['new_contributors']), pledge,
+                                    (response_time(ctx, r['median_hours']), r['median_hours'] if r['median_hours'] is not None else '')]))
+    table = C.data_table(ctx.t('hub.numbers_caption'), head, rows, cls='hub-numbers')
+    when = Markup(f'<time datetime="{esc(m["generated_at"])}">{esc(date_label(m["generated_at"], lang))}</time>')
+    note = f'<p class="hub-note">{ctx.t("hub.numbers_note", date=when, n=num(fint(m.get("projects", 0), lang)))}</p>'
+    return C.section('numbers', ctx.t('hub.numbers_eyebrow'), ctx.t('hub.numbers_title'), Markup(table + note),
+                     lede=ctx.t('hub.numbers_lede'))
+
+
 def ideas(ctx) -> Markup:
     """Project ideas in GitHub Discussions (HUB-07): how they work, and where to post one."""
     if not config.HUB_IDEAS:
@@ -264,7 +299,8 @@ def listing(ctx) -> Markup:
 
 def render(ctx: Ctx) -> Page:
     hub = ctx.site.hub
-    body = head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + ideas(ctx) + translate(ctx) + listing(ctx)
+    body = (head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + numbers(ctx, hub) + ideas(ctx) + translate(ctx)
+            + listing(ctx))
     script = ctx.site.assets.scripts.get('hub')
     return Page(title=ctx.s('pages.hub.title'), description=ctx.s('pages.hub.description'), body=body,
                 scripts=(script,) if script and hub.issues else ())

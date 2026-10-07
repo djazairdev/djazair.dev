@@ -53,6 +53,18 @@ jobs:
           python -m hub sync > "$RUNNER_TEMP/hub-sync.txt" 2> >(tee "$RUNNER_TEMP/hub-sync-errors.txt" >&2)
           tee -a "$GITHUB_STEP_SUMMARY" < "$RUNNER_TEMP/hub-sync.txt"
 
+      - name: Count contributors
+        # PRD HUB-10: counts only, no usernames kept (hub/metrics.py). Off until counsel has
+        # reviewed it (PRD §12): set the repository variable HUB_METRICS to 'true' (docs/deploy.md).
+        # Once a day at most; a failure here doesn't stop the sync.
+        if: vars.HUB_METRICS == 'true'
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m hub metrics --daily > "$RUNNER_TEMP/hub-metrics.txt"
+          tee -a "$GITHUB_STEP_SUMMARY" < "$RUNNER_TEMP/hub-metrics.txt"
+
       - name: Build the site with it
         run: python site/build.py
 

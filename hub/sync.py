@@ -57,6 +57,7 @@ reads it from this branch (`.github/scripts/hub-snapshot.sh`).
 | `issues.json` | The open `good first issue` and `help wanted` issues of the projects the Hub shows |
 | `cache.json` | The ETag of each GitHub answer and what was kept from it, for the next sync |
 | `HEALTH.md` | The health report: every flagged or hidden project, why, and since when |
+| `metrics.json` | Contributor counts by quarter, counts only, once `HUB_METRICS` is on (`python -m hub metrics`) |
 
 Nothing here identifies a person: no usernames, avatars or assignees, and no issue text but
 the title and its "You'll need" line. See `hub/README.md` on `main`.

@@ -8,6 +8,7 @@ python3 -m hub check-project owner/name --pledge # run the inclusion checks on o
 python3 -m hub check-submission --proposed FILE  # check the entries a new projects.yml adds or changes
 python3 -m hub check-issue --body-file FILE      # check a request made with the issue form
 python3 -m hub sync                              # fetch the listed projects and their beginner issues
+python3 -m hub metrics                           # count new contributors and response times (counts only)
 ```
 
 Set `GITHUB_TOKEN` for the higher API rate limit; public data needs no token.
@@ -87,6 +88,26 @@ To see the Hub locally, get the snapshot (or run `python3 -m hub sync` with a to
 ```sh
 .github/scripts/hub-snapshot.sh
 ```
+
+## Contributor metrics
+
+`python -m hub metrics` counts, for the projects the Hub shows (PRD HUB-10, ticket #41), from their pull requests and issues on GitHub (`metrics.py`, GraphQL API):
+
+| Count, per quarter from 2026 Q1 | What it is |
+|---|---|
+| `new_contributors` | People whose first merged pull request to any of these repositories was merged that quarter |
+| `opened` | Issues and pull requests opened that quarter by newcomers: anyone but bots and the repositories' maintainers |
+| `answered`, `waiting` | Of those, how many a maintainer has responded to (a comment, a review, or merging the pull request), and how many not yet |
+| `within_pledge` | Answered within 7 days, the time every listed project pledges |
+| `median_hours` | The median time to that first response, among those answered |
+
+Maintainers are the people GitHub marks `OWNER`, `MEMBER` or `COLLABORATOR` on the repository; bots and deleted accounts don't count as anyone. It writes `metrics.json` next to the snapshot, and the Hub page shows it as a table, newest quarter first.
+
+**Counts only.** Usernames are read in memory, to tell people apart and to see who answered, and are never written, logged or published. A run starts from GitHub each time, so no list of people is kept between runs either. PRD §12 asks for a review with counsel before this runs on real data, so the Hub sync runs it only when the repository variable `HUB_METRICS` is `true`, at most once a day (`--daily`), and a failure there doesn't stop the sync ([docs/deploy.md](../docs/deploy.md#hub-sync)). The About page's privacy section mentions the counts once there are any.
+
+**Cost.** GraphQL queries cost about one point per page of 50 to 100 items: a few points per project a day, against the workflow token's 1,000 points an hour. A run stops without writing anything if fewer than 100 points are left.
+
+The counts follow the projects the Hub shows on the day: when a project joins or leaves, past quarters change with it.
 
 ## Health checks
 

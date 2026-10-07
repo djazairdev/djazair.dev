@@ -5,6 +5,7 @@
     check-issue        run the inclusion checks on a listing request made with the issue form
     check-project      run the inclusion checks on one repository
     sync               fetch the listed projects and their beginner issues into data/derived/hub/
+    metrics            count new contributors and response times, counts only (data/derived/hub/metrics.json)
 """
 from __future__ import annotations
 
@@ -13,7 +14,7 @@ import os
 import sys
 from pathlib import Path
 
-from . import checks, registry, submission, sync
+from . import checks, metrics, registry, submission, sync
 from .github import GitHub, GitHubError
 
 
@@ -81,6 +82,15 @@ def cmd_sync(args) -> int:
     return 0
 
 
+def cmd_metrics(args) -> int:
+    try:
+        print(metrics.run(Path(args.out), daily=args.daily))
+    except (GitHubError, ValueError) as err:
+        print(f'Hub metrics stopped, nothing was written: {err}', file=sys.stderr)
+        return 1
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog='python3 -m hub', description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -114,6 +124,10 @@ def main(argv=None) -> int:
     y.add_argument('--registry', default=str(registry.REGISTRY), help='the registry (default: projects.yml)')
     y.add_argument('--out', default=str(sync.OUT), help='where to write the snapshot (default: data/derived/hub)')
     y.set_defaults(run=cmd_sync)
+    m = sub.add_parser('metrics', help='count new contributors and response times, counts only (PRD HUB-10)')
+    m.add_argument('--out', default=str(sync.OUT), help='the snapshot to read and write (default: data/derived/hub)')
+    m.add_argument('--daily', action='store_true', help='do nothing if the counts were already made today')
+    m.set_defaults(run=cmd_metrics)
     args = parser.parse_args(argv)
     return args.run(args)
 

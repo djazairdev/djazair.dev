@@ -219,3 +219,14 @@
 .lz-rules:lang(ar) { line-height: 1.9; }
 .lz-rules code, .lz-note code { font-family: var(--mono); font-size: .88em; color: var(--ink); }
 .lz-note a { color: var(--mint-hi); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+/* ---- the Hub in numbers (ticket #41): counts by quarter, newest first */
+.table-wrap.hub-numbers { max-width: 920px; }
+.hub-numbers thead th { white-space: normal; vertical-align: bottom; }
+.hub-numbers tbody th > [dir] { white-space: nowrap; }
+.hub-numbers .hn-part { display: inline-block; font-size: 12.5px; font-weight: 400; color: var(--ink3); }
+@media (max-width: 560px) {
+  .hub-numbers :is(th, td) { padding-inline: 8px; }
+  .hub-numbers tbody th { white-space: normal; }
+  .hub-numbers .hn-part { display: block; }
+}
