@@ -1,6 +1,6 @@
 # site
 
-The static website, in English and Arabic (right to left), built by a small Python builder that uses only the standard library (decision D21 in the PRD). Output is plain HTML, one stylesheet and a small script that only enhances: every page works without JavaScript. Hosted on Cloudflare Pages.
+The static website, in English and Arabic (right to left), built by a small Python builder that uses only the standard library (decision D21 in the PRD). Output is plain HTML, one stylesheet and a small script that only enhances: every page works without JavaScript. Hosted on Cloudflare Workers as static assets, with no Worker code ([docs/deploy.md](../docs/deploy.md)).
 
 ## Build and preview
 
@@ -59,7 +59,7 @@ Every page has its own title and description, a canonical link and `hreflang` li
 
 Pages live at `/en/<path>` and `/ar/<path>` with matching `lang`, `dir`, `hreflang` and canonical links. The language switcher keeps the reader on the same page.
 
-`/` picks a language with a small inline script: the language the reader last chose with the switcher (kept in `localStorage`), otherwise the first Arabic or English entry in the browser's preferred languages, otherwise English. Without JavaScript, `/` is a plain bilingual chooser. Each language also has its own `404.html`; Cloudflare Pages serves the nearest one.
+`/` picks a language with a small inline script: the language the reader last chose with the switcher (kept in `localStorage`), otherwise the first Arabic or English entry in the browser's preferred languages, otherwise English. Without JavaScript, `/` is a plain bilingual chooser. Each language also has its own `404.html`; Cloudflare serves the nearest one (`not_found_handling` in [`wrangler.jsonc`](../wrangler.jsonc)).
 
 ## Strings
 

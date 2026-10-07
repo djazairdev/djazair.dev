@@ -81,13 +81,13 @@ jobs:
       - name: Measure
         run: python site/tools/perf.py --runs 3
 
-  # Deploys need the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets and the
-  # CLOUDFLARE_PAGES_PROJECT variable (docs/deploy.md). Until they exist, deploys are skipped.
+  # Deploys need the CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID secrets (docs/deploy.md).
+  # Until they exist, deploys are skipped.
   deploy-settings:
     name: Check deploy settings
     needs: build
     # main (pushed, or started by hand) deploys to production; pull requests from this
-    # repository deploy a preview; anything else only tests and builds.
+    # repository upload a preview; anything else only tests and builds.
     if: >-
       github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
       || github.event.pull_request.head.repo.full_name == github.repository
@@ -99,17 +99,18 @@ jobs:
         env:
           TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          PROJECT: ${{ vars.CLOUDFLARE_PAGES_PROJECT }}
         run: |
-          if [ -n "$TOKEN" ] && [ -n "$ACCOUNT" ] && [ -n "$PROJECT" ]; then
+          if [ -n "$TOKEN" ] && [ -n "$ACCOUNT" ]; then
             echo "ready=true" >> "$GITHUB_OUTPUT"
           else
             echo "ready=false" >> "$GITHUB_OUTPUT"
             echo "::notice::Deploy skipped: Cloudflare settings are not configured yet (see docs/deploy.md)."
           fi
 
+  # The site is a Cloudflare Worker made only of static assets (wrangler.jsonc). main becomes the
+  # live version; a pull request uploads a version that only its preview address serves.
   deploy:
-    name: Deploy to Cloudflare Pages
+    name: Deploy to Cloudflare
     needs: deploy-settings
     if: needs.deploy-settings.outputs.ready == 'true'
     runs-on: ubuntu-latest
@@ -120,6 +121,9 @@ jobs:
       name: ${{ github.event_name != 'pull_request' && 'production' || 'preview' }}
       url: ${{ steps.deploy.outputs.deployment-url }}
     steps:
+      - uses: actions/checkout@v7       # for wrangler.jsonc
+        with:
+          persist-credentials: false
       - uses: actions/download-artifact@v8
         with:
           name: site
@@ -131,10 +135,8 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: >-
-            pages deploy site/dist
-            --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT }}
-            --branch=${{ github.event_name != 'pull_request' && 'main' || format('pr-{0}', github.event.pull_request.number) }}
-            --commit-hash=${{ github.sha }}
+            ${{ github.event_name != 'pull_request' && 'deploy' || format('versions upload --preview-alias=pr-{0}', github.event.pull_request.number) }}
+            --message=${{ github.sha }}
       - name: Summary
         env:
           URL: ${{ steps.deploy.outputs.deployment-url }}
