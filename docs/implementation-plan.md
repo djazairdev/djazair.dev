@@ -115,11 +115,11 @@ The Hub registry and submission checks sit in M2, before the pages, so maintaine
 | [#36](https://github.com/djazairdev/djazair.dev/issues/36) | Build the Topics page | Should | 0.75 | — | [Topics — desktop](design/topics-en-desktop.png), [Topics — phone](design/topics-en-phone.png) |
 | [#37](https://github.com/djazairdev/djazair.dev/issues/37) | Build the Collaboration page | Should | 0.75 | — | [Collaboration — desktop](design/collaboration-en-desktop.png), [Collaboration — phone](design/collaboration-en-phone.png) |
 | [#38](https://github.com/djazairdev/djazair.dev/issues/38) | Build the External rankings page (GDC26) | Should | 0.75 | — | [Rankings — desktop](design/rankings-en-desktop.png), [Rankings — phone](design/rankings-en-phone.png) |
-| [#39](https://github.com/djazairdev/djazair.dev/issues/39) | Open Hub ideas in GitHub Discussions | Should | 0.5 | — | — |
-| [#40](https://github.com/djazairdev/djazair.dev/issues/40) | Add the Hub localisation section | Should | 0.5 | — | — |
+| [#39](https://github.com/djazairdev/djazair.dev/issues/39) | Open Hub ideas in GitHub Discussions | Should | 0.5 | — | [Hub ideas — desktop](design/hub-ideas-en-desktop.png), [Hub ideas — phone](design/hub-ideas-en-phone.png) |
+| [#40](https://github.com/djazairdev/djazair.dev/issues/40) | Add the Hub localisation section | Should | 0.5 | — | [Localisation — desktop](design/localisation-en-desktop.png), [Localisation — phone](design/localisation-en-phone.png) |
 | [#41](https://github.com/djazairdev/djazair.dev/issues/41) | Publish Hub contributor metrics | Should | 1 | — | — |
-| [#42](https://github.com/djazairdev/djazair.dev/issues/42) | Add embeddable charts and share images | Could | 1 | — | — |
-| [#43](https://github.com/djazairdev/djazair.dev/issues/43) | Move founders.coffee under djazair.dev | Should | 1 | — | — |
+| [#42](https://github.com/djazairdev/djazair.dev/issues/42) | Add embeddable charts and share images | Could | 1 | — | [Embed panel — desktop](design/embed-en-desktop.png), [Embed panel — phone](design/embed-ar-phone.png), [Embeds](design/embed-pages.png), [Share card](../site/static/share/2026-q1/en.png) |
+| [#43](https://github.com/djazairdev/djazair.dev/issues/43) | Move founders.coffee under djazair.dev | Should | 1 | — | [Meetups — desktop](design/meetups-en-desktop.png), [Meetups — phone](design/meetups-en-phone.png) |
 
 ## 5. Designs and their tickets
 
@@ -173,8 +173,18 @@ The images in [`docs/design/`](design/) are exported from the djazair.dev design
 | Collaboration — English, phone (built site) | [collaboration-en-phone.png](design/collaboration-en-phone.png) | [#37](https://github.com/djazairdev/djazair.dev/issues/37) |
 | Rankings — English, desktop (built site) | [rankings-en-desktop.png](design/rankings-en-desktop.png) | [#38](https://github.com/djazairdev/djazair.dev/issues/38) |
 | Rankings — English, phone (built site) | [rankings-en-phone.png](design/rankings-en-phone.png) | [#38](https://github.com/djazairdev/djazair.dev/issues/38) |
+| Hub ideas section — desktop (built site, `HUB_IDEAS` on) | [hub-ideas-en-desktop.png](design/hub-ideas-en-desktop.png) | [#39](https://github.com/djazairdev/djazair.dev/issues/39) |
+| Hub ideas section — phone (built site, `HUB_IDEAS` on) | [hub-ideas-en-phone.png](design/hub-ideas-en-phone.png) | [#39](https://github.com/djazairdev/djazair.dev/issues/39) |
+| Localisation — English, desktop (built site) | [localisation-en-desktop.png](design/localisation-en-desktop.png) | [#40](https://github.com/djazairdev/djazair.dev/issues/40) |
+| Localisation — English, phone (built site) | [localisation-en-phone.png](design/localisation-en-phone.png) | [#40](https://github.com/djazairdev/djazair.dev/issues/40) |
+| Embed panel — English, desktop (built site) | [embed-en-desktop.png](design/embed-en-desktop.png) | [#42](https://github.com/djazairdev/djazair.dev/issues/42) |
+| Embed panel — Arabic, phone (built site) | [embed-ar-phone.png](design/embed-ar-phone.png) | [#42](https://github.com/djazairdev/djazair.dev/issues/42) |
+| Embeds on another site (built site) | [embed-pages.png](design/embed-pages.png) | [#42](https://github.com/djazairdev/djazair.dev/issues/42) |
+| Share card for Q1 2026 — English and Arabic | [en.png](../site/static/share/2026-q1/en.png), [ar.png](../site/static/share/2026-q1/ar.png) | [#42](https://github.com/djazairdev/djazair.dev/issues/42) |
+| Meetups — English, desktop (built site) | [meetups-en-desktop.png](design/meetups-en-desktop.png) | [#43](https://github.com/djazairdev/djazair.dev/issues/43) |
+| Meetups — English, phone (built site) | [meetups-en-phone.png](design/meetups-en-phone.png) | [#43](https://github.com/djazairdev/djazair.dev/issues/43) |
 
-Peers, Languages, Data, About, Reports, the report page and 404, the Arabic Trends, Hub and Methodology, and in Phase 1.1 Topics, Collaboration and Rankings, were built straight in the design system. Their pictures, marked *built site*, are taken from the built pages with `site/tools/screens.py` ([#17](https://github.com/djazairdev/djazair.dev/issues/17)).
+Peers, Languages, Data, About, Reports, the report page and 404, the Arabic Trends, Hub and Methodology, and in Phase 1.1 Topics, Collaboration, Rankings, the Hub's ideas and localisation, embeds and Meetups, were built straight in the design system. Their pictures, marked *built site*, are taken from the built pages with `site/tools/screens.py` ([#17](https://github.com/djazairdev/djazair.dev/issues/17)).
 
 ## 6. Definition of done
 

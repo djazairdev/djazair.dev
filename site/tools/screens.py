@@ -33,6 +33,8 @@ PAGES = {                      # name in docs/design: address in the built site
     'topics-en': '/en/index/topics/',
     'collaboration-en': '/en/index/collaboration/',
     'rankings-en': '/en/index/rankings/',
+    'localisation-en': '/en/hub/localisation/',
+    'meetups-en': '/en/meetups/',
     'data-en': '/en/data/',
     'about-en': '/en/about/',
     'reports-en': '/en/reports/',
