@@ -25,8 +25,8 @@ from . import report
 PER = 1000                     # accounts per square on the unit map
 GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
 POINT = {'en': '.', 'ar': ','}  # decimal points, likewise
-# The rank as rank_text writes it ('3rd of 7', '3 من 7'), printed with counters
-RANK = {'en': 'counter(tkr,tick-ord) " of " counter(tkn)', 'ar': 'counter(tkr) " من " counter(tkn)'}
+# The rank as rank_text writes it ('3rd of 7', '3 من 7'), printed with counters; 0 prints '0 of 7'
+RANK ={'en': 'counter(tkr,tick-ord) " of " counter(tkn)', 'ar': 'counter(tkr) " من " counter(tkn)'}
 # The hero replays the years, in seconds: it holds the first year while the page fades in,
 # counts up to each next year, rests on the latest, rewinds, and starts again.
 HOLD, FLIP, COUNT, REST, REWIND = 1.4, 1.2, 0.9, 4.0, 0.6
@@ -67,11 +67,8 @@ def year_figures(data, years: list) -> list:
     return out
 
 
-def figure_text(row, lang: str) -> tuple:
-    """A year's three figures as the hero writes them, ('▲ 44.6%', '6th of 7', '+40,925'), or
-    dashes for a year without them."""
-    if row is None:
-        return ('—',) * 3
+def figure_text(row: tuple, lang: str) -> tuple:
+    """A year's three figures as the hero writes them: ('▲ 44.6%', '6th of 7', '+40,925')."""
     growth, rank, ranked, added = row
     return (f'{"▼" if growth < 0 else "▲"} {fpct(abs(growth) / 1000, 1, lang, sign=False)}',
             rank_text(rank, ranked, lang), fint(added, lang, sign=True))
@@ -146,30 +143,29 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
                      f'animation-delay:calc(var(--b,0) * 24ms)}}\n')
     year += [f'{at(rewind)}{{--yr:{yr[-1]}}}', f'100%{{--yr:{yr[0]}}}']
 
-    # The figures under the count: dashes for the first year, which has none, then each figure
-    # counts to the next year's with the count, and back in the rewind. Growth and the accounts
-    # added count up from 0; the rank comes in at the first year's.
+    # The figures under the count: the first year has none, so they wait at 0, muted, and light
+    # up as it turns over. Then each figure counts to the next year's with the count, and back
+    # to 0 in the rewind.
     counts, turns = '', ''
     if len(stats) == len(years) and None not in stats[1:]:
         later = stats[1:]
         rows = ([{'tick': 0}] + [{'tick': g} for g, _, _, _ in later],
-                [{'tick': later[0][1], 'tn': later[0][2]}] + [{'tick': r, 'tn': n} for _, r, n, _ in later],
+                [{'tick': 0, 'tn': later[0][2]}] + [{'tick': r, 'tn': n} for _, r, n, _ in later],
                 [{'tick': 0}] + [{'tick': a} for _, _, _, a in later])
-        fade = lambda a, b: (f'0%,{at(flips[0])}{{opacity:{a}}}{at(flips[0] + .25)}{{opacity:{b}}}'
-                             f'{at(length - .25)}{{opacity:{b}}}100%{{opacity:{a}}}')
+        lit = (f'0%,{at(flips[0])}{{opacity:.4}}{at(flips[0] + .25)}{{opacity:1}}'
+               f'{at(length - .25)}{{opacity:1}}100%{{opacity:.4}}')
         ordinals = ' '.join(text(ordinal(n)) for n in range(1, max(n for _, _, n, _ in later) + 1))
         counts = (''.join(f'@keyframes hero-f{i}{{{counting(r)}}}\n' for i, r in enumerate(rows))
-                  + f'@keyframes hero-dash{{{fade(1, 0)}}}\n@keyframes hero-on{{{fade(0, 1)}}}\n'
+                  + f'@keyframes hero-on{{{lit}}}\n'
                   '@counter-style tick-arrow{system:fixed 0;symbols:"▼ " "▲ " "▲ "}\n'
                   f'@counter-style tick-sign{{system:fixed 0;symbols:"{MINUS}" "" "+"}}\n'
                   + (f'@counter-style tick-ord{{system:fixed 1;symbols:{ordinals}}}\n' if 'tick-ord' in RANK[lang] else ''))
         widest = [max(column, key=len) for column in zip(*(figure_text(row, lang) for row in later))]
         run = lambda i: f'animation:hero-f{i} {length:g}s var(--ease-io) infinite both,hero-on {length:g}s linear infinite both'
         turns = ('.hero-stats .hs-v{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n'
-                 # each figure: the first year's dash and the count, over the widest value, which keeps the width
+                 # each figure counts over its widest value, which keeps the width
                  '.hero-stats .hs-a{display:inline-grid}.hs-a::before,.hs-a>span{display:block;grid-area:1/1}.hs-a::before{visibility:hidden}\n'
                  + ''.join(f'.hv{i}::before{{content:{text(w)}}}' for i, w in enumerate(widest)) + '\n'
-                 + f'.hs-d{{animation:hero-dash {length:g}s linear infinite both}}.hs-d::after{{content:"—"}}\n'
                  '.hs-c{--ts:calc(clamp(-1,var(--tick),1) + 1)}\n'                # the sign: 0 below zero, 1 at zero, 2 above
                  # growth, in tenths of a per cent: the arrow, the whole per cents and the tenths
                  f'.hv0 .hs-c{{{run(0)};--ti:calc((var(--tm) - 4.5) / 10);--tf:calc(var(--tm) - 10 * var(--ti))}}\n'
@@ -299,13 +295,13 @@ def hero(ctx) -> Markup:
     (growth, growth_label), (rank, rank_label), (added, _) = figures(ctx)
 
     def each_year(i: int, latest: str) -> str:
-        """Where the replay counts the figure through the years, printed by Home's stylesheet: the
-        first year's dash, and the count, in digit groups like the count above for the accounts added."""
+        """Where the replay counts the figure through the years, printed by Home's stylesheet; the
+        accounts added in digit groups, as the count above."""
         if len(years) < 2:
             return ''
         cls, direction = ('num nums', 'rtl') if has_arabic(latest) else ('num', 'ltr')     # as num() would
         groups = ''.join(f'<span class="tg{g}"></span>' for g in range(_width(years))) if i == 2 else ''
-        return (f'<span class="hs-a hv{i} {cls}" dir="{direction}" aria-hidden="true"><span class="hs-d"></span>'
+        return (f'<span class="hs-a hv{i} {cls}" dir="{direction}" aria-hidden="true">'
                 f'<span class="hs-c{" tick-anim" if groups else ""}">{groups}</span></span>')
 
     growth_html = f'<span class="num hs-v" dir="ltr"><span aria-hidden="true">▲ </span>{esc(growth)}</span>'

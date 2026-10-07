@@ -113,7 +113,7 @@ class TickerMaths(unittest.TestCase):
         m = max(growth, -growth)
         whole = math.floor((m - 4.5) / 10 + 0.5)
         return (['▼ ', '▲ ', '▲ '][sign(growth)] + f'{whole}{home.POINT[lang]}{m - 10 * whole}%',
-                f'{ordinal(rank)} of {ranked}' if lang == 'en' else f'{rank} من {ranked}',
+                f'{ordinal(rank) if rank else 0} of {ranked}' if lang == 'en' else f'{rank} من {ranked}',
                 [MINUS, '', '+'][sign(added)] + self.printed(added, 3, home.GROUP[lang]))
 
     def test_every_value_on_the_way_reads_correctly(self):
@@ -130,7 +130,8 @@ class TickerMaths(unittest.TestCase):
                 row = (n, 1 + abs(n) % 7, 7, n * 37)
                 with self.subTest(lang=lang, n=n):
                     self.assertEqual(self.figures_printed(row, lang), home.figure_text(row, lang))
-        self.assertEqual(home.figure_text(None, 'en'), ('—', '—', '—'))
+        self.assertEqual(self.figures_printed((0, 0, 7, 0), 'en'), ('▲ 0.0%', '0 of 7', '0'), 'the first year waits at 0')
+        self.assertEqual(self.figures_printed((0, 0, 7, 0), 'ar'), ('▲ 0,0%', '0 من 7', '0'))
 
     def test_the_stylesheet_goes_through_every_year(self):
         css = home.hero_css('en', self.YEARS)
@@ -174,10 +175,11 @@ class TickerMaths(unittest.TestCase):
         css = home.hero_css('en', self.YEARS, self.STATS)
         frames = lambda name, prop: re.findall(rf'--{prop}:(-?\d+)', re.search(rf'@keyframes {name}\{{(.*?)\}}\n', css).group(1))
         self.assertEqual(frames('hero-tick', 'tick'), ['91819', '91819', '132744', '132744', '181881', '181881', '91819'])
-        self.assertEqual(frames('hero-f0', 'tick'), ['0', '0', '446', '446', '370', '370', '0'], 'growth counts up from 0, with the count')
-        self.assertEqual(frames('hero-f1', 'tick'), ['6', '6', '6', '6', '4', '4', '6'], "the rank comes in at the first year's")
+        self.assertEqual(frames('hero-f0', 'tick'), ['0', '0', '446', '446', '370', '370', '0'], 'from 0, with the count, and back')
+        self.assertEqual(frames('hero-f1', 'tick'), ['0', '0', '6', '6', '4', '4', '0'])
         self.assertEqual(frames('hero-f1', 'tn'), ['7'] * 7)
         self.assertEqual(frames('hero-f2', 'tick'), ['0', '0', '40925', '40925', '49137', '49137', '0'])
+        self.assertRegex(css, r'@keyframes hero-on\{0%,[\d.]+%\{opacity:\.4\}[\d.]+%\{opacity:1\}', 'muted while the first year waits at 0')
         self.assertIn('.hv0::before{content:"▲ 44.6%"}.hv1::before{content:"6th of 7"}.hv2::before{content:"+40,925"}', css)
         self.assertIn('@counter-style tick-ord{system:fixed 1;symbols:"1st" "2nd" "3rd" "4th" "5th" "6th" "7th"}', css)
         self.assertIn('@counter-style tick-arrow{system:fixed 0;symbols:"▼ " "▲ " "▲ "}', css)
@@ -264,7 +266,7 @@ class HomePage(unittest.TestCase):
                     reached = re.findall(r'--tick:(-?\d+)', counts)[2:-1:2]          # as each later year's count ends
                     self.assertEqual(reached, [str(s[column]) for s in stats[1:]], name)
                 html = self.html[lang]
-                self.assertEqual(html.count('<span class="hs-d"></span>'), 3)
+                self.assertEqual(html.count('<span class="hs-c'), 3)
                 self.assertIn('<span class="hs-c tick-anim"><span class="tg0"></span>', html, 'the accounts added in digit groups')
         self.assertIn('accounts added in a year', self.text['en'])
         if self.data.quarter == BASELINE:
