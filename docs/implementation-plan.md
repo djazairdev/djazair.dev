@@ -82,10 +82,10 @@ The Hub registry and submission checks sit in M2, before the pages, so maintaine
 | [#18](https://github.com/djazairdev/djazair.dev/issues/18) | Build the Home page | Must | 1.5 | [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13) | [Home — English, desktop](design/home-en-desktop.png), [Home — English, phone](design/home-en-phone.png), [Home — Arabic, desktop](design/home-ar-desktop.png), [Home — Arabic, phone](design/home-ar-phone.png) |
 | [#19](https://github.com/djazairdev/djazair.dev/issues/19) | Build the Index overview page | Must | 1.25 | [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13) | [Overview — English, desktop](design/overview-en-desktop.png), [Overview — English, phone](design/overview-en-phone.png), [Overview — Arabic, desktop](design/overview-ar-desktop.png), [Overview — Arabic, phone](design/overview-ar-phone.png) |
 | [#20](https://github.com/djazairdev/djazair.dev/issues/20) | Build the Trends page | Must | 1.5 | [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | [Trends — desktop](design/trends-en-desktop.png), [Trends — phone](design/trends-en-phone.png) |
-| [#21](https://github.com/djazairdev/djazair.dev/issues/21) | Build the Peers page | Must | 0.75 | [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#19](https://github.com/djazairdev/djazair.dev/issues/19) | Pending |
-| [#22](https://github.com/djazairdev/djazair.dev/issues/22) | Build the Languages page | Must | 0.5 | [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | Pending |
+| [#21](https://github.com/djazairdev/djazair.dev/issues/21) | Build the Peers page | Must | 0.75 | [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#19](https://github.com/djazairdev/djazair.dev/issues/19) | [Peers — desktop](design/peers-en-desktop.png), [Peers — phone](design/peers-en-phone.png) |
+| [#22](https://github.com/djazairdev/djazair.dev/issues/22) | Build the Languages page | Must | 0.5 | [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | [Languages — desktop](design/languages-en-desktop.png), [Languages — phone](design/languages-en-phone.png) |
 | [#23](https://github.com/djazairdev/djazair.dev/issues/23) | Build the Methodology and About pages | Must | 1.75 | [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#5](https://github.com/djazairdev/djazair.dev/issues/5), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | [Methodology — desktop](design/methodology-en-desktop.png), [Methodology — phone](design/methodology-en-phone.png) |
-| [#24](https://github.com/djazairdev/djazair.dev/issues/24) | Build the Data page: downloads, changelog and corrections | Must | 0.75 | [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | Pending |
+| [#24](https://github.com/djazairdev/djazair.dev/issues/24) | Build the Data page: downloads, changelog and corrections | Must | 0.75 | [#13](https://github.com/djazairdev/djazair.dev/issues/13), [#17](https://github.com/djazairdev/djazair.dev/issues/17) | [Data — desktop](design/data-en-desktop.png), [Data — phone](design/data-en-phone.png) |
 
 ### M4 · Hub feed and page (due 2026-11-20)
 
@@ -105,7 +105,7 @@ The Hub registry and submission checks sit in M2, before the pages, so maintaine
 | [#31](https://github.com/djazairdev/djazair.dev/issues/31) | Add search and sharing metadata | Must | 0.25 | [#2](https://github.com/djazairdev/djazair.dev/issues/2) | — |
 | [#32](https://github.com/djazairdev/djazair.dev/issues/32) | Add analytics, uptime checks and failure alerts | Must | 0.25 | [#14](https://github.com/djazairdev/djazair.dev/issues/14), [#25](https://github.com/djazairdev/djazair.dev/issues/25) | — |
 | [#33](https://github.com/djazairdev/djazair.dev/issues/33) | Review and sign off the Arabic text | Must | 0.25 | [#18](https://github.com/djazairdev/djazair.dev/issues/18), [#19](https://github.com/djazairdev/djazair.dev/issues/19), [#23](https://github.com/djazairdev/djazair.dev/issues/23), [#27](https://github.com/djazairdev/djazair.dev/issues/27) | — |
-| [#34](https://github.com/djazairdev/djazair.dev/issues/34) | Write and publish quarterly report #1 | Should | 1.5 | [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#33](https://github.com/djazairdev/djazair.dev/issues/33) | Pending |
+| [#34](https://github.com/djazairdev/djazair.dev/issues/34) | Write and publish quarterly report #1 | Should | 1.5 | [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#33](https://github.com/djazairdev/djazair.dev/issues/33) | [Report — desktop](design/report-en-desktop.png), [Report — phone](design/report-en-phone.png) |
 | [#35](https://github.com/djazairdev/djazair.dev/issues/35) | Launch | Must | 1 | [#21](https://github.com/djazairdev/djazair.dev/issues/21), [#22](https://github.com/djazairdev/djazair.dev/issues/22), [#24](https://github.com/djazairdev/djazair.dev/issues/24), [#28](https://github.com/djazairdev/djazair.dev/issues/28), [#29](https://github.com/djazairdev/djazair.dev/issues/29), [#30](https://github.com/djazairdev/djazair.dev/issues/30), [#31](https://github.com/djazairdev/djazair.dev/issues/31), [#32](https://github.com/djazairdev/djazair.dev/issues/32), [#33](https://github.com/djazairdev/djazair.dev/issues/33) | — |
 
 ### Phase 1.1 (due 2027-02-26)
@@ -123,7 +123,7 @@ The Hub registry and submission checks sit in M2, before the pages, so maintaine
 
 ## 5. Designs and their tickets
 
-The images in [`docs/design/`](design/) are exported from the djazair.dev design canvas, where the boards stay the source of truth. Each issue shows the first screen and links the full pages.
+The images in [`docs/design/`](design/) are exported from the djazair.dev design canvas, where the boards stay the source of truth, or taken from the built site ([design/README.md](design/README.md)). Each issue shows the first screen and links the full pages.
 
 | Board | Image | Ticket |
 |---|---|---|
@@ -147,8 +147,28 @@ The images in [`docs/design/`](design/) are exported from the djazair.dev design
 | State: Pushes per account, Kenya brought forward, crosshair on 2021 Q3 | [trends-en-desktop-pushes-kenya.png](design/trends-en-desktop-pushes-kenya.png) | [#20](https://github.com/djazairdev/djazair.dev/issues/20) |
 | State: Filtered: good first issue + Markdown | [hub-en-desktop-filtered.png](design/hub-en-desktop-filtered.png) | [#27](https://github.com/djazairdev/djazair.dev/issues/27) |
 | State: Search: "kotlin" | [hub-en-desktop-search.png](design/hub-en-desktop-search.png) | [#27](https://github.com/djazairdev/djazair.dev/issues/27) |
+| Peers — English, desktop (built site) | [peers-en-desktop.png](design/peers-en-desktop.png) | [#21](https://github.com/djazairdev/djazair.dev/issues/21) |
+| Peers — English, phone (built site) | [peers-en-phone.png](design/peers-en-phone.png) | [#21](https://github.com/djazairdev/djazair.dev/issues/21) |
+| Languages — English, desktop (built site) | [languages-en-desktop.png](design/languages-en-desktop.png) | [#22](https://github.com/djazairdev/djazair.dev/issues/22) |
+| Languages — English, phone (built site) | [languages-en-phone.png](design/languages-en-phone.png) | [#22](https://github.com/djazairdev/djazair.dev/issues/22) |
+| Data — English, desktop (built site) | [data-en-desktop.png](design/data-en-desktop.png) | [#24](https://github.com/djazairdev/djazair.dev/issues/24) |
+| Data — English, phone (built site) | [data-en-phone.png](design/data-en-phone.png) | [#24](https://github.com/djazairdev/djazair.dev/issues/24) |
+| About — English, desktop (built site) | [about-en-desktop.png](design/about-en-desktop.png) | [#23](https://github.com/djazairdev/djazair.dev/issues/23) |
+| About — English, phone (built site) | [about-en-phone.png](design/about-en-phone.png) | [#23](https://github.com/djazairdev/djazair.dev/issues/23) |
+| Reports — English, desktop (built site) | [reports-en-desktop.png](design/reports-en-desktop.png) | [#34](https://github.com/djazairdev/djazair.dev/issues/34) |
+| Reports — English, phone (built site) | [reports-en-phone.png](design/reports-en-phone.png) | [#34](https://github.com/djazairdev/djazair.dev/issues/34) |
+| Report #1 — English, desktop (built site) | [report-en-desktop.png](design/report-en-desktop.png) | [#34](https://github.com/djazairdev/djazair.dev/issues/34) |
+| Report #1 — English, phone (built site) | [report-en-phone.png](design/report-en-phone.png) | [#34](https://github.com/djazairdev/djazair.dev/issues/34) |
+| Trends — Arabic, desktop (built site) | [trends-ar-desktop.png](design/trends-ar-desktop.png) | [#20](https://github.com/djazairdev/djazair.dev/issues/20) |
+| Trends — Arabic, phone (built site) | [trends-ar-phone.png](design/trends-ar-phone.png) | [#20](https://github.com/djazairdev/djazair.dev/issues/20) |
+| Hub — Arabic, desktop (built site) | [hub-ar-desktop.png](design/hub-ar-desktop.png) | [#27](https://github.com/djazairdev/djazair.dev/issues/27) |
+| Hub — Arabic, phone (built site) | [hub-ar-phone.png](design/hub-ar-phone.png) | [#27](https://github.com/djazairdev/djazair.dev/issues/27) |
+| Methodology — Arabic, desktop (built site) | [methodology-ar-desktop.png](design/methodology-ar-desktop.png) | [#23](https://github.com/djazairdev/djazair.dev/issues/23) |
+| Methodology — Arabic, phone (built site) | [methodology-ar-phone.png](design/methodology-ar-phone.png) | [#23](https://github.com/djazairdev/djazair.dev/issues/23) |
+| 404 — desktop (built site) | [404-desktop.png](design/404-desktop.png) | [#2](https://github.com/djazairdev/djazair.dev/issues/2) |
+| 404 — phone (built site) | [404-phone.png](design/404-phone.png) | [#2](https://github.com/djazairdev/djazair.dev/issues/2) |
 
-Pages without a design yet (Peers, Languages, Data, About, the report page, 404, and Arabic boards for Trends, Hub and Methodology) are covered by [#17](https://github.com/djazairdev/djazair.dev/issues/17).
+Peers, Languages, Data, About, Reports, the report page and 404, and the Arabic Trends, Hub and Methodology, were built straight in the design system. Their pictures, marked *built site*, are taken from the built pages with `site/tools/screens.py` ([#17](https://github.com/djazairdev/djazair.dev/issues/17)).
 
 ## 6. Definition of done
 
@@ -188,9 +208,10 @@ If the work is ahead, Phase 1.1 Should tickets come in, in this order: Topics, E
 ## 9. Keeping this plan current
 
 - Ticket status lives in GitHub. This file changes only when scope, estimates or dates change; note each change below.
-- When a board changes on the design canvas, re-export it to `docs/design/` with the same file name so the issues update.
+- When a board changes on the design canvas, re-export it to `docs/design/` with the same file name so the issues update. When a page built without a board changes, retake its pictures with `site/tools/screens.py`.
 
 | Date | Change |
 |---|---|
 | 6 October 2026 | Version 1. French removed from the MVP (D20). |
 | 6 October 2026 | The site uses a Python static builder instead of Astro (D21); [#2](https://github.com/djazairdev/djazair.dev/issues/2) renamed. |
+| 7 October 2026 | [#17](https://github.com/djazairdev/djazair.dev/issues/17): the pages without a canvas board were built straight in the design system, so their designs in `docs/design/` are pictures of the built pages (`site/tools/screens.py`). |
