@@ -3,8 +3,8 @@
   "entries": [
     {
       "date": null,
-      "en": "**Index v1.** First public release: the scorecard, peers, trends, languages, topics and collaboration, with the methodology and every table as CSV and JSON.",
-      "ar": "**المؤشر، النسخة 1.** أول إصدار عام: بطاقة الأداء والنظراء والاتجاهات واللغات والمواضيع والتعاون، مع المنهجية وكل جدول بصيغتي CSV وJSON."
+      "en": "**Index v1.** First public release: the scorecard, peers, trends, languages, topics, collaboration and GitHub’s GDC26 ranking, with the methodology and every table as CSV and JSON.",
+      "ar": "**المؤشر، النسخة 1.** أول إصدار عام: بطاقة الأداء والنظراء والاتجاهات واللغات والمواضيع والتعاون وتصنيف GitHub في GDC26، مع المنهجية وكل جدول بصيغتي CSV وJSON."
     }
   ]
 }

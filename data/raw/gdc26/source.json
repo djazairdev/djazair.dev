@@ -1,0 +1,19 @@
+{
+  "commit": "a5aedb7585dc5908a46ab90d33113044046cd7b5",
+  "files": {
+    "README.md": {
+      "bytes": 1688,
+      "sha256": "51aefea533b47340104b3b78f3447f733a61ceb17b3ab8d07f379d199a39b6be"
+    },
+    "git_pushes_weighted_by_profile_economy.csv": {
+      "bytes": 1251,
+      "sha256": "cfc42fe14fda5b1a08a855dbab3c178edf65b1bdb494c446c543f3a373e9553d"
+    },
+    "git_pushes_weighted_by_profile_economy_per_capita.csv": {
+      "bytes": 2894,
+      "sha256": "301ed06d94176abf8d8ac55dc227f99473b9751f0063f887db03ef80837c0784"
+    }
+  },
+  "licence": "CC0-1.0",
+  "source": "https://github.com/github/innovationgraph/tree/a5aedb7585dc5908a46ab90d33113044046cd7b5/supplementary_data/git_pushes_weighted_by_profile_economy"
+}

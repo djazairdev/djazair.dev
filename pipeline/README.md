@@ -8,6 +8,7 @@ python3 -m pipeline validate   # check the latest archived release (--release <c
 python3 -m pipeline publish    # validate it, then write data/derived/<yyyy-qN>/ from it
 python3 -m pipeline population # refresh the World Bank population cache (once a year is enough)
 python3 -m pipeline revisions  # past values the latest release changed, against the release before it
+python3 -m pipeline gdc26      # archive GitHub's one-off GDC26 rankings (already done; once is enough)
 ```
 
 ## Steps
@@ -18,11 +19,13 @@ python3 -m pipeline revisions  # past values the latest release changed, against
 
 3. **Compute** (`indicators.Index`): the PRD §9.2 indicators for every economy and quarter: developer accounts, year-on-year growth, growth since 2020, pushes per account (and its 4-quarter average), public repositories and organisations per account, accounts per million people and topics above GitHub's threshold, plus each economy's languages and collaboration partners. An indicator is missing, never zero, when an input is missing. Medians use the peer-group members with data; ranks are in descending order and ties share a rank. The groups (§9.3): North Africa (7), the core peers (6) and the Africa ranking group, every African economy with at least 20,000 accounts a year earlier, which therefore starts in 2021 Q1.
 
-4. **Publish** (`publish`): validates the release, then writes `data/derived/<yyyy-qN>/`: eleven tables, each as CSV and as JSON (overview, peers, peer groups, ranks, quarterly trends, languages, Algeria's languages over time, topics, collaboration partners, every economy and quarter, and revised past values), a README, and `manifest.json` with the source release and every file's checksum. `data/derived/latest.json` then points at the newest quarter. Every file carries the CC0 licence and the attribution, output is stable for diffs, and publishing the same release again changes nothing. The site builds only from these files; [data/README.md](../data/README.md) documents every column.
+4. **Publish** (`publish`): validates the release, then writes `data/derived/<yyyy-qN>/`: twelve tables, each as CSV and as JSON (overview, peers, peer groups, ranks, quarterly trends, languages, Algeria's languages over time, topics, collaboration both ways, GitHub's GDC26 rankings with djazair.dev's estimate, every economy and quarter, and revised past values), a README, and `manifest.json` with the source release and every file's checksum. `data/derived/latest.json` then points at the newest quarter. Every file carries the CC0 licence and the attribution, output is stable for diffs, and publishing the same release again changes nothing. The site builds only from these files; [data/README.md](../data/README.md) documents every column.
 
 5. **Check** (`revisions`, and `tests/test_baseline.py`): the pipeline must still reproduce PRD Appendix A from the Q1 2026 release: Algeria's headline figures, the peer table, the group medians, growth and ratio ranks, languages and partners. The appendix used 2024 population, so the baseline test pins that year. A new release is also compared with the previous archived one for every quarter that release covered: any changed, added or removed value in the four quarterly series is a *revision*, listed in a report for editorial review rather than passing silently.
 
 Accounts per million use World Bank population (`SP.POP.TOTL`), each economy's latest year, from `data/population.json`. The file keeps every year since 2015 and the published data records the year used.
+
+**GDC26** (`gdc26.py`, ticket #38): for the Global Digital Collaboration Conference in September 2026, GitHub published two one-off files in the same repository (`supplementary_data/git_pushes_weighted_by_profile_economy/`): pushes from 2025 Q3 to 2026 Q2 corrected for VPN use, per 1,000 working-age people for the ten highest in each region and in total for the 30 highest. `gdc26` archives them in `data/raw/gdc26/` the way `fetch` archives a release. The `gdc26` table republishes Africa's ten and the 30, and adds djazair.dev's estimate for Algeria, the core peers and the ten: the same four quarters of `git_pushes`, uncorrected, with a quarter not released yet repeating the latest, over the World Bank's 2025 working-age population (`SP.POP.1564.TO`), which is what GitHub used (`tests/test_pipeline_gdc26.py` checks it).
 
 Every step reads the archive through `release.Archive`, which checks each file against `SHA256SUMS` before using it.
 

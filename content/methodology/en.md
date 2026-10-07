@@ -75,6 +75,9 @@ Developers who pushed in the language during the quarter. One developer can push
 ### Collaboration with another economy {#collaboration}
 `weight(source → owner, q)`
 Git pushes sent and pull requests opened by developers in the source economy to repositories owned in another, as GitHub publishes them above its threshold. GitHub calls it a lower bound. Its row for the EU is the sum of the members it lists, so rankings and totals leave it out.
+### Pushes per 1,000 working-age people, estimated {#gdc26}
+`Σ git_pushes(c, 2025 Q3 … 2026 Q2) / working_age(c, 2025) × 1,000`
+GitHub’s GDC26 ranking, a one-off, uses the same formula on pushes it corrects for VPN use with the locations in developers’ profiles. djazair.dev can’t make that correction, so its figure for an economy GitHub doesn’t list is an estimate from network addresses, and a quarter not released yet repeats the latest one.
 ### Peer median {#median}
 `median(indicator over group members with data)`
 The middle value, so one large economy can’t pull it far.

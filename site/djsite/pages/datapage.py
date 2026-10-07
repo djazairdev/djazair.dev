@@ -23,7 +23,7 @@ SITE = 'https://djazair.dev'
 SECTIONS = ('tables', 'charts', 'addresses', 'changelog', 'corrections', 'licence')
 # The pipeline's order: Algeria first, then the groups, the series, and the full table last.
 TABLES = ('overview', 'peers', 'groups', 'ranks', 'trends', 'languages', 'languages_algeria', 'topics', 'collaboration',
-          'indicators', 'revisions')
+          'gdc26', 'indicators', 'revisions')
 
 
 class Sec:

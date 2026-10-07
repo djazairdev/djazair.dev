@@ -371,6 +371,7 @@ class HBar:
     value: float
     before: Optional[float] = None     # the same measure a year earlier
     rank: Optional[int] = None
+    estimate: bool = False             # djazair.dev's estimate beside published figures: an outline
 
 
 @dataclass
@@ -408,12 +409,16 @@ class HBarChart(Spec):
         return b.value / b.before - 1 if b.before else None
 
     def csv(self) -> bytes:
-        return _csv([['key', 'rank', 'value', 'year_earlier', 'change']]
-                    + [[b.key, b.rank, _plain(b.value), _plain(b.before), _plain(self.change(b))] for b in self.bars])
+        estimates = any(b.estimate for b in self.bars)        # a column only for charts that mix in an estimate
+        rows = [[b.key, b.rank, _plain(b.value), _plain(b.before), _plain(self.change(b))]
+                + (['true' if b.estimate else 'false'] if estimates else []) for b in self.bars]
+        return _csv([['key', 'rank', 'value', 'year_earlier', 'change'] + (['estimate'] if estimates else [])] + rows)
 
     def json(self) -> bytes:
+        estimates = any(b.estimate for b in self.bars)
         return _json({**self.meta(), 'bars': [{'key': b.key, 'label': both(b.label), 'rank': b.rank, 'value': _plain(b.value),
-                                               'year_earlier': _plain(b.before), 'change': _plain(self.change(b))}
+                                               'year_earlier': _plain(b.before), 'change': _plain(self.change(b)),
+                                               **({'estimate': b.estimate} if estimates else {})}
                                               for b in self.bars]})
 
 
@@ -645,17 +650,21 @@ def hbar_drawing(chart: HBarChart, lang: str, size: str, pal: dict = DARK) -> Dr
             out.append(svg_text(X(0), name_y, str(b.rank), size=font - 1.5, fill=pal['ink3'], font=MONO, align=near, cls='fd'))
         out.append(svg_text(X(26 if b.rank is not None else 0), name_y, name, size=font, fill=pal['algeria'] if lit else pal['ink'],
                             weight=700 if lit else 500, align=near, cls='fd'))
-        before = (b.before or 0) if chart.split else 0
+        before = (b.before or 0) if chart.split and not b.estimate else 0
         kept = min(before, b.value)
         old, new = ('peer_dim', 'peer') if grey else ('cell_old', 'algeria')
-        if kept:
-            out.append(rect(x0, D(kept), bar_y, f'rx="2" fill="{pal[old]}" class="hb-o fd"'))
-        if b.value > before:
-            out.append(rect(D(kept), D(b.value), bar_y, f'rx="2" fill="{pal[new]}" class="hb-n gr"'))
-        elif b.value < before:
-            out.append(rect(D(b.value), D(before), bar_y + 0.5,
-                            f'rx="2" fill="none" stroke="{pal["negative"]}" stroke-dasharray="3 3" class="hb-l fd"')
-                       .replace(f'height="{bh}"', f'height="{bh - 1}"'))
+        if b.estimate:
+            out.append(rect(x0, D(b.value), bar_y + 0.75, f'rx="2" fill="{pal["algeria_fill"]}" stroke="{pal[new]}" '
+                            f'stroke-width="1.5" stroke-dasharray="4 3" class="hb-e gr"').replace(f'height="{bh}"', f'height="{bh - 1.5}"'))
+        else:
+            if kept:
+                out.append(rect(x0, D(kept), bar_y, f'rx="2" fill="{pal[old]}" class="hb-o fd"'))
+            if b.value > before:
+                out.append(rect(D(kept), D(b.value), bar_y, f'rx="2" fill="{pal[new]}" class="hb-n gr"'))
+            elif b.value < before:
+                out.append(rect(D(b.value), D(before), bar_y + 0.5,
+                                f'rx="2" fill="none" stroke="{pal["negative"]}" stroke-dasharray="3 3" class="hb-l fd"')
+                           .replace(f'height="{bh}"', f'height="{bh - 1}"'))
         d = D(max(b.value, before)) + 10
         value = chart.fmt(b.value, lang)
         out.append(svg_text(X(d), value_y, value, size=font - 1, fill=pal['ink'], font=MONO, weight=600, align=near, cls='ann'))
@@ -798,6 +807,9 @@ def table(chart: Spec, lang: str, names: dict) -> tuple:
     if isinstance(chart, HBarChart):
         head = [(esc(loc(chart.category_label, lang)), 'start'), (esc(loc(chart.now_label, lang)), 'end'),
                 (esc(loc(chart.before_label, lang)), 'end'), (esc(loc(chart.change_label, lang)), 'end')]
+        if all(b.before is None for b in chart.bars) and not chart.new_label:      # no year earlier to show
+            return head[:2], [(b.key, [esc(loc(b.label, lang)), (num(chart.fmt(b.value, lang)), _plain(b.value))])
+                              for b in chart.bars]
         rows = []
         for b in chart.bars:
             change = chart.change(b)

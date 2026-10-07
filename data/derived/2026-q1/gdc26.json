@@ -1,0 +1,129 @@
+{
+ "attribution": "Data: GitHub Innovation Graph (CC0)",
+ "columns": [
+  {
+   "description": "africa: GitHub’s ten highest in Africa by pushes per 1,000 working-age people; world: GitHub’s 30 economies with the most pushes; estimate: djazair.dev’s estimate from the quarterly files",
+   "name": "list",
+   "type": "string"
+  },
+  {
+   "description": "Place in GitHub’s list; empty for estimates",
+   "name": "rank",
+   "type": "integer"
+  },
+  {
+   "description": "ISO 3166-1 alpha-2 code of the economy (GitHub uses EU for the European Union)",
+   "name": "economy",
+   "type": "string"
+  },
+  {
+   "description": "ICANN region, as GitHub gives it; empty for estimates",
+   "name": "region",
+   "type": "string"
+  },
+  {
+   "description": "Git pushes from 2025 Q3 to 2026 Q2: weighted by GitHub to correct for VPN use in its lists, unweighted in estimates",
+   "name": "pushes",
+   "type": "integer"
+  },
+  {
+   "description": "People aged 15 to 64 (World Bank, 2025); empty in the world list",
+   "name": "working_age_population",
+   "type": "integer"
+  },
+  {
+   "description": "pushes / working_age_population × 1,000; empty in the world list",
+   "name": "per_1k_working_age",
+   "type": "number"
+  },
+  {
+   "description": "Estimates: git pushes in 2025 Q3, from the quarterly files",
+   "name": "pushes_2025_q3",
+   "type": "integer"
+  },
+  {
+   "description": "Estimates: git pushes in 2025 Q4, from the quarterly files",
+   "name": "pushes_2025_q4",
+   "type": "integer"
+  },
+  {
+   "description": "Estimates: git pushes in 2026 Q1, from the quarterly files",
+   "name": "pushes_2026_q1",
+   "type": "integer"
+  },
+  {
+   "description": "Estimates: git pushes in 2026 Q2, from the quarterly files",
+   "name": "pushes_2026_q2",
+   "type": "integer"
+  },
+  {
+   "description": "Estimates: how many of the four quarters aren’t released yet and repeat the latest one",
+   "name": "quarters_assumed",
+   "type": "integer"
+  }
+ ],
+ "description": "GitHub’s one-off rankings for the Global Digital Collaboration Conference (September 2026): git pushes from 2025 Q3 to 2026 Q2, corrected for VPN use, per 1,000 working-age people for Africa’s ten highest, and in total for the 30 economies with the most. Then djazair.dev’s estimate of the same measure, uncorrected, for Algeria, its core peers and the ten.",
+ "format_version": 1,
+ "licence": "CC0-1.0",
+ "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+ "quarter": "2026-Q1",
+ "release": "054c7dbc527518fa2ecfd316efe2aa01f3986c39",
+ "release_date": "2026-07-07T15:25:55Z",
+ "rows": [
+  {"list": "africa", "rank": 1, "economy": "MU", "region": "Africa", "pushes": 241188, "working_age_population": 887388, "per_1k_working_age": 271.795427, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 2, "economy": "TN", "region": "Africa", "pushes": 2106098, "working_age_population": 8211984, "per_1k_working_age": 256.466403, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 3, "economy": "KE", "region": "Africa", "pushes": 5833123, "working_age_population": 34934452, "per_1k_working_age": 166.973365, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 4, "economy": "MA", "region": "Africa", "pushes": 4164218, "working_age_population": 25498901, "per_1k_working_age": 163.309705, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 5, "economy": "RW", "region": "Africa", "pushes": 1199800, "working_age_population": 8589557, "per_1k_working_age": 139.681243, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 6, "economy": "EG", "region": "Africa", "pushes": 10040445, "working_age_population": 74774809, "per_1k_working_age": 134.275769, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 7, "economy": "ZA", "region": "Africa", "pushes": 5356678, "working_age_population": 43634244, "per_1k_working_age": 122.763167, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 8, "economy": "BW", "region": "Africa", "pushes": 174800, "working_age_population": 1638744, "per_1k_working_age": 106.667057, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 9, "economy": "GH", "region": "Africa", "pushes": 2198371, "working_age_population": 21312986, "per_1k_working_age": 103.14702, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "africa", "rank": 10, "economy": "SZ", "region": "Africa", "pushes": 80394, "working_age_population": 787097, "per_1k_working_age": 102.139889, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 1, "economy": "US", "region": "North America", "pushes": 195067739, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 2, "economy": "IN", "region": "Asia/Australia/Pacific", "pushes": 158142115, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 3, "economy": "CN", "region": "Asia/Australia/Pacific", "pushes": 56405232, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 4, "economy": "BR", "region": "Latin America/Caribbean", "pushes": 54545337, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 5, "economy": "DE", "region": "Europe", "pushes": 42360688, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 6, "economy": "GB", "region": "Europe", "pushes": 39468380, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 7, "economy": "KR", "region": "Asia/Australia/Pacific", "pushes": 35603055, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 8, "economy": "FR", "region": "Europe", "pushes": 33931569, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 9, "economy": "CA", "region": "North America", "pushes": 30102416, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 10, "economy": "JP", "region": "Asia/Australia/Pacific", "pushes": 29828059, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 11, "economy": "ID", "region": "Asia/Australia/Pacific", "pushes": 27404676, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 12, "economy": "RU", "region": "Europe", "pushes": 22040236, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 13, "economy": "ES", "region": "Europe", "pushes": 21693399, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 14, "economy": "VN", "region": "Asia/Australia/Pacific", "pushes": 20901844, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 15, "economy": "PL", "region": "Europe", "pushes": 16465137, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 16, "economy": "NL", "region": "Europe", "pushes": 15465159, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 17, "economy": "AU", "region": "Asia/Australia/Pacific", "pushes": 14911379, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 18, "economy": "IT", "region": "Europe", "pushes": 13691258, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 19, "economy": "PK", "region": "Asia/Australia/Pacific", "pushes": 13376252, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 20, "economy": "PH", "region": "Asia/Australia/Pacific", "pushes": 13153520, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 21, "economy": "AR", "region": "Latin America/Caribbean", "pushes": 12470491, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 22, "economy": "BD", "region": "Asia/Australia/Pacific", "pushes": 11783986, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 23, "economy": "TR", "region": "Asia/Australia/Pacific", "pushes": 11661372, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 24, "economy": "MX", "region": "Latin America/Caribbean", "pushes": 11511485, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 25, "economy": "NG", "region": "Africa", "pushes": 11236746, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 26, "economy": "CO", "region": "Latin America/Caribbean", "pushes": 11128431, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 27, "economy": "TW", "region": "Asia/Australia/Pacific", "pushes": 10042925, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 28, "economy": "EG", "region": "Africa", "pushes": 10040445, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 29, "economy": "CH", "region": "Europe", "pushes": 9615935, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "world", "rank": 30, "economy": "UA", "region": "Europe", "pushes": 9404094, "working_age_population": null, "per_1k_working_age": null, "pushes_2025_q3": null, "pushes_2025_q4": null, "pushes_2026_q1": null, "pushes_2026_q2": null, "quarters_assumed": null},
+  {"list": "estimate", "rank": null, "economy": "DZ", "region": null, "pushes": 2007332, "working_age_population": 30011643, "per_1k_working_age": 66.885109, "pushes_2025_q3": 306426, "pushes_2025_q4": 452950, "pushes_2026_q1": 623978, "pushes_2026_q2": 623978, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "MA", "region": null, "pushes": 4237683, "working_age_population": 25498901, "per_1k_working_age": 166.19081, "pushes_2025_q3": 693709, "pushes_2025_q4": 1030908, "pushes_2026_q1": 1256533, "pushes_2026_q2": 1256533, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "TN", "region": null, "pushes": 2044755, "working_age_population": 8211984, "per_1k_working_age": 248.996467, "pushes_2025_q3": 362950, "pushes_2025_q4": 543737, "pushes_2026_q1": 569034, "pushes_2026_q2": 569034, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "EG", "region": null, "pushes": 9372780, "working_age_population": 74774809, "per_1k_working_age": 125.346759, "pushes_2025_q3": 1999635, "pushes_2025_q4": 2264375, "pushes_2026_q1": 2554385, "pushes_2026_q2": 2554385, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "NG", "region": null, "pushes": 10534384, "working_age_population": 133991180, "per_1k_working_age": 78.619981, "pushes_2025_q3": 2257316, "pushes_2025_q4": 2323134, "pushes_2026_q1": 2976967, "pushes_2026_q2": 2976967, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "KE", "region": null, "pushes": 5721041, "working_age_population": 34934452, "per_1k_working_age": 163.765013, "pushes_2025_q3": 1332409, "pushes_2025_q4": 1256334, "pushes_2026_q1": 1566149, "pushes_2026_q2": 1566149, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "ZA", "region": null, "pushes": 4934064, "working_age_population": 43634244, "per_1k_working_age": 113.077793, "pushes_2025_q3": 1066894, "pushes_2025_q4": 1118816, "pushes_2026_q1": 1374177, "pushes_2026_q2": 1374177, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "MU", "region": null, "pushes": 272790, "working_age_population": 887388, "per_1k_working_age": 307.407808, "pushes_2025_q3": 45948, "pushes_2025_q4": 66302, "pushes_2026_q1": 80270, "pushes_2026_q2": 80270, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "RW", "region": null, "pushes": 1173194, "working_age_population": 8589557, "per_1k_working_age": 136.583761, "pushes_2025_q3": 246657, "pushes_2025_q4": 270617, "pushes_2026_q1": 327960, "pushes_2026_q2": 327960, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "BW", "region": null, "pushes": 155725, "working_age_population": 1638744, "per_1k_working_age": 95.027045, "pushes_2025_q3": 19636, "pushes_2025_q4": 25621, "pushes_2026_q1": 55234, "pushes_2026_q2": 55234, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "GH", "region": null, "pushes": 2080506, "working_age_population": 21312986, "per_1k_working_age": 97.616824, "pushes_2025_q3": 438795, "pushes_2025_q4": 454751, "pushes_2026_q1": 593480, "pushes_2026_q2": 593480, "quarters_assumed": 1},
+  {"list": "estimate", "rank": null, "economy": "SZ", "region": null, "pushes": 32122, "working_age_population": 787097, "per_1k_working_age": 40.810726, "pushes_2025_q3": 6507, "pushes_2025_q4": 5991, "pushes_2026_q1": 9812, "pushes_2026_q2": 9812, "quarters_assumed": 1}
+ ],
+ "source": "https://github.com/github/innovationgraph/tree/054c7dbc527518fa2ecfd316efe2aa01f3986c39/data",
+ "table": "gdc26",
+ "title": "GitHub’s GDC26 rankings"
+}

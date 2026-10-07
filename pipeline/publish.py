@@ -23,6 +23,8 @@ from typing import Optional
 
 from .config import (AFRICA_MIN_ACCOUNTS, ATTRIBUTION, CORE_PEERS, DERIVED_DIR, EU, HOME, LICENCE, LICENCE_URL, NORTH_AFRICA,
                      SOURCE_URL)
+from . import gdc26
+from .gdc26 import GDC26
 from .indicators import INDICATORS, Dataset, Index, qkey, rank_of
 from .population import Population
 from .release import Archive
@@ -137,11 +139,12 @@ class Table:
 class Publisher:
     """The tables, computed from one release."""
 
-    def __init__(self, ix: Index, revisions: Optional[RevisionReport] = None):
+    def __init__(self, ix: Index, revisions: Optional[RevisionReport] = None, rankings: Optional[GDC26] = None):
         self.ix, self.ds = ix, ix.ds
         self.q = ix.ds.quarter
         self.year_before = ix.ds.quarters[-5] if len(ix.ds.quarters) > 4 else None
         self.revision_report = revisions
+        self.rankings = rankings or GDC26()
 
     def members(self, group: str, q: tuple) -> list:
         if group == 'algeria_and_peers':
@@ -306,6 +309,33 @@ class Publisher:
                      'developers in Algeria sent to repositories owned elsewhere, and those repositories owned in Algeria '
                      'received.', cols, rows)
 
+    def gdc26(self) -> Table:
+        quarter_cols = [I(f'pushes_{y}_q{q}', f'Estimates: git pushes in {y} Q{q}, from the quarterly files')
+                        for y, q in gdc26.QUARTERS]
+        cols = [S('list', 'africa: GitHub’s ten highest in Africa by pushes per 1,000 working-age people; world: GitHub’s '
+                          '30 economies with the most pushes; estimate: djazair.dev’s estimate from the quarterly files'),
+                I('rank', 'Place in GitHub’s list; empty for estimates'), ECONOMY,
+                S('region', 'ICANN region, as GitHub gives it; empty for estimates'),
+                I('pushes', 'Git pushes from 2025 Q3 to 2026 Q2: weighted by GitHub to correct for VPN use in its lists, '
+                            'unweighted in estimates'),
+                I('working_age_population', f'People aged 15 to 64 (World Bank, {gdc26.POPULATION_YEAR}); empty in the world list'),
+                N('per_1k_working_age', 'pushes / working_age_population × 1,000; empty in the world list'),
+                *quarter_cols,
+                I('quarters_assumed', 'Estimates: how many of the four quarters aren’t released yet and repeat the latest one')]
+        blank = [None] * (len(quarter_cols) + 1)
+        rows = [['africa', e.rank, e.economy, e.region, e.pushes, e.working_age, e.per_1k, *blank] for e in self.rankings.africa]
+        rows += [['world', e.rank, e.economy, e.region, e.pushes, None, None, *blank] for e in self.rankings.world]
+        working_age = self.ix.population.data['series'].get('SP.POP.1564.TO', {}).get('values', {})
+        for code in dict.fromkeys((HOME,) + CORE_PEERS + tuple(e.economy for e in self.rankings.africa)):
+            est = gdc26.estimate(code, self.ds.series['git_pushes'], self.ds.quarters, working_age)
+            if est:
+                rows.append(['estimate', None, code, None, est.pushes, est.working_age, est.per_1k, *est.quarters, est.assumed])
+        return Table('gdc26', 'GitHub’s GDC26 rankings',
+                     'GitHub’s one-off rankings for the Global Digital Collaboration Conference (September 2026): git pushes '
+                     'from 2025 Q3 to 2026 Q2, corrected for VPN use, per 1,000 working-age people for Africa’s ten highest, '
+                     'and in total for the 30 economies with the most. Then djazair.dev’s estimate of the same measure, '
+                     'uncorrected, for Algeria, its core peers and the ten.', cols, rows)
+
     def indicators(self) -> Table:
         cols = [ECONOMY, QUARTER] + [COLUMNS[n] for n in INDICATORS] + [I('population_year', 'Year of the population used')]
         rows = []
@@ -328,7 +358,8 @@ class Publisher:
 
     def tables(self) -> list:
         return [self.overview(), self.peers(), self.groups(), self.ranks(), self.trends(), self.languages(),
-                self.languages_algeria(), self.topics(), self.collaboration(), self.indicators(), self.revisions()]
+                self.languages_algeria(), self.topics(), self.collaboration(), self.gdc26(), self.indicators(),
+                self.revisions()]
 
 
 def folder_name(quarter: str) -> str:
@@ -356,12 +387,12 @@ Every column is described in [data/README.md](https://github.com/djazairdev/djaz
 """
 
 
-def render(archive: Archive, ix: Index, revisions: Optional[RevisionReport] = None) -> tuple:
+def render(archive: Archive, ix: Index, revisions: Optional[RevisionReport] = None, rankings: Optional[GDC26] = None) -> tuple:
     """(tables, {file name: bytes}) for every file of the folder except manifest.json."""
     meta = {'quarter': archive.quarter, 'release': archive.commit, 'release_date': archive.meta['date'],
             'source': f'{SOURCE_URL}/tree/{archive.commit}/data', 'licence': LICENCE, 'licence_url': LICENCE_URL,
             'attribution': ATTRIBUTION, 'format_version': FORMAT_VERSION}
-    tables = Publisher(ix, revisions).tables()
+    tables = Publisher(ix, revisions, rankings).tables()
     files = {}
     for table in tables:
         files[f'{table.name}.csv'] = table.csv()
@@ -373,7 +404,8 @@ def render(archive: Archive, ix: Index, revisions: Optional[RevisionReport] = No
     return tables, files
 
 
-def manifest(archive: Archive, ix: Index, tables: list, files: dict, revisions: Optional[RevisionReport]) -> dict:
+def manifest(archive: Archive, ix: Index, tables: list, files: dict, revisions: Optional[RevisionReport],
+             rankings: GDC26) -> dict:
     by_name = {t.name: t for t in tables}
     entries = {}
     for name, data in sorted(files.items()):
@@ -389,6 +421,8 @@ def manifest(archive: Archive, ix: Index, tables: list, files: dict, revisions: 
             'population': {'source': 'World Bank, World Development Indicators (SP.POP.TOTL)', 'licence': 'CC BY 4.0',
                            'updated': totals.get('updated', ''), 'algeria_year': ix.population_year.get(HOME),
                            'years': sorted(set(ix.population_year.values()))},
+            'gdc26': {'source': rankings.source, 'commit': rankings.commit, 'date': gdc26.DATE, 'licence': 'CC0-1.0',
+                      'population_year': gdc26.POPULATION_YEAR},
             'revisions': {'compared_with': revisions.old if revisions else None,
                           'compared_quarter': revisions.old_quarter if revisions else None,
                           'changed': len(revisions.revisions) if revisions else 0},
@@ -401,8 +435,9 @@ def publish(archive: Archive, out_dir: Path = DERIVED_DIR, population: Optional[
     release archived before it: the revisions table lists what ``archive`` changed."""
     ix = Index(Dataset.load(archive), population or Population())
     report = compare(previous, archive) if previous and previous.commit != archive.commit else None
-    tables, files = render(archive, ix, report)
-    body = manifest(archive, ix, tables, files, report)
+    rankings = GDC26()
+    tables, files = render(archive, ix, report, rankings)
+    body = manifest(archive, ix, tables, files, report, rankings)
 
     out_dir = Path(out_dir)
     folder = out_dir / folder_name(archive.quarter)

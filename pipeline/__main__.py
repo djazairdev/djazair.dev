@@ -5,6 +5,7 @@
     publish     validate a release, then write data/derived/<yyyy-qN>/ from it
     population  refresh the World Bank population cache (data/population.json)
     revisions   list past values a release changed, against the release before it
+    gdc26       archive GitHub's one-off GDC26 rankings (data/raw/gdc26/) if they aren't yet
 """
 from __future__ import annotations
 
@@ -13,7 +14,7 @@ import json
 import os
 import sys
 
-from . import population, publish, release, revisions
+from . import gdc26, population, publish, release, revisions
 from .config import RAW_DIR
 from .run import ValidationFailed, process
 
@@ -97,6 +98,14 @@ def cmd_population(args) -> int:
     return 0
 
 
+def cmd_gdc26(args) -> int:
+    folder, new = gdc26.archive()
+    meta = gdc26.verify(folder)
+    print(f'GDC26 files from {meta["commit"][:12]} {"archived in" if new else "already in"} '
+          f'{folder.relative_to(RAW_DIR.parent.parent)}')
+    return 0
+
+
 def cmd_revisions(args) -> int:
     archive = pick(args.release)
     before = earlier(archive)
@@ -132,6 +141,7 @@ def main(argv=None) -> int:
     r.add_argument('--release', default='latest', help='commit of an archived release (default: the latest)')
     r.add_argument('--report', type=str, help='also write the report, as Markdown, to this file')
     r.set_defaults(run=cmd_revisions)
+    sub.add_parser('gdc26', help='archive GitHub’s one-off GDC26 rankings if they aren’t yet').set_defaults(run=cmd_gdc26)
     args = parser.parse_args(argv)
     return args.run(args)
 

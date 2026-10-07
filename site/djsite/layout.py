@@ -16,7 +16,7 @@ SUB_NAV = ['overview', 'peers', 'trends', 'languages', 'topics', 'collaboration'
 FOOTER = [
     ('footer.index', [('subnav.overview', 'overview', ''), ('subnav.peers', 'peers', ''),
                       ('subnav.trends', 'trends', ''), ('subnav.languages', 'languages', ''), ('subnav.topics', 'topics', ''),
-                      ('subnav.collaboration', 'collaboration', '')]),
+                      ('subnav.collaboration', 'collaboration', ''), ('subnav.rankings', 'rankings', '')]),
     ('footer.hub', [('footer.issues', 'hub', 'issues'), ('footer.projects', 'hub', 'projects'),
                     ('footer.list', 'hub', 'list')]),
     ('footer.project', [('nav.methodology', 'methodology', ''), ('footer.data', 'data', ''),

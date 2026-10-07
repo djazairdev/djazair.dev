@@ -23,7 +23,7 @@ from pipeline.run import ValidationFailed, process  # noqa: E402
 
 REPO = Path(__file__).resolve().parent.parent
 TABLES = ('overview', 'peers', 'groups', 'ranks', 'trends', 'languages', 'languages_algeria', 'topics', 'collaboration',
-          'indicators', 'revisions')
+          'gdc26', 'indicators', 'revisions')
 T1 = datetime(2021, 9, 2, 8, 0, tzinfo=timezone.utc)
 T2 = datetime(2021, 9, 3, 8, 0, tzinfo=timezone.utc)
 

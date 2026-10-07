@@ -738,6 +738,65 @@
     "rw_place": "Located by network address",
     "rw_place_text": "Developers are placed by their network address. A VPN moves a developer’s work to another economy, which can add or hide partners."
   },
+  "rankings": {
+    "eyebrow": "Algeria Developer Index · Rankings",
+    "title": "GitHub’s Africa ranking, GDC26",
+    "lede": "For the Global Digital Collaboration Conference in Geneva, 1–3 September 2026, GitHub ranked economies by git pushes per 1,000 working-age people, corrected for VPN use. It is a one-off dataset, outside the quarterly Index. Algeria isn’t in Africa’s top ten, so its figure here is djazair.dev’s estimate.",
+    "meta_period": "Period",
+    "meta_published": "Published",
+    "meta_once": "Once",
+    "download": "Download CSV",
+    "methodology": "How the estimate works",
+    "fig_label": "GDC26 ranking",
+    "fig_title": "Git pushes per 1,000 working-age people, Africa’s top ten, {period}",
+    "fig_summary": "GitHub’s ten African economies with the most git pushes per 1,000 people aged 15 to 64 from {period}, corrected for VPN use, and djazair.dev’s estimate for Algeria, which GitHub doesn’t list.",
+    "category": "Economy",
+    "unit": "Pushes per 1,000 working-age people",
+    "dz_label": "Algeria (estimate)",
+    "source": "Source: GitHub, GDC26 supplementary data (CC0), published {date}. Algeria: djazair.dev’s estimate from the GitHub Innovation Graph and the World Bank.",
+    "lede_top": "{first} leads Africa with {a} pushes per 1,000 working-age people, ahead of {second} ({b}) and {third} ({c}).",
+    "lede_na": "From North Africa, the top ten has {list}.",
+    "na_item": "{name} ({rank})",
+    "lede_dz": "GitHub doesn’t list Algeria. By djazair.dev’s estimate it stands at about {dz}, against {t} for {tenth} in tenth place.",
+    "world_note": "GitHub’s other GDC26 list ranks the 30 economies with the most pushes. From Africa it has {list}.",
+    "world_none": "GitHub’s other GDC26 list ranks the 30 economies with the most pushes. None of them is African.",
+    "est_eyebrow": "Algeria’s estimate",
+    "est_title": "How djazair.dev gets about {dz}",
+    "est_lede": "GitHub’s correction for VPN use rests on the locations in developers’ profiles, which aren’t public. djazair.dev applies the rest of GitHub’s method to the quarterly files: the same four quarters of pushes, divided by the same working-age population.",
+    "est_assumed": "Quarters not released yet are taken as equal to {latest}: {quarters}.",
+    "est_caption": "djazair.dev’s estimate for Algeria, step by step",
+    "est_col_step": "Step",
+    "est_col_value": "Value",
+    "est_row_q": "Git pushes, {quarter}",
+    "est_row_q_assumed": "Git pushes, {quarter} (taken as {latest})",
+    "est_row_total": "Pushes over the four quarters",
+    "est_row_people": "People aged 15 to 64, {year} (World Bank)",
+    "est_row_per": "Per 1,000 working-age people",
+    "est_need": "Tenth place, {tenth} at {t}, would take about {x} times Algeria’s estimated pushes: some {need} million over the four quarters instead of {have} million.",
+    "est_source": "Source: GitHub Innovation Graph (CC0), git_pushes; World Bank (CC BY 4.0), SP.POP.1564.TO.",
+    "check_eyebrow": "Checked against GitHub",
+    "check_title": "The same estimate for the ten GitHub lists",
+    "check_lede": "Applied to the ten economies GitHub lists, the estimate comes within {p}% of GitHub’s figure for {k} of them.",
+    "check_outlier": "For {name}, GitHub’s figure is {r} times the estimate.",
+    "check_unlisted": "Core peers GitHub doesn’t list, by the same estimate: {list}.",
+    "unlisted_item": "{name} ({v})",
+    "col_rank": "GitHub’s rank",
+    "col_github": "GitHub’s figure",
+    "col_estimate": "Estimate",
+    "col_ratio": "GitHub ÷ estimate",
+    "check_caption": "GitHub’s GDC26 figures against djazair.dev’s estimate",
+    "check_source": "Source: GitHub, GDC26 supplementary data (CC0); djazair.dev’s estimate from the GitHub Innovation Graph and the World Bank.",
+    "read_eyebrow": "Before you quote them",
+    "read_title": "Read these numbers well",
+    "rw_once": "A one-off list",
+    "rw_once_text": "GitHub prepared these lists once, for GDC26. They aren’t part of the quarterly Index and won’t change when new data comes out.",
+    "rw_vpn": "Corrected for VPN use",
+    "rw_vpn_text": "GitHub moved pushes between economies by comparing the locations in developers’ profiles with where their network addresses place them. Nobody outside GitHub can repeat the correction.",
+    "rw_estimate": "An estimate, not a rank",
+    "rw_estimate_text": "Algeria’s figure here uses network addresses only, and repeats the latest quarter for any not released yet. It shows roughly where Algeria stands, not a place GitHub gave it.",
+    "rw_people": "Per working-age person",
+    "rw_people_text": "The lists divide by people aged 15 to 64, not by all people or by developers. GitHub left out economies under 200,000 people."
+  },
   "methodology": {
     "eyebrow": "Methodology",
     "title": "How the Index is made",
@@ -850,6 +909,10 @@
       "collaboration": {
         "title": "Algeria’s collaboration partners",
         "text": "Git pushes and pull requests between Algeria and other economies, both ways, every quarter."
+      },
+      "gdc26": {
+        "title": "GitHub’s GDC26 rankings",
+        "text": "GitHub’s one-off GDC26 lists, Africa’s top ten by pushes per 1,000 working-age people and the 30 economies with the most pushes, with djazair.dev’s estimate for Algeria and its peers."
       },
       "indicators": {
         "title": "Every economy, every quarter",
@@ -983,6 +1046,10 @@
     "collaboration": {
       "title": "Collaboration",
       "description": "Where pushes and pull requests from developers in Algeria go, and where those to repositories owned in Algeria come from, against a year earlier and since 2020."
+    },
+    "rankings": {
+      "title": "Rankings",
+      "description": "GitHub’s one-off GDC26 ranking of African economies by git pushes per working-age person, with djazair.dev’s estimate for Algeria."
     },
     "hub": {
       "title": "Project Hub",

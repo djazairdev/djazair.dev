@@ -1,0 +1,53 @@
+list,rank,economy,region,pushes,working_age_population,per_1k_working_age,pushes_2025_q3,pushes_2025_q4,pushes_2026_q1,pushes_2026_q2,quarters_assumed
+africa,1,MU,Africa,241188,887388,271.795427,,,,,
+africa,2,TN,Africa,2106098,8211984,256.466403,,,,,
+africa,3,KE,Africa,5833123,34934452,166.973365,,,,,
+africa,4,MA,Africa,4164218,25498901,163.309705,,,,,
+africa,5,RW,Africa,1199800,8589557,139.681243,,,,,
+africa,6,EG,Africa,10040445,74774809,134.275769,,,,,
+africa,7,ZA,Africa,5356678,43634244,122.763167,,,,,
+africa,8,BW,Africa,174800,1638744,106.667057,,,,,
+africa,9,GH,Africa,2198371,21312986,103.14702,,,,,
+africa,10,SZ,Africa,80394,787097,102.139889,,,,,
+world,1,US,North America,195067739,,,,,,,
+world,2,IN,Asia/Australia/Pacific,158142115,,,,,,,
+world,3,CN,Asia/Australia/Pacific,56405232,,,,,,,
+world,4,BR,Latin America/Caribbean,54545337,,,,,,,
+world,5,DE,Europe,42360688,,,,,,,
+world,6,GB,Europe,39468380,,,,,,,
+world,7,KR,Asia/Australia/Pacific,35603055,,,,,,,
+world,8,FR,Europe,33931569,,,,,,,
+world,9,CA,North America,30102416,,,,,,,
+world,10,JP,Asia/Australia/Pacific,29828059,,,,,,,
+world,11,ID,Asia/Australia/Pacific,27404676,,,,,,,
+world,12,RU,Europe,22040236,,,,,,,
+world,13,ES,Europe,21693399,,,,,,,
+world,14,VN,Asia/Australia/Pacific,20901844,,,,,,,
+world,15,PL,Europe,16465137,,,,,,,
+world,16,NL,Europe,15465159,,,,,,,
+world,17,AU,Asia/Australia/Pacific,14911379,,,,,,,
+world,18,IT,Europe,13691258,,,,,,,
+world,19,PK,Asia/Australia/Pacific,13376252,,,,,,,
+world,20,PH,Asia/Australia/Pacific,13153520,,,,,,,
+world,21,AR,Latin America/Caribbean,12470491,,,,,,,
+world,22,BD,Asia/Australia/Pacific,11783986,,,,,,,
+world,23,TR,Asia/Australia/Pacific,11661372,,,,,,,
+world,24,MX,Latin America/Caribbean,11511485,,,,,,,
+world,25,NG,Africa,11236746,,,,,,,
+world,26,CO,Latin America/Caribbean,11128431,,,,,,,
+world,27,TW,Asia/Australia/Pacific,10042925,,,,,,,
+world,28,EG,Africa,10040445,,,,,,,
+world,29,CH,Europe,9615935,,,,,,,
+world,30,UA,Europe,9404094,,,,,,,
+estimate,,DZ,,2007332,30011643,66.885109,306426,452950,623978,623978,1
+estimate,,MA,,4237683,25498901,166.19081,693709,1030908,1256533,1256533,1
+estimate,,TN,,2044755,8211984,248.996467,362950,543737,569034,569034,1
+estimate,,EG,,9372780,74774809,125.346759,1999635,2264375,2554385,2554385,1
+estimate,,NG,,10534384,133991180,78.619981,2257316,2323134,2976967,2976967,1
+estimate,,KE,,5721041,34934452,163.765013,1332409,1256334,1566149,1566149,1
+estimate,,ZA,,4934064,43634244,113.077793,1066894,1118816,1374177,1374177,1
+estimate,,MU,,272790,887388,307.407808,45948,66302,80270,80270,1
+estimate,,RW,,1173194,8589557,136.583761,246657,270617,327960,327960,1
+estimate,,BW,,155725,1638744,95.027045,19636,25621,55234,55234,1
+estimate,,GH,,2080506,21312986,97.616824,438795,454751,593480,593480,1
+estimate,,SZ,,32122,787097,40.810726,6507,5991,9812,9812,1

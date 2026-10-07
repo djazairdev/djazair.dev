@@ -153,10 +153,15 @@
 .lang-n { font-family: var(--sans); font-size: 15px; color: var(--ink); }
 
 /* Topics (#36) */
-.topics-body, .collab-body { padding-bottom: clamp(8px, 2vw, 24px); }
+.topics-body, .collab-body, .rank-body { padding-bottom: clamp(8px, 2vw, 24px); }
 :is(.topics-body, .collab-body) .fig + .fig { margin-top: clamp(20px, 3vw, 32px); }
 .topic-n { font-family: var(--mono); font-size: .88em; color: var(--ink); white-space: nowrap; unicode-bidi: isolate; }
 .topic-list { display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .topics-peers .dt { min-width: 640px; }
 .topics-dz .dt { min-width: 480px; }
 .collab-both :is(thead th, th[scope="row"]) { white-space: normal; }       /* three columns fit a phone */
+.table-wrap.rank-est { max-width: 640px; }
+.rank-est th[scope="row"] { white-space: normal; }
+.rank-check :is(thead th, th[scope="row"]) { white-space: normal; }
+@media (max-width: 560px) { .rank-check :is(th, td) { padding-inline: 7px; } .rank-check .eco { gap: 7px; } }
+.rank-need { max-width: 68ch; }

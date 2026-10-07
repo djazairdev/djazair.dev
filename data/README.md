@@ -198,6 +198,27 @@ Git pushes and pull requests between Algeria and other economies, both ways, eve
 
 GitHub places a repository in the economy of its owner, and an organisation's repositories where most of its members are. It lists a pair of economies only above its publication threshold, and calls the measure a lower bound: work on a repository with contributors in several economies counts toward one.
 
+### `gdc26`
+
+GitHub’s one-off rankings for the Global Digital Collaboration Conference (September 2026): git pushes from 2025 Q3 to 2026 Q2, corrected for VPN use, per 1,000 working-age people for Africa’s ten highest, and in total for the 30 economies with the most. Then djazair.dev’s estimate of the same measure, uncorrected, for Algeria, its core peers and the ten.
+
+| Column | Type | Meaning |
+|---|---|---|
+| `list` | string | africa: GitHub’s ten highest in Africa by pushes per 1,000 working-age people; world: GitHub’s 30 economies with the most pushes; estimate: djazair.dev’s estimate from the quarterly files |
+| `rank` | integer | Place in GitHub’s list; empty for estimates |
+| `economy` | string | ISO 3166-1 alpha-2 code of the economy (GitHub uses EU for the European Union) |
+| `region` | string | ICANN region, as GitHub gives it; empty for estimates |
+| `pushes` | integer | Git pushes from 2025 Q3 to 2026 Q2: weighted by GitHub to correct for VPN use in its lists, unweighted in estimates |
+| `working_age_population` | integer | People aged 15 to 64 (World Bank, 2025); empty in the world list |
+| `per_1k_working_age` | number | pushes / working_age_population × 1,000; empty in the world list |
+| `pushes_2025_q3` | integer | Estimates: git pushes in 2025 Q3, from the quarterly files |
+| `pushes_2025_q4` | integer | Estimates: git pushes in 2025 Q4, from the quarterly files |
+| `pushes_2026_q1` | integer | Estimates: git pushes in 2026 Q1, from the quarterly files |
+| `pushes_2026_q2` | integer | Estimates: git pushes in 2026 Q2, from the quarterly files |
+| `quarters_assumed` | integer | Estimates: how many of the four quarters aren’t released yet and repeat the latest one |
+
+GitHub’s figures come from `supplementary_data/git_pushes_weighted_by_profile_economy/` in github/innovationgraph, archived in [`raw/gdc26/`](raw/gdc26/) (`python3 -m pipeline gdc26`). GitHub weights each economy’s pushes by how many developers’ profiles name it against how many it locates there by network address, so its lists can’t be reproduced from the quarterly files. The estimate can: it sums the same four quarters of `git_pushes`, repeating the latest released quarter for any still to come, and divides by the World Bank’s working-age population for 2025, the year GitHub used.
+
 ### `indicators`
 
 Every indicator for every economy in the release, every quarter since 2020 Q1. Empty where an input is missing, never zero.

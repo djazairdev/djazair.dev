@@ -2,8 +2,8 @@
  "attribution": "Data: GitHub Innovation Graph (CC0)",
  "files": {
   "README.md": {
-   "bytes": 3390,
-   "sha256": "7661f2f720605871f00a747b60ccef6fc9fe84283bc78bcad94ea6f4a3240997"
+   "bytes": 3813,
+   "sha256": "041a7a0c7416184bdf9d5a7d2b8daaebfc97905d2ff94b4fdb62ca9df6a904fc"
   },
   "collaboration.csv": {
    "bytes": 8418,
@@ -18,6 +18,20 @@
    "sha256": "a181a17e154747e39461295405943eb3bdf504858d5c46fa9f5a1a476c8bf1f2",
    "table": "collaboration",
    "title": "Algeria’s collaboration partners"
+  },
+  "gdc26.csv": {
+   "bytes": 2828,
+   "rows": 52,
+   "sha256": "80f0ad44b9f858ec2fb039f38af23b99c9cdae5473442c8e2763e973408cd91a",
+   "table": "gdc26",
+   "title": "GitHub’s GDC26 rankings"
+  },
+  "gdc26.json": {
+   "bytes": 17401,
+   "rows": 52,
+   "sha256": "05bc6339a98671eb26d90abddeab60f70acddf3a5c6ef976f4210d026acbe9f4",
+   "table": "gdc26",
+   "title": "GitHub’s GDC26 rankings"
   },
   "groups.csv": {
    "bytes": 12163,
@@ -161,7 +175,14 @@
   }
  },
  "format_version": 1,
- "generated_at": "2026-10-07T01:13:15Z",
+ "gdc26": {
+  "commit": "a5aedb7585dc5908a46ab90d33113044046cd7b5",
+  "date": "2026-08-31",
+  "licence": "CC0-1.0",
+  "population_year": 2025,
+  "source": "https://github.com/github/innovationgraph/tree/a5aedb7585dc5908a46ab90d33113044046cd7b5/supplementary_data/git_pushes_weighted_by_profile_economy"
+ },
+ "generated_at": "2026-10-07T01:34:47Z",
  "licence": "CC0-1.0",
  "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
  "population": {
