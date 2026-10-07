@@ -278,7 +278,8 @@ class Files(unittest.TestCase):
     @unittest.skipUnless(shutil.which('ruby'), 'needs ruby for a full YAML parser')
     def test_miniyaml_agrees_with_a_full_yaml_parser(self):
         for path in [ROOT / 'projects.yml', ROOT / '.github' / 'ISSUE_TEMPLATE' / 'hub-listing.yml',
-                     ROOT / '.github' / 'ISSUE_TEMPLATE' / 'config.yml', ROOT / '.github' / 'dependabot.yml']:
+                     ROOT / '.github' / 'ISSUE_TEMPLATE' / 'config.yml', ROOT / '.github' / 'dependabot.yml',
+                     ROOT / '.github' / 'DISCUSSION_TEMPLATE' / 'ideas.yml']:
             # safe_load with dates allowed: Ruby 3's YAML.load_file refuses the registry's `added` dates.
             ruby = subprocess.run(['ruby', '-ryaml', '-rjson', '-rdate', '-e',
                                    'puts JSON.generate(YAML.safe_load(File.read(ARGV[0]), permitted_classes: [Date]))', str(path)],

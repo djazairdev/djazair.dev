@@ -152,5 +152,53 @@ class EmptyHub(unittest.TestCase):
             self.assertIn(f'id="{anchor}"', page)
 
 
+class Ideas(unittest.TestCase):
+    """Hub ideas (ticket #39): the Discussions form, and the Hub section once the switch is on."""
+
+    def build(self, on: bool) -> dict:
+        from djsite import config
+        tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, tmp)
+        was = config.HUB_IDEAS
+        config.HUB_IDEAS = on
+        try:
+            build(tmp / 'dist', quiet=True, hub_dir=tmp / 'none')
+        finally:
+            config.HUB_IDEAS = was
+        return {lang: (tmp / 'dist' / lang / 'hub' / 'index.html').read_text('utf-8') for lang in LANGS}
+
+    def test_hidden_while_discussions_is_off(self):
+        from djsite import config
+        self.assertFalse(config.HUB_IDEAS, 'Discussions is off on djazairdev/djazair.dev: docs/hub-ideas.md')
+        for page in self.build(False).values():
+            self.assertNotIn('id="ideas"', page)
+            self.assertNotIn('/discussions', page)
+
+    def test_the_section_links_the_category_and_the_form(self):
+        from djsite import config
+        for lang, page in self.build(True).items():
+            section = re.search(r'<section class="section section-m" id="ideas".*?</section>', page, re.S).group(0)
+            self.assertIn(f'href="{config.NEW_IDEA_URL}"', section)
+            self.assertIn(f'href="{config.IDEAS_URL}"', section)
+            self.assertEqual(section.count('class="step card"'), 3)
+            self.assertLess(page.index('id="projects"'), page.index('id="ideas"'))
+            self.assertLess(page.index('id="ideas"'), page.index('id="list"'))
+
+    def test_the_form_asks_what_the_prd_asks(self):
+        """HUB-07: problem, who benefits, champion, skills needed; the file name is the category's slug."""
+        sys.path.insert(0, str(ROOT))
+        from hub import miniyaml
+        from djsite import config
+        path = ROOT / '.github' / 'DISCUSSION_TEMPLATE' / 'ideas.yml'
+        form, _ = miniyaml.load(path.read_text())
+        fields = {b['id']: b for b in form['body'] if 'id' in b}
+        self.assertEqual(list(fields), ['problem', 'who', 'champion', 'skills', 'notes'])
+        for key in ('problem', 'who', 'champion', 'skills'):
+            self.assertTrue(fields[key]['validations']['required'], key)
+        self.assertTrue(fields['skills']['attributes']['multiple'])
+        self.assertTrue(config.NEW_IDEA_URL.endswith(f'category={path.stem}'))
+        self.assertTrue(config.IDEAS_URL.endswith(f'/categories/{path.stem}'))
+
+
 if __name__ == '__main__':
     unittest.main()

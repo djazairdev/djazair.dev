@@ -1,5 +1,6 @@
 """The Project Hub (ticket #27; PRD §7.2, HUB-04): beginner issues from the listed projects,
-the projects themselves, how a first contribution works, and how to get listed.
+the projects themselves, how a first contribution works, project ideas (ticket #39, once
+``config.HUB_IDEAS`` is on), and how to get listed.
 
 Everything comes from the snapshot the Hub sync writes every 6 hours (``data/derived/hub/``,
 tickets #25 and #26), read once per build (``Site.hub``): only the projects that pass their
@@ -17,6 +18,7 @@ from datetime import timezone
 from urllib.parse import quote
 
 from .. import components as C
+from .. import config
 from ..config import REPO_URL
 from ..context import Ctx, Page
 from ..fmt import date_label, fint, num, plural
@@ -224,6 +226,20 @@ def projects(ctx, hub) -> Markup:
                      Markup(f'<ul class="pj-grid">{cards}</ul>{note}'), lede=ctx.t('hub.projects_lede'))
 
 
+# ---------------------------------------------------------------- ideas
+def ideas(ctx) -> Markup:
+    """Project ideas in GitHub Discussions (HUB-07): how they work, and where to post one."""
+    if not config.HUB_IDEAS:
+        return Markup('')
+    cards = join(f'<li class="step card"><span class="step-n num">0{i}</span><h3>{ctx.t(f"hub.idea{i}_t")}</h3>'
+                 f'<p>{ctx.t(f"hub.idea{i}")}</p></li>' for i in (1, 2, 3))
+    actions = join([C.btn(ctx.t('hub.ideas_new'), config.NEW_IDEA_URL),
+                    C.btn(ctx.t('hub.ideas_browse'), config.IDEAS_URL, 'secondary', arrow=False)])
+    return C.section('ideas', ctx.t('hub.ideas_eyebrow'), ctx.t('hub.ideas_title'),
+                     Markup(f'<ol class="steps-row">{cards}</ol><div class="page-actions hub-ideas-actions">{actions}</div>'),
+                     lede=ctx.t('hub.ideas_lede'))
+
+
 # ---------------------------------------------------------------- get listed
 def listing(ctx) -> Markup:
     labels = {'gfi': Markup('<bdi>good first issue</bdi>'), 'hw': Markup('<bdi>help wanted</bdi>'),
@@ -239,7 +255,7 @@ def listing(ctx) -> Markup:
 
 def render(ctx: Ctx) -> Page:
     hub = ctx.site.hub
-    body = head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + listing(ctx)
+    body = head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + ideas(ctx) + listing(ctx)
     script = ctx.site.assets.scripts.get('hub')
     return Page(title=ctx.s('pages.hub.title'), description=ctx.s('pages.hub.description'), body=body,
                 scripts=(script,) if script and hub.issues else ())

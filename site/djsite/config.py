@@ -16,6 +16,13 @@ REPO = 'djazairdev/djazair.dev'
 REPO_URL = f'https://github.com/{REPO}'
 ISSUES_URL = f'{REPO_URL}/issues'
 
+# Hub ideas (ticket #39, PRD HUB-07) live in the "Ideas" category of GitHub Discussions, with the
+# form in .github/DISCUSSION_TEMPLATE/ideas.yml. Discussions is off until a maintainer turns it on
+# (docs/hub-ideas.md); set HUB_IDEAS to True then, and the Hub shows its Ideas section.
+HUB_IDEAS = False
+IDEAS_URL = f'{REPO_URL}/discussions/categories/ideas'
+NEW_IDEA_URL = f'{REPO_URL}/discussions/new?category=ideas'
+
 LANGS = ('en', 'ar')
 DIRS = {'en': 'ltr', 'ar': 'rtl'}
 OTHER = {'en': 'ar', 'ar': 'en'}

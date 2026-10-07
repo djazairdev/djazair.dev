@@ -61,6 +61,10 @@ Don't add the language, licence or activity: they're read from GitHub. CI checks
 
 If no tag fits, propose a new one in your pull request (add it to the schema and to this table).
 
+## Propose a project idea
+
+Have an idea for an open-source project that would help people in Algeria, but no repository yet? Ideas will live in GitHub Discussions, in an **Ideas** category with a short form: the problem, who benefits, a champion who will lead it, and the skills it needs. An idea is marked *adopted* once its champion links a repository. Discussions isn't on yet: [docs/hub-ideas.md](docs/hub-ideas.md) explains how it starts. Until then, open an issue.
+
 ## Review translations
 
 Text is written in English and translated into Arabic. Nothing is published until a fluent speaker has reviewed it. If you can review Arabic, open an issue: [docs/arabic-review.md](docs/arabic-review.md) explains what to check, the terms already used, and how to review every string in a spreadsheet. Quarterly reports follow their own checklist, including a second reader for every number: see [docs/reports.md](docs/reports.md).

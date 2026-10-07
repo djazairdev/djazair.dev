@@ -6,7 +6,7 @@ The Arabic text was drafted with AI and hasn't been checked by a fluent reader y
 
 | What | Where it lives | How to review it |
 | --- | --- | --- |
-| Interface strings: navigation, headings, chart titles and labels, buttons, notes (882) | `site/i18n/ar.json` | In a spreadsheet (below), or on the pages |
+| Interface strings: navigation, headings, chart titles and labels, buttons, notes (893) | `site/i18n/ar.json` | In a spreadsheet (below), or on the pages |
 | Methodology and About | `content/methodology/ar.md`, `content/about/ar.md` | On the pages; suggest changes in a pull request or an issue |
 | Quarterly report #1 | `content/reports/2026-q1/ar.md` | On the page (`/ar/reports/2026-q1/`); its figures are filled in by the site ([reports.md](reports.md)) |
 | Numbers, quarters and dates | `site/djsite/fmt.py` | On the pages: `586.990`, `49,1%`, `الربع الأول 2026`, `7 جويلية 2026` |
