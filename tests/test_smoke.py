@@ -174,11 +174,11 @@ class Smoke(unittest.TestCase):
         self.assertRegex(result.report(), r'/sitemap.xml did not answer \(.+\), not 200')
 
     def test_links_to_the_site_itself(self):
-        s = smoke.Smoke('https://site.pages.dev/')
-        page = 'https://site.pages.dev/en/data/'
-        self.assertEqual(s.local('https://djazair.dev/en/#top', page), 'https://site.pages.dev/en/')
-        self.assertEqual(s.local('/data/2026-q1/peers.csv', page), 'https://site.pages.dev/data/2026-q1/peers.csv')
-        self.assertEqual(s.local('../methodology/#peer-groups', page), 'https://site.pages.dev/en/methodology/')
+        s = smoke.Smoke('https://site.example.workers.dev/')
+        page = 'https://site.example.workers.dev/en/data/'
+        self.assertEqual(s.local('https://djazair.dev/en/#top', page), 'https://site.example.workers.dev/en/')
+        self.assertEqual(s.local('/data/2026-q1/peers.csv', page), 'https://site.example.workers.dev/data/2026-q1/peers.csv')
+        self.assertEqual(s.local('../methodology/#peer-groups', page), 'https://site.example.workers.dev/en/methodology/')
         self.assertIsNone(s.local('https://github.com/djazairdev', page))
         self.assertIsNone(s.local('mailto:hello@djazair.dev', page))
 

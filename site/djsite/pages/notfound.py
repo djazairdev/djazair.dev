@@ -1,4 +1,4 @@
-"""404 page, one per language (Cloudflare Pages serves the nearest 404.html)."""
+"""404 page, one per language (Cloudflare serves the nearest 404.html: wrangler.jsonc)."""
 from __future__ import annotations
 
 from ..components import btn, page_head

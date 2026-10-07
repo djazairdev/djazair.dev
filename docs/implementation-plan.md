@@ -12,6 +12,8 @@ This plan turns the PRD (v0.3, 6 October 2026) into ordered, estimated tickets. 
 
 **Hub ideas are voted on, and one is adopted each quarter (decision D22, 7 October 2026).** Anyone with a GitHub account votes with the idea's upvote in GitHub Discussions, so there is still no database. Each calendar quarter is a round: the Hub sync saves its count once it closes, and the maintainers adopt the idea with the most votes among those with a champion and at least 10 votes. It gets a repository in the djazairdev organisation. This replaces HUB-07's adoption by the champion alone ([hub-ideas.md](hub-ideas.md)).
 
+**The site is hosted on Cloudflare Workers, not Pages (decision D23, 7 October 2026).** Cloudflare has moved Pages into Workers: its dashboard calls Pages the legacy workflow, and Wrangler hands Pages commands to Workers. The site is a Worker made only of static assets, so no code runs and the pages are the same files. CI deploys it with `wrangler deploy`, and pull requests get preview versions ([deploy.md](deploy.md)). This replaces Cloudflare Pages in the PRD's §10.
+
 **Should items are planned for Phase 1.1 from the start.** The Topics, Collaboration and External rankings pages, Hub ideas and the localisation section don't fit the capacity below. They come back into the MVP only if the work is ahead at the checkpoint. Quarterly report #1 stays in the MVP as a Should item because the launch is built around it.
 
 ## 2. How it is built
@@ -22,7 +24,7 @@ github/innovationgraph (CC0) ─ daily ─►  pipeline/ (Python 3.12) ─► da
 GitHub REST API ─ every 6 h ─────────►  hub/ (Python 3.12) ──────► data/derived/hub/
                                                   │
                                                   ▼
-                         site/ (Python builder, /en/ + /ar/, build-time SVG charts) ─► Cloudflare Pages ─► djazair.dev
+                         site/ (Python builder, /en/ + /ar/, build-time SVG charts) ─► Cloudflare Workers ─► djazair.dev
 ```
 
 | Part | Choice | Why |
@@ -31,7 +33,7 @@ GitHub REST API ─ every 6 h ─────────►  hub/ (Python 3.12)
 | Charts | SVG rendered at build time, light and dark downloads | Readable without JavaScript and light on 4G (§11) |
 | Data | Python 3.12 pipeline → `data/derived/` | Reproducible and testable against Appendix A (§9) |
 | Hub | Python job every 6 h → `data/derived/hub/`; registry in `projects.yml` | No database, no accounts (§7.2) |
-| Hosting | Cloudflare Pages, deployed by GitHub Actions only when everything passes | The last good build stays live (§11) |
+| Hosting | Cloudflare Workers, static assets only, deployed by GitHub Actions only when everything passes | The last good build stays live (§11); Cloudflare has moved Pages into Workers (D23) |
 | Analytics | Cloudflare Web Analytics | No cookies, no personal data (§12) |
 
 ## 3. Schedule
@@ -236,3 +238,4 @@ If the work is ahead, Phase 1.1 Should tickets come in, in this order: Topics, E
 | 7 October 2026 | Phase 1.1 pages built ahead of the checkpoint: Topics ([#36](https://github.com/djazairdev/djazair.dev/issues/36)), Collaboration ([#37](https://github.com/djazairdev/djazair.dev/issues/37)) and External rankings ([#38](https://github.com/djazairdev/djazair.dev/issues/38)), with pictures of the built pages. They ship with the launch unless they are hidden from the navigation. |
 | 7 October 2026 | The rest of Phase 1.1 built ahead of the checkpoint: Hub ideas ([#39](https://github.com/djazairdev/djazair.dev/issues/39), off until Discussions is on), the localisation page ([#40](https://github.com/djazairdev/djazair.dev/issues/40)), Hub contributor metrics ([#41](https://github.com/djazairdev/djazair.dev/issues/41), off until counsel agrees), embeds and per-quarter share images ([#42](https://github.com/djazairdev/djazair.dev/issues/42)) and a meetups page ([#43](https://github.com/djazairdev/djazair.dev/issues/43)). founders.coffee has grown into its own app, with accounts, RSVPs and three countries, so moving its domain here waits for the founder ([meetups.md](meetups.md)). Until then the meetups page links to it. |
 | 7 October 2026 | Hub ideas get a vote (D22): GitHub Discussions upvotes, a round each quarter and one idea adopted by the organisation, still without a database. [#39](https://github.com/djazairdev/djazair.dev/issues/39) grows from 0.5 to 1 day. |
+| 7 October 2026 | Hosting moves from Cloudflare Pages to Cloudflare Workers, static assets only (D23). The holding page went up on djazair.dev and the site on its workers.dev address, deployed by hand; CI deploys once the API token is in ([#6](https://github.com/djazairdev/djazair.dev/issues/6)). |

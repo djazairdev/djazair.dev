@@ -1,7 +1,7 @@
-"""Check a deployed copy of the site from the outside (ticket #35). Run it against the Pages
-project's own address before djazair.dev points at it, and against djazair.dev after:
+"""Check a deployed copy of the site from the outside (ticket #35). Run it against the site's
+own workers.dev address before djazair.dev points at it, and against djazair.dev after:
 
-    python3 site/tools/smoke.py https://<project>.pages.dev
+    python3 site/tools/smoke.py https://djazair-dev-site.<subdomain>.workers.dev
     python3 site/tools/smoke.py https://djazair.dev
 
 It reads the sitemap the site publishes and checks that:

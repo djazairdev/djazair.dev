@@ -1,0 +1,20 @@
+// The site on Cloudflare Workers, as static assets with no Worker code (docs/deploy.md).
+// CI deploys site/dist with `wrangler deploy` once the tests and the build pass, and each pull
+// request from this repository uploads a preview version (.github/workflows/ci.yml).
+{
+  "name": "djazair-dev-site",
+  "compatibility_date": "2026-10-07",
+  "assets": {
+    "directory": "./site/dist",
+    // /en/hub and /en/hub/ both serve /en/hub/index.html, at /en/hub/
+    "html_handling": "auto-trailing-slash",
+    // a missing page gets the nearest 404.html, with status 404
+    "not_found_handling": "404-page"
+  },
+  // The site's own address before launch, djazair-dev-site.<account>.workers.dev, and
+  // pr-<number>-djazair-dev-site.<account>.workers.dev for pull requests.
+  "workers_dev": true,
+  "preview_urls": true
+  // At launch, djazair.dev moves here from the holding page (docs/launch.md):
+  // "routes": [{ "pattern": "djazair.dev", "custom_domain": true }]
+}

@@ -19,7 +19,7 @@ Ticket status lives in GitHub.
 | Report #1 is ready to publish | [#34](https://github.com/djazairdev/djazair.dev/issues/34), [reports.md](reports.md#publishing) |
 | At least 15 projects are listed in the Hub | [#28](https://github.com/djazairdev/djazair.dev/issues/28) |
 | The corrections log is live on the Data page | `/en/data/#corrections` |
-| The Pages project, API token, secrets and `main` ruleset exist | [deploy.md](deploy.md#one-time-setup-founder) |
+| The Cloudflare API token, its two secrets and the `main` ruleset exist, and CI has deployed `main` | [deploy.md](deploy.md#one-time-setup-founder) |
 | A second admin is on the registrar, Cloudflare and the GitHub organisation, with two-factor authentication; djazair.dev and founders.coffee have auto-renewal and the registrar lock | PRD §11, R2 |
 | Schedules and alerts are on: `SCHEDULES_ENABLED`, `ALERT_ASSIGNEES`, and Actions may create pull requests | [deploy.md](deploy.md#scheduled-jobs) |
 
@@ -43,10 +43,10 @@ Note who checked and when in a comment on #35.
 ## Launch day
 
 1. **Freeze `main`.** Merge only the launch changes until the domain has moved.
-2. **Check the Pages project's own address.** CI has deployed `main` there. Run:
+2. **Check the site's own address.** CI has deployed `main` there. Run:
 
    ```bash
-   python3 site/tools/smoke.py https://<project>.pages.dev
+   python3 site/tools/smoke.py https://djazair-dev-site.<subdomain>.workers.dev
    ```
 
    It reads the sitemap and checks:
@@ -55,18 +55,18 @@ Note who checked and when in a comment on #35.
    - robots.txt and the 404 page;
    - the headers from `_headers`, including that only the chart embeds can be framed by other sites.
 
-   It should end with *All good.* A note that the address is hidden from search engines is normal there: Cloudflare does that for its own addresses.
+   It should end with *All good.*
 3. **Date the launch** in one pull request:
    - set the date of the *Index v1* entry in [content/changelog.json](../content/changelog.json);
    - publish report #1 (see [reports.md](reports.md#publishing)): `status`, `published`, and the Hub numbers from that day.
 
    Merging it deploys.
-4. **Move the domain.** In Cloudflare, go to *Workers & Pages*:
-   1. Open the holding-page project's *Custom domains* tab and remove `djazair.dev`.
-   2. In the site project, choose *Custom domains → Set up a custom domain → djazair.dev*. Cloudflare creates the DNS record. Today djazair.dev has none, only its name servers and mail records ([#50](https://github.com/djazairdev/djazair.dev/issues/50)).
+4. **Move the domain** from the holding page to the site:
+   1. In Cloudflare, open *Workers & Pages → djazair-dev-holding → Settings → Domains & Routes* and remove `djazair.dev`. The address stops answering until the next step has deployed.
+   2. Merge a pull request that changes [`wrangler.jsonc`](../wrangler.jsonc): add the `routes` line from the comment at its end, and set `"workers_dev": false`, so the site has one address. Keep `"preview_urls": true`: pull-request previews still work. CI deploys it, and Cloudflare attaches djazair.dev with its DNS record and certificate within minutes.
    3. In *SSL/TLS → Edge Certificates*, turn on *Always Use HTTPS*.
 
-   Keep the holding-page project for a week, in case you need to move back.
+   Keep the holding page's Worker and `wrangler.holding.jsonc` for a week, in case you need to move back: remove `djazair.dev` from the site's Worker the same way, take the route out of `wrangler.jsonc`, and run `npx wrangler deploy --config wrangler.holding.jsonc`. After that week, delete both (`npx wrangler delete --name djazair-dev-holding`).
 5. **Check the real address:**
 
    ```bash
@@ -76,7 +76,7 @@ Note who checked and when in a comment on #35.
    Then open https://djazair.dev/ on a phone, in both languages.
 6. **Turn on monitoring.**
    1. Set the repository variable `UPTIME_URLS` to `https://djazair.dev/ https://djazair.dev/en/ https://djazair.dev/ar/`.
-   2. Run the *Uptime* workflow by hand. Issue #50 closes when it passes.
+   2. Run the *Uptime* workflow by hand: it should pass for all three addresses.
    3. Optionally, add `CLOUDFLARE_WEB_ANALYTICS_TOKEN` ([deploy.md](deploy.md#analytics)).
 7. **Tell search engines.** Add djazair.dev to Google Search Console and Bing Webmaster Tools (a DNS TXT record proves you own it), then submit `https://djazair.dev/sitemap.xml`.
 8. **Share the methodology with GitHub (D17).** Post the [note below](#for-the-innovation-graph-team) in the [Innovation Graph discussions](https://github.com/github/innovationgraph/discussions), which its README invites.

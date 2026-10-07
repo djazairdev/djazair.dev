@@ -1,30 +1,42 @@
 # Deploying djazair.dev
 
-The `CI` workflow (`.github/workflows/ci.yml`) runs on every pull request and every push to `main`:
+The site is a Cloudflare Worker made only of static assets: no Worker code runs, and Cloudflare serves the files in `site/dist` as [`wrangler.jsonc`](../wrangler.jsonc) describes. The `CI` workflow (`.github/workflows/ci.yml`) runs on every pull request and every push to `main`:
 
 1. **Test**: a syntax check and the unit tests, on Python 3.12 and 3.13.
 2. **Build**: `python site/build.py`, uploaded as the `site` artifact.
 3. **Measure load times**: `python site/tools/perf.py` loads the built pages in Chrome on a throttled phone profile and fails if a page is over its budget ([performance.md](performance.md)). It runs beside the deploy and doesn't hold it up.
-4. **Deploy** to Cloudflare Pages, only after the tests and the build pass, so a failing change never replaces the live site:
-   - a push to `main` deploys to the project's production branch (`main`);
-   - a pull request from this repository deploys a preview at `pr-<number>.<project>.pages.dev`, linked from the pull request. Pull requests from forks never deploy, because they can't see the secrets.
+4. **Deploy** to Cloudflare, only after the tests and the build pass, so a failing change never replaces the live site:
+   - a push to `main` runs `wrangler deploy`, which makes it the live version;
+   - a pull request from this repository runs `wrangler versions upload`: a version that only its preview address serves, `pr-<number>-djazair-dev-site.<subdomain>.workers.dev`, linked from the pull request. The live site doesn't change. Pull requests from forks never deploy, because they can't see the secrets.
 
 Until the settings below exist, the deploy step is skipped with a notice and everything else still runs.
 
+Before launch, the site has only its own address, `djazair-dev-site.<subdomain>.workers.dev`, where `<subdomain>` is the Cloudflare account's workers.dev subdomain. djazair.dev shows the holding page (`site/holding`), a second Worker described by [`wrangler.holding.jsonc`](../wrangler.holding.jsonc). At launch the domain moves to the site ([launch.md](launch.md)).
+
 ## One-time setup (founder)
 
-These need account access, so they aren't automated.
+These need account access, so they aren't automated. The two Workers need no setup: a deploy creates its Worker the first time. Both were first deployed by hand on 7 October 2026.
 
-1. **Create the Pages project.** In Cloudflare, go to *Workers & Pages → Create → Pages → Upload assets* and create a project for the full site (for example `djazair-dev-site`), with `main` as the production branch. Keep the project that serves the holding page as it is: djazair.dev stays on the holding page until launch.
-2. **Create an API token.** *My Profile → API Tokens → Create Token → Custom token*, with the single permission *Account → Cloudflare Pages → Edit* for the djazair.dev account. Give it an expiry date and note it in your password manager.
-3. **Add them to GitHub.** In the repository, *Settings → Secrets and variables → Actions*:
-   - secret `CLOUDFLARE_API_TOKEN`: the token;
-   - secret `CLOUDFLARE_ACCOUNT_ID`: the account ID (shown in the Cloudflare dashboard sidebar);
-   - variable `CLOUDFLARE_PAGES_PROJECT`: the project name from step 1.
+1. **Create an API token.** In Cloudflare, *Manage Account → Account API Tokens → Create Token*, then under *Permission policies → Custom*, choose the **Edit Cloudflare Workers** template. Scope it to the djazair.dev account and, under zones, to `djazair.dev` only: deploys need the zone to attach the domain at launch. Give it an expiry date and note it in your password manager. An account token belongs to the account rather than to a person, so it keeps working when admins change.
+2. **Add the secrets to GitHub.** In the repository, *Settings → Secrets and variables → Actions → New repository secret*:
+   - `CLOUDFLARE_API_TOKEN`: the token;
+   - `CLOUDFLARE_ACCOUNT_ID`: the account ID, the 32-character code in the dashboard's address (or run `npx wrangler whoami`).
+3. **Check the workers.dev subdomain.** Preview addresses and the site's pre-launch address include it, and they show on the repository's public *Deployments* page. If it names a person, change it to a neutral one in *Workers & Pages → Account details → Subdomain*.
 4. **Protect `main`.** *Settings → Rules → Rulesets → New branch ruleset* targeting `main`: require a pull request before merging; require the status checks `Test (Python 3.12)`, `Test (Python 3.13)` and `Build the site` (add `Measure load times` once it has run reliably for a few weeks); block force pushes; restrict deletions.
 5. **Add the second admin** (PRD R2) to the GitHub organisation and the Cloudflare account, with two-factor authentication.
 
 Secrets are only read by the deploy step, are passed to Wrangler through its inputs and are never printed. The built site contains no secrets.
+
+### Deploying by hand
+
+CI does this on every push to `main`. To do it yourself, from a computer logged in to Cloudflare (`npx wrangler login`), in the repository folder:
+
+```sh
+.github/scripts/hub-snapshot.sh && python3 site/build.py && npx wrangler deploy   # the site, as CI builds it
+npx wrangler deploy --config wrangler.holding.jsonc                               # the holding page on djazair.dev
+```
+
+The build writes `site/dist/.assetsignore`, which keeps its own marker file off the site.
 
 ## Scheduled jobs
 
@@ -84,7 +96,7 @@ Each scheduled workflow opens a GitHub issue when it fails, or comments on the o
 
 The site can count visits with [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/), which sets no cookies and keeps totals only (pages, referrers, countries, browsers), so no consent banner is needed.
 
-**Setup (founder):** in Cloudflare, *Analytics & Logs → Web Analytics → Add a site*, enter `djazair.dev` and copy the token from the snippet it shows (32 characters). Save it as the repository variable `CLOUDFLARE_WEB_ANALYTICS_TOKEN` (a variable, not a secret: it is public in every page). The next deploy adds the beacon to every page, and the Privacy section of the About page then says that visits are counted. Don't also turn on the automatic setup in the Pages project, or visits count twice.
+**Setup (founder):** in Cloudflare, *Analytics & Logs → Web Analytics → Add a site*, enter `djazair.dev` and copy the token from the snippet it shows (32 characters). Save it as the repository variable `CLOUDFLARE_WEB_ANALYTICS_TOKEN` (a variable, not a secret: it is public in every page). The next deploy adds the beacon to every page, and the Privacy section of the About page then says that visits are counted. Don't also turn on Web Analytics' automatic setup for djazair.dev, which adds the beacon at Cloudflare's edge, or visits count twice.
 
 ## Launch
 

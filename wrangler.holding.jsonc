@@ -1,0 +1,16 @@
+// The holding page on djazair.dev until launch (site/holding, docs/deploy.md). Deployed by hand,
+// by a maintainer logged in to Cloudflare:
+//   npx wrangler deploy --config wrangler.holding.jsonc
+// At launch it is deleted, so the site can take the domain (docs/launch.md).
+{
+  "name": "djazair-dev-holding",
+  "compatibility_date": "2026-10-07",
+  "assets": {
+    "directory": "./site/holding",
+    // any address shows the holding page
+    "not_found_handling": "single-page-application"
+  },
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "djazair.dev", "custom_domain": true }]
+}
