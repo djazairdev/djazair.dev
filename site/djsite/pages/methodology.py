@@ -13,7 +13,7 @@ import datetime as dt
 import re
 
 from .. import components as C
-from .. import logs
+from .. import config, logs
 from ..config import CONTENT_DIR
 from ..context import Ctx, Page
 from ..fmt import date_label, fdec, fint, fpct, num, quarter_label
@@ -79,6 +79,7 @@ def values(ctx) -> dict:
         'pushes_dz': pushes_growth('DZ'),
         'revisions': revisions,
         'analytics': ctx.t('about.analytics_on' if ctx.site.analytics else 'about.analytics_off'),
+        'hub_ideas': ctx.t('about.hub_ideas') if config.HUB_IDEAS else Markup(''),
         'hub_counts': ctx.t('about.hub_counts') if getattr(ctx.site.hub, 'metrics', None) else Markup(''),
         'accounts': num(fint(data.overview()['accounts']['value'], lang)),
         'yoy': num(fpct(data.overview()['yoy']['value'], 1, lang, sign=False)),

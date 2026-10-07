@@ -193,37 +193,128 @@ class Numbers(unittest.TestCase):
         self.assertNotIn('during the count', about)
 
 
-class Ideas(unittest.TestCase):
-    """Hub ideas (ticket #39): the Discussions form, and the Hub section once the switch is on."""
+DISCUSSIONS = 'https://github.com/djazairdev/djazair.dev/discussions/'
 
-    def build(self, on: bool) -> dict:
+
+def idea(n, title, votes, created, champion=True, skills=('data',), status='open', comments=3):
+    return {'number': n, 'url': f'{DISCUSSIONS}{n}', 'title': title, 'created_at': created, 'votes': votes,
+            'comments': comments, 'champion': champion, 'skills': list(skills), 'status': status}
+
+
+# As hub/ideas.py writes them: open ideas by votes, then the adopted ones.
+IDEAS = {'generated_at': '2026-10-17T06:41:00Z', 'category': f'{DISCUSSIONS}categories/ideas', 'rounds': [],
+         'ideas': [idea(12, 'Open data for the 69 wilayas', 34, '2026-10-08T09:00:00Z', skills=('data', 'web')),
+                   idea(15, 'Darija speech-to-text', 11, '2026-10-09T09:00:00Z', champion=False, skills=('ml', 'language')),
+                   idea(9, 'Card payments <library>', 9, '2026-10-03T09:00:00Z', skills=()),
+                   idea(21, 'تطبيق لمواقيت النقل', 2, '2026-10-12T09:00:00Z'),
+                   idea(18, 'Tamazight keyboards', 1, '2026-10-10T09:00:00Z', comments=1),
+                   idea(23, 'Pharmacy on duty', 0, '2026-10-14T09:00:00Z', comments=0),
+                   idea(5, 'School calendar API', 41, '2026-07-02T09:00:00Z', status='adopted')]}
+
+
+class Ideas(unittest.TestCase):
+    """Hub ideas (ticket #39): the Discussions form, and the Hub section once the switch is on,
+    with the round's top ideas from the Hub sync (hub/ideas.py)."""
+
+    def build(self, on: bool, ideas=None) -> dict:
         from djsite import config
         tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)
+        hub_dir = tmp / 'none'
+        if ideas is not None:
+            hub_dir = tmp / 'hub'
+            hub_dir.mkdir()
+            (hub_dir / 'ideas.json').write_text(json.dumps(ideas, ensure_ascii=False), 'utf-8')
         was = config.HUB_IDEAS
         config.HUB_IDEAS = on
         try:
-            build(tmp / 'dist', quiet=True, hub_dir=tmp / 'none')
+            build(tmp / 'dist', quiet=True, hub_dir=hub_dir)
         finally:
             config.HUB_IDEAS = was
+        self.about = {lang: (tmp / 'dist' / lang / 'about' / 'index.html').read_text('utf-8') for lang in LANGS}
         return {lang: (tmp / 'dist' / lang / 'hub' / 'index.html').read_text('utf-8') for lang in LANGS}
+
+    @staticmethod
+    def section(page: str) -> str:
+        return re.search(r'<section class="section section-m" id="ideas".*?</section>', page, re.S).group(0)
 
     def test_hidden_while_discussions_is_off(self):
         from djsite import config
         self.assertFalse(config.HUB_IDEAS, 'Discussions is off on djazairdev/djazair.dev: docs/hub-ideas.md')
-        for page in self.build(False).values():
+        for page in self.build(False, IDEAS).values():
             self.assertNotIn('id="ideas"', page)
             self.assertNotIn('/discussions', page)
+        for about in self.about.values():
+            self.assertNotIn('Discussions', about, 'the privacy section mentions ideas only once they show')
 
     def test_the_section_links_the_category_and_the_form(self):
         from djsite import config
         for lang, page in self.build(True).items():
-            section = re.search(r'<section class="section section-m" id="ideas".*?</section>', page, re.S).group(0)
+            section = self.section(page)
             self.assertIn(f'href="{config.NEW_IDEA_URL}"', section)
-            self.assertIn(f'href="{config.IDEAS_URL}"', section)
+            self.assertIn(f'href="{config.IDEAS_BY_VOTES_URL}"', section)
+            self.assertIn(f'href="{config.IDEAS_RESULTS_URL}"', section)
             self.assertEqual(section.count('class="step card"'), 3)
+            self.assertNotIn('class="ib"', section, 'no round before the first sync')
             self.assertLess(page.index('id="projects"'), page.index('id="ideas"'))
             self.assertLess(page.index('id="ideas"'), page.index('id="list"'))
+        self.assertIn('never who proposed or voted for them', self.about['en'], 'the privacy section says so')
+        self.assertIn('من اقترحها أو صوّت لها', self.about['ar'])
+
+    def test_the_round_and_its_top_ideas(self):
+        from djsite import config
+        pages = self.build(True, IDEAS)
+        for lang, page in pages.items():
+            section = self.section(page)
+            rows = re.findall(r'<a class="idea" href="([^"]+)">(.*?)</a></li>', section, re.S)
+            self.assertEqual([url for url, _ in rows], [f'{DISCUSSIONS}{n}' for n in (12, 15, 9, 21, 18)],
+                             f'the {config.IDEAS_SHOWN} open ideas with the most votes, in order')
+            self.assertEqual([re.search(r'class="idea-v num">(\d+)<', row).group(1) for _, row in rows], ['34', '11', '9', '2', '1'])
+            self.assertIn('<time datetime="2026-12-31">', section, 'the round of the last sync closes with its quarter')
+            self.assertIn('Card payments &lt;library&gt;', section)
+            self.assertNotIn('<library>', section)
+            self.assertLess(section.index('class="ib"'), section.index('class="steps-row"'))
+            self.assertEqual(sum('badge-warn' in row for _, row in rows), 1, 'one idea wants a champion')
+            adopted = re.search(r'<p class="ib-foot">.*?</p>', section, re.S).group(0)
+            self.assertIn(f'href="{DISCUSSIONS}5"', adopted)
+            self.assertNotIn(f'href="{DISCUSSIONS}5"', section.replace(adopted, ''), 'adopted ideas leave the vote')
+        en, ar = self.section(pages['en']), self.section(pages['ar'])
+        plain = {lang: re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', '', html)) for lang, html in (('en', en), ('ar', ar))}
+        for text in ('Q4 2026 round', 'Voting closes at the end of 31 December 2026, UTC.', 'Data and open data',
+                     'Champion wanted', '3 comments', '6 ideas · 57 votes', 'Adopted so far: School calendar API.'):
+            self.assertIn(text, plain['en'])
+        self.assertRegex(plain['en'], r'(?<!\d)1 comment(?!s)')
+        self.assertEqual(re.findall(r'class="idea-vl">([^<]+)<', en), ['votes', 'votes', 'votes', 'votes', 'vote'])
+        # Arabic counts take their plural forms: 34 and 11 votes, then 9, 2 and 1.
+        self.assertEqual(re.findall(r'class="idea-vl">([^<]+)<', ar), ['صوتًا', 'صوتًا', 'أصوات', 'صوتان', 'صوت'])
+        for text in ('جولة الربع الرابع 2026', 'يُغلق التصويت في نهاية يوم 31 ديسمبر 2026', 'البيانات والبيانات المفتوحة',
+                     'تبحث عن قائد', 'تعليق واحد', '3 تعليقات', '6 أفكار · 57 صوتًا', 'اعتُمدت حتى الآن: School calendar API.'):
+            self.assertIn(text, plain['ar'])
+
+    def test_the_rules_name_the_votes_needed(self):
+        from djsite import config
+        en, ar = (self.section(p) for p in self.build(True, IDEAS).values())
+        n = config.IDEAS_MIN_VOTES
+        self.assertIn(f'at least <span class="num" dir="ltr">{n}</span> votes', en)
+        self.assertIn(f'<span class="num" dir="ltr">{n}</span> أصوات على الأقل', ar)
+
+    def test_an_empty_round(self):
+        pages = self.build(True, dict(IDEAS, ideas=[]))
+        for lang, text in (('en', 'No ideas yet'), ('ar', 'لا أفكار بعد')):
+            section = self.section(pages[lang])
+            self.assertIn(text, section)
+            self.assertNotIn('class="idea"', section)
+            self.assertNotIn('class="ib-total"', section)
+
+    def test_no_round_while_the_snapshot_says_discussions_is_off(self):
+        for page in self.build(True, dict(IDEAS, category=None, ideas=[])).values():
+            self.assertNotIn('class="ib"', self.section(page))
+
+    def test_the_section_passes_the_accessibility_checks(self):
+        sys.path.insert(0, str(ROOT / 'tests'))
+        import a11y
+        for lang, page in self.build(True, IDEAS).items():
+            self.assertEqual(a11y.check(page, lang), [], lang)
 
     def test_the_form_asks_what_the_prd_asks(self):
         """HUB-07: problem, who benefits, champion, skills needed; the file name is the category's slug."""
@@ -237,6 +328,8 @@ class Ideas(unittest.TestCase):
         for key in ('problem', 'who', 'champion', 'skills'):
             self.assertTrue(fields[key]['validations']['required'], key)
         self.assertTrue(fields['skills']['attributes']['multiple'])
+        intro = form['body'][0]['attributes']['value']
+        self.assertIn(f'at least {config.IDEAS_MIN_VOTES} votes', intro, 'the form and the Hub give the same rule')
         self.assertTrue(config.NEW_IDEA_URL.endswith(f'category={path.stem}'))
         self.assertTrue(config.IDEAS_URL.endswith(f'/categories/{path.stem}'))
 

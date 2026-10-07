@@ -1,6 +1,7 @@
 # Every 6 hours: fetch the Hub's listed projects and their beginner issues from GitHub
-# (PRD HUB-04, HUB-05, AC-HUB-4), build the site with them, save the snapshot on the hub-data
-# branch, then run CI on main, which builds with it and deploys. main itself never changes.
+# (PRD HUB-04, HUB-05, AC-HUB-4) and the project ideas with their votes (HUB-07), build the
+# site with them, save the snapshot on the hub-data branch, then run CI on main, which builds
+# with it and deploys. main itself never changes.
 # A failure opens a "Hub sync failed" issue (or comments on it); the next sync that works closes it.
 name: Hub sync
 
@@ -18,6 +19,7 @@ permissions:
   contents: write                 # push the hub-data branch
   actions: write                  # start CI, which the workflow token can't trigger otherwise
   issues: write                   # report a failure
+  discussions: read               # project ideas and their votes
 
 concurrency:
   group: hub-sync
@@ -53,6 +55,16 @@ jobs:
           python -m hub sync > "$RUNNER_TEMP/hub-sync.txt" 2> >(tee "$RUNNER_TEMP/hub-sync-errors.txt" >&2)
           tee -a "$GITHUB_STEP_SUMMARY" < "$RUNNER_TEMP/hub-sync.txt"
 
+      - name: Read the ideas
+        # Project ideas and their votes from the Ideas category of GitHub Discussions (hub/ideas.py,
+        # docs/hub-ideas.md). The first run after a quarter ends saves that round's count. With
+        # Discussions off it writes an empty list.
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          python -m hub ideas > "$RUNNER_TEMP/hub-ideas.txt" 2> >(tee -a "$RUNNER_TEMP/hub-sync-errors.txt" >&2)
+          tee -a "$GITHUB_STEP_SUMMARY" < "$RUNNER_TEMP/hub-ideas.txt"
+
       - name: Count contributors
         # PRD HUB-10: counts only, no usernames kept (hub/metrics.py). Off until counsel has
         # reviewed it (PRD §12): set the repository variable HUB_METRICS to 'true' (docs/deploy.md).
@@ -71,7 +83,7 @@ jobs:
       - name: Save the snapshot and deploy
         env:
           GH_TOKEN: ${{ github.token }}
-        run: SUMMARY="$(cat "$RUNNER_TEMP/hub-sync.txt")" .github/scripts/hub-publish.sh
+        run: SUMMARY="$(cat "$RUNNER_TEMP/hub-sync.txt" "$RUNNER_TEMP/hub-ideas.txt")" .github/scripts/hub-publish.sh
 
       - name: Report the failure
         if: failure()

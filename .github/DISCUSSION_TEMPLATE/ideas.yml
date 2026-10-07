@@ -4,7 +4,7 @@ title: "Idea: "
 body:
   - type: markdown
     attributes:
-      value: "An idea for an open-source project that would help people in Algeria. Describe the problem first. Anyone can champion an idea, and it is marked **adopted** once its champion links a repository. The best ideas go to hackathons and djazair.dev meetups."
+      value: "An idea for an open-source project that would help people in Algeria. Describe the problem first. Anyone with a GitHub account can upvote it. Every quarter, djazair.dev adopts the idea with the most votes among those with a champion and at least 10 votes. [How the vote works](https://github.com/djazairdev/djazair.dev/blob/main/docs/hub-ideas.md)"
   - type: textarea
     id: problem
     attributes:
@@ -23,7 +23,7 @@ body:
     id: champion
     attributes:
       label: Champion
-      description: "The GitHub username of the person who will lead it: you, or someone who agreed. Write \"wanted\" if nobody has yet."
+      description: "The GitHub username of the person who will lead it: you, or someone who agreed. Write \"wanted\" if nobody has yet. An idea needs a champion to be adopted."
       placeholder: "@username, or wanted"
     validations:
       required: true
@@ -54,4 +54,4 @@ body:
       description: "Links, data sources, similar projects elsewhere, or a first sketch."
   - type: markdown
     attributes:
-      value: "When work starts, the champion posts the repository link in this discussion and a maintainer adds the **adopted** label. Once the project meets the [Hub's checks](https://github.com/djazairdev/djazair.dev/blob/main/CONTRIBUTING.md#list-a-project-in-the-hub), it can be listed in the Hub."
+      value: "Votes are GitHub upvotes, one per account, and they carry over from one quarter to the next until the idea is adopted. When a quarter ends, the maintainers review the ideas with the most votes. The one adopted gets a repository in the djazairdev organisation, with its champion as maintainer, and the **adopted** label. The other ideas stay in the vote, and the best also go to hackathons and djazair.dev meetups."

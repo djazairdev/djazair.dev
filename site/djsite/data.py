@@ -117,7 +117,7 @@ def _time(text: str) -> datetime:
 
 class Hub:
     """The Hub snapshot the sync writes (ticket #25): the projects the Hub shows and their
-    beginner issues. Empty before the first sync."""
+    beginner issues, and the project ideas with their votes. Empty before the first sync."""
 
     def __init__(self, root: Path = HUB_DIR):
         root = Path(root)
@@ -125,6 +125,8 @@ class Hub:
         issues = _read(root / 'issues.json')
         # Contributor counts (ticket #41, hub/metrics.py): only once HUB_METRICS is on.
         self.metrics: Optional[dict] = _read(root / 'metrics.json')
+        # Project ideas and their votes (ticket #39, hub/ideas.py): an empty list until Discussions is on.
+        self.ideas: Optional[dict] = _read(root / 'ideas.json')
         self.synced: Optional[datetime] = _time(issues['generated_at']) if issues else None
         self.projects = [p for p in (projects or {}).get('projects', []) if p.get('shown')]
         # Each issue gets ``days``: its age when the Hub was last synced, so a build gives the
