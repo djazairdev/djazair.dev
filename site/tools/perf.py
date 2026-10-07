@@ -167,26 +167,47 @@ class WebSocket:
 
 # ---------------------------------------------------------------- Chrome over DevTools
 class Chrome:
+    START = 60          # seconds to wait for the DevTools port: a cold CI runner has taken more than 10
+    TRIES = 2
+
     def __init__(self, binary: str):
+        for attempt in range(1, self.TRIES + 1):
+            try:
+                port, path = self._start(binary)
+                break
+            except RuntimeError as e:
+                if attempt == self.TRIES:
+                    raise
+                print(f'{e}\nStarting Chrome again.', file=sys.stderr)
+        self.ws = WebSocket(f'ws://127.0.0.1:{port}{path}')
+        self.n = 0
+        self.events: list = []
+
+    def _start(self, binary: str) -> tuple:
+        """Start Chrome with a fresh profile and return its DevTools port and path."""
         self.profile = tempfile.mkdtemp(prefix='djazair-perf-')
         flags = ['--headless=new', '--remote-debugging-port=0', f'--user-data-dir={self.profile}', '--no-first-run',
                  '--no-default-browser-check', '--disable-extensions', '--disable-background-networking',
                  '--disable-component-update', '--disable-sync', '--mute-audio', '--hide-scrollbars', '--use-mock-keychain']
         flags += os.environ.get('CHROME_FLAGS', '').split()
-        self.process = subprocess.Popen([binary, *flags, 'about:blank'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        log = tempfile.TemporaryFile()
+        self.process = subprocess.Popen([binary, *flags, 'about:blank'], stdout=subprocess.DEVNULL, stderr=log)
         port_file = Path(self.profile) / 'DevToolsActivePort'
-        for _ in range(200):
-            if port_file.exists() and len(port_file.read_text().split()) == 2:
-                break
-            if self.process.poll() is not None:
-                raise RuntimeError(f'Chrome exited with code {self.process.returncode}; try CHROME_FLAGS=--no-sandbox')
+        end = time.monotonic() + self.START
+        while not (port_file.exists() and len(port_file.read_text().split()) == 2):
+            if self.process.poll() is not None or time.monotonic() > end:
+                problem = (f'Chrome exited with code {self.process.returncode}; try CHROME_FLAGS=--no-sandbox'
+                           if self.process.poll() is not None else f'Chrome did not open its DevTools port in {self.START} s')
+                self.process.kill()
+                self.process.wait()
+                shutil.rmtree(self.profile, ignore_errors=True)
+                log.seek(0)
+                tail = log.read().decode('utf-8', 'replace').strip().splitlines()[-5:]
+                log.close()
+                raise RuntimeError(problem + ''.join(f'\n  chrome: {line}' for line in tail))
             time.sleep(0.05)
-        else:
-            raise RuntimeError('Chrome did not open its DevTools port')
-        port, path = port_file.read_text().split()
-        self.ws = WebSocket(f'ws://127.0.0.1:{port}{path}')
-        self.n = 0
-        self.events: list = []
+        log.close()
+        return port_file.read_text().split()
 
     def call(self, method: str, session: str = None, **params) -> dict:
         self.n += 1
