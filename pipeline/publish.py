@@ -21,7 +21,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-from .config import (AFRICA_MIN_ACCOUNTS, ATTRIBUTION, CORE_PEERS, DERIVED_DIR, HOME, LICENCE, LICENCE_URL, NORTH_AFRICA,
+from .config import (AFRICA_MIN_ACCOUNTS, ATTRIBUTION, CORE_PEERS, DERIVED_DIR, EU, HOME, LICENCE, LICENCE_URL, NORTH_AFRICA,
                      SOURCE_URL)
 from .indicators import INDICATORS, Dataset, Index, qkey, rank_of
 from .population import Population
@@ -290,13 +290,21 @@ class Publisher:
                      'more developers pushing.', cols, rows)
 
     def collaboration(self) -> Table:
-        cols = [QUARTER, I('rank', 'Place by weight'), S('partner', 'ISO code of the partner economy'),
-                I('weight', 'Collaboration weight between Algeria and the partner (GitHub economy_collaborators)')]
-        rows = [[qkey(q), rank, partner, w] for q in self.ds.quarters
-                for rank, (partner, w) in enumerate(self.ix.partners(HOME, q), 1)]
+        cols = [QUARTER, S('direction', 'sent: from developers in Algeria to repositories owned in the partner; received: from '
+                                        'developers in the partner to repositories owned in Algeria'),
+                I('rank', 'Place by weight among the economies in the quarter and direction; empty for the EU'),
+                S('partner', 'ISO code of the partner economy; EU for the European Union, which GitHub lists as the sum of '
+                             'its members listed'),
+                I('weight', 'Git pushes sent and pull requests opened (GitHub economy_collaborators)')]
+        rows = []
+        for q in self.ds.quarters:
+            for direction, pairs in (('sent', self.ix.partners(HOME, q)), ('received', self.ix.senders(HOME, q))):
+                ranks = rank_of({p: w for p, w in pairs if p != EU})
+                rows += [[qkey(q), direction, ranks.get(p), p, w] for p, w in pairs]
         return Table('collaboration', 'Algeria’s collaboration partners',
-                     'The economies Algerian developers collaborate with, by GitHub’s collaboration weight, every quarter.',
-                     cols, rows)
+                     'Git pushes and pull requests between Algeria and other economies, both ways, every quarter: those '
+                     'developers in Algeria sent to repositories owned elsewhere, and those repositories owned in Algeria '
+                     'received.', cols, rows)
 
     def indicators(self) -> Table:
         cols = [ECONOMY, QUARTER] + [COLUMNS[n] for n in INDICATORS] + [I('population_year', 'Year of the population used')]

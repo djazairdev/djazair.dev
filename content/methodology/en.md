@@ -72,6 +72,9 @@ GitHub publishes a topic only once 100 or more developers use it.
 ### Developers pushing in a language {#languages}
 `num_pushers(c, q, language)`
 Developers who pushed in the language during the quarter. One developer can push in several languages, so the counts can’t be added up. GitHub lists a language once 100 or more developers push in it.
+### Collaboration with another economy {#collaboration}
+`weight(source → owner, q)`
+Git pushes sent and pull requests opened by developers in the source economy to repositories owned in another, as GitHub publishes them above its threshold. GitHub calls it a lower bound. Its row for the EU is the sum of the members it lists, so rankings and totals leave it out.
 ### Peer median {#median}
 `median(indicator over group members with data)`
 The middle value, so one large economy can’t pull it far.

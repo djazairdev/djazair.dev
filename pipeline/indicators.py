@@ -172,8 +172,15 @@ class Index:
         return sorted(((lang, kind, n) for lang, (kind, n) in langs.items()), key=lambda t: (-t[2], t[0]))
 
     def partners(self, code: str, q: tuple) -> list:
-        """(economy, collaboration weight) by weight."""
+        """(economy, weight) by weight: pushes and pull requests from developers in ``code`` to
+        repositories owned in the economy."""
         return sorted(self.ds.partners.get((code, q), {}).items(), key=lambda t: (-t[1], t[0]))
+
+    def senders(self, code: str, q: tuple) -> list:
+        """(economy, weight) by weight: pushes and pull requests from developers in the economy to
+        repositories owned in ``code``."""
+        found = {source: to[code] for (source, at), to in self.ds.partners.items() if at == q and code in to}
+        return sorted(found.items(), key=lambda t: (-t[1], t[0]))
 
     def topic_list(self, code: str, q: tuple) -> list:
         return sorted(self.ds.topics.get((code, q), {}).items(), key=lambda t: (-t[1], t[0]))

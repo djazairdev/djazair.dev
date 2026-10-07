@@ -22,7 +22,7 @@ TOPICS = {'DZ': ['python', 'javascript', 'react'], 'EG': ['python', 'javascript'
           'MA': ['python', 'java'], 'TN': ['python'], 'NG': ['python', 'react', 'nodejs', 'flutter'], 'KE': ['python', 'django'],
           'ZA': ['python'], 'US': ['python', 'javascript'], 'EU': ['python', 'javascript']}
 LANGUAGES = [('HTML', 'markup', 0.12), ('JavaScript', 'programming', 0.09), ('Python', 'programming', 0.06)]
-PARTNERS = {'DZ': [('US', 90), ('EU', 80), ('FR', 40)], 'MA': [('FR', 70), ('US', 60)]}
+PARTNERS = {'DZ': [('US', 90), ('EU', 80), ('FR', 40)], 'MA': [('FR', 70), ('US', 60), ('DZ', 30)], 'FR': [('DZ', 50)]}
 
 
 def quarters(last=(2021, 2)) -> list:

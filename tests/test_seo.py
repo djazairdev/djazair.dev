@@ -74,7 +74,7 @@ class Metadata(unittest.TestCase):
                 for kind in ('title', 'description'):
                     self.assertNotIn(m[kind], seen[lang][kind], f'{kind} used twice')
                     seen[lang][kind].add(m[kind])
-        self.assertEqual(count, 22, 'eleven pages in two languages; report drafts stay out')
+        self.assertEqual(count, 24, 'twelve pages in two languages; report drafts stay out')
 
     def test_canonical_and_language_links(self):
         for route, lang, url, m in self.indexed():

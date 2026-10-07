@@ -5,8 +5,6 @@ largest topics in each peer, and what to keep in mind: topics count labels, not 
 Every sentence with a figure is computed from the data."""
 from __future__ import annotations
 
-from statistics import median
-
 from .. import components as C
 from ..charts import HBar, HBarChart, Line, LineChart, tick_int
 from ..context import Ctx, Page

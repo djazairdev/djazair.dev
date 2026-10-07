@@ -99,6 +99,7 @@ class Indicators(unittest.TestCase):
     def test_details(self):
         self.assertEqual([lang for lang, _, _ in self.ix.languages('DZ', self.last)], ['HTML', 'JavaScript', 'Python'])
         self.assertEqual(self.ix.partners('DZ', self.last), [('US', 90), ('EU', 80), ('FR', 40)])
+        self.assertEqual(self.ix.senders('DZ', self.last), [('FR', 50), ('MA', 30)])
 
 
 class MissingInputs(unittest.TestCase):

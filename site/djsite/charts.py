@@ -381,7 +381,11 @@ class HBarChart(Spec):
 
     With ``highlight``, only that bar is green and the others are grey, for economies side by
     side. ``change`` is a ratio (+12.5%), or with ``change_kind='diff'`` a difference (+1),
-    which suits small counts."""
+    which suits small counts.
+
+    With ``split=False`` each bar is one green, and the year earlier shows only in the change
+    and the table: for lists where a bar's year-earlier value can be unknown rather than
+    zero. ``new_label`` then stands in for the change of a bar that has none ('new')."""
     bars: Sequence[HBar] = ()
     fmt: Callable = None               # (value, lang) -> str
     change_fmt: Callable = None        # (change, lang) -> str
@@ -393,6 +397,8 @@ class HBarChart(Spec):
     highlight: Optional[str] = None    # the one bar drawn in green, others grey ('DZ')
     highlight_label: Text = ''         # its legend entry: 'Algeria'
     change_kind: str = 'ratio'         # ratio | diff
+    split: bool = True                 # the year earlier and the gain since in two greens
+    new_label: Text = ''               # in place of the change when there is no year-earlier value
 
     def change(self, b: HBar) -> Optional[float]:
         if b.before is None:
@@ -613,7 +619,7 @@ def hbar_drawing(chart: HBarChart, lang: str, size: str, pal: dict = DARK) -> Dr
     W, font, row, bh = g['W'], g['font'], g['row'], g['bar']
     rtl = lang == 'ar'
     narrow = size == 'narrow'
-    hi = max(max(b.value, b.before or 0) for b in chart.bars) or 1
+    hi = max(max(b.value, (b.before or 0) if chart.split else 0) for b in chart.bars) or 1
     x0 = 0 if narrow else g['label'] + 14
     span = W - x0 - g['value']
     D = lambda v: x0 + v / hi * span                   # value -> distance from the reading start
@@ -639,7 +645,7 @@ def hbar_drawing(chart: HBarChart, lang: str, size: str, pal: dict = DARK) -> Dr
             out.append(svg_text(X(0), name_y, str(b.rank), size=font - 1.5, fill=pal['ink3'], font=MONO, align=near, cls='fd'))
         out.append(svg_text(X(26 if b.rank is not None else 0), name_y, name, size=font, fill=pal['algeria'] if lit else pal['ink'],
                             weight=700 if lit else 500, align=near, cls='fd'))
-        before = b.before or 0
+        before = (b.before or 0) if chart.split else 0
         kept = min(before, b.value)
         old, new = ('peer_dim', 'peer') if grey else ('cell_old', 'algeria')
         if kept:
@@ -659,6 +665,10 @@ def hbar_drawing(chart: HBarChart, lang: str, size: str, pal: dict = DARK) -> Dr
             colour = pal['negative'] if change < 0 else pal['ink3'] if grey else pal['algeria']
             out.append(svg_text(X(d), value_y, chart.change_fmt(change, lang), size=font - 1.5, font=MONO, align=near,
                                 fill=colour, cls='ann'))
+        elif b.before is None and chart.new_label:
+            d += text_width(value, font - 1, mono=True) + 10
+            out.append(svg_text(X(d), value_y, loc(chart.new_label, lang), size=font - 1.5, align=near, fill=pal['ink3'],
+                                cls='ann'))
     H = 8 + len(chart.bars) * row
     return Drawing(W, H, ''.join(out), cls=f'chart-hbar{" rtl" if rtl else ""}')
 
@@ -725,6 +735,8 @@ def legend_items(chart: Spec, lang: str, pal: dict) -> list:
                 ('square', pal['algeria'], f'{loc(chart.added_label, lang)} {fint(added, lang)}'),
                 ('none', '', loc(chart.square_label, lang))]
     if isinstance(chart, HBarChart):
+        if not chart.split:
+            return []
         if chart.highlight:
             return [('square', pal['peer_dim'], loc(chart.before_label, lang)), ('square', pal['peer'], loc(chart.added_label, lang)),
                     ('square', pal['algeria'], loc(chart.highlight_label, lang))]
@@ -789,9 +801,15 @@ def table(chart: Spec, lang: str, names: dict) -> tuple:
         rows = []
         for b in chart.bars:
             change = chart.change(b)
+            if change is not None:
+                change_cell = (num(chart.change_fmt(change, lang)), _plain(change))
+            elif b.before is None and chart.new_label:
+                change_cell = (esc(loc(chart.new_label, lang)), None)
+            else:
+                change_cell = ('—', None)
             rows.append((b.key, [esc(loc(b.label, lang)), (num(chart.fmt(b.value, lang)), _plain(b.value)),
                                  ('—', None) if b.before is None else (num(chart.fmt(b.before, lang)), _plain(b.before)),
-                                 ('—', None) if change is None else (num(chart.change_fmt(change, lang)), _plain(change))]))
+                                 change_cell]))
         return head, rows
     if isinstance(chart, UnitMap):
         head = [(esc(names['series']), 'start'), (esc(names['accounts']), 'end'), (esc(names['squares']), 'end')]

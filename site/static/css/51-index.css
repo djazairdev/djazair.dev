@@ -153,9 +153,10 @@
 .lang-n { font-family: var(--sans); font-size: 15px; color: var(--ink); }
 
 /* Topics (#36) */
-.topics-body { padding-bottom: clamp(8px, 2vw, 24px); }
-.topics-body .fig + .fig { margin-top: clamp(20px, 3vw, 32px); }
+.topics-body, .collab-body { padding-bottom: clamp(8px, 2vw, 24px); }
+:is(.topics-body, .collab-body) .fig + .fig { margin-top: clamp(20px, 3vw, 32px); }
 .topic-n { font-family: var(--mono); font-size: .88em; color: var(--ink); white-space: nowrap; unicode-bidi: isolate; }
 .topic-list { display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .topics-peers .dt { min-width: 640px; }
 .topics-dz .dt { min-width: 480px; }
+.collab-both :is(thead th, th[scope="row"]) { white-space: normal; }       /* three columns fit a phone */

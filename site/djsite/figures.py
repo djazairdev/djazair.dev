@@ -80,9 +80,10 @@ def table(ctx, chart) -> Markup:
                    cls='fig-table', icon_name='table', id_=f'{chart.id}-table')
 
 
-def figure(ctx, chart, n: int, *, source, controls='', lede='', cls: str = '') -> Markup:
+def figure(ctx, chart, n: int, *, source, controls='', lede='', note='', cls: str = '') -> Markup:
     """Figure ``n``. ``source``: HTML for the source line, naming the source and the data
-    quarter (IDX-13). ``controls`` sit beside the label; ``lede`` goes under it."""
+    quarter (IDX-13). ``controls`` sit beside the label; ``lede`` goes under it; ``note``
+    under the drawing, for what it leaves out."""
     if not chart.credit:
         chart = replace(chart, credit={lang: ctx.site.catalog.lookup(lang, 'chart.credit')[0] for lang in LANGS})
     lang = ctx.lang
@@ -96,9 +97,10 @@ def figure(ctx, chart, n: int, *, source, controls='', lede='', cls: str = '') -
                 + charts.svg(chart, lang, 'narrow', f'{chart.id}-n', desc, cls='narrow'))
         if isinstance(chart, LineChart):
             body += line_key(ctx, chart)
-        elif isinstance(chart, HBarChart):
+        elif isinstance(chart, HBarChart) and chart.split:
             body += hbar_key(ctx, chart)
     lede_html = Markup(f'<p class="fig-lede">{lede}</p>') if lede else ''
-    inner = (head + lede_html + Markup(f'<div class="fig-body">{body}</div>')
+    note_html = Markup(f'<p class="fig-note">{note}</p>') if note else ''
+    inner = (head + lede_html + Markup(f'<div class="fig-body">{body}</div>') + note_html
              + source_line(source, download_menu(ctx, downloads(ctx, chart))) + table(ctx, chart))
     return frame(inner, cls=f'fig {cls}'.strip(), labelledby=label_id)

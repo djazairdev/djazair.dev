@@ -186,14 +186,17 @@ The topics GitHub publishes for each economy in the latest quarter, and a year e
 
 ### `collaboration`
 
-The economies Algerian developers collaborate with, by GitHub’s collaboration weight, every quarter.
+Git pushes and pull requests between Algeria and other economies, both ways, every quarter: those developers in Algeria sent to repositories owned elsewhere, and those repositories owned in Algeria received.
 
 | Column | Type | Meaning |
 |---|---|---|
 | `quarter` | string | Data quarter, as YYYY-QN |
-| `rank` | integer | Place by weight |
-| `partner` | string | ISO code of the partner economy |
-| `weight` | integer | Collaboration weight between Algeria and the partner (GitHub economy_collaborators) |
+| `direction` | string | sent: from developers in Algeria to repositories owned in the partner; received: from developers in the partner to repositories owned in Algeria |
+| `rank` | integer | Place by weight among the economies in the quarter and direction; empty for the EU |
+| `partner` | string | ISO code of the partner economy; EU for the European Union, which GitHub lists as the sum of its members listed |
+| `weight` | integer | Git pushes sent and pull requests opened (GitHub economy_collaborators) |
+
+GitHub places a repository in the economy of its owner, and an organisation's repositories where most of its members are. It lists a pair of economies only above its publication threshold, and calls the measure a lower bound: work on a repository with contributors in several economies counts toward one.
 
 ### `indicators`
 

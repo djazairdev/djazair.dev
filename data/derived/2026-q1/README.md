@@ -20,7 +20,7 @@ Computed by [djazair.dev](https://djazair.dev) from GitHub Innovation Graph rele
 | [`languages.csv`](languages.csv), [`languages.json`](languages.json) | Developers who pushed in each language in the latest quarter and a year earlier. One developer can push in several languages, so the counts can’t be added up. GitHub lists a language once 100 or more developers push in it. |
 | [`languages_algeria.csv`](languages_algeria.csv), [`languages_algeria.json`](languages_algeria.json) | Developers in Algeria who pushed in each language, every quarter since 2020 Q1. |
 | [`topics.csv`](topics.csv), [`topics.json`](topics.json) | The topics GitHub publishes for each economy in the latest quarter, and a year earlier: those with 100 or more developers pushing. |
-| [`collaboration.csv`](collaboration.csv), [`collaboration.json`](collaboration.json) | The economies Algerian developers collaborate with, by GitHub’s collaboration weight, every quarter. |
+| [`collaboration.csv`](collaboration.csv), [`collaboration.json`](collaboration.json) | Git pushes and pull requests between Algeria and other economies, both ways, every quarter: those developers in Algeria sent to repositories owned elsewhere, and those repositories owned in Algeria received. |
 | [`indicators.csv`](indicators.csv), [`indicators.json`](indicators.json) | Every indicator for every economy in the release, every quarter since 2020 Q1. Empty where an input is missing, never zero. |
 | [`revisions.csv`](revisions.csv), [`revisions.json`](revisions.json) | Past values this release changed, against the release archived before it (named in manifest.json). An empty before or now means the value was added or removed. |
 

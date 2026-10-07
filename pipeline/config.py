@@ -29,6 +29,13 @@ AFRICA = ('DZ', 'AO', 'BJ', 'BW', 'BF', 'BI', 'CV', 'CM', 'CF', 'TD', 'KM', 'CG'
 AFRICA_MIN_ACCOUNTS = 20_000
 HOME = 'DZ'
 
+# The Innovation Graph also lists the European Union as one economy. In economy_collaborators
+# its weight is the sum of the members listed in the same quarter and direction, so rankings of
+# partners leave it out.
+EU = 'EU'
+EU_MEMBERS = ('AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU',
+              'MT', 'NL', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE')
+
 LICENCE = 'CC0-1.0'
 LICENCE_URL = 'https://creativecommons.org/publicdomain/zero/1.0/'
 ATTRIBUTION = 'Data: GitHub Innovation Graph (CC0)'

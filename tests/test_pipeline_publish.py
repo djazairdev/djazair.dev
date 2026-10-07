@@ -113,6 +113,13 @@ class Files(Fixture):
         dz = [r['value'] for r in trends if r['indicator'] == 'accounts' and r['series'] == 'DZ']
         self.assertEqual(dz, [accounts('DZ', i) for i in range(6)])
 
+    def test_collaboration_both_ways_with_the_eu_unranked(self):
+        folder = self.publish(self.archive())
+        rows = [r for r in json.loads((folder / 'collaboration.json').read_text())['rows'] if r['quarter'] == '2021-Q2']
+        self.assertEqual([(r['direction'], r['rank'], r['partner'], r['weight']) for r in rows],
+                         [('sent', 1, 'US', 90), ('sent', None, 'EU', 80), ('sent', 2, 'FR', 40),
+                          ('received', 1, 'FR', 50), ('received', 2, 'MA', 30)])
+
     def test_numbers_have_fixed_decimals(self):
         cases = {586990.0: '586990', 0.4914690001: '0.491469', 1.0630129999: '1.063013', -0.0: '0', -1e-9: '0', 1e-05: '0.00001',
                  -0.0738724: '-0.073872', 2.5: '2.5', 12374.536506123: '12374.536506'}
@@ -209,6 +216,24 @@ class Committed(unittest.TestCase):
         self.assertEqual((overview['yoy']['north_africa_rank'], overview['yoy']['north_africa_ranked']), (3, 7))
         self.assertEqual((overview['yoy']['africa_rank'], overview['yoy']['africa_ranked']), (19, 29))
         self.assertEqual(round(overview['orgs_per_account']['value'], 4), 0.0315)
+
+    def test_the_eu_is_the_sum_of_its_members_listed(self):
+        """Why the collaboration table leaves the EU unranked, in the published data."""
+        from pipeline.config import EU_MEMBERS
+        folder = DERIVED_DIR / json.loads((DERIVED_DIR / 'latest.json').read_text())['folder']
+        rows = json.loads((folder / 'collaboration.json').read_text())['rows']
+        groups = {}
+        for r in rows:
+            groups.setdefault((r['quarter'], r['direction']), []).append(r)
+        checked = 0
+        for key, found in groups.items():
+            eu = [r['weight'] for r in found if r['partner'] == 'EU']
+            if eu:
+                self.assertEqual(eu[0], sum(r['weight'] for r in found if r['partner'] in EU_MEMBERS), key)
+                checked += 1
+            self.assertEqual(sorted(r['rank'] for r in found if r['partner'] != 'EU'),
+                             sorted(r['rank'] for r in found if r['rank'] is not None), key)
+        self.assertGreater(checked, 40)
 
     def test_the_schema_is_documented(self):
         readme = (REPO / 'data' / 'README.md').read_text()
