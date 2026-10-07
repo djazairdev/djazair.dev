@@ -6,6 +6,6 @@
 - `localisation.json`: the translation teams the Hub's localisation page links to (ticket #40): name, platform, what is translated there in English and Arabic, and one link per language (`ar`, `kab`, `zgh`). Its `about` explains the fields; `site/tools/links.py` checks the links every week.
 - `corrections.json`: every correction to a published number or statement, within 7 days of its discovery.
 - `reports/`: quarterly reports, one folder per data quarter (`2026-q1/`): `report.json` (status, Hub numbers, the claims the text makes) and `en.md`, `ar.md`. [docs/reports.md](../docs/reports.md) explains how to write, check and publish one.
-- `meetups/`: the meetups section (from December 2026).
+- `meetups/meetups.json`: where the meetups page links on founders.coffee, where the meetups are organised (ticket #43): its address and the paths to find or host a meetup, its terms and its privacy policy, with `{lang}` for the page's language. `site/tools/links.py` checks them every week. [docs/meetups.md](../docs/meetups.md) explains the move from founders.coffee.
 
 Text and charts are CC BY 4.0 ([LICENSE-content](../LICENSE-content)).

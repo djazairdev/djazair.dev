@@ -1,0 +1,13 @@
+{
+  "about": "The meetups page (/en/meetups/, /ar/meetups/; ticket #43, PRD D11). The meetups are organised on founders.coffee, and the page links there: url is its address, and each link is a path under it, with {lang} for the page's language (en or ar). checked is the day a person last opened every link; site/tools/links.py opens them every week. docs/meetups.md explains the move.",
+  "platform": "founders.coffee",
+  "url": "https://founders.coffee",
+  "title": "Founders Coffee",
+  "links": {
+    "find": "/{lang}/algeria",
+    "host": "/{lang}/algeria/host/create",
+    "terms": "/{lang}/terms",
+    "privacy": "/{lang}/privacy"
+  },
+  "checked": "2026-10-07"
+}

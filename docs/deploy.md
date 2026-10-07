@@ -40,7 +40,7 @@ The `Hub sync` workflow (`.github/workflows/hub.yml`) runs every 6 hours, at 00:
 
 ### Link check
 
-The `Link check` workflow (`.github/workflows/links.yml`) runs every Monday at 06:23 UTC. It opens every link the site curates, the translation teams on the Hub's localisation page (`content/localisation.json`), with `python site/tools/links.py`. A link is broken when it doesn't answer 200 at the same address with a page that names the team's language: a team that moved, closed or became a sign-in page. A site that turns robots away (401, 403, 429, 5xx) or doesn't answer is listed in the log as not checked, without failing the run.
+The `Link check` workflow (`.github/workflows/links.yml`) runs every Monday at 06:23 UTC. It opens every link the site curates with `python site/tools/links.py`: the translation teams on the Hub's localisation page (`content/localisation.json`) and the founders.coffee pages the meetups page links to (`content/meetups/meetups.json`). A link is broken when it doesn't answer 200 at the same address with a page whose title names what it should: the team's language, or Founders Coffee. That catches a team that moved, closed or became a sign-in page, and a founders.coffee page that moved. A site that turns robots away (401, 403, 429, 5xx) or doesn't answer is listed in the log as not checked, without failing the run.
 
 ### Data updates
 

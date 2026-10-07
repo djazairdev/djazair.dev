@@ -10,7 +10,7 @@ run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
 body="${RUNNER_TEMP}/issue.md"
 {
   echo "The link check failed in [run ${GITHUB_RUN_ID}](${run_url}) on $(date -u '+%Y-%m-%d %H:%M UTC')."
-  echo "Fix or remove each link in \`content/localisation.json\` and update \`checked\`. This issue closes itself after the next check that passes."
+  echo "Fix or remove each link in \`content/localisation.json\` or \`content/meetups/meetups.json\`, and update \`checked\` there. This issue closes itself after the next check that passes."
   echo
   if [ -s "${RUNNER_TEMP}/failure-notes.md" ]; then cat "${RUNNER_TEMP}/failure-notes.md"; echo; fi
   if [ -s "${RUNNER_TEMP}/links.md" ]; then

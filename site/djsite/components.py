@@ -40,11 +40,13 @@ def section(id_: str, eyebrow_text, title, inner, lede=None, size: str = 'm', he
 
 
 # ---------------------------------------------------------------- actions
-def btn(label, href: str, kind: str = 'primary', size: str = 'm', arrow: bool = True, attrs: str = '') -> Markup:
-    """Link styled as a button. ``kind``: primary | secondary. ``size``: m (48 px) | s (40 px)."""
-    arr = f'<span class="arr">{icon("arrow", 18, 2)}</span>' if arrow else ''
+def btn(label, href: str, kind: str = 'primary', size: str = 'm', arrow: bool = True, attrs: str = '',
+        out: bool = False) -> Markup:
+    """Link styled as a button. ``kind``: primary | secondary. ``size``: m (48 px) | s (40 px).
+    ``out``: a link to another site, with the up-and-out arrow."""
+    arr = f'<span class="arr">{icon("arrow-ur" if out else "arrow", 18, 2)}</span>' if arrow else ''
     sz = ' btn-s' if size == 's' else ''
-    return Markup(f'<a class="btn btn-{kind}{sz}" href="{esc(href)}"{attrs}>{label}{arr}</a>')
+    return Markup(f'<a class="btn btn-{kind}{sz}{" btn-out" if out else ""}" href="{esc(href)}"{attrs}>{label}{arr}</a>')
 
 
 def button(label, kind: str = 'secondary', size: str = 's', disabled: bool = False, attrs: str = '', icon_name: str = '') -> Markup:

@@ -1,5 +1,6 @@
 # Every Monday: open every link the site curates, the translation teams in
-# content/localisation.json (ticket #40), with site/tools/links.py. A broken link opens a
+# content/localisation.json (ticket #40) and the founders.coffee pages in
+# content/meetups/meetups.json (ticket #43), with site/tools/links.py. A broken link opens a
 # "Broken links" issue (or comments on the open one); the next check that passes closes it.
 # Sites that turn robots away are listed in the log as not checked, without failing the run.
 name: Link check

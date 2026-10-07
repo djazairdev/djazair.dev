@@ -163,7 +163,7 @@ class LinkCheck(unittest.TestCase):
         ]
         for answer, expected in cases:
             with self.subTest(answer=answer):
-                self.assertEqual(links.verdict(self.URL, 'kab', answer)[0], expected)
+                self.assertEqual(links.verdict(self.URL, 'Kabyle', answer)[0], expected)
 
     def test_a_broken_link_fails_the_run_and_is_reported(self):
         def fake(url):
@@ -171,6 +171,8 @@ class LinkCheck(unittest.TestCase):
                 return links.Answer(url, 404)
             if 'weblate' in url:
                 return links.Answer(url, 429)
+            if url.startswith('https://founders.coffee/'):
+                return links.Answer(url, 200, 'Founders Coffee - Algeria')
             code = url.rstrip('/').rsplit('/', 1)[1]          # every team link ends with its language
             return links.Answer(url, 200, f'{links.LANGUAGES[code]} team')
 
@@ -179,9 +181,11 @@ class LinkCheck(unittest.TestCase):
         self.assertEqual(verdicts[('OBS Studio', 'kab')], 'broken')
         self.assertEqual(verdicts[('Hosted Weblate', 'ar')], 'unchecked')
         self.assertEqual(verdicts[('Mozilla', 'ar')], 'ok')
+        self.assertEqual(verdicts[('founders.coffee: host', 'ar')], 'ok')
         table = links.report(results)
-        self.assertIn('1 of 15 links', table)
-        self.assertIn('| OBS Studio | `kab` | https://crowdin.com/project/obs-studio/kab | not found (404) |', table)
+        self.assertIn('1 of 23 links', table)
+        self.assertIn('| [localisation](https://djazair.dev/en/hub/localisation/) | OBS Studio | `kab` | '
+                      'https://crowdin.com/project/obs-studio/kab | not found (404) |', table)
 
         tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)
@@ -197,8 +201,8 @@ class LinkCheck(unittest.TestCase):
                 self.assertFalse((tmp / 'again.md').exists())
         finally:
             links.fetch = original
-        self.assertIn('15 links: 12 work, 1 broken, 2 not checked.', out.getvalue())
-        self.assertIn('15 links: 12 work, 0 broken, 3 not checked.', out.getvalue())
+        self.assertIn('23 links: 20 work, 1 broken, 2 not checked.', out.getvalue())
+        self.assertIn('23 links: 20 work, 0 broken, 3 not checked.', out.getvalue())
 
     def test_the_title_is_read_from_the_page(self):
         self.assertEqual(links.title(b'<html><head><title>\n  Kabyle @ Hosted\n Weblate </title>'), 'Kabyle @ Hosted Weblate')

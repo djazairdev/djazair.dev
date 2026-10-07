@@ -47,6 +47,7 @@
     "projects": "Projects",
     "list": "List your project",
     "localisation": "Translate software",
+    "meetups": "Meetups",
     "data": "Data and downloads",
     "changelog": "Changelog",
     "corrections": "Corrections",
@@ -287,6 +288,41 @@
     "index_t": "This work doesn’t show up in the Index",
     "index": "Pontoon, Weblate and Crowdin commit translations to the projects’ repositories from their own servers, and GitHub places each push where it comes from. So translation work counts where the servers are, not in Algeria. The Index can’t see it, but everyone using the software in Arabic or Tamazight can. See the {limits}.",
     "limits": "known limitations"
+  },
+  "meetups": {
+    "eyebrow": "Meetups",
+    "title": "Meet over coffee",
+    "lede": "Small, free meetups in cafés in Algerian cities, for founders, builders and the developers who work with them. No invitation, title or pitch deck needed. They are organised on {platform}, djazair.dev’s sister project.",
+    "find": "Find a meetup in Algeria",
+    "host": "Host one in your city",
+    "what_eyebrow": "What happens",
+    "what_title": "A small table and a subject",
+    "what1_t": "Around a subject",
+    "what1": "A small group meets in a real café to talk about the subject the host described.",
+    "what2_t": "No slides, no pitches",
+    "what2": "Talk about your work and what you’re stuck on. Don’t use the meetup to promote a product or service.",
+    "what3_t": "Free",
+    "what3": "There’s no fee to join or to host. Everyone pays for their own order.",
+    "host_eyebrow": "Hosting",
+    "host_title": "No meetup in your city yet? Host the first one",
+    "host_lede": "Anyone can host. Whoever publishes a meetup runs it.",
+    "step1_t": "Pick a café and a time",
+    "step1": "Somewhere easy to reach, with room for a small group.",
+    "step2_t": "Say what it’s about",
+    "step2": "One subject, so people know what they’re coming to talk about.",
+    "step3_t": "Meet",
+    "step3": "People confirm on the meetup’s page. On the day, the host posts the table number there.",
+    "host_cta": "Host a meetup",
+    "bring_eyebrow": "With djazair.dev",
+    "bring_title": "Something to bring to the table",
+    "bring_hub_t": "A first open-source issue",
+    "bring_hub": "Pick a beginner-friendly issue from the Project Hub and work on it together.",
+    "bring_report_t": "The quarter’s numbers",
+    "bring_report": "Talk through what the quarterly report says about Algeria’s developers.",
+    "note_t": "{platform} is a separate site",
+    "note": "It has its own accounts, {terms} and {privacy}. djazair.dev has no accounts and shares nothing with it: these are plain links.",
+    "terms": "terms of use",
+    "privacy": "privacy policy"
   },
   "checks": {
     "passed": "{n} of {total} passed",
@@ -1142,6 +1178,10 @@
     "localisation": {
       "title": "Translate software",
       "description": "Teams on Pontoon, Weblate and Crowdin that translate Firefox, LibreOffice and other open-source software into Arabic and Tamazight, and how to join one."
+    },
+    "meetups": {
+      "title": "Meetups",
+      "description": "Small, free meetups in cafés in Algerian cities for founders, builders and developers, organised on founders.coffee. Find one, or host the first in your city."
     },
     "reports": {
       "title": "Reports",

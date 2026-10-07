@@ -42,7 +42,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `tools/perf.py` | Measures load times in Chrome on a throttled phone profile ([docs/performance.md](../docs/performance.md)) |
 | `tools/screens.py` | Takes pictures of the built pages for `docs/design/` (full page and first screen, desktop and phone) |
 | `tools/smoke.py` | Checks a deployed copy of the site from the outside: every page in the sitemap and every link to the site answer, the downloads, the 404 page and Cloudflare's headers ([docs/launch.md](../docs/launch.md)) |
-| `tools/links.py` | Opens every link the site curates (the translation teams in `content/localisation.json`) and reports the broken ones; the *Link check* workflow runs it every Monday ([docs/deploy.md](../docs/deploy.md#link-check)) |
+| `tools/links.py` | Opens every link the site curates (the translation teams in `content/localisation.json` and the founders.coffee pages in `content/meetups/meetups.json`) and reports the broken ones; the *Link check* workflow runs it every Monday ([docs/deploy.md](../docs/deploy.md#link-check)) |
 | `tools/strings.py` | Exports every string to a spreadsheet for the Arabic review and imports the corrections ([docs/arabic-review.md](../docs/arabic-review.md)) |
 | `djsite/palette.py` | Chart colours: dark (the page, equal to the tokens) and light, for downloads |
 | `holding/` | The pre-launch page served at djazair.dev until launch |
@@ -139,6 +139,8 @@ The words live in `content/methodology/<lang>.md` and `content/about/<lang>.md`,
 Without JavaScript the whole list shows. `hub.js` reveals the search, the label tabs (radio buttons) and the language, project and age filters (radio groups, with their counts from the build), hides the cards that don't match, and updates the count, a `role="status"` region, so screen readers hear it (after a pause while typing). Filters are kept in the address (`?lang=Python&kind=gfi`), so a filtered view can be shared; a project card's issue count links to its issues the same way. On phones the filters fold under *Filters*. Counted phrases use the CLDR plural categories (`fmt.plural`, `Intl.PluralRules` in the browser), so Arabic gets its zero, one, two, few and many forms.
 
 `pages/localisation.py` builds the localisation page (`/hub/localisation/`, ticket #40, PRD HUB-08): teams that translate open-source software into Arabic and Tamazight on Pontoon, Weblate and Crowdin, grouped by language, how to start, and the note that this work doesn't show up in the Index (it is pushed from the platforms' servers). The teams come from `content/localisation.json`; `load()` stops the build if an entry has an unknown platform or language, a link that isn't https, or text missing in either language. The Hub page links to it in a short *Prefer words to code?* band.
+
+`pages/meetups.py` builds the meetups page (`/meetups/`, ticket #43, PRD D11): what a meetup is, how to host one, and links to founders.coffee, where the meetups are organised, in the page's language. It copies no meetups, dates or names, so it never goes out of date. The links come from `content/meetups/meetups.json`; [docs/meetups.md](../docs/meetups.md) explains the move from founders.coffee, which waits for the founder.
 
 ## Holding page
 
