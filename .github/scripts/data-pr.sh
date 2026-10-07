@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Called by .github/workflows/data.yml after the new data passed validation, the tests and
-# the build. Commits data/ on a branch, opens a pull request, runs CI on it, merges it when
-# CI passes, then runs CI on main, which deploys the site (PRD §9.5, AC-IDX-4).
+# the build. Commits data/ and the quarter's share images (site/tools/share.py --release) on a
+# branch, opens a pull request, runs CI on it, merges it when CI passes, then runs CI on main,
+# which deploys the site (PRD §9.5, AC-IDX-4).
 #
 # A release that revises past values waits for editorial review: the pull request stays
 # open, and merging it by hand deploys as any push to main does.
@@ -21,11 +22,14 @@ if [ -z "$(git status --porcelain -- data)" ]; then
   exit 0
 fi
 
-branch="data/$(echo "$QUARTER" | tr '[:upper:]' '[:lower:]')-${short}"
+folder="$(echo "$QUARTER" | tr '[:upper:]' '[:lower:]')"
+branch="data/${folder}-${short}"
+images="site/static/share/${folder}"        # drawn by the step before; shared links fall back to the site's card
 git config user.name 'github-actions[bot]'
 git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 git switch -c "$branch"
 git add -- data
+if compgen -G "${images}/*.png" > /dev/null; then git add -- "$images"; fi
 git commit -q -m "Publish ${QUARTER} data from Innovation Graph ${short}" \
   -m "Source: https://github.com/github/innovationgraph/commit/${COMMIT}" -m "Run: ${run_url}"
 git push -q --force origin "HEAD:refs/heads/${branch}"
@@ -42,6 +46,15 @@ body="${RUNNER_TEMP}/pull-request.md"
   echo "## Validation"
   echo
   cat "${RUNNER_TEMP}/validation.md"
+  echo
+  echo "## Share images"
+  echo
+  if compgen -G "${images}/*.png" > /dev/null; then
+    echo "The quarter's cards for shared links to Home and the Index pages are in \`${images}/\`."
+  else
+    echo "The quarter's cards could not be drawn, so shared links show the site's card. Run"
+    echo "\`python3 site/tools/share.py --release\` on this branch and commit \`${images}/\` to add them."
+  fi
 } > "$body"
 
 pr="$(gh pr list --head "$branch" --state open --json number --jq '.[0].number // empty')"

@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'site'))
 
 from djsite.build import build  # noqa: E402
-from djsite.config import LANGS, SITE_URL  # noqa: E402
+from djsite.config import LANGS, SITE_URL, STATIC_DIR  # noqa: E402
 from djsite.reports import all_reports  # noqa: E402
 from djsite.routes import ROUTES  # noqa: E402
 
@@ -43,7 +43,7 @@ class Metadata(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        cls.site = build(cls.dist, quiet=True)
 
     @classmethod
     def tearDownClass(cls):
@@ -85,18 +85,25 @@ class Metadata(unittest.TestCase):
                 self.assertEqual(m['alternate:x-default'], f'{SITE_URL}/' if route.key == 'home' else f'{SITE_URL}/en/{route.path}')
 
     def test_shared_links_show_a_card(self):
+        """The site's card, or on Home and the Index pages the card of the quarter they show
+        (ticket #42), once site/tools/share.py --release has drawn it."""
+        folder = self.site.data.folder.name
         for route, lang, url, m in self.indexed():
+            release = (route.key == 'home' or route.section == 'index') and (STATIC_DIR / 'share' / folder / f'{lang}.png').is_file()
+            card = f'share-{folder}-{lang}' if release else f'share-{lang}'
             with self.subTest(page=url):
                 self.assertEqual(m['og:url'], url)
                 self.assertEqual(m['og:title'], m['title'].removesuffix(' · djazair.dev'))
                 self.assertEqual(m['og:description'], m['description'])
                 self.assertEqual(m['og:locale'], {'en': 'en_GB', 'ar': 'ar_DZ'}[lang])
                 self.assertEqual(m['twitter:card'], 'summary_large_image')
-                self.assertRegex(m['og:image'], rf'^{re.escape(SITE_URL)}/assets/share-{lang}\.[0-9a-f]{{10}}\.png$')
+                self.assertRegex(m['og:image'], rf'^{re.escape(SITE_URL)}/assets/{card}\.[0-9a-f]{{10}}\.png$')
                 image = self.dist / m['og:image'].removeprefix(SITE_URL + '/')
                 self.assertEqual(png_size(image), (1200, 630))
                 self.assertLess(image.stat().st_size, 300 * 1024)
                 self.assertTrue(m['og:image:alt'])
+                if release:
+                    self.assertRegex(m['og:image:alt'], r'(Q\d \d{4}|الربع .+ \d{4}): [\d,.]+ ')
         root = meta((self.dist / 'index.html').read_text('utf-8'))
         self.assertEqual(root['og:url'], f'{SITE_URL}/')
         self.assertIn('/assets/share-en.', root['og:image'])

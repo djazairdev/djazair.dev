@@ -89,6 +89,21 @@ class Scripts(unittest.TestCase):
         body = (self.runner / 'pull-request.md').read_text()
         self.assertIn('2026-Q2', body)
         self.assertIn('Validation **passed**', body)
+        self.assertIn('could not be drawn, so shared links show the site', body)
+
+    def test_the_share_images_go_with_the_data(self):
+        self.new_data()
+        images = self.work / 'site' / 'static' / 'share' / '2026-q2'
+        images.mkdir(parents=True)
+        for lang in ('en', 'ar'):
+            (images / f'{lang}.png').write_bytes(b'\x89PNG')
+        result = self.run_script('data-pr.sh')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        files = subprocess.run(['git', 'show', '--name-only', '--format=', 'data/2026-q2-0123456789ab'], cwd=self.remote,
+                               capture_output=True, text=True).stdout.split()
+        self.assertEqual(sorted(files), ['data/derived/latest.json', 'site/static/share/2026-q2/ar.png',
+                                         'site/static/share/2026-q2/en.png'])
+        self.assertIn('are in `site/static/share/2026-q2/`', (self.runner / 'pull-request.md').read_text())
 
     def test_revisions_wait_for_review(self):
         self.new_data()
@@ -197,7 +212,7 @@ class Workflow(unittest.TestCase):
     def test_the_merge_comes_after_validation_tests_and_build(self):
         text = (WORKFLOWS / 'data.yml').read_text()
         order = [text.index(s) for s in ('pipeline fetch', 'pipeline publish', 'pipeline revisions', 'unittest discover',
-                                         'site/build.py', 'data-pr.sh', 'data-failed.sh')]
+                                         'site/build.py', 'share.py --release', 'data-pr.sh', 'data-failed.sh')]
         self.assertEqual(order, sorted(order))
         self.assertIn('if: failure()', text)
 

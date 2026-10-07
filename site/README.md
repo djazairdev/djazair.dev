@@ -27,6 +27,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `djsite/components.py` | Shared components: buttons, chips, chart controls, tiles, figure frame, source line, tables, disclosure, Hub issue rows, check panel, code sample |
 | `djsite/charts.py` | Build-time SVG charts: line, bar and unit map, sparklines, rank strips; their CSV, JSON and SVG downloads |
 | `djsite/figures.py` | A chart on a page: numbered label, wide and phone drawings, key, source line, downloads, data table |
+| `djsite/embeds.py` | Chart embeds (IDX-18): a page for each chart on the Index pages and Home, made for iframes, and the *Embed* and *Share* buttons under those charts |
 | `djsite/unitmap.py`, `geo/algeria.json` | The unit map's layout inside Algeria's outline |
 | `djsite/fmt.py` | Number, quarter and date formats for `en` and `ar-DZ` |
 | `djsite/pages/` | One renderer per page; `root.py` is the language chooser at `/` |
@@ -37,7 +38,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `static/fonts/` | Self-hosted Tajawal and JetBrains Mono woff2 subsets, with their licences (SIL OFL 1.1) |
 | `tools/fetch_fonts.py` | Re-downloads the fonts and writes `static/css/05-fonts.css`; only needed to update them |
 | `tools/make_outline.py` | Rebuilds `geo/algeria.json` from Natural Earth (public domain); only needed to change the outline |
-| `tools/share.py`, `static/share/` | Draws the share images (1200 × 630, one per language) in Chrome; only needed to change them |
+| `tools/share.py`, `static/share/` | Draws the share images (1200 × 630, one per language) in Chrome: the site's card (`static/share/en.png`, `ar.png`), and with `--release` the quarter's card with Home's headline figures (`static/share/<yyyy-qN>/`), which the data workflow draws for each new release (IDX-19) |
 | `tools/perf.py` | Measures load times in Chrome on a throttled phone profile ([docs/performance.md](../docs/performance.md)) |
 | `tools/screens.py` | Takes pictures of the built pages for `docs/design/` (full page and first screen, desktop and phone) |
 | `tools/smoke.py` | Checks a deployed copy of the site from the outside: every page in the sitemap and every link to the site answer, the downloads, the 404 page and Cloudflare's headers ([docs/launch.md](../docs/launch.md)) |
@@ -48,7 +49,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 
 ## Search and sharing
 
-Every page has its own title and description, a canonical link and `hreflang` links to both languages; Home's `x-default` is `/`, the language chooser. Shared links show an Open Graph and X card with the page's title and description and the share image in the page's language. The build writes `sitemap.xml`, with both languages of every page, and `robots.txt`, which points to it. A placeholder page (`pages/stub.py`), a report still in draft and the 404 page carry `noindex` and stay out of the sitemap. `tests/test_seo.py` checks all of it.
+Every page has its own title and description, a canonical link and `hreflang` links to both languages; Home's `x-default` is `/`, the language chooser. Shared links show an Open Graph and X card with the page's title and description and the share image in the page's language: on Home and the Index pages, the card of the quarter they show once `tools/share.py --release` has drawn it, and the site's card everywhere else and until then. The build writes `sitemap.xml`, with both languages of every page, and `robots.txt`, which points to it. A placeholder page (`pages/stub.py`), a report still in draft and the 404 page carry `noindex` and stay out of the sitemap. `tests/test_seo.py` checks all of it.
 
 ## Design tokens
 
@@ -74,7 +75,8 @@ Every chart is drawn at build time as SVG, so a page can be read without fetchin
 
 - a wide drawing and a phone drawing (they switch at 760 px), and a key on phones, where lines have no end labels;
 - `role="img"` with a title and a description, and a data table with every value in a disclosure under the chart (AC-IDX-7);
-- downloads (IDX-15): CSV and JSON (CC0, the same for both languages) at `/charts/<yyyy-qN>/<id>.csv` and `.json`, and SVG files in the dark and light palettes at `/charts/<yyyy-qN>/<lang>/<id>-dark.svg` and `-light.svg`, each with its title and credit line. PNG files are drawn from those SVG files in the browser, with the site's fonts embedded, so their menu items appear only with JavaScript.
+- downloads (IDX-15): CSV and JSON (CC0, the same for both languages) at `/charts/<yyyy-qN>/<id>.csv` and `.json`, and SVG files in the dark and light palettes at `/charts/<yyyy-qN>/<lang>/<id>-dark.svg` and `-light.svg`, each with its title and credit line. PNG files are drawn from those SVG files in the browser, with the site's fonts embedded, so their menu items appear only with JavaScript;
+- on the Index pages and Home, *Embed* and *Share* (IDX-18). *Embed* shows the iframe code to paste on another site, dark or light. *Share* opens the phone's share sheet, or copies a link to the chart. Each of those charts has a page of its own at `/<lang>/embed/<chart id>/`, and `light/` under it in the light palette: the drawing (the phone one in a narrow frame), a key, the source and licence, and a link back to the chart. These pages are static, always show the latest release and carry `noindex`; `_headers` lets any site frame them, and only them. Reports keep their downloads only.
 
 Colours come from `djsite/palette.py`; on-page charts use the dark palette, which a test keeps equal to the CSS tokens. Time runs left to right in Arabic too; Arabic words are set right to left and figures left to right. End labels never overlap: labels that would collide form a group centred on their lines. The unit map fills Algeria's outline with one square per 1,000 accounts; the squares show quantity, never location, and the map is never mirrored. The same data always gives byte-identical files (`tests/test_charts.py`).
 

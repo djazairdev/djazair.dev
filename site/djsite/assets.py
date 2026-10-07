@@ -41,6 +41,7 @@ class Assets:
     fonts: set = field(default_factory=set)
     scripts: dict = field(default_factory=dict)   # name -> URL of page-specific scripts
     share: dict = field(default_factory=dict)     # lang -> URL of the 1200 × 630 share image (site/tools/share.py)
+    release_share: dict = field(default_factory=dict)   # lang -> URL of the quarter's share image, when there is one
 
     def inline_style(self) -> Markup:
         return Markup(f'<style>{self.style}</style>')
@@ -57,8 +58,10 @@ def _write_hashed(out: Path, stem: str, ext: str, data: bytes) -> str:
     return f'/assets/{name}'
 
 
-def build(out: Path, extra_css: str = '') -> Assets:
-    """``extra_css``: rules generated from the data (the Home ticker), added after the static files."""
+def build(out: Path, extra_css: str = '', release: str = '') -> Assets:
+    """``extra_css``: rules generated from the data (the Home ticker), added after the static files.
+    ``release``: the folder of the quarter being built (2026-q1), whose share images are used
+    when site/tools/share.py --release drew them."""
     (out / 'assets' / 'fonts').mkdir(parents=True, exist_ok=True)
 
     css_files = sorted((STATIC_DIR / 'css').glob('*.css'))
@@ -81,6 +84,10 @@ def build(out: Path, extra_css: str = '') -> Assets:
 
     share = {path.stem: _write_hashed(out, f'share-{path.stem}', 'png', path.read_bytes())
              for path in sorted((STATIC_DIR / 'share').glob('*.png'))}
+    release_share = {}
+    if release:
+        release_share = {path.stem: _write_hashed(out, f'share-{release}-{path.stem}', 'png', path.read_bytes())
+                         for path in sorted((STATIC_DIR / 'share' / release).glob('*.png'))}
 
     shutil.copy2(STATIC_DIR / 'favicon.svg', out / 'favicon.svg')
-    return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts, share=share)
+    return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts, share=share, release_share=release_share)

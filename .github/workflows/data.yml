@@ -73,6 +73,17 @@ jobs:
         if: steps.publish.outcome == 'success'
         run: python site/build.py
 
+      - name: Let Chrome use its sandbox
+        if: steps.publish.outcome == 'success'
+        # Ubuntu 24.04 blocks the unprivileged user namespaces Chrome's sandbox needs.
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
+
+      - name: Draw the quarter's share images
+        if: steps.publish.outcome == 'success'
+        # Without them, shared links show the site's card, and the pull request says so.
+        continue-on-error: true
+        run: python site/tools/share.py --release
+
       - name: Open the pull request, merge it and deploy
         if: steps.publish.outcome == 'success'
         env:

@@ -10,7 +10,8 @@
   "share": {
     "eyebrow": "Algeria Developer Index · Project Hub",
     "lede": "Algeria’s GitHub activity compared with similar countries every quarter, and open-source projects to start on.",
-    "alt": "djazair.dev: Growing Algeria’s developer ecosystem. The Algeria Developer Index and the Project Hub."
+    "alt": "djazair.dev: Growing Algeria’s developer ecosystem. The Algeria Developer Index and the Project Hub.",
+    "release_alt": "Algeria Developer Index, {quarter}: {accounts} developer accounts in Algeria, up {growth} in a year."
   },
   "a11y": {
     "skip": "Skip to content",
@@ -90,7 +91,21 @@
     "png_dark": "PNG, dark",
     "png_light": "PNG, light",
     "share": "Copy link",
-    "copied": "Link copied"
+    "copied": "Link copied",
+    "share_button": "Share"
+  },
+  "embed": {
+    "button": "Embed",
+    "lede": "Paste this code into a web page. The chart updates with each release and credits its source.",
+    "theme": "Background",
+    "dark": "Dark",
+    "light": "Light",
+    "code": "Embed code",
+    "light_note": "For a light background, add {param} to the end of the address.",
+    "copy": "Copy code",
+    "preview": "Preview",
+    "view": "View on djazair.dev",
+    "licence": "Chart: djazair.dev (CC BY 4.0)"
   },
   "hub": {
     "need": "You’ll need:",

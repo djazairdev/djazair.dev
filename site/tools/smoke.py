@@ -12,8 +12,9 @@ It reads the sitemap the site publishes and checks that:
   press kit, fonts and scripts;
 - the share images are PNG files, the press kit is a zip, the root page sends readers to
   /en/ or /ar/, robots.txt names the sitemap, and a missing page gets the site's 404 page;
+- the chart embeds the Index pages link to answer, dark and light;
 - when Cloudflare answers, the headers from site/dist/_headers are there (caching, CORS for
-  the data and charts, nosniff);
+  the data and charts, nosniff), and only the chart embeds can be framed by other sites;
 - on djazair.dev itself, http:// moves to https://.
 
 Problems are listed, and the exit status is 1 if there is one. Standard library only.
@@ -21,6 +22,7 @@ Problems are listed, and the exit status is 1 if there is one. Standard library 
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 import time
 import uuid
@@ -37,7 +39,9 @@ AGENT = 'djazair.dev smoke check'
 SITEMAP = '{http://www.sitemaps.org/schemas/sitemap/0.9}'
 LINK_TAGS = ('a', 'link', 'script', 'img', 'source')
 LABELS = {'sitemap': 'page in the sitemap|pages in the sitemap', 'page': 'other page|other pages',
-          'file': 'file|files', 'zip': 'zip file|zip files', 'image': 'share image|share images'}
+          'embed': 'chart embed|chart embeds', 'file': 'file|files', 'zip': 'zip file|zip files',
+          'image': 'share image|share images'}
+EMBED = re.compile(r'/(en|ar)/embed/[^/]+/')      # a chart's embed page; its light version is light/ under it
 
 
 class Answer(NamedTuple):
@@ -91,6 +95,18 @@ class Page(HTMLParser):
     def handle_data(self, data):
         if self._in_title:
             self.title += data
+
+
+def frame_ancestors(csp: str) -> list:
+    """The frame-ancestors sources of each policy in a Content-Security-Policy header (Cloudflare
+    joins the policies of several _headers rules with commas, and browsers enforce them all)."""
+    found = []
+    for policy in csp.split(','):
+        for directive in policy.split(';'):
+            name, _, sources = directive.strip().partition(' ')
+            if name.lower() == 'frame-ancestors':
+                found.append(sources.split())
+    return found
 
 
 class Smoke:
@@ -219,8 +235,11 @@ class Smoke:
                     continue
                 page = self.html(path, answer)
                 if page is not None:
-                    self.counts['page'] = self.counts.get('page', 0) + 1
+                    kind = 'embed' if '/embed/' in path else 'page'
+                    self.counts[kind] = self.counts.get(kind, 0) + 1
                     links |= self.links(page, url)
+                    if EMBED.fullmatch(path):
+                        links.add(url + 'light/')
                     continue
                 self.counts['file'] = self.counts.get('file', 0) + 1
                 if path.endswith('.zip'):
@@ -240,6 +259,16 @@ class Smoke:
             self.fail(f'{path} cannot be read by other sites (no Access-Control-Allow-Origin: *)')
         if headers.get('x-content-type-options') != 'nosniff':
             self.fail(f'{path} lacks X-Content-Type-Options: nosniff')
+        if not headers.get('content-type', '').startswith('text/html'):
+            return
+        framing = headers.get('x-frame-options', '')
+        ancestors = frame_ancestors(headers.get('content-security-policy', ''))
+        if '/embed/' in path:
+            if framing or any(sources != ['*'] for sources in ancestors):
+                self.fail(f'{path} cannot be embedded on other sites (X-Frame-Options: {framing or "none"}; '
+                          f'frame-ancestors: {" / ".join(" ".join(s) for s in ancestors) or "none"})')
+        elif framing.upper() not in ('SAMEORIGIN', 'DENY'):
+            self.fail(f'{path} can be framed by any site (no X-Frame-Options: SAMEORIGIN)')
 
     def check_images(self, images):
         answers = self.fetch_all(images)

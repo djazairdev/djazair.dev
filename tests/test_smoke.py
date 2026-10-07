@@ -21,17 +21,35 @@ from djsite.build import build  # noqa: E402
 
 
 def header_rules(dist: Path) -> list:
-    """(path pattern, {name: value}) from the site's _headers file, as Cloudflare reads it."""
+    """(path pattern, [(name, value)]) from the site's _headers file, as Cloudflare reads it; the
+    value is None for ``! Name``, which takes off a header an earlier rule set."""
     rules = []
     for line in (dist / '_headers').read_text().splitlines():
         if not line.strip() or line.startswith('#'):
             continue
         if not line[0].isspace():
-            rules.append((line.strip(), {}))
+            rules.append((line.strip(), []))
+        elif line.strip().startswith('!'):
+            rules[-1][1].append((line.strip()[1:].strip(), None))
         else:
             name, _, value = line.strip().partition(':')
-            rules[-1][1][name.strip()] = value.strip()
+            rules[-1][1].append((name.strip(), value.strip()))
     return rules
+
+
+def headers_for(rules: list, path: str) -> dict:
+    """Cloudflare's headers for ``path``: every matching rule in order; a header set twice keeps
+    both values, joined with a comma."""
+    out = {}
+    for pattern, headers in rules:
+        if path.startswith(pattern[:-1]) if pattern.endswith('*') else path == pattern:
+            for name, value in headers:
+                if value is None:
+                    out.pop(name.lower(), None)
+                else:
+                    old = out.get(name.lower())
+                    out[name.lower()] = (name, f'{old[1]}, {value}' if old else value)
+    return dict(out.values())
 
 
 class Cloudflareish(perf.Handler):
@@ -42,11 +60,8 @@ class Cloudflareish(perf.Handler):
         return 'cloudflare'
 
     def end_headers(self):
-        path = urlsplit(self.path).path
-        for pattern, headers in self.rules:
-            if path.startswith(pattern[:-1]) if pattern.endswith('*') else path == pattern:
-                for name, value in headers.items():
-                    self.send_header(name, value)
+        for name, value in headers_for(self.rules, urlsplit(self.path).path).items():
+            self.send_header(name, value)
         super().end_headers()
 
 
@@ -79,9 +94,11 @@ class Smoke(unittest.TestCase):
         self.assertTrue(result.ok, result.report())
         self.assertEqual(result.counts['sitemap'], len(self.locs))
         self.assertGreaterEqual(result.counts['page'], 2)      # report drafts, outside the sitemap
+        embeds = [p for p in self.dist.rglob('index.html') if '/embed/' in p.as_posix()]
+        self.assertEqual(result.counts['embed'], len(embeds))  # linked from the Embed panels, dark and light
         self.assertGreaterEqual(result.counts['file'], 100)
         self.assertEqual(result.counts['zip'], 2)              # the CSV bundle and the press kit
-        self.assertEqual(result.counts['image'], 2)
+        self.assertEqual(result.counts['image'], len(list((self.dist / 'assets').glob('share-*.png'))))   # the site's and the quarter's
         self.assertIn('response headers were not checked', result.report())
 
     def test_headers_are_checked_when_cloudflare_answers(self):
@@ -99,6 +116,25 @@ class Smoke(unittest.TestCase):
         self.assertRegex(report, r'/data/\S+ cannot be read by other sites')
         self.assertRegex(report, r'/charts/\S+ cannot be read by other sites')
         self.assertIn('/en/ lacks X-Content-Type-Options: nosniff', report)
+        self.assertIn('/en/index/trends/ can be framed by any site (no X-Frame-Options: SAMEORIGIN)', report)
+        self.assertNotIn('cannot be embedded', report)    # with no headers at all, anyone can frame them
+
+    def test_only_chart_embeds_can_be_framed(self):
+        rules = header_rules(self.dist)
+        page, embed = headers_for(rules, '/en/index/trends/'), headers_for(rules, '/ar/embed/trends-accounts-actual/light/')
+        self.assertEqual(page['X-Frame-Options'], 'SAMEORIGIN')
+        self.assertNotIn('Content-Security-Policy', page)
+        self.assertNotIn('X-Frame-Options', embed)
+        self.assertEqual(smoke.frame_ancestors(embed['Content-Security-Policy']), [['*']])
+        self.assertEqual(embed['X-Content-Type-Options'], 'nosniff')
+
+        Cloudflareish.rules = [(pattern, [h for h in headers if h[1] is not None]) for pattern, headers in rules]
+        result, _ = self.check(self.dist, Cloudflareish)        # the ! lines forgotten
+        fails = [line for line in result.report().splitlines() if line.startswith('FAIL')]
+        self.assertTrue(fails)
+        for line in fails:
+            self.assertRegex(line, r'^FAIL  /(en|ar)/embed/\S+ cannot be embedded on other sites \(X-Frame-Options: SAMEORIGIN;')
+        self.assertEqual(smoke.frame_ancestors("default-src 'self'; frame-ancestors 'self', frame-ancestors *"), [["'self'"], ['*']])
 
     def test_problems_are_found(self):
         broken = self.tmp / 'broken'

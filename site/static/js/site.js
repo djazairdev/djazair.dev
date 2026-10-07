@@ -40,26 +40,26 @@
     });
   });
 
-  // A download menu opens towards the side with room. Its button can sit at either end of a
-  // line (a long source line wraps it to the start), and on phones the menu must stay on screen.
+  // A download or embed menu opens towards the side with room. Its button can sit at either end
+  // of a line (a long source line wraps it to the start), and on phones the menu must stay on
+  // screen. Its place is worked out before it moves: tried past the left edge of a right-to-left
+  // page (or the right edge of a left-to-right one), it would scroll the whole page sideways.
   doc.addEventListener('toggle', function (e) {
     var d = e.target;
     if (!d.matches || !d.matches('details.dl') || !d.open) return;
     var m = d.querySelector('.dl-menu');
     var vw = doc.documentElement.clientWidth;
-    var over = function () {
-      var r = m.getBoundingClientRect();
-      return Math.max(0, 8 - r.left) + Math.max(0, r.right - (vw - 8));
-    };
-    m.classList.remove('dl-flip');
-    m.style.translate = '';
-    var before = over();
-    if (!before) return;
-    m.classList.add('dl-flip');
-    if (over() > before) m.classList.remove('dl-flip');
-    var r = m.getBoundingClientRect();
-    var shift = Math.max(0, 8 - r.left) - Math.max(0, r.right - (vw - 8));
-    if (shift) m.style.translate = shift + 'px 0';
+    var a = d.getBoundingClientRect();
+    var w = m.offsetWidth;
+    var rtl = getComputedStyle(d).direction === 'rtl';
+    var end = rtl ? a.left : a.right - w;           // left edge when it hangs from the button's end (the default)
+    var start = rtl ? a.right - w : a.left;         // and from its start (dl-flip)
+    var over = function (left) { return Math.max(0, 8 - left) + Math.max(0, left + w - (vw - 8)); };
+    var flip = over(start) < over(end);
+    var left = flip ? start : end;
+    var shift = Math.max(0, 8 - left) - Math.max(0, left + w - (vw - 8));
+    m.classList.toggle('dl-flip', flip);
+    m.style.translate = shift ? shift + 'px 0' : '';
   }, true);
 
   // Index sub-nav: on phones, bring the current section into view.
@@ -222,6 +222,55 @@
         }, 60);
       };
       img.src = url;
+    });
+  });
+
+  // Share (ticket #42): the phone's share sheet, or the chart's link copied. Without either,
+  // the link just goes to the figure.
+  doc.querySelectorAll('[data-share]').forEach(function (a) {
+    if (!navigator.share && !navigator.clipboard) return;
+    var label = a.querySelector('span');
+    var text = label.textContent;
+    a.addEventListener('click', function (e) {
+      e.preventDefault();
+      var url = location.origin + location.pathname + a.getAttribute('href');
+      if (navigator.share) {
+        navigator.share({ title: doc.title, url: url }).catch(function () {});
+        return;
+      }
+      navigator.clipboard.writeText(url).then(function () {
+        label.textContent = a.getAttribute('data-copied') || text;
+        setTimeout(function () { label.textContent = text; }, 1600);
+      });
+    });
+  });
+
+  // Embed panels: the dark or light switch rewrites the code and the preview link, and the
+  // button copies the code. Without JavaScript the code is there to select, with a note.
+  doc.querySelectorAll('.emb-panel').forEach(function (p) {
+    var code = p.querySelector('.emb-code');
+    var preview = p.querySelector('.emb-acts a');
+    var base = preview.getAttribute('href');
+    var src = code.value.match(/src="([^"]+)"/)[1];
+    var ts = p.querySelector('.emb-ts');
+    ts.hidden = false;
+    p.querySelector('.emb-note').hidden = true;
+    ts.addEventListener('change', function (e) {
+      var end = e.target.value === 'light' ? 'light/' : '';     // the light page sits under the dark one
+      code.value = code.value.replace(/src="[^"]+"/, 'src="' + src + end + '"');
+      preview.setAttribute('href', base + end);
+    });
+    code.addEventListener('focus', function () { code.select(); });
+  });
+  doc.querySelectorAll('[data-copy-from]').forEach(function (b) {
+    if (!navigator.clipboard) return;
+    b.hidden = false;
+    var label = b.textContent;
+    b.addEventListener('click', function () {
+      navigator.clipboard.writeText(doc.getElementById(b.getAttribute('data-copy-from')).value).then(function () {
+        b.textContent = b.getAttribute('data-copied') || label;
+        setTimeout(function () { b.textContent = label; }, 1600);
+      });
     });
   });
 

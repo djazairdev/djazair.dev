@@ -11,12 +11,12 @@ from __future__ import annotations
 
 import json
 
-from .. import charts
+from .. import charts, embeds
 from .. import components as C
 from ..charts import Bar, BarChart, Line, LineChart, loc, tick_compact, tick_dec, tick_int
 from ..config import LANGS
 from ..context import Ctx, Page
-from ..figures import downloads, figure, line_key
+from ..figures import actions, figure, line_key
 from ..fmt import fdec, fint, fpct, quarter_label
 from ..markup import Markup, esc, join
 from ..scorecard import CORE_PEERS, NORTH_AFRICA
@@ -24,6 +24,7 @@ from ..scorecard import CORE_PEERS, NORTH_AFRICA
 INDS = (('accounts', 'accounts'), ('pushes', 'pushes_per_account'), ('repos', 'repos_per_account'),
         ('orgs', 'orgs_per_account'))
 SCALES = ('actual', 'indexed')
+ANCHOR = 'fig-trends'                                         # figure 1, for Share and the embed pages' links
 DECIMALS = {'accounts': 0, 'pushes': 2, 'repos': 2, 'orgs': 4}
 SERIES = ('DZ', 'median_north_africa') + CORE_PEERS        # tables and the readout, in this order
 
@@ -176,18 +177,18 @@ def figure_one(ctx, items) -> Markup:
     titles = join(f'<span class="{cls(k, s)}">{esc(loc(ch.title, lang))}</span>' for k, s, ch in items)
     head = Markup(f'<div class="fig-head">{C.fig_label(ctx, 1, titles, "tr-fig-label")}{scale_control(ctx)}</div>')
     wide, narrow, readouts, menus = [], [], [], []
+    q = data.quarters
+    members = _names(ctx, NORTH_AFRICA)
+    source = ctx.t('trends.source', members=members, **{'from': qlabel(q[0], lang), 'to': qlabel(q[-1], lang)})
     for key, scale, chart in items:
         desc = f'{loc(chart.summary, lang)} {ctx.s("chart.desc_table")}'
         uid = f'tr-{view_id(key, scale)}'
         wide.append(charts.svg(chart, lang, 'wide', f'{uid}-w', desc, cls=cls(key, scale)))
         narrow.append(charts.svg(chart, lang, 'narrow', f'{uid}-n', desc, cls=cls(key, scale)))
         readouts.append(f'<span class="ro-rows {cls(key, scale)}">{readout_rows(ctx, key, scale, chart, last)}</span>')
-        menus.append(f'<div class="{cls(key, scale)}">{C.download_menu(ctx, downloads(ctx, chart))}</div>')
+        menus.append(f'<div class="{cls(key, scale)}">{actions(ctx, chart, source, ANCHOR, share=False)}</div>')
     tip = ('<div class="tip ov" aria-hidden="true"><span class="tip-q num"></span>'
            + readout_rows(ctx, *items[0][:2], items[0][2], last) + '</div>')
-    q = data.quarters
-    members = _names(ctx, NORTH_AFRICA)
-    source = ctx.t('trends.source', members=members, **{'from': qlabel(q[0], lang), 'to': qlabel(q[-1], lang)})
     first_chart = items[0][2]
     body = Markup(
         f'{tabs(ctx)}{head}{peer_control(ctx)}'
@@ -197,8 +198,8 @@ def figure_one(ctx, items) -> Markup:
         f'<span class="ro-hint" hidden>{ctx.t("trends.drag")}</span></span>{join(readouts)}</div>'
         f'{line_key(ctx, first_chart)}</div>'
         f'<p class="sr-only" role="status" aria-live="polite" id="tr-live"></p>'
-        + C.source_line(source, Markup(join(menus))))
-    return C.frame(body, cls='fig tr-fig', labelledby='tr-fig-label')
+        + C.source_line(source, Markup(join(menus)) + embeds.share(ctx, ANCHOR)))
+    return C.frame(body, cls='fig tr-fig', labelledby='tr-fig-label', id_=ANCHOR)
 
 
 def _names(ctx, codes) -> str:

@@ -49,8 +49,9 @@ The `Data` workflow (`.github/workflows/data.yml`) runs every day at 06:23 UTC:
 1. `python -m pipeline fetch` archives the latest GitHub Innovation Graph release. If it isn't new, the run stops here.
 2. `python -m pipeline publish` validates it and writes `data/derived/`; `python -m pipeline revisions` compares it with the release before it.
 3. The tests and the site build run with the new data.
-4. `.github/scripts/data-pr.sh` commits `data/` to a `data/<quarter>-<commit>` branch, opens a pull request, runs CI on it, merges it when CI passes, and then runs CI on `main`, which deploys. Pull requests and merges made with the workflow's token start no workflow by themselves, so the script starts CI by hand and waits for it.
-5. If the release revises past values, the pull request stays open for editorial review instead of merging; merging it by hand deploys as usual.
+4. `python site/tools/share.py --release` draws the quarter's share images in Chrome: the card that links to Home and the Index pages show, with the quarter's headline figures (`site/static/share/<quarter>/`). If Chrome fails, the run goes on: shared links show the site's own card, and the pull request says how to draw them.
+5. `.github/scripts/data-pr.sh` commits `data/` and the share images to a `data/<quarter>-<commit>` branch, opens a pull request, runs CI on it, merges it when CI passes, and then runs CI on `main`, which deploys. Pull requests and merges made with the workflow's token start no workflow by themselves, so the script starts CI by hand and waits for it.
+6. If the release revises past values, the pull request stays open for editorial review instead of merging; merging it by hand deploys as usual.
 
 If any step fails, `.github/scripts/data-failed.sh` opens a *Data update failed* issue with the validation report (or comments on the one already open); the next run that works closes it. The live site only changes when CI passes on `main`, so a failed run leaves it as it was.
 

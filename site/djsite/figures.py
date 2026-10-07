@@ -4,13 +4,14 @@ the data table that every chart has (AC-IDX-7).
 
 Each figure registers its chart's downloads with the site (IDX-15): CSV and JSON, the same
 in both languages, and SVG files in the dark and light palettes in the page's language.
-PNG files are drawn from those SVG files in the browser by site.js.
+PNG files are drawn from those SVG files in the browser by site.js. Charts on the Index pages
+and Home can also be shared and embedded (``embeds.py``, ticket #42).
 """
 from __future__ import annotations
 
 from dataclasses import replace
 
-from . import charts
+from . import charts, embeds
 from .charts import HBarChart, LineChart, UnitMap, loc
 from .components import data_table, details, download_menu, fig_label, frame, source_line
 from .config import LANGS
@@ -21,8 +22,16 @@ from .palette import THEMES
 KEY_ORDER = ('dz', 'hl', 'median', 'ref', 'peer')
 
 
+def credited(ctx, chart):
+    """The chart with the site's credit line, unless it has its own: downloads and embeds carry it."""
+    if chart.credit:
+        return chart
+    return replace(chart, credit={lang: ctx.site.catalog.lookup(lang, 'chart.credit')[0] for lang in LANGS})
+
+
 def downloads(ctx, chart) -> dict:
     """Register the chart's files and return them for ``download_menu``."""
+    chart = credited(ctx, chart)
     site, lang, folder = ctx.site, ctx.lang, chart.folder
     stem = f'djazair.dev-{chart.id}-{folder}'
     base = f'/charts/{folder}/{chart.id}'
@@ -35,6 +44,18 @@ def downloads(ctx, chart) -> dict:
         files[f'svg-{theme}'] = (url, f'{stem}-{lang}-{theme}.svg')
         files[f'png-{theme}'] = (url, f'{stem}-{lang}-{theme}.png')
     return files
+
+
+def actions(ctx, chart, source, anchor: str, share: bool = True) -> Markup:
+    """The chart's downloads, then, on the Index pages and Home, Embed and Share (ticket #42),
+    with the chart's embed page. ``anchor``: the id of the figure the chart is in. Trends adds
+    one Share for its eight views, after them."""
+    chart = credited(ctx, chart)
+    out = download_menu(ctx, downloads(ctx, chart))
+    if embeds.embeddable(ctx, chart):
+        embeds.register(ctx, chart, source, anchor)
+        out += embeds.panel(ctx, chart) + (embeds.share(ctx, anchor) if share else Markup(''))
+    return out
 
 
 def line_key(ctx, chart: LineChart) -> Markup:
@@ -84,8 +105,7 @@ def figure(ctx, chart, n: int, *, source, controls='', lede='', note='', cls: st
     """Figure ``n``. ``source``: HTML for the source line, naming the source and the data
     quarter (IDX-13). ``controls`` sit beside the label; ``lede`` goes under it; ``note``
     under the drawing, for what it leaves out."""
-    if not chart.credit:
-        chart = replace(chart, credit={lang: ctx.site.catalog.lookup(lang, 'chart.credit')[0] for lang in LANGS})
+    chart = credited(ctx, chart)
     lang = ctx.lang
     desc = f'{loc(chart.summary, lang)} {ctx.s("chart.desc_table")}'
     label_id = f'{chart.id}-label'
@@ -101,6 +121,7 @@ def figure(ctx, chart, n: int, *, source, controls='', lede='', note='', cls: st
             body += hbar_key(ctx, chart)
     lede_html = Markup(f'<p class="fig-lede">{lede}</p>') if lede else ''
     note_html = Markup(f'<p class="fig-note">{note}</p>') if note else ''
+    anchor = f'fig-{chart.id}'
     inner = (head + lede_html + Markup(f'<div class="fig-body">{body}</div>') + note_html
-             + source_line(source, download_menu(ctx, downloads(ctx, chart))) + table(ctx, chart))
-    return frame(inner, cls=f'fig {cls}'.strip(), labelledby=label_id)
+             + source_line(source, actions(ctx, chart, source, anchor)) + table(ctx, chart))
+    return frame(inner, cls=f'fig {cls}'.strip(), labelledby=label_id, id_=anchor)

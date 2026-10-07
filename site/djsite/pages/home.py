@@ -111,16 +111,25 @@ def _stat(value: Markup, label, up: bool = False) -> str:
     return f'<div class="hs{" hs-up" if up else ""}"><dt>{label}</dt><dd>{value}</dd></div>'
 
 
+def figures(ctx) -> list:
+    """The hero's three figures, (value, label): growth in a year, the rank for it in North
+    Africa and the accounts added. The release's share images show them too (site/tools/share.py)."""
+    data = ctx.site.data
+    lang = ctx.lang
+    ov = data.overview()
+    a, y = ov['accounts'], ov['yoy']
+    return [(fpct(y['value'], 1, lang, sign=False), ctx.t('home.stat_growth')),
+            (rank_text(y['north_africa_rank'], y['north_africa_ranked'], lang), ctx.t('home.stat_rank')),
+            (fint(a['value'] - a['year_earlier'], lang, sign=True), ctx.t('home.stat_added', quarter=_q(ctx, year_earlier(data.quarter))))]
+
+
 def hero(ctx) -> Markup:
     data = ctx.site.data
     lang, q = ctx.lang, data.quarter
-    ov = data.overview()
-    a, y = ov['accounts'], ov['yoy']
-    before = year_earlier(q)
-    growth = Markup(f'<span class="num" dir="ltr"><span aria-hidden="true">▲ </span>{esc(fpct(y["value"], 1, lang, sign=False))}</span>')
-    stats = (_stat(growth, ctx.t('home.stat_growth'), up=True)
-             + _stat(num(rank_text(y['north_africa_rank'], y['north_africa_ranked'], lang)), ctx.t('home.stat_rank'))
-             + _stat(num(fint(a['value'] - a['year_earlier'], lang, sign=True)), ctx.t('home.stat_added', quarter=_q(ctx, before))))
+    a = data.overview()['accounts']
+    (growth, growth_label), (rank, rank_label), (added, added_label) = figures(ctx)
+    growth = Markup(f'<span class="num" dir="ltr"><span aria-hidden="true">▲ </span>{esc(growth)}</span>')
+    stats = _stat(growth, growth_label, up=True) + _stat(num(rank), rank_label) + _stat(num(added), added_label)
 
     n, direction, _ = editorial.streak(data.series('yoy', 'DZ'))
     lead = ''

@@ -141,11 +141,12 @@ def indicator_card(*, n: int, title, quarter: str, value: str, extras: str = '',
 
 
 # ---------------------------------------------------------------- figures
-def frame(inner, cls: str = '', labelledby: str = '') -> Markup:
+def frame(inner, cls: str = '', labelledby: str = '', id_: str = '') -> Markup:
     """Figure frame with engineering-drawing corner marks."""
     corners = ''.join(f'<span class="cm cm-{c}" aria-hidden="true"></span>' for c in ('tl', 'tr', 'bl', 'br'))
     label = f' aria-labelledby="{esc(labelledby)}"' if labelledby else ''
-    return Markup(f'<figure class="frame {cls}"{label}>{corners}{inner}</figure>')
+    ident = f' id="{esc(id_)}"' if id_ else ''
+    return Markup(f'<figure class="frame {cls}"{ident}{label}>{corners}{inner}</figure>')
 
 
 def fig_label(ctx, n: int, title, id_: str = '') -> Markup:

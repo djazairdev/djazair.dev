@@ -50,10 +50,10 @@ Note who checked and when in a comment on #35.
    ```
 
    It reads the sitemap and checks:
-   - every page and every link to the site itself;
+   - every page and every link to the site itself, and the chart embeds, dark and light;
    - the share images and the zip files;
    - robots.txt and the 404 page;
-   - the headers from `_headers`.
+   - the headers from `_headers`, including that only the chart embeds can be framed by other sites.
 
    It should end with *All good.* A note that the address is hidden from search engines is normal there: Cloudflare does that for its own addresses.
 3. **Date the launch** in one pull request:

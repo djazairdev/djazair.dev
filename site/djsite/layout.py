@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from .config import BEACON_URL, LANGS, OG_LOCALES, OTHER, REPO_URL, SITE_URL, THEME_COLOR
 from .context import Ctx, Page
+from .fmt import fint, fpct, quarter_label
 from .icons import icon, mark, wordmark
 from .markup import Markup, esc, join
 
@@ -124,9 +125,10 @@ def head_links(ctx: Ctx, page: Page) -> Markup:
                   f'<link rel="alternate" hreflang="x-default" href="{x_default}">')
 
 
-def social(site, lang: str, title: str, description: str, url: str, image_alt: str) -> Markup:
-    """Open Graph and X card tags: what a shared link shows. One image per language."""
-    image = site.assets.share.get(lang)
+def social(site, lang: str, title: str, description: str, url: str, image_alt: str, image: str = '') -> Markup:
+    """Open Graph and X card tags: what a shared link shows. ``image``: the site's card in the
+    language unless another is given."""
+    image = image or site.assets.share.get(lang)
     tags = [('og:type', 'website'), ('og:site_name', 'djazair.dev'), ('og:title', title), ('og:description', description),
             ('og:url', url), ('og:locale', OG_LOCALES[lang]), ('og:locale:alternate', OG_LOCALES[OTHER[lang]])]
     if image:
@@ -136,12 +138,27 @@ def social(site, lang: str, title: str, description: str, url: str, image_alt: s
     return Markup(out + f'<meta name="twitter:card" content="{"summary_large_image" if image else "summary"}">')
 
 
+def share_image(ctx: Ctx) -> tuple:
+    """(URL, alt text): on Home and the Index pages, the card of the quarter they show
+    (ticket #42), while site/tools/share.py --release has drawn one; elsewhere, the site's card."""
+    image = ctx.site.assets.release_share.get(ctx.lang)
+    if not image or not (ctx.route.key == 'home' or ctx.route.section == 'index'):
+        return '', ctx.s('share.alt')
+    data, lang = ctx.site.data, ctx.lang
+    ov = data.overview()
+    alt = ctx.both('share.release_alt', quarter=lambda lang: quarter_label(data.quarter, lang),
+                   accounts=lambda lang: fint(ov['accounts']['value'], lang),
+                   growth=lambda lang: fpct(ov['yoy']['value'], 1, lang, sign=False))[lang]
+    return image, alt
+
+
 def share_tags(ctx: Ctx, page: Page, title: str) -> Markup:
     if not (ctx.route.indexed and page.indexed):
         return Markup('')
+    image, alt = share_image(ctx)
     # Shared links name the site separately (og:site_name), so the title drops " · djazair.dev".
     return social(ctx.site, ctx.lang, title.removesuffix(' · djazair.dev'), page.description,
-                  ctx.abs_url(ctx.route.key), ctx.s('share.alt'))
+                  ctx.abs_url(ctx.route.key), alt, image)
 
 
 def full_title(ctx: Ctx, page: Page) -> str:

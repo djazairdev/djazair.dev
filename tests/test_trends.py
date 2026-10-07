@@ -68,7 +68,9 @@ class Trends(unittest.TestCase):
         self.assertEqual(len(re.findall(r'name="tr-ind"', html)), 4)
         self.assertEqual(len(re.findall(r'name="tr-scale"', html)), 2)
         self.assertEqual(len(re.findall(r'name="tr-hl"', html)), 7)          # six peers and "none"
-        self.assertEqual(html.count('role="radiogroup"'), 3)
+        embeds = html.count('class="seg emb-ts" role="radiogroup"')        # dark or light, in each Embed panel
+        self.assertEqual(embeds, 9)
+        self.assertEqual(html.count('role="radiogroup"') - embeds, 3)
 
     def test_each_view_has_a_matching_table(self):
         for view in VIEWS:
