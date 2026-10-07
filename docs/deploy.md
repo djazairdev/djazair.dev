@@ -22,7 +22,13 @@ These need account access, so they aren't automated. The two Workers need no set
    - `CLOUDFLARE_API_TOKEN`: the token;
    - `CLOUDFLARE_ACCOUNT_ID`: the account ID, the 32-character code in the dashboard's address (or run `npx wrangler whoami`).
 3. **Check the workers.dev subdomain.** Preview addresses and the site's pre-launch address include it, and they show on the repository's public *Deployments* page. If it names a person, change it to a neutral one in *Workers & Pages → Account details → Subdomain*.
-4. **Protect `main`.** *Settings → Rules → Rulesets → New branch ruleset* targeting `main`: require a pull request before merging; require the status checks `Test (Python 3.12)`, `Test (Python 3.13)` and `Build the site` (add `Measure load times` once it has run reliably for a few weeks); block force pushes; restrict deletions.
+4. **Protect `main`.** *Settings → Rules → Rulesets → New branch ruleset* targeting `main`:
+   - require a pull request before merging, with no required approvals. Untick *Require an additional approval for unattributed Copilot pull requests*: GitHub turns this preview setting on by default, and the data job's pull requests are opened by GitHub Actions, so it could hold them for an approval;
+   - require the status checks `Test (Python 3.12)`, `Test (Python 3.13)` and `Build the site`, from GitHub Actions (add `Measure load times` once it has run reliably for a few weeks);
+   - block force pushes;
+   - restrict deletions.
+
+   The ruleset was set up this way on 7 October 2026.
 5. **Add the second admin** (PRD R2) to the GitHub organisation and the Cloudflare account, with two-factor authentication.
 
 Secrets are only read by the deploy step, are passed to Wrangler through its inputs and are never printed. The built site contains no secrets.
@@ -73,7 +79,7 @@ If any step fails, `.github/scripts/data-failed.sh` opens a *Data update failed*
 
 - *Settings → Actions → General → Workflow permissions*: tick **Allow GitHub Actions to create and approve pull requests**. Without it the run stops at the pull request, and the issue it opens links to the branch so you can open the pull request yourself.
 - Set the repository variable `SCHEDULES_ENABLED` to `true` to run it daily.
-- Auto-merge isn't needed: the workflow merges after CI passes. With the ruleset from step 4 above it can still merge, because the checks it starts run on the pull request's commit. Don't require approving reviews in that ruleset, or data pull requests will wait for one.
+- Auto-merge isn't needed: the workflow merges after CI passes. With the ruleset from step 4 above it can still merge, because the checks it starts run on the pull request's commit. Don't require approving reviews in that ruleset, or the extra approval for Copilot pull requests, or data pull requests will wait for one.
 
 ## Alerts
 
