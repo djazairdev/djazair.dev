@@ -20,9 +20,9 @@ ISSUES_URL = f'{REPO_URL}/issues'
 # Hub ideas (ticket #39, PRD HUB-07) live in the "Ideas" category of GitHub Discussions, with the
 # form in .github/DISCUSSION_TEMPLATE/ideas.yml. Anyone with a GitHub account votes by upvoting,
 # and every quarter the organisation adopts the idea with the most votes (docs/hub-ideas.md).
-# Discussions is off until a maintainer turns it on; set HUB_IDEAS to True then, and the Hub
-# shows its Ideas section, with the round's top ideas from the Hub sync (hub/ideas.py).
-HUB_IDEAS = False
+# Discussions and the Ideas category are enabled; the Hub shows its Ideas section,
+# with the round's top ideas from the Hub sync (hub/ideas.py).
+HUB_IDEAS = True
 IDEAS_URL = f'{REPO_URL}/discussions/categories/ideas'
 NEW_IDEA_URL = f'{REPO_URL}/discussions/new?category=ideas'
 IDEAS_BY_VOTES_URL = f'{IDEAS_URL}?discussions_q=is%3Aopen+category%3AIdeas+sort%3Atop'

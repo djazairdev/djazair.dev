@@ -4,7 +4,7 @@ Anyone can propose an open-source project that would help people in Algeria, and
 
 Ideas and votes live in GitHub Discussions, in an **Ideas** category, so there is no database and no djazair.dev account. Every 6 hours the Hub sync reads the votes, and the Hub shows the round and the five ideas with the most votes.
 
-Everything is ready in the repository, but Discussions is off until a maintainer turns it on. Until then the Hub doesn't show its Ideas section, so no link leads nowhere.
+Discussions and its Ideas category are enabled. The Home participation cards link to the proposal form and the ideas sorted by votes; the Hub explains how proposals, voting and quarterly adoption work. Set `config.HUB_IDEAS` to `False` if Discussions is disabled later: Home shows the idea and voting paths as coming soon, and the Hub hides its Ideas section.
 
 ## How the vote works
 

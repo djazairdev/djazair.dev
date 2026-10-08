@@ -232,6 +232,7 @@ class Ideas(unittest.TestCase):
         finally:
             config.HUB_IDEAS = was
         self.about = {lang: (tmp / 'dist' / lang / 'about' / 'index.html').read_text('utf-8') for lang in LANGS}
+        self.home = {lang: (tmp / 'dist' / lang / 'index.html').read_text('utf-8') for lang in LANGS}
         return {lang: (tmp / 'dist' / lang / 'hub' / 'index.html').read_text('utf-8') for lang in LANGS}
 
     @staticmethod
@@ -239,13 +240,15 @@ class Ideas(unittest.TestCase):
         return re.search(r'<section class="section section-m" id="ideas".*?</section>', page, re.S).group(0)
 
     def test_hidden_while_discussions_is_off(self):
-        from djsite import config
-        self.assertFalse(config.HUB_IDEAS, 'Discussions is off on djazairdev/djazair.dev: docs/hub-ideas.md')
         for page in self.build(False, IDEAS).values():
             self.assertNotIn('id="ideas"', page)
             self.assertNotIn('/discussions', page)
         for about in self.about.values():
             self.assertNotIn('Discussions', about, 'the privacy section mentions ideas only once they show')
+        for page in self.home.values():
+            section = re.search(r'id="hub-teaser".*?</section>', page, re.S).group(0)
+            self.assertNotIn('/discussions', section, 'unavailable participation paths do not link to GitHub')
+            self.assertEqual(section.count('class="hub-path-status"'), 2)
 
     def test_the_section_links_the_category_and_the_form(self):
         from djsite import config
@@ -260,6 +263,13 @@ class Ideas(unittest.TestCase):
             self.assertLess(page.index('id="ideas"'), page.index('id="list"'))
         self.assertIn('never who proposed or voted for them', self.about['en'], 'the privacy section says so')
         self.assertIn('من اقترحها أو صوّت لها', self.about['ar'])
+        for lang, page in self.home.items():
+            section = re.search(r'id="hub-teaser".*?</section>', page, re.S).group(0)
+            self.assertEqual(section.count('class="card hub-path"'), 3)
+            for url in (config.NEW_IDEA_URL, config.IDEAS_BY_VOTES_URL,
+                        f'/{lang}/hub/?kind=gfi#issues', f'/{lang}/hub/#list'):
+                self.assertIn(f'href="{url}"', section)
+            self.assertNotIn('class="hub-path-status"', section)
 
     def test_the_round_and_its_top_ideas(self):
         from djsite import config

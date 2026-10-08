@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from .. import charts
 from .. import components as C
+from .. import config
 from .. import editorial
 from ..assets import minify_css
 from ..charts import Line, LineChart, Note, UnitMap, loc, tick_pct
@@ -467,15 +468,34 @@ def trend(ctx) -> Markup:
 # ---------------------------------------------------------------- Hub teaser
 def hub_teaser(ctx) -> Markup:
     issues = ctx.site.hub.issues[:3]
-    actions = Markup(f'<div class="section-actions">{C.btn(ctx.t("home.hub_browse"), ctx.url("hub"))}'
-                     f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "secondary", arrow=False)}</div>')
+    paths = []
+    for key, glyph, href in (
+            ('contribute', 'branch', ctx.url('hub') + '?kind=gfi#issues'),
+            ('propose', 'plus', config.NEW_IDEA_URL),
+            ('vote', 'vote', config.IDEAS_BY_VOTES_URL)):
+        available = key == 'contribute' or config.HUB_IDEAS
+        action = (C.btn(ctx.t(f'home.hub_{key}_action'), href,
+                        'primary' if key == 'contribute' else 'secondary', out=key != 'contribute')
+                  if available else Markup(f'<span class="hub-path-status">{ctx.t("home.hub_soon")}</span>'))
+        paths.append(Markup(f'<article class="card hub-path" aria-labelledby="hub-{key}-h">'
+                            f'<span class="hub-path-icon" aria-hidden="true">{icon(glyph, 24)}</span>'
+                            f'<h3 id="hub-{key}-h">{ctx.t(f"home.hub_{key}_title")}</h3>'
+                            f'<p>{ctx.t(f"home.hub_{key}_text")}</p><div class="hub-path-action">{action}</div></article>'))
+    routes = Markup(f'<div class="hub-paths">{join(paths)}</div>')
+    feed_head = Markup(f'<div class="hub-preview-head"><div><h3 id="hub-preview-h">{ctx.t("home.hub_preview_title")}</h3>'
+                       f'<p>{ctx.t("home.hub_preview_text")}</p></div>'
+                       f'{C.btn(ctx.t("home.hub_browse"), ctx.url("hub", hash="issues"), "secondary", size="s")}</div>')
     if issues:
         inner = Markup(f'<div class="issues">{join(C.issue_card(ctx, i) for i in issues)}</div>')
     else:
         inner = Markup(f'<div class="empty-state"><span class="empty-icon">{icon("plus", 20)}</span>'
                        f'<div class="empty-text"><h3>{ctx.t("home.hub_empty_title")}</h3><p>{ctx.t("home.hub_empty")}</p></div></div>')
-    return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), inner,
-                     lede=ctx.t('home.hub_lede'), head_extra=actions)
+    listing = Markup(f'<div class="hub-listing"><div><h3>{ctx.t("home.hub_listing_title")}</h3>'
+                     f'<p>{ctx.t("home.hub_listing_text")}</p></div>'
+                     f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "secondary")}</div>')
+    preview = Markup(f'<div class="hub-preview" role="group" aria-labelledby="hub-preview-h">{feed_head}{inner}</div>')
+    return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), routes + preview + listing,
+                     lede=ctx.t('home.hub_lede'))
 
 
 # ---------------------------------------------------------------- open by default
