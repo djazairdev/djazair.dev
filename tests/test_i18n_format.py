@@ -114,7 +114,7 @@ class Fallback(unittest.TestCase):
         build(tmp / 'dist', quiet=True, i18n_dir=strings)
 
         page = (tmp / 'dist' / 'ar' / 'index.html').read_text('utf-8')
-        self.assertIn('<span lang="en" dir="ltr" class="untranslated">Hub</span>', page)
+        self.assertIn('<span lang="en" dir="ltr" class="untranslated">Open-source Projects</span>', page)
         self.assertIn('بعض النصوص في هذه الصفحة لم تُترجم بعد', page)
         self.assertNotIn('النص العربي مسودة', page)   # reviewed, so no draft notice
         english = (tmp / 'dist' / 'en' / 'index.html').read_text('utf-8')

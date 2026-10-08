@@ -61,3 +61,16 @@ def mark(size: int = 28, cls: str = 'mark') -> Markup:
 
 def wordmark(cls: str = 'wordmark') -> Markup:
     return Markup(f'<span class="{cls}" lang="en" dir="ltr">djazair<span>.dev</span></span>')
+
+
+@lru_cache(maxsize=None)
+def _github_path() -> str:
+    """The official white Invertocat geometry, kept unchanged from the source SVG."""
+    svg = (STATIC_DIR / 'brand' / 'github-invertocat-white.svg').read_text('utf-8')
+    return re.search(r'<path\b[^>]*>', svg).group(0)
+
+
+def github_mark(size: int = 20) -> Markup:
+    """Decorative GitHub logo; the adjacent link text provides its accessible name."""
+    return Markup(f'<svg class="icon github-mark" width="{size}" height="{size}" viewBox="0 0 98 96" '
+                  f'fill="none" aria-hidden="true" focusable="false">{_github_path()}</svg>')

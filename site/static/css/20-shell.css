@@ -24,8 +24,9 @@
   backdrop-filter: blur(14px) saturate(140%);
   border-bottom: 1px solid var(--line);
 }
-.header-row { height: var(--header-h); display: flex; align-items: center; gap: 24px; }
-.header-end { margin-inline-start: auto; display: flex; align-items: center; gap: 24px; }
+.header-row { height: var(--header-h); display: flex; align-items: center; gap: 16px; }
+.header-end { margin-inline-start: auto; display: flex; align-items: center; gap: 12px; flex: none; }
+.header-end > [data-header-contribute] { min-height: 44px; padding-inline: 14px; font-size: 14px; }
 
 .brand {
   display: inline-flex;
@@ -41,15 +42,15 @@
 .wordmark { font-family: var(--sans); font-weight: 800; font-size: 20px; letter-spacing: -0.02em; line-height: 1; }
 .wordmark > span { color: var(--mint); }
 
-.main-nav { display: flex; align-items: center; gap: 2px; margin-inline-start: 12px; }
+.main-nav { display: flex; align-items: center; gap: 2px; }
 .main-nav a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 40px;
-  padding-inline: 12px;
+  height: 44px;
+  padding-inline: 8px;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   color: var(--ink2);
   text-decoration: none;
@@ -87,11 +88,11 @@
 .lang-switch a:hover { color: var(--ink); }
 .lang-switch a[aria-current] { color: var(--ink); background: var(--s2); }
 
-.source-link {
+.github-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  height: 36px;
+  min-height: 44px;
   padding-inline: 12px;
   border-radius: 8px;
   border: 1px solid var(--line);
@@ -101,7 +102,7 @@
   text-decoration: none;
   transition: color .15s var(--ease), border-color .2s var(--ease);
 }
-.source-link:hover { color: var(--ink); border-color: var(--line3); }
+.github-link:hover { color: var(--ink); border-color: var(--line3); }
 
 /* ---- phone menu: a <details> disclosure, so it works without JavaScript */
 .menu { display: none; }
@@ -146,12 +147,16 @@
   text-decoration: none;
 }
 .menu-panel a[aria-current] { color: var(--ink); font-weight: 700; }
-.menu-panel .menu-source { border-bottom: 0; font-size: 15px; color: var(--ink3); }
+.menu-panel .menu-github { border-bottom: 0; font-size: 15px; color: var(--ink2); }
+.menu-panel [data-menu-contribute] { justify-content: center; min-height: 48px; margin-block: 12px 8px; border: 0; font-size: 16px; color: var(--on-mint); }
 
-@media (max-width: 900px) {
+@media (max-width: 1360px) {
   .main-nav { display: none; }
   .menu { display: block; }
   .header-end { gap: 12px; }
+}
+@media (max-width: 760px) {
+  .header-end > [data-header-contribute] { display: none; }
 }
 @media (max-width: 380px) {
   .header-row { gap: 12px; }

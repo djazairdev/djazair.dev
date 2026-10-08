@@ -34,13 +34,12 @@
 .hs dt { max-width: 19ch; font-size: 13px; line-height: 1.4; color: var(--ink2); text-wrap: pretty; }
 .hero-lede { max-width: 42ch; font-size: 17px; line-height: 1.65; }
 .hero-lede strong { color: var(--ink); font-weight: 500; }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero-ctas { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
+.hero-cta { display: flex; flex-direction: column; gap: 8px; }
+.hero-cta-note { max-width: 24ch; font-size: 12px; line-height: 1.5; color: var(--ink2); }
 .hero-ctas .btn { min-height: 52px; padding-inline: 22px; border-radius: 10px; }
 .hero-ctas .btn-primary { box-shadow: 0 4px 24px var(--mint-tint); }
 .hero-ctas .btn-secondary { background: var(--tint); color: var(--ink); }
-.hero-trust { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: -8px; color: var(--ink2); font-size: 13px; }
-.hero-trust > span { display: inline-flex; align-items: center; gap: 6px; }
-.hero-trust .icon { color: var(--mint); }
 .hero-source { margin-top: -12px; }
 .hero-source > summary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--ink3); font-size: 12px; cursor: pointer; list-style: none; }
 .hero-source > summary::-webkit-details-marker { display: none; }
@@ -102,8 +101,8 @@
   .hs dt { font-size: 12px; }
   .hero-lede { font-size: 16px; }
   .hero-ctas { gap: 10px; }
-  .hero-ctas .btn { flex: 1 1 140px; padding-inline: 12px; font-size: 15px; }
-  .hero-trust { gap: 8px 14px; font-size: 12px; }
+  .hero-cta { flex: 1 1 140px; min-width: 0; }
+  .hero-ctas .btn { padding-inline: 12px; font-size: 15px; }
   .hero-fig { padding: 20px; }
   .hero-fig .fig-n { font-size: 10px; }
   .hero-fig .fig-t { font-size: 17px; }

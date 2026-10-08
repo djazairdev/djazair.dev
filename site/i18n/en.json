@@ -20,15 +20,18 @@
     "index_nav": "Index sections",
     "language": "Language",
     "source": "Source code on GitHub",
-    "menu": "Menu"
+    "menu": "Menu",
+    "github": "Follow on GitHub: djazairdev"
   },
   "nav": {
-    "index": "Index",
-    "hub": "Hub",
+    "index": "Developer Index",
+    "hub": "Open-source Projects",
     "reports": "Reports",
     "methodology": "Methodology",
     "data": "Data",
-    "source": "Source"
+    "source": "Source",
+    "contribute": "Start contributing",
+    "github": "Follow on GitHub"
   },
   "subnav": {
     "overview": "Overview",
@@ -586,7 +589,8 @@
     "slowed_one": "Growth slowed this quarter.",
     "map_note": "Each square on the map is {per} accounts. The map replays every year since {first}; the bright squares joined that year.",
     "cta_index": "Explore the Index",
-    "cta_hub": "Find a first issue",
+    "cta_hub": "Start contributing",
+    "cta_hub_note": "Find a beginner-friendly issue.",
     "source": "Source: GitHub Innovation Graph, {quarter} data released {date}. Accounts are placed by network address and include inactive ones.",
     "how": "How we count",
     "fig_map": "One square, {per} developer accounts",

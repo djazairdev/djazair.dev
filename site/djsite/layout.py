@@ -1,10 +1,11 @@
 """The page shell: document head, skip link, header, Index sub-nav, notices and footer."""
 from __future__ import annotations
 
-from .config import BEACON_URL, LANGS, OG_LOCALES, OTHER, REPO_URL, SITE_URL, THEME_COLOR
+from .config import BEACON_URL, LANGS, OG_LOCALES, OTHER, ORG_URL, REPO_URL, SITE_URL, THEME_COLOR
 from .context import Ctx, Page
+from .components import btn
 from .fmt import fint, fpct, quarter_label
-from .icons import icon, mark, wordmark
+from .icons import github_mark, icon, mark, wordmark
 from .markup import Markup, esc, join
 
 # (main-nav key, route it links to)
@@ -61,11 +62,14 @@ def header(ctx: Ctx) -> Markup:
 <nav class="main-nav" aria-label="{ctx.ta('a11y.main_nav')}">{main_nav_links(ctx)}</nav>
 <div class="header-end">
 {lang_switch(ctx)}
-<a class="source-link wide" href="{REPO_URL}" aria-label="{ctx.ta('a11y.source')}">{icon('code', 17)}<span>{ctx.t('nav.source')}</span></a>
+<a class="github-link wide" href="{ORG_URL}" aria-label="{ctx.ta('a11y.github')}">{github_mark()}<span>{ctx.t('nav.github')}</span></a>
+{btn(ctx.t('nav.contribute'), ctx.url('hub') + '?kind=gfi#issues', size='s', arrow=False, attrs=' data-header-contribute')}
 <details class="menu">
 <summary class="menu-btn" aria-label="{ctx.ta('a11y.menu')}">{icon('menu', 20, 1.8, 'icon i-open')}{icon('close', 20, 1.8, 'icon i-close')}</summary>
-<nav class="menu-panel" aria-label="{ctx.ta('a11y.main_nav')}">{main_nav_links(ctx)}
-<a class="menu-source" href="{REPO_URL}">{icon('code', 17)}<span>{ctx.t('a11y.source')}</span></a></nav>
+<nav class="menu-panel" aria-label="{ctx.ta('a11y.main_nav')}">
+{btn(ctx.t('nav.contribute'), ctx.url('hub') + '?kind=gfi#issues', arrow=False, attrs=' data-menu-contribute')}
+{main_nav_links(ctx)}
+<a class="menu-github" href="{ORG_URL}" aria-label="{ctx.ta('a11y.github')}">{github_mark()}<span>{ctx.t('nav.github')}</span></a></nav>
 </details>
 </div>
 </div>
