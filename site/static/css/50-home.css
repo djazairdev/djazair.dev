@@ -196,8 +196,14 @@
 #hub-teaser .section-head .eyebrow { justify-content: center; }
 #hub-teaser .section-head .lede { max-width: 72ch; }
 .hub-paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.hub-path { display: flex; flex-direction: column; align-items: flex-start; padding: clamp(24px, 2.5vw, 32px); min-width: 0; border-radius: var(--r-card); }
-.hub-path-icon { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; margin-bottom: 24px; border-radius: 12px; background: var(--mint-bg); color: var(--mint); }
+.hub-path { position: relative; isolation: isolate; display: flex; flex-direction: column; align-items: flex-start; padding: clamp(24px, 2.5vw, 32px); min-width: 0; border-radius: var(--r-card); }
+.hub-path-sheen { position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; background: radial-gradient(circle at var(--hub-px, 50%) var(--hub-py, 20%), var(--mint-bg), transparent 65%); opacity: 0; }
+.hub-path-art { position: relative; display: flex; align-items: center; width: 100%; height: 80px; margin-bottom: 24px; pointer-events: none; }
+.hub-path-icon { position: relative; z-index: 1; flex: none; display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border: 1px solid var(--mint-line); border-radius: 50%; background: var(--s1); color: var(--mint-hi); }
+.hub-path-icon .icon { filter: drop-shadow(0 0 3px var(--mint-glow)); }
+.hub-path-mosaic { position: absolute; inset-inline-end: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; width: min(188px, calc(100% - 84px)); perspective: 600px; }
+.hub-art-tile { display: block; aspect-ratio: 1; border-radius: 4px; background: var(--mint-bg); border: 1px solid var(--mint-line); backface-visibility: hidden; }
+.hub-art-bright { background: var(--cell-old); border-color: var(--mint); box-shadow: 0 0 2px var(--mint-glow), 0 0 8px var(--mint-glow); }
 .hub-path h3 { font-size: 20px; line-height: 1.35; font-weight: 700; }
 .hub-path p { margin-top: 8px; font-size: 16px; line-height: 1.65; color: var(--ink2); text-wrap: pretty; }
 .hub-path-action { margin-top: auto; padding-top: 28px; }
@@ -218,8 +224,24 @@
 .hub-listing h3 { font-size: 24px; line-height: 1.35; font-weight: 400; }
 .hub-listing p { margin-top: 8px; font-size: 16px; line-height: 1.65; color: var(--ink2); text-wrap: pretty; }
 .hub-listing > .btn { flex: none; }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  .hub-path { transition: transform .25s var(--ease), border-color .25s var(--ease), box-shadow .25s var(--ease); }
+  .hub-path-sheen { transition: opacity .3s var(--ease); }
+  .hub-path-art { transition: transform .35s var(--ease); }
+  .hub-path-icon { transition: transform .35s var(--ease), box-shadow .3s var(--ease); }
+  .hub-path-mosaic { transition: transform .5s var(--ease); }
+  .hub-path:hover, .hub-path:focus-within { border-color: var(--mint-line); box-shadow: var(--shadow); }
+  .hub-path.hub-parallax { transform: perspective(1200px) rotateX(var(--hub-rx, 0deg)) rotateY(var(--hub-ry, 0deg)) translateY(-3px); }
+  .hub-path.hub-parallax .hub-path-art { transform: translate(var(--hub-x, 0px), var(--hub-y, 0px)); }
+  .hub-path.hub-parallax .hub-path-icon { transform: translate(var(--hub-fx, 0px), var(--hub-fy, 0px)); }
+  .hub-path.hub-parallax .hub-path-mosaic { transform: translate(var(--hub-bx, 0px), var(--hub-by, 0px)); }
+  .hub-path:hover .hub-path-sheen, .hub-path:focus-within .hub-path-sheen { opacity: 1; }
+  .hub-path:hover .hub-path-icon, .hub-path:focus-within .hub-path-icon { box-shadow: 0 0 18px var(--mint-bg); }
+  .hub-path-action .btn:hover, .hub-path-action .btn:focus-visible { box-shadow: 0 0 18px var(--mint-bg); }
+}
 @media (max-width: 860px) {
   .hub-paths { grid-template-columns: minmax(0, 1fr); }
+  .hub-path-art { margin-bottom: 16px; }
   .hub-path-action { padding-top: 20px; }
   .hub-preview-head { flex-direction: column; align-items: flex-start; }
   .hub-listing { flex-direction: column; align-items: flex-start; padding: 24px; }

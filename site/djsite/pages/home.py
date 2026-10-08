@@ -477,8 +477,13 @@ def hub_teaser(ctx) -> Markup:
         action = (C.btn(ctx.t(f'home.hub_{key}_action'), href,
                         'primary' if key == 'contribute' else 'secondary', out=key != 'contribute')
                   if available else Markup(f'<span class="hub-path-status">{ctx.t("home.hub_soon")}</span>'))
+        # Decorative mint tiles echo the hero's map; they never carry content or intercept a link.
+        tiles = join(f'<span class="hub-art-tile{" hub-art-bright" if (row + col) % 4 == 0 else ""}" '
+                     f'data-row="{row}" data-col="{col}"></span>' for row in range(3) for col in range(7))
         paths.append(Markup(f'<article class="card hub-path" aria-labelledby="hub-{key}-h">'
-                            f'<span class="hub-path-icon" aria-hidden="true">{icon(glyph, 24)}</span>'
+                            f'<span class="hub-path-sheen" aria-hidden="true"></span>'
+                            f'<div class="hub-path-art" aria-hidden="true"><span class="hub-path-icon">{icon(glyph, 28)}</span>'
+                            f'<div class="hub-path-mosaic">{tiles}</div></div>'
                             f'<h3 id="hub-{key}-h">{ctx.t(f"home.hub_{key}_title")}</h3>'
                             f'<p>{ctx.t(f"home.hub_{key}_text")}</p><div class="hub-path-action">{action}</div></article>'))
     routes = Markup(f'<div class="hub-paths">{join(paths)}</div>')
@@ -513,7 +518,7 @@ def open_row(ctx) -> Markup:
 def render(ctx: Ctx) -> Page:
     body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + open_row(ctx)
     years = history(ctx.site.data)
-    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend') if key in ctx.site.assets.scripts)
+    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
                 scripts=scripts,
                 css=minify_css(hero_css(ctx.lang, years, year_figures(ctx.site.data, years))))   # Home's alone
