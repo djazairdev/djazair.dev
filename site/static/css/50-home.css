@@ -119,8 +119,10 @@
 #scorecard .section-head h2, #trend .section-head h2, #hub-teaser .section-head h2, #local-team .section-head h2 { font-size: calc(var(--fs-section) * 1.21); font-weight: 400; }
 #scorecard .section-head .lede, #trend .section-head .lede, #hub-teaser .section-head .lede, #local-team .section-head .lede { font-size: 20px; }
 
-/* Home sections flow through spacing; borders remain within cards and figures. */
-.hero ~ .section { border-top: 0; }
+/* Each Home boundary gets one section-pad gap, split evenly between its neighbours.
+   Keep this after the responsive hero rules so its final spacing is consistent too. */
+.hero { padding-block-end: calc(var(--section-pad) / 2); }
+.hero ~ .section { border-top: 0; padding-block: calc(var(--section-pad) / 2); }
 #trend .section-head { justify-content: center; text-align: center; margin-bottom: 40px; }
 #trend .section-head-text { align-items: center; max-width: 1184px; }
 #trend .section-head .eyebrow { justify-content: center; }
@@ -224,7 +226,7 @@
 /* Textured, offset sheets inspired by David Altreiter's Fancy Cards:
    https://codepen.io/altreiter/pen/vYVejNd. Keep all decoration behind the content. */
 .layered-card { position: relative; isolation: isolate; border-radius: var(--r-card); perspective: 1400px; }
-.hub-listing { width: calc(100% - 32px); margin: 64px auto 32px; }
+.hub-listing { width: calc(100% - 32px); margin: 64px auto 0; }
 .layered-card::before, .layered-card::after { content: ''; position: absolute; inset: 8px; z-index: -1; border: 1px solid var(--mint-line); border-radius: inherit; pointer-events: none; }
 .layered-card::before { background: var(--s2); transform: translateY(12px) rotate(-1.4deg); box-shadow: var(--shadow); }
 .layered-card::after { background: linear-gradient(120deg, var(--mint-bg), var(--s1)); transform: translateY(6px) rotate(1.2deg); }
@@ -276,7 +278,7 @@
 .empty-text p { font-size: 15px; line-height: 1.6; color: var(--ink2); text-wrap: pretty; }
 .empty-text p:lang(ar) { line-height: 1.8; }
 
-/* ---- founders.coffee: skills come together around a local table */
+/* ---- founders.coffee: local skills come together */
 #local-team { background: radial-gradient(ellipse at 20% 60%, var(--mint-tint), transparent 65%); }
 #local-team .section-head { justify-content: center; text-align: center; margin-bottom: 48px; }
 #local-team .section-head-text { align-items: center; max-width: 1040px; }
@@ -284,20 +286,17 @@
 #local-team .lede { max-width: 68ch; }
 .team-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
 .team-visual { min-width: 0; }
-.team-assembly { --team-progress: 1; position: relative; aspect-ratio: 1; overflow: hidden; border: 1px solid var(--mint-line); border-radius: var(--r-card); background: radial-gradient(circle at 50% 50%, var(--mint-bg), transparent 65%), var(--well); }
-.team-assembly::before { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(var(--hero-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px); background-size: 32px 32px; }
+.team-assembly { --team-progress: 1; position: relative; aspect-ratio: 1; overflow: hidden; }
 .team-puzzle { position: relative; display: block; width: 100%; height: 100%; pointer-events: none; }
 .team-piece { transform-box: fill-box; transform-origin: center; }
 .team-piece-shape { fill: var(--s2); stroke: var(--mint-line); stroke-width: 2; stroke-linejoin: round; }
 .team-piece-design .team-piece-shape, .team-piece-docs .team-piece-shape { fill: var(--s1); }
 .team-avatar-halo { fill: var(--mint-bg); stroke: var(--mint-line); stroke-width: 1; }
+.team-avatar { filter: drop-shadow(0 0 2px var(--mint-glow)) drop-shadow(0 0 8px var(--mint-glow)); }
 .team-avatar-head { fill: var(--mint-hi); }
-.team-avatar-body { fill: var(--cell-old); }
+.team-avatar-body { fill: var(--mint); }
 .team-piece text { fill: var(--ink); font-family: var(--sans); font-size: 24px; font-weight: 500; }
 .team-piece text:lang(ar) { font-size: 28px; }
-.team-coffee circle { fill: var(--sunk); stroke: var(--mint); stroke-width: 2; }
-.team-coffee path { fill: none; stroke: var(--mint-hi); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.team-caption { margin-top: 18px; text-align: center; font-size: 20px; color: var(--mint-hi); }
 .team-invitation { min-width: 0; }
 .team-steps { display: flex; flex-direction: column; gap: 28px; list-style: none; }
 .team-steps li { display: flex; align-items: flex-start; gap: 18px; }
@@ -312,7 +311,6 @@
 .team-platform { margin-top: 8px; text-align: center; font-size: 13px; color: var(--ink3); }
 @media (prefers-reduced-motion: no-preference) {
   .team-assembling .team-piece { --team-distance: calc(1 - var(--team-progress)); transform: translate(calc(var(--team-x) * var(--team-distance)), calc(var(--team-y) * var(--team-distance))) rotate(calc(var(--team-angle) * var(--team-distance))); }
-  .team-assembling .team-coffee { opacity: clamp(0, calc((var(--team-progress) - .55) / .45), 1); }
 }
 @media (max-width: 860px) {
   .team-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }
@@ -324,15 +322,4 @@
   .team-steps li { gap: 14px; }
   .team-steps h3 { font-size: 20px; }
   .team-steps p { font-size: 16px; }
-  .team-caption { font-size: 18px; }
 }
-
-/* ---- open by default */
-.open-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 16px; }
-.open-card { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 16px; padding: 22px clamp(20px, 2.4vw, 28px); border-radius: 14px; color: var(--ink); text-decoration: none; }
-.open-card:hover { color: var(--ink); }
-.open-icon { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: var(--mint-bg); color: var(--mint); }
-.open-text { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.open-t { font-size: 17px; font-weight: 700; }
-.open-s { font-size: 14px; line-height: 1.4; color: var(--ink3); }
-.open-lic { padding: 4px 8px; border: 1px solid var(--line2); border-radius: 6px; font-size: 12px; color: var(--ink2); white-space: nowrap; }

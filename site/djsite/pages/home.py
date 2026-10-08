@@ -1,6 +1,5 @@
 """Home (ticket #18; Home boards in docs/design): the hero with the unit map, the scorecard of
-six indicators, the growth trend, the Hub teaser, local developer meetups and the
-open-by-default links.
+six indicators, the growth trend, the Hub teaser and local developer meetups.
 
 Every number comes from the derived data. Sentences that state a fact are computed from it
 (``editorial``); the trend headline comes from ``content/editorial/<quarter>.json`` when one
@@ -14,7 +13,7 @@ from .. import config
 from .. import editorial
 from ..assets import minify_css
 from ..charts import Line, LineChart, Note, UnitMap, loc, tick_pct
-from ..config import LANGS, REPO_URL
+from ..config import LANGS
 from ..context import Ctx, Page
 from ..figures import figure, table, unit_key
 from ..fmt import MINUS, date_label, fint, fpct, has_arabic, num, ordinal, quarter_label, rank_text
@@ -526,12 +525,11 @@ def team_puzzle(ctx) -> Markup:
         groups.append(f'<g class="team-piece team-piece-{key}" style="--team-x:{sx}px;--team-y:{sy}px;--team-angle:{angle}deg">'
                       f'<path class="team-piece-shape" d="{path}"/>'
                       f'<circle class="team-avatar-halo" cx="{x}" cy="{y - 20}" r="48"/>'
-                      f'<circle class="team-avatar-head" cx="{x}" cy="{y - 35}" r="18"/>'
-                      f'<path class="team-avatar-body" d="M{x - 31} {y + 11}C{x - 31} {y - 24} {x + 31} {y - 24} {x + 31} {y + 11}Z"/>'
+                      f'<g class="team-avatar"><circle class="team-avatar-head" cx="{x}" cy="{y - 35}" r="18"/>'
+                      f'<path class="team-avatar-body" d="M{x - 31} {y + 11}C{x - 31} {y - 24} {x + 31} {y - 24} {x + 31} {y + 11}Z"/></g>'
                       f'<text x="{x}" y="{y + 62}" text-anchor="middle">{ctx.t(f"home.team_skill_{key}")}</text></g>')
     return Markup(f'<svg class="team-puzzle" viewBox="0 0 560 560" aria-hidden="true" focusable="false">'
-                  f'{join(groups)}<g class="team-coffee"><circle cx="280" cy="280" r="37"/>'
-                  f'<path d="M260 269h32v18a12 12 0 0 1-12 12h-8a12 12 0 0 1-12-12zM292 271h5a8 8 0 0 1 0 16h-5M256 307h46M269 255v-9M282 255v-9"/></g></svg>')
+                  f'{join(groups)}</svg>')
 
 
 def local_team(ctx) -> Markup:
@@ -546,7 +544,7 @@ def local_team(ctx) -> Markup:
     actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), out=True)
     actions += C.btn(ctx.t('home.team_host'), meetups.link(platform, 'host', ctx.lang), 'secondary', out=True)
     body = Markup(f'<div class="team-grid"><div class="team-visual">'
-                  f'<div class="team-assembly">{team_puzzle(ctx)}</div><p class="team-caption">{ctx.t("home.team_caption")}</p></div>'
+                  f'<div class="team-assembly">{team_puzzle(ctx)}</div></div>'
                   f'<div class="team-invitation"><ol class="team-steps" role="list">{join(steps)}</ol>'
                   f'<div class="team-actions">{actions}</div><p class="team-host-note">{ctx.t("home.team_host_note")}</p>'
                   f'<p class="team-platform">{ctx.t("home.team_platform", platform=Markup(f"<bdi>{esc(platform['platform'])}</bdi>"))}</p></div></div>')
@@ -554,20 +552,8 @@ def local_team(ctx) -> Markup:
                      lede=ctx.t('home.team_lede'))
 
 
-# ---------------------------------------------------------------- open by default
-def open_row(ctx) -> Markup:
-    items = [('table', 'home.open_data', 'home.open_data_sub', 'CC0', ctx.url('data')),
-             ('book', 'home.open_method', 'home.open_method_sub', 'CC BY 4.0', ctx.url('methodology')),
-             ('code', 'home.open_code', 'home.open_code_sub', 'MIT', REPO_URL)]
-    cards = join(f'<a class="card open-card" href="{esc(href)}"><span class="open-icon">{icon(ic, 19)}</span>'
-                 f'<span class="open-text"><span class="open-t">{ctx.t(t)}</span><span class="open-s">{ctx.t(sub)}</span></span>'
-                 f'<span class="open-lic num" dir="ltr">{lic}</span></a>' for ic, t, sub, lic, href in items)
-    return Markup(f'<section class="section section-s open-row" aria-label="{ctx.ta("home.open_label")}">'
-                  f'<div class="container"><div class="open-grid">{cards}</div></div></section>')
-
-
 def render(ctx: Ctx) -> Page:
-    body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + local_team(ctx) + open_row(ctx)
+    body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + local_team(ctx)
     years = history(ctx.site.data)
     scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub', 'home-team') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
