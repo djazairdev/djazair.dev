@@ -1,6 +1,6 @@
 """Quarterly reports (ticket #34; PRD §13): the text follows the editorial structure in both
 languages, every claim it makes holds against its own quarter's data, every figure in it is
-filled from that data, and the page has its five charts, the press kit and the Home teaser.
+filled from that data, and the page has its five charts and the press kit.
 A draft stays out of search until it is published."""
 import json
 import re
@@ -243,19 +243,15 @@ class ReportPage(unittest.TestCase):
         self.assertNotIn(f'/en/{self.report.path}', (self.dist / 'sitemap.xml').read_text('utf-8'))
         self.assertIn('This report is a draft.', self.html('en', self.report.path))
 
-    def test_the_reports_page_and_home_link_to_it(self):
+    def test_reports_page_links_to_it_without_a_duplicate_home_section(self):
         for lang in LANGS:
             url = f'/{lang}/{self.report.path}'
             with self.subTest(lang=lang):
-                for where in ('reports/', ''):
-                    html = self.html(lang, where)
-                    self.assertIn(f'href="{url}"', html)
-                    self.assertIn(f'href="{url}#press"', html)
-                    self.assertIn(f'href="{url}#languages"', html, 'the sections are listed')
-        home = text_of(self.html('en', ''))
-        self.assertIn('The latest report', home)
-        self.assertIn('Algeria’s developer accounts, Q1 2026', home)
-        self.assertLess(home.index('The latest report'), home.index('Your first pull request starts here.'))
+                html = self.html(lang, 'reports/')
+                self.assertIn(f'href="{url}"', html)
+                self.assertIn(f'href="{url}#press"', html)
+                self.assertIn(f'href="{url}#languages"', html, 'the sections are listed')
+                self.assertNotIn('id="report"', self.html(lang, ''))
         self.assertIn('Five rules for every report', text_of(self.html('en', 'reports/')))
 
 
@@ -284,7 +280,7 @@ class Published(unittest.TestCase):
         self.assertIn('https://djazair.dev/ar/reports/2026-q1/', (dist / 'sitemap.xml').read_text('utf-8'))
         with zipfile.ZipFile(next((dist / 'reports' / '2026-q1').glob('*.zip'))) as z:
             self.assertNotIn('DRAFT', z.read('djazair.dev-report-2026-q1/README.txt').decode('utf-8'))
-        self.assertIn('Published 30 November 2026', text_of((dist / 'en' / 'index.html').read_text('utf-8')))
+        self.assertIn('Published 30 November 2026', text_of((dist / 'en' / 'reports' / 'index.html').read_text('utf-8')))
 
     def test_a_re_released_quarter_is_flagged(self):
         dist = self.build(release='0' * 40)

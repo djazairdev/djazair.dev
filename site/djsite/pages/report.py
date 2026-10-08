@@ -514,7 +514,7 @@ def render(ctx: Ctx) -> Page:
     return Page(title=front['title'], description=plain(standfirst), body=page, indexed=not report.draft)
 
 
-# ---------------------------------------------------------------- the Reports page and the Home teaser
+# ---------------------------------------------------------------- the Reports page
 def contents(ctx, report: reports.Report) -> Markup:
     """The report's sections as numbered links."""
     _, body = report.source(ctx.lang)
@@ -544,15 +544,6 @@ def card(ctx, report: reports.Report) -> Markup:
                   f'<span>{when}</span>{chip}</p>'
                   f'<h3><a href="{url}">{esc(front["title"])}</a></h3><p class="rp-card-s">{summary(ctx, report)}</p>'
                   f'<div class="section-actions">{acts}</div></div>{contents(ctx, report)}</article>')
-
-
-def teaser(ctx) -> Markup:
-    """Home: the latest report (PRD §11: 'headline tiles + latest report')."""
-    latest = next((r for r in reports.all_reports() if ctx.has(r.key)), None)
-    if latest is None:
-        return Markup('')
-    return C.section('report', ctx.t('report.home_eyebrow'), ctx.t('report.home_title'), card(ctx, latest),
-                     head_extra=C.btn(ctx.t('report.all'), ctx.url('reports'), 'secondary', size='s'))
 
 
 def render_index(ctx: Ctx) -> Page:

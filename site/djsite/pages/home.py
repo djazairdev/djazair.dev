@@ -1,5 +1,5 @@
 """Home (ticket #18; Home boards in docs/design): the hero with the unit map, the scorecard of
-six indicators, the growth trend, the latest quarterly report (#34), the Hub teaser and the
+six indicators, the growth trend, the Hub teaser and the
 open-by-default links.
 
 Every number comes from the derived data. Sentences that state a fact are computed from it
@@ -20,7 +20,6 @@ from ..fmt import MINUS, date_label, fint, fpct, has_arabic, num, ordinal, quart
 from ..icons import icon
 from ..markup import Markup, esc, join
 from ..scorecard import SAME, indicators, year_earlier
-from . import report
 
 PER = 1000                     # accounts per square on the unit map
 GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
@@ -492,7 +491,7 @@ def open_row(ctx) -> Markup:
 
 
 def render(ctx: Ctx) -> Page:
-    body = hero(ctx) + scorecard(ctx) + trend(ctx) + report.teaser(ctx) + hub_teaser(ctx) + open_row(ctx)
+    body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + open_row(ctx)
     years = history(ctx.site.data)
     scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
