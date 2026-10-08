@@ -43,6 +43,13 @@
     "rankings": "Rankings"
   },
   "footer": {
+    "copyright": "© 2026 djazair.dev",
+    "pause_stars": "Pause stars",
+    "resume_stars": "Resume stars",
+    "invitation": "Built here. Open to everyone.",
+    "open_code": "Open-source code",
+    "open_content": "Shared knowledge & charts",
+    "open_data": "Data for everyone",
     "index": "Index",
     "hub": "Hub",
     "project": "Project",
@@ -55,7 +62,6 @@
     "changelog": "Changelog",
     "corrections": "Corrections",
     "about": "About",
-    "legal": "Data: GitHub Innovation Graph (CC0). Code MIT · Text and charts CC BY 4.0 · Data CC0.",
     "independent": "An independent community project, not affiliated with GitHub."
   },
   "notice": {

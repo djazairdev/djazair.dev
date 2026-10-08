@@ -12,6 +12,29 @@
     try { localStorage.setItem('djz-lang', a.getAttribute('data-lang')); } catch (err) { /* storage blocked */ }
   });
 
+  // The footer sky runs only while visible; reduced motion and no JS keep a static sky.
+  var sky = doc.querySelector('.site-footer');
+  if (sky && window.IntersectionObserver && window.matchMedia) {
+    var skyMotion = matchMedia('(prefers-reduced-motion: reduce)');
+    var skyToggle = sky.querySelector('.footer-sky-toggle');
+    var skyVisible = false, skyPaused = false;
+    function updateSky() {
+      sky.classList.toggle('footer-sky-active', skyVisible && !doc.hidden && !skyMotion.matches && !skyPaused);
+      sky.classList.toggle('footer-sky-paused', skyPaused);
+      skyToggle.hidden = skyMotion.matches;
+      skyToggle.setAttribute('aria-pressed', String(skyPaused));
+      skyToggle.querySelector('span').textContent = skyToggle.getAttribute(skyPaused ? 'data-stars-resume' : 'data-stars-pause');
+    }
+    new IntersectionObserver(function (entries) {
+      skyVisible = entries[0].isIntersecting;
+      updateSky();
+    }).observe(sky);
+    skyToggle.addEventListener('click', function () { skyPaused = !skyPaused; updateSky(); });
+    skyMotion.addEventListener('change', updateSky);
+    doc.addEventListener('visibilitychange', updateSky);
+    updateSky();
+  }
+
   // Phone menu (<details>): close it on Escape or a click outside.
   var menu = doc.querySelector('details.menu');
   if (menu) {

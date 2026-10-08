@@ -43,6 +43,13 @@
     "rankings": "التصنيفات"
   },
   "footer": {
+    "copyright": "© 2026 djazair.dev",
+    "pause_stars": "إيقاف النجوم",
+    "resume_stars": "تشغيل النجوم",
+    "invitation": "نبنيه هنا. ونفتحه للجميع.",
+    "open_code": "شيفرة مفتوحة المصدر",
+    "open_content": "معرفة ورسوم متاحة للجميع",
+    "open_data": "بيانات للجميع",
     "index": "المؤشر",
     "hub": "مركز المشاريع",
     "project": "المشروع",
@@ -55,7 +62,6 @@
     "changelog": "سجل التغييرات",
     "corrections": "التصويبات",
     "about": "حول المشروع",
-    "legal": "البيانات: GitHub Innovation Graph ‏(CC0). الشيفرة MIT · النصوص والرسوم CC BY 4.0 · البيانات CC0.",
     "independent": "مشروع مجتمعي مستقل، غير تابع لـ GitHub."
   },
   "notice": {

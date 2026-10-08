@@ -94,15 +94,36 @@ def footer(ctx: Ctx) -> Markup:
         items = ''.join(f'<li><a href="{ctx.url(route, hash=hash_)}">{ctx.t(label)}</a></li>'
                         for label, route, hash_ in links if ctx.has(route))
         cols.append(f'<nav class="footer-col" aria-label="{ctx.ta(heading)}"><h2>{ctx.t(heading)}</h2><ul>{items}</ul></nav>')
+    # Three independent depths twinkle gently; the SVG stays decorative and works without JS.
+    stars = ''.join('<g class="footer-star-layer footer-star-layer-' + str(layer + 1) + '">' +
+                    ''.join(f'<circle cx="{(i * 619 + 47) % 1600}" cy="{(i * 347 + 91) % 900}" '
+                            f'r="{(.55, .8, 1.1, 1.5)[i % 4]}" opacity="{(.2, .35, .5)[i % 3]}"/>'
+                            for i in range(layer, 180, 3)) + '</g>' for layer in range(3))
+    comets = ''.join(f'<path class="footer-comet footer-comet-{i}" d="M0 0L140 -56"/>' for i in (1, 2, 3))
+    licences = (
+        ('MIT', 'footer.open_code', REPO_URL + '/blob/main/LICENSE'),
+        ('CC BY 4.0', 'footer.open_content', REPO_URL + '/blob/main/LICENSE-content'),
+        ('CC0', 'footer.open_data', REPO_URL + '/blob/main/LICENSE-data'),
+    )
+    rows = join(f'<li><a href="{href}"><span class="footer-license-check">{icon("check", 16)}</span>'
+                f'<span class="footer-license-name num" dir="ltr">{licence}</span><span>{ctx.t(label)}</span>'
+                f'{icon("arrow-ur", 16)}</a></li>' for licence, label, href in licences)
     return Markup(f'''<footer class="site-footer">
-<div class="container">
+<div class="footer-frame">
+<svg class="footer-stars" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+<defs><linearGradient id="footer-star-trail" x1="0" y1="1" x2="1" y2="0"><stop class="footer-trail-head" offset="0"/><stop class="footer-trail-tail" offset="1"/></linearGradient></defs>{stars}{comets}</svg>
 <div class="footer-top">
-<div class="footer-brand"><a class="brand brand-lg" href="{ctx.url('home')}" aria-label="{ctx.ta('a11y.home')}">{mark(36)}{wordmark()}</a>
+<div class="footer-navigation"><div class="footer-cols">{join(cols)}</div></div>
+<div class="footer-brand"><p class="footer-invitation">{ctx.t('footer.invitation')}</p>
 <p>{ctx.t('site.tagline')}</p>
-<div class="footer-language"><span>{ctx.t('a11y.language')}</span>{lang_switch(ctx)}</div></div>
-<div class="footer-cols">{join(cols)}</div>
+<ul class="footer-licenses">{rows}</ul>
+{btn(ctx.t('nav.contribute'), ctx.url('hub') + '?kind=gfi#issues')}
 </div>
-<div class="footer-legal"><p>{ctx.t('footer.legal')}</p><p>{ctx.t('footer.independent')}</p></div>
+</div>
+<div class="footer-community"><div class="footer-community-info"><p class="footer-copyright" dir="ltr">{ctx.t('footer.copyright')}</p><p>{ctx.t('footer.independent')}</p></div>
+<div class="footer-community-actions"><button class="footer-sky-toggle" type="button" hidden aria-pressed="false" data-stars-pause="{ctx.ta('footer.pause_stars')}" data-stars-resume="{ctx.ta('footer.resume_stars')}">{icon('pause', 16, 2, 'icon footer-sky-pause')}{icon('play', 16, 2, 'icon footer-sky-play')}<span>{ctx.t('footer.pause_stars')}</span></button><a class="footer-github" href="{ORG_URL}" aria-label="{ctx.ta('a11y.github')}">{github_mark()}<span>{ctx.t('nav.github')}</span></a>
+<div class="footer-language"><span>{ctx.t('a11y.language')}</span>{lang_switch(ctx)}</div></div></div>
+<div class="footer-display" dir="ltr" aria-hidden="true">{wordmark()}</div>
 </div>
 </footer>''')
 
