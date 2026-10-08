@@ -415,6 +415,7 @@ def trend_chart(ctx) -> LineChart:
         summary=ctx.both('home.trend_summary', **span, dz=at_last('DZ'), na=at_last('median_north_africa'),
                          af=at_last('median_africa'), quarter=lambda lang: quarter_label(last, lang)),
         unit=ctx.both('home.trend_unit'), x=qs[s:], fmt=lambda v, lang: fpct(v, 1, lang), tick_fmt=tick_pct,
+        font_scale=1.25,
         lines=[Line('median_africa', ctx.both('home.africa_median'), series['median_africa'][s:], 'median'),
                Line('median_north_africa', ctx.both('home.north_median'), series['median_north_africa'][s:], 'ref'),
                Line('DZ', ctx.both('home.algeria'), dz[s:], 'dz')])
@@ -432,13 +433,35 @@ def trend(ctx) -> Markup:
     doc = editorial.current(data)
     title, lede = editorial.text(doc, lang, 'trend_title'), editorial.text(doc, lang, 'trend_lede')
     if title and lede:
-        title, lede = esc(title), esc(lede)
+        highlight = editorial.text(doc, lang, 'trend_highlight')
+        if highlight and title.endswith(highlight):
+            context = title[:-len(highlight)].rstrip()
+            # Keep the real text: on English the claw completes the i in Algeria.
+            claw = ('<span class="trend-assembly" aria-hidden="true"><svg class="trend-claw" viewBox="0 0 64 64" focusable="false">'
+                    '<path class="trend-cable" d="M32 0V28"/>'
+                    '<rect class="trend-claw-head" x="23" y="26" width="18" height="10" rx="4"/>'
+                    '<path class="trend-grip trend-grip-left" d="M24 34L17 43L24 50"/>'
+                    '<path class="trend-grip trend-grip-right" d="M40 34L47 43L40 50"/>'
+                    '</svg></span>')
+            if lang == 'en' and 'Algeria' in highlight:
+                before, after = highlight.split('Algeria', 1)
+                highlighted_text = Markup(f'{esc(before)}<span class="trend-word">Alger'
+                                          f'<span class="trend-letter"><span class="trend-letter-ink">i</span></span>'
+                                          f'a</span>{esc(after)}')
+            else:
+                highlighted_text = (Markup(f'{esc(highlight[:-1])}<span class="trend-dot">.</span>')
+                                    if highlight.endswith('.') else esc(highlight))
+            title = Markup(f'<span class="trend-context">{esc(context)}</span> '
+                           f'<strong class="trend-highlight">{claw}<span class="trend-highlight-text">{highlighted_text}</span></strong>')
+        else:
+            title = esc(title)
+        lede = esc(lede)
     else:
         pct = lambda key: fpct(data.series('yoy', key)[-1], 1, lang, sign=False)
         title = ctx.t('home.trend_title')
         lede = ctx.t('home.trend_lede', dz=pct('DZ'), na=pct('median_north_africa'), af=pct('median_africa'),
                      quarter=_q(ctx, data.quarter))
-    fig = figure(ctx, trend_chart(ctx), 2, source=ctx.t('home.trend_source'))
+    fig = figure(ctx, trend_chart(ctx), 2, source=ctx.t('home.trend_source'), footer=False)
     return C.section('trend', ctx.t('home.trend_eyebrow'), title, fig, lede=lede)
 
 
@@ -471,7 +494,7 @@ def open_row(ctx) -> Markup:
 def render(ctx: Ctx) -> Page:
     body = hero(ctx) + scorecard(ctx) + trend(ctx) + report.teaser(ctx) + hub_teaser(ctx) + open_row(ctx)
     years = history(ctx.site.data)
-    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard') if key in ctx.site.assets.scripts)
+    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
                 scripts=scripts,
                 css=minify_css(hero_css(ctx.lang, years, year_figures(ctx.site.data, years))))   # Home's alone

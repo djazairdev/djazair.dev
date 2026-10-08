@@ -94,7 +94,9 @@ class Smoke(unittest.TestCase):
         self.assertTrue(result.ok, result.report())
         self.assertEqual(result.counts['sitemap'], len(self.locs))
         self.assertGreaterEqual(result.counts['page'], 2)      # report drafts, outside the sitemap
-        embeds = [p for p in self.dist.rglob('index.html') if '/embed/' in p.as_posix()]
+        # Home's trend no longer links its action footer; its four existing embeds remain available.
+        embeds = [p for p in self.dist.rglob('index.html')
+                  if '/embed/' in p.as_posix() and '/embed/home-yoy/' not in p.as_posix()]
         self.assertEqual(result.counts['embed'], len(embeds))  # linked from the Embed panels, dark and light
         self.assertGreaterEqual(result.counts['file'], 100)
         self.assertEqual(result.counts['zip'], 2)              # the CSV bundle and the press kit

@@ -1,6 +1,6 @@
-"""Embeddable charts and share images (ticket #42, PRD IDX-18 and IDX-19): every chart with a
-title on the Index pages and Home has Share and Embed under it, and an embed page in each
-language, dark and light, that credits its source and links back; downloads carry the credit;
+"""Embeddable charts and share images (ticket #42, PRD IDX-18 and IDX-19): titled charts have
+an embed page in each language; Index figures display Share and Embed, while Home omits its footer.
+Dark and light embeds credit their source and link back; downloads carry the credit;
 Home and the Index pages show the quarter's share image once it is drawn."""
 import dataclasses
 import html
@@ -49,7 +49,7 @@ class Embeds(unittest.TestCase):
 
     def test_every_titled_chart_on_the_index_and_home_can_be_embedded(self):
         found = {key: self.panels(key, 'en') for key in PAGES}
-        self.assertEqual(found['home'], ['home-yoy'], "Home's unit picture has no title")
+        self.assertEqual(found['home'], [], "Home's trend footer is omitted")
         self.assertEqual(len(found['trends']), 9, 'eight views and the quarterly growth bars')
         self.assertIn('trends-q-growth', found['trends'])
         for key in ('languages', 'topics', 'collaboration', 'rankings'):
@@ -59,8 +59,8 @@ class Embeds(unittest.TestCase):
         for lang in LANGS:
             self.assertEqual(sorted(i for key in PAGES for i in self.panels(key, lang)), ids)
             folders = sorted(p.name for p in (self.dist / lang / 'embed').iterdir())
-            self.assertEqual(folders, ids, 'a page for each panel, and no others')
-            for chart_id in ids:
+            self.assertEqual(folders, sorted(ids + ['home-yoy']), 'Home keeps its embed available without a panel')
+            for chart_id in ids + ['home-yoy']:
                 for theme in THEMES:
                     self.assertTrue((self.dist / embeds.path(lang, chart_id, theme).lstrip('/') / 'index.html').is_file())
 
@@ -80,7 +80,7 @@ class Embeds(unittest.TestCase):
     def test_the_embed_page_credits_and_links_back(self):
         for lang in LANGS:
             for key in ('trends', 'languages', 'home'):
-                for chart_id in self.panels(key, lang):
+                for chart_id in (['home-yoy'] if key == 'home' else self.panels(key, lang)):
                     for theme in THEMES:
                         with self.subTest(lang=lang, chart=chart_id, theme=theme):
                             page = self.embed(lang, chart_id, theme)
@@ -128,7 +128,7 @@ class Embeds(unittest.TestCase):
                 self.assertEqual(len(targets), len(set(targets)))
                 for target in targets:
                     self.assertIn(f'id="{target}"', text)
-                expected = {'home': 1, 'trends': 2, 'overview': 0, 'peers': 0}.get(key)
+                expected = {'home': 0, 'trends': 2, 'overview': 0, 'peers': 0}.get(key)
                 if expected is not None:
                     self.assertEqual(len(targets), expected, 'the eight Trends views share one link')
 

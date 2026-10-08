@@ -319,6 +319,7 @@ class LineChart(Spec):
     baseline: Optional[float] = None   # dashed reference line (100 on indexed charts)
     notes: Sequence[Note] = ()
     peers_label: Text = ''         # legend entry for the peer lines on phones
+    font_scale: float = 1          # scales labels and their layout together, for editorial charts
 
     def ordered(self) -> list:
         """Lines in reading order for tables and files: Algeria, the medians, then the peers."""
@@ -504,7 +505,7 @@ def x_years(x: Sequence[str], plot_w: float, font: float) -> list:
 
 def line_layout(chart: LineChart, lang: str, size: str) -> dict:
     g = LINE_SIZES[size]
-    W, H, font = g['W'], g['H'], g['font']
+    W, H, font = g['W'], g['H'], g['font'] * chart.font_scale
     vals = [v for ln in chart.lines for v in ln.values if v is not None]
     lo = min(0.0, min(vals))
     hi = max(vals + ([chart.baseline] if chart.baseline is not None else []))
@@ -514,6 +515,8 @@ def line_layout(chart: LineChart, lang: str, size: str) -> dict:
     tsize = font - 1.5
     left = max(40.0, max(text_width(s, tsize, mono=not has_arabic(s)) for s in tick_labels) + 16)
     right = 12.0
+    if chart.font_scale != 1:
+        right = max(right, text_width(str(parse_quarter(chart.x[-1])[0]), tsize, mono=True) / 2 + 4)
     labelled = [ln for ln in chart.lines if ln.label]
     if size == 'wide' and labelled:
         right = max(text_width(loc(ln.name, lang), font + (1 if ln.role == 'dz' else 0), bold=ln.role in ('dz', 'hl'))

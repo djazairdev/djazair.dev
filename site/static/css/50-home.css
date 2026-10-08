@@ -115,8 +115,41 @@
 .enter.d5 { --d: 340ms; }
 
 /* ---- Scorecard: explanations stay beside the figures they describe. */
-#scorecard .section-head h2 { font-size: calc(var(--fs-section) * 1.21); font-weight: 400; }
-#scorecard .section-head .lede { font-size: 20px; }
+#scorecard .section-head h2, #trend .section-head h2 { font-size: calc(var(--fs-section) * 1.21); font-weight: 400; }
+#scorecard .section-head .lede, #trend .section-head .lede { font-size: 20px; }
+
+/* Home sections flow through spacing; borders remain within cards and figures. */
+.hero ~ .section { border-top: 0; }
+#trend .section-head { justify-content: center; text-align: center; margin-bottom: 40px; }
+#trend .section-head-text { align-items: center; max-width: 1184px; }
+#trend .section-head .eyebrow { justify-content: center; }
+#trend .section-head .lede { max-width: 72ch; }
+.trend-context, .trend-highlight { display: block; }
+.trend-highlight { position: relative; margin-top: 24px; color: var(--mint-hi); font-weight: 700; }
+.trend-highlight-text { display: inline-block; }
+.trend-word { white-space: nowrap; }
+.trend-letter { display: inline-block; line-height: 1; }
+.trend-letter-ink { display: block; text-align: left; }
+.trend-building .trend-letter-ink { clip-path: inset(var(--trend-i-cut, 30%) 0 0 0); }
+.trend-dot { display: inline-block; line-height: 1; }
+.trend-building .trend-dot { opacity: 0; }
+.trend-assembly { display: none; position: fixed; top: 0; left: 0; width: 64px; height: 64px; z-index: 110; pointer-events: none; }
+.trend-assembly.trend-flying { display: block; }
+.trend-claw { display: block; width: 64px; height: 64px; overflow: visible; transform: scale(1.6); transform-origin: 50% 75%; }
+.trend-carried-dot { position: absolute; color: var(--mint-hi); text-align: center; }
+.trend-flight-cable { position: fixed; top: 0; width: 1px; background: var(--grey-hi); z-index: 109; pointer-events: none; }
+.trend-cable, .trend-grip { fill: none; stroke: var(--grey-hi); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.trend-claw-head { fill: var(--ink2); }
+.trend-grip { transform-box: fill-box; transform-origin: center top; }
+#trend .fig-t { font-size: 20px; line-height: 1.35; }
+#trend .fig-n { font-size: 14px; }
+#trend .chart-key { font-size: 14px; }
+#trend .fig-table > summary { font-size: 16px; }
+#trend .fig-dt th, #trend .fig-dt td { font-size: 14px; }
+#trend .chart .ln-dz { stroke: var(--mint-hi); filter: drop-shadow(0 0 2px var(--mint-glow)) drop-shadow(0 0 6px var(--mint-glow)); }
+#trend .chart .end { fill: var(--mint-hi); filter: drop-shadow(0 0 3px var(--mint-glow)); }
+#trend .chart .lb.k-DZ, #trend .chart .lb.k-DZ tspan { fill: var(--mint-hi); }
+#trend .sw-dz { background: var(--mint-hi); filter: drop-shadow(0 0 3px var(--mint-glow)); }
 #scorecard .tile { gap: 16px; }
 #scorecard .tile-title { min-height: 0; }
 #scorecard .tile-top { margin-bottom: -8px; }
