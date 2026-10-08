@@ -327,12 +327,14 @@ def hero(ctx) -> Markup:
     chart_title = ctx.t('home.map_title')
     desc = f'{loc(chart.summary, lang)} {ctx.s("chart.desc_table")}'
     label_id = 'home-units-label'
-    fig = C.frame(Markup(f'<div class="fig-head">{C.fig_label(ctx, 1, chart_title, label_id)}</div>'
+    fig = C.frame(Markup(f'<span class="layered-card-texture" aria-hidden="true"></span>'
+                         f'<div class="fig-head">{C.fig_label(ctx, 1, chart_title, label_id)}</div>'
                          f'<p class="hero-map-caption">{esc(loc(chart.title, lang))}</p>'
                          f'<div class="fig-body"><div class="hero-map-stage">{charts.svg(chart, lang, "wide", "home-units-m", desc)}</div>{unit_key(ctx, chart)}</div>'
                          f'<div class="hero-map-footer"><span class="hero-map-range num" dir="ltr">{years[0][0][:4]} <span aria-hidden="true">—</span> {q[:4]}</span>'
                          f'<a class="hero-story" href="#trend">{ctx.t("home.growth_story")}{icon("arrow", 16)}</a></div>'
-                         f'{table(ctx, chart)}'), cls='fig hero-fig enter d2', labelledby=label_id)
+                         f'{table(ctx, chart)}'), cls='fig hero-fig layered-card-surface', labelledby=label_id)
+    fig = Markup(f'<div class="hero-map-card layered-card enter d2">{fig}</div>')
 
     return Markup(f'''<section class="hero" aria-labelledby="hero-h" data-map-first-year="{years[0][0][:4]}" data-map-latest-year="{q[:4]}" data-map-accounts="{int(a["value"])}">
 <div class="hero-bg" aria-hidden="true"></div>
@@ -495,9 +497,11 @@ def hub_teaser(ctx) -> Markup:
     else:
         inner = Markup(f'<div class="empty-state"><span class="empty-icon">{icon("plus", 20)}</span>'
                        f'<div class="empty-text"><h3>{ctx.t("home.hub_empty_title")}</h3><p>{ctx.t("home.hub_empty")}</p></div></div>')
-    listing = Markup(f'<div class="hub-listing"><div><h3>{ctx.t("home.hub_listing_title")}</h3>'
-                     f'<p>{ctx.t("home.hub_listing_text")}</p></div>'
-                     f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "secondary")}</div>')
+    listing = Markup(f'<div class="hub-listing layered-card" role="group" aria-labelledby="hub-listing-h">'
+                     f'<div class="hub-listing-surface layered-card-surface"><span class="layered-card-texture" aria-hidden="true"></span>'
+                     f'<h3 id="hub-listing-h">{ctx.t("home.hub_listing_title")}</h3>'
+                     f'<p>{ctx.t("home.hub_listing_text")}</p>'
+                     f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "primary")}</div></div>')
     preview = Markup(f'<div class="hub-preview" role="group" aria-labelledby="hub-preview-h">{feed_head}{inner}</div>')
     return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), routes + preview + listing,
                      lede=ctx.t('home.hub_lede'))
