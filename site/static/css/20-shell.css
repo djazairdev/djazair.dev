@@ -26,7 +26,7 @@
 }
 .header-row { height: var(--header-h); display: flex; align-items: center; gap: 16px; }
 .header-end { margin-inline-start: auto; display: flex; align-items: center; gap: 12px; flex: none; }
-.header-end > [data-header-contribute] { min-height: 44px; padding-inline: 14px; font-size: 14px; }
+.header-end > [data-header-contribute] { min-height: 44px; padding-inline: 16px; font-size: 16px; }
 
 .brand {
   display: inline-flex;
@@ -41,6 +41,8 @@
 .mark { display: block; flex: none; }
 .wordmark { font-family: var(--sans); font-weight: 800; font-size: 20px; letter-spacing: -0.02em; line-height: 1; }
 .wordmark > span { color: var(--mint); }
+.site-header .brand { gap: 6px; }
+.site-header .wordmark { font-size: 30px; }
 
 .main-nav { display: flex; align-items: center; gap: 2px; }
 .main-nav a {
@@ -50,7 +52,7 @@
   height: 44px;
   padding-inline: 8px;
   border-radius: 8px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--ink2);
   text-decoration: none;
@@ -96,7 +98,7 @@
   padding-inline: 12px;
   border-radius: 8px;
   border: 1px solid var(--line);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   color: var(--ink2);
   text-decoration: none;
@@ -147,7 +149,7 @@
   text-decoration: none;
 }
 .menu-panel a[aria-current] { color: var(--ink); font-weight: 700; }
-.menu-panel .menu-github { border-bottom: 0; font-size: 15px; color: var(--ink2); }
+.menu-panel .menu-github { border-bottom: 0; font-size: 16px; color: var(--ink2); }
 .menu-panel [data-menu-contribute] { justify-content: center; min-height: 48px; margin-block: 12px 8px; border: 0; font-size: 16px; color: var(--on-mint); }
 
 @media (max-width: 1360px) {

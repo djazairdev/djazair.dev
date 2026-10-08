@@ -58,7 +58,7 @@ def lang_switch(ctx: Ctx) -> Markup:
 def header(ctx: Ctx) -> Markup:
     return Markup(f'''<header class="site-header">
 <div class="container header-row">
-<a class="brand" href="{ctx.url('home')}" aria-label="{ctx.ta('a11y.home')}">{mark(28)}{wordmark()}</a>
+<a class="brand" href="{ctx.url('home')}" aria-label="{ctx.ta('a11y.home')}">{mark(40)}{wordmark()}</a>
 <nav class="main-nav" aria-label="{ctx.ta('a11y.main_nav')}">{main_nav_links(ctx)}</nav>
 <div class="header-end">
 <a class="github-link wide" href="{ORG_URL}" aria-label="{ctx.ta('a11y.github')}">{github_mark()}<span>{ctx.t('nav.github')}</span></a>
