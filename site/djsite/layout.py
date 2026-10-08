@@ -61,7 +61,6 @@ def header(ctx: Ctx) -> Markup:
 <a class="brand" href="{ctx.url('home')}" aria-label="{ctx.ta('a11y.home')}">{mark(28)}{wordmark()}</a>
 <nav class="main-nav" aria-label="{ctx.ta('a11y.main_nav')}">{main_nav_links(ctx)}</nav>
 <div class="header-end">
-{lang_switch(ctx)}
 <a class="github-link wide" href="{ORG_URL}" aria-label="{ctx.ta('a11y.github')}">{github_mark()}<span>{ctx.t('nav.github')}</span></a>
 {btn(ctx.t('nav.contribute'), ctx.url('hub') + '?kind=gfi#issues', size='s', arrow=False, attrs=' data-header-contribute')}
 <details class="menu">
@@ -99,7 +98,8 @@ def footer(ctx: Ctx) -> Markup:
 <div class="container">
 <div class="footer-top">
 <div class="footer-brand"><a class="brand brand-lg" href="{ctx.url('home')}" aria-label="{ctx.ta('a11y.home')}">{mark(36)}{wordmark()}</a>
-<p>{ctx.t('site.tagline')}</p></div>
+<p>{ctx.t('site.tagline')}</p>
+<div class="footer-language"><span>{ctx.t('a11y.language')}</span>{lang_switch(ctx)}</div></div>
 <div class="footer-cols">{join(cols)}</div>
 </div>
 <div class="footer-legal"><p>{ctx.t('footer.legal')}</p><p>{ctx.t('footer.independent')}</p></div>

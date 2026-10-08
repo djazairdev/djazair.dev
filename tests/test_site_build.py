@@ -85,7 +85,8 @@ class BuiltSite(unittest.TestCase):
 
     def test_current_section_is_marked(self):
         doc = self.doc('en', self.site.routes['trends'])
-        nav = [a for a in doc.find('a') if a.get('aria-current')]
+        # The footer's current language can share the current page URL.
+        nav = [a for a in doc.find('a') if a.get('aria-current') and 'data-lang' not in a]
         hrefs = {a['href']: a['aria-current'] for a in nav}
         self.assertEqual(hrefs.get('/en/index/'), 'true')            # main nav: Index section
         self.assertEqual(hrefs.get('/en/index/trends/'), 'page')     # sub-nav: this page

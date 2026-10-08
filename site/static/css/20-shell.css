@@ -199,6 +199,8 @@
 .footer-top { display: flex; flex-wrap: wrap; gap: 48px 64px; justify-content: space-between; }
 .footer-brand { display: flex; flex-direction: column; gap: 14px; max-width: 360px; }
 .footer-brand p { font-size: 16px; line-height: 1.5; color: var(--ink2); }
+.footer-language { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--ink2); }
+.footer-language .lang-switch a { min-width: 44px; height: 44px; }
 .brand-lg { gap: 12px; }
 .brand-lg .wordmark { font-size: 26px; }
 .footer-cols { display: flex; flex-wrap: wrap; gap: 40px 56px; }
