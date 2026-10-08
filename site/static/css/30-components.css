@@ -45,12 +45,12 @@
 .btn:hover { transform: translateY(-1px); }
 .btn:active { transform: translateY(0) scale(.98); transition-duration: .08s; }
 .btn-s { height: 40px; padding-inline: 16px; font-size: 15px; }
-.btn-primary { background: var(--mint); color: var(--on-mint); }
-.btn-primary:hover { background: var(--mint-hover); color: var(--on-mint); }
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: var(--ink); color: var(--bg); }
 .btn-secondary { background: transparent; color: var(--ink2); border-color: var(--line2); }
 .btn-secondary:hover { border-color: var(--mint-line); color: var(--ink); }
 .btn:disabled, .btn[aria-disabled=true] { opacity: .55; cursor: not-allowed; transform: none; }
-.btn-primary:disabled:hover, .btn-primary[aria-disabled=true]:hover { background: var(--mint); }
+.btn-primary:disabled:hover, .btn-primary[aria-disabled=true]:hover { background: var(--ink); }
 .btn-secondary:disabled:hover, .btn-secondary[aria-disabled=true]:hover { border-color: var(--line2); color: var(--ink2); }
 .btn .arr { display: inline-flex; transition: transform .25s var(--ease); }
 .btn:hover .arr { transform: translateX(3px); }

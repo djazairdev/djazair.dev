@@ -23,7 +23,7 @@
 .hero-pause .i-pause, .hero-pause .replay-stop, .hero-pause:has(> input:checked) :is(.i-play,.replay-start) { display: none; }
 .hero-pause:has(> input:checked) :is(.i-pause,.replay-stop) { display: block; }
 .hero-pause:has(> input:focus-visible) { outline: 2px solid var(--mint); outline-offset: 3px; }
-.hero-tail { max-width: 22ch; font-size: clamp(25px, 2.3vw, 32px); line-height: 1.15; font-weight: 700; letter-spacing: -.02em; text-wrap: balance; }
+.hero-tail { color: var(--mint); max-width: 22ch; font-size: clamp(25px, 2.3vw, 32px); line-height: 1.15; font-weight: 700; letter-spacing: -.02em; text-wrap: balance; }
 .hero-tail:lang(ar) { line-height: 1.4; letter-spacing: 0; }
 .hero-stats { display: grid; grid-template-columns: .8fr 1.2fr 1fr; gap: 16px; padding-block: 20px; border-block: 1px solid var(--line2); }
 .hs { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 8px; min-width: 0; }
@@ -38,7 +38,7 @@
 .hero-cta { display: flex; flex-direction: column; gap: 8px; }
 .hero-cta-note { max-width: 24ch; font-size: 12px; line-height: 1.5; color: var(--ink2); }
 .hero-ctas .btn { min-height: 52px; padding-inline: 22px; border-radius: 10px; }
-.hero-ctas .btn-primary { box-shadow: 0 4px 24px var(--mint-tint); }
+.hero-ctas .btn-primary { box-shadow: 0 4px 24px var(--hover-tint); }
 .hero-ctas .btn-secondary { background: var(--tint); color: var(--ink); }
 .hero-source { margin-top: -12px; }
 .hero-source > summary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--ink3); font-size: 12px; cursor: pointer; list-style: none; }

@@ -150,7 +150,7 @@
 }
 .menu-panel a[aria-current] { color: var(--ink); font-weight: 700; }
 .menu-panel .menu-github { border-bottom: 0; font-size: 16px; color: var(--ink2); }
-.menu-panel [data-menu-contribute] { justify-content: center; min-height: 48px; margin-block: 12px 8px; border: 0; font-size: 16px; color: var(--on-mint); }
+.menu-panel [data-menu-contribute] { justify-content: center; min-height: 48px; margin-block: 12px 8px; border: 0; font-size: 16px; color: var(--bg); }
 
 @media (max-width: 1360px) {
   .main-nav { display: none; }
