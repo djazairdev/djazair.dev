@@ -27,9 +27,9 @@ GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
 POINT = {'en': '.', 'ar': ','}  # decimal points, likewise
 # The rank as rank_text writes it ('3rd of 7', '3 من 7'), printed with counters; 0 prints '0 of 7'
 RANK ={'en': 'counter(tkr,tick-ord) " of " counter(tkn)', 'ar': 'counter(tkr) " من " counter(tkn)'}
-# The hero replays the years, in seconds: it holds the first year while the page fades in,
-# counts up to each next year, rests on the latest, rewinds, and starts again.
-HOLD, FLIP, COUNT, REST, REWIND = 1.4, 1.2, 0.9, 4.0, 0.6
+# The automatic replay holds the first year, counts to each next year, and rests on the latest.
+# The replay loops until paused, then resumes from the same point.
+HOLD, FLIP, COUNT, REST, REWIND = 2.0, 1.2, 0.9, 4.0, 0.6
 
 
 # ---------------------------------------------------------------- the years the hero replays
@@ -213,7 +213,10 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
             # the first year's squares grow in as the page loads (90-motion.css); the later years' are this loop's
             + f'.um.um-years :is({squares}) rect{{animation:none}}\n'
             + ''.join(rules)
-            + '.hero:is(.hero-idle,:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span)'
+            + '.hero.hero-idle :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span)'
+            '{animation-play-state:paused}\n'
+            # Pause holds the current year, count, figures and SVG cells; resume continues them.
+            '.hero:not(:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span)'
             '{animation-play-state:paused}\n}}\n')
 
 
@@ -231,15 +234,18 @@ def ticker(ctx, value: int, years: list) -> Markup:
 
 def when(ctx, years: list) -> Markup:
     """Above the count, the quarter it is for: the latest, or the year the replay has reached,
-    beside a button that pauses the replay (WCAG 2.2.2)."""
+    beside a control to pause or resume the replay (WCAG 2.2.2)."""
     if len(years) < 2:
         anim = pause = ''
     else:
         anim = '<span class="yr-anim"></span>'
-        pause = (f'<label class="hero-pause"><input class="sr-only" type="checkbox">{icon("pause", 16, 2, "icon i-pause")}'
-                 f'{icon("play", 16, 2, "icon i-play")}<span class="sr-only">{ctx.t("home.pause")}</span></label>')
+        pause = (f'<label class="hero-pause"><input class="sr-only" type="checkbox" checked>{icon("pause", 16, 2, "icon i-pause")}'
+                 f'{icon("play", 16, 2, "icon i-play")}<span class="replay-start" aria-hidden="true">{ctx.t("home.resume")}</span>'
+                 f'<span class="replay-stop" aria-hidden="true">{ctx.t("home.pause")}</span>'
+                 f'<span class="sr-only">{ctx.t("home.replay_label")}</span></label>')
     return Markup(f'<div class="hero-when"><span class="hero-yr" aria-hidden="true"><span class="yr-static">'
-                  f'{quarter_label(ctx.site.data.quarter, ctx.lang)}</span>{anim}</span>{pause}</div>')
+                  f'{quarter_label(ctx.site.data.quarter, ctx.lang)}</span>{anim}</span>{pause}'
+                  f'<span class="sr-only">{ctx.t("home.snapshot", quarter=quarter_label(ctx.site.data.quarter, ctx.lang))}</span></div>')
 
 
 # ---------------------------------------------------------------- hero
@@ -314,27 +320,33 @@ def hero(ctx) -> Markup:
     if direction:
         many, one = ('home.streak_many', 'home.streak_one') if direction > 0 else ('home.slowed_many', 'home.slowed_one')
         lead = ctx.t(many, count=editorial.count_phrase(ctx, n)) if n > 1 else ctx.t(one)
-    lede = Markup(f'{lead} {ctx.t("home.map_note", per=fint(PER, lang), first=years[0][0][:4])}'.strip())
+    lede = Markup(f'<strong>{lead}</strong> {ctx.t("home.intro")}'.strip())
     source = ctx.t('home.source', quarter=_q(ctx, q), date=date_label(data.release_date, lang))
 
     chart = units_chart(ctx)
+    chart_title = ctx.t('home.map_title')
     desc = f'{loc(chart.summary, lang)} {ctx.s("chart.desc_table")}'
     label_id = 'home-units-label'
-    fig = C.frame(Markup(f'<div class="fig-head">{C.fig_label(ctx, 1, esc(loc(chart.title, lang)), label_id)}</div>'
-                         f'<div class="fig-body">{charts.svg(chart, lang, "wide", "home-units-m", desc)}{unit_key(ctx, chart)}</div>'
+    fig = C.frame(Markup(f'<div class="fig-head">{C.fig_label(ctx, 1, chart_title, label_id)}</div>'
+                         f'<p class="hero-map-caption">{esc(loc(chart.title, lang))}</p>'
+                         f'<div class="fig-body"><div class="hero-map-stage">{charts.svg(chart, lang, "wide", "home-units-m", desc)}</div>{unit_key(ctx, chart)}</div>'
+                         f'<div class="hero-map-footer"><span class="hero-map-range num" dir="ltr">{years[0][0][:4]} <span aria-hidden="true">—</span> {q[:4]}</span>'
+                         f'<a class="hero-story" href="#trend">{ctx.t("home.growth_story")}{icon("arrow", 16)}</a></div>'
                          f'{table(ctx, chart)}'), cls='fig hero-fig enter d2', labelledby=label_id)
 
-    return Markup(f'''<section class="hero" aria-labelledby="hero-h">
+    return Markup(f'''<section class="hero" aria-labelledby="hero-h" data-map-first-year="{years[0][0][:4]}" data-map-latest-year="{q[:4]}" data-map-accounts="{int(a["value"])}">
 <div class="hero-bg" aria-hidden="true"></div>
 <div class="container hero-grid">
 <div class="hero-text">
-{C.eyebrow(ctx.t('home.eyebrow', quarter=_q(ctx, q)), cls='enter')}
+{C.eyebrow(ctx.t('home.hero_eyebrow'), cls='enter')}
+<p class="hero-kicker enter">{ctx.t('home.kicker')}</p>
 <div class="hero-count enter d1">{when(ctx, years)}
 <h1 id="hero-h" class="hero-h">{ticker(ctx, int(a['value']), years)} <span class="hero-tail">{ctx.t('home.h1_tail')}</span></h1></div>
 <dl class="hero-stats enter d2">{stats}</dl>
 <p class="lede hero-lede enter d3">{lede}</p>
-<div class="hero-ctas enter d4">{C.btn(ctx.t('home.cta_index'), ctx.url('overview'))}{C.btn(ctx.t('home.cta_hub'), ctx.url('hub'), 'secondary', arrow=False)}</div>
-<p class="hero-src enter d5">{source} <a class="lnk" href="{ctx.url('methodology')}">{ctx.t('home.how')}</a></p>
+<div class="hero-ctas enter d4">{C.btn(ctx.t('home.cta_index'), ctx.url('overview'))}{C.btn(ctx.t('home.cta_hub'), ctx.url('hub') + '?kind=gfi#issues', 'secondary', arrow=False)}</div>
+<div class="hero-trust enter d5"><span>{icon('check', 15)}{ctx.t('home.hero_open_data')}</span><span>{icon('clock', 15)}{ctx.t('home.quarterly')}</span></div>
+<details class="hero-source enter d5"><summary>{ctx.t('home.source_short')}{icon('chev', 14)}</summary><p class="hero-src">{source} <a class="lnk" href="{ctx.url('methodology')}">{ctx.t('home.how')}</a></p></details>
 </div>
 {fig}
 </div>
@@ -428,5 +440,7 @@ def open_row(ctx) -> Markup:
 def render(ctx: Ctx) -> Page:
     body = hero(ctx) + scorecard(ctx) + trend(ctx) + report.teaser(ctx) + hub_teaser(ctx) + open_row(ctx)
     years = history(ctx.site.data)
+    script = ctx.site.assets.scripts.get('home-map')
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
+                scripts=(script,) if script else (),
                 css=minify_css(hero_css(ctx.lang, years, year_figures(ctx.site.data, years))))   # Home's alone

@@ -651,7 +651,20 @@
       "9": "Nine quarters",
       "10": "Ten quarters",
       "many": "{n} quarters"
-    }
+    },
+    "hero_eyebrow": "Algeria Developer Index",
+    "kicker": "A growing force in tech.",
+    "intro": "Explore the momentum. Find your next contribution.",
+    "map_title": "A community taking shape",
+    "resume": "Resume animation",
+    "replay": "Replay growth",
+    "show_latest": "Show latest",
+    "replay_label": "Replay developer account growth",
+    "quarterly": "Updated quarterly",
+    "source_short": "GitHub Innovation Graph · How we count",
+    "growth_story": "See the growth story",
+    "hero_open_data": "Open data, open access",
+    "snapshot": "Latest snapshot: {quarter}"
   },
   "overview": {
     "eyebrow": "Algeria Developer Index",

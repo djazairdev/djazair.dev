@@ -156,13 +156,29 @@
     });
   }
 
-  // Home's hero replays the years in a loop (pages/home.py); it rests while it's out of sight.
-  var hero = doc.querySelector('.hero-pause');
-  hero = hero && hero.closest('.hero');
-  if (hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (entries) {
-      hero.classList.toggle('hero-idle', !entries[entries.length - 1].isIntersecting);
-    }).observe(hero);
+  // Home loops until paused, and saves work while off screen or in a hidden tab.
+  var replay = doc.querySelector('.hero-pause input');
+  var hero = replay && replay.closest('.hero');
+  if (hero) {
+    var heroVisible = true;
+    function updateHeroVisibility() {
+      hero.classList.toggle('hero-idle', !heroVisible || doc.hidden);
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        heroVisible = entries[entries.length - 1].isIntersecting;
+        updateHeroVisibility();
+      }).observe(hero);
+    }
+    doc.addEventListener('visibilitychange', updateHeroVisibility);
+    var motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+    if (motionPreference.matches) replay.checked = false;
+    motionPreference.addEventListener('change', function () {
+      if (motionPreference.matches) {
+        replay.checked = false;
+        replay.dispatchEvent(new Event('change'));
+      }
+    });
   }
 
   // PNG downloads: drawn here from the chart's SVG file, with the site's fonts embedded so

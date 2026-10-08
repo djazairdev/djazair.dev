@@ -156,7 +156,7 @@ class Smoke(unittest.TestCase):
         report = result.report()
         self.assertFalse(result.ok)
         expected = [re.escape(f'{chart.relative_to(broken).as_posix()} answered 404, not 200'),
-                    r"/ar/hub/(\?repo=\S+)? says it is in 'en', not 'ar'",      # with the Hub's project pages, if any
+                    r"/ar/hub/(\?(?:repo=\S+|kind=gfi))? says it is in 'en', not 'ar'",  # project and beginner filters
                     re.escape('/en/about/ is in the sitemap but asks search engines not to index it'),
                     re.escape("a missing page doesn't show the site's own 404 page"),
                     r'/reports/\S+\.zip is not a zip file',

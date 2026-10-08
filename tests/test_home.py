@@ -240,12 +240,26 @@ class HomePage(unittest.TestCase):
                 self.assertEqual(re.findall(r'--tick:(\d+)', tick)[1::2], [str(v) for _, v in years])
                 self.assertIn('<span class="tick-anim" aria-hidden="true">', html)
                 self.assertIn('<span class="yr-anim"></span>', html)
-                self.assertIn('<label class="hero-pause"><input class="sr-only" type="checkbox">', html)
+                self.assertIn('<label class="hero-pause"><input class="sr-only" type="checkbox" checked>', html)
                 self.assertIn('<svg class="chart um um-years"', html)
                 self.assertEqual(len(re.findall(r'<g class="s\d', html)), len(years))
         hub = (self.dist / 'en' / 'hub' / 'index.html').read_text('utf-8')
         self.assertNotIn('hero-tick', hub, 'only Home carries the replay')
         self.assertEqual(self.html['en'].count('<style>'), 1, 'in the one inlined stylesheet')
+
+    def test_3d_enhancement_keeps_the_data_and_accessible_map(self):
+        accounts = int(self.data.overview()['accounts']['value'])
+        first = home.history(self.data)[0][0][:4]
+        for lang, html in self.html.items():
+            with self.subTest(lang=lang):
+                self.assertIn(f'data-map-accounts="{accounts}"', html)
+                self.assertIn(f'data-map-first-year="{first}"', html)
+                self.assertIn(f'data-map-latest-year="{self.data.quarter[:4]}"', html)
+                self.assertRegex(html, r'<div class="hero-map-stage"><svg[^>]*role="img"')
+                self.assertIn('id="home-units-table"', html)
+                self.assertRegex(html, r'<script src="/assets/home-map\.[0-9a-f]{10}\.js" defer>')
+        hub = (self.dist / 'en' / 'hub' / 'index.html').read_text('utf-8')
+        self.assertNotIn('/assets/home-map.', hub)
 
     def test_the_figures_follow_the_year(self):
         years = home.history(self.data)
