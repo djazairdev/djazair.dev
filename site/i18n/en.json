@@ -514,7 +514,7 @@
     "median_note": "North Africa median {median}",
     "accounts": {
       "title": "Developer accounts",
-      "note": "Growth rank. North Africa median {median}",
+      "note": "North Africa median: {median} accounts.",
       "does": [
         "Accounts GitHub places in Algeria at the end of the quarter",
         "A running total since accounts were created"
@@ -601,11 +601,11 @@
     "pause": "Pause the animation",
     "map_desc": "Algeria’s outline filled with {total} squares, one per {per} developer accounts. The {added} bright squares are accounts added since {quarter}.",
     "map_desc_years": "Algeria’s outline filling with squares, one per {per} developer accounts, year by year from {first} ({first_total} squares) to {last} ({total} squares). The bright squares are each year’s new accounts: {added} since {quarter}.",
-    "score_eyebrow": "The scorecard",
-    "score_title": "Six indicators. No combined score.",
-    "score_lede": "Each one stands alone, compared with the seven North African economies and with Africa’s {n} largest developer communities.",
-    "score_more": "Full overview",
-    "score_source": "Source: GitHub Innovation Graph (CC0), {quarter} · World Bank population, {year} · Ranks: higher is first.",
+    "score_eyebrow": "The scorecard · {quarter}",
+    "score_title": "Where Algeria stands",
+    "score_lede": "Six views of Algeria’s developer community on GitHub: its size, activity and reach.",
+    "score_more": "Explore all comparisons",
+    "score_source": "Source: GitHub Innovation Graph (CC0), {quarter} · World Bank population, {year}.",
     "trend_eyebrow": "The trend",
     "trend_title": "Year-on-year growth, quarter by quarter",
     "trend_lede": "Algeria’s developer accounts grew {dz} in the year to {quarter}. The North African median grew {na}, and the African median {af}.",
@@ -668,7 +668,29 @@
     "source_short": "GitHub Innovation Graph · How we count",
     "growth_story": "See the growth story",
     "hero_open_data": "Open data, open access",
-    "snapshot": "Latest snapshot: {quarter}"
+    "snapshot": "Latest snapshot: {quarter}",
+    "score": {
+      "latest": "Algeria · {quarter}",
+      "growth": "{value} growth in a year",
+      "na_median": "North Africa median",
+      "peer_median": "six-peer median",
+      "above": "{value} above the {group}",
+      "below": "{value} below the {group}",
+      "equal": "At the {group}",
+      "history": "Quarterly trend",
+      "bars": "Algeria and the 3 highest-valued peers",
+      "size_rank": "Algeria’s rank by account count",
+      "metric_rank": "Algeria’s rank for this measure",
+      "details": "Understand this measure",
+      "definitions": {
+        "accounts": "All GitHub accounts located in Algeria, including inactive accounts.",
+        "pushes": "Git pushes during the quarter, divided by all accounts. One push can contain several commits.",
+        "repos": "Public repositories divided by all accounts. Both are running totals.",
+        "orgs": "GitHub organisations divided by all accounts. These can be teams, companies or clubs.",
+        "topics": "Topics GitHub reports when at least 100 developers in Algeria use them. Smaller topics are hidden.",
+        "permillion": "GitHub accounts for every 1 million residents. Adjusts community size for population."
+      }
+    }
   },
   "overview": {
     "eyebrow": "Algeria Developer Index",
@@ -711,7 +733,14 @@
     "lim_pushes_sub": "Likely linked to AI coding tools; compare with peers first.",
     "lim_lag": "The data lags 3 to 4.5 months.",
     "lim_lag_sub": "{quarter} data was published on {date}.",
-    "limits_more": "All known limitations"
+    "limits_more": "All known limitations",
+    "reading": {
+      "guide": "Rank 1 means the highest value, not the best code or developers. The green square marks Algeria’s place. Trend charts use separate vertical scales; compare the lines within each card.",
+      "groups_title": "Who is Algeria compared with?",
+      "africa_group": "{n} African economies with at least {min} developer accounts in {quarter}.",
+      "peers": "The six peers",
+      "median_definition": "The median is the middle value in a group. The last two cards compare Algeria with the six-peer median and rank it within Algeria + those six peers; their bars show the three peers with the highest values."
+    }
   },
   "trends": {
     "eyebrow": "Algeria Developer Index · Trends",

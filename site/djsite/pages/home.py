@@ -19,7 +19,7 @@ from ..figures import figure, table, unit_key
 from ..fmt import MINUS, date_label, fint, fpct, has_arabic, num, ordinal, quarter_label, rank_text
 from ..icons import icon
 from ..markup import Markup, esc, join
-from ..scorecard import indicators, year_earlier
+from ..scorecard import SAME, indicators, year_earlier
 from . import report
 
 PER = 1000                     # accounts per square on the unit map
@@ -355,16 +355,48 @@ def hero(ctx) -> Markup:
 # ---------------------------------------------------------------- scorecard
 def scorecard(ctx) -> Markup:
     data = ctx.site.data
-    tiles = join(C.tile(n=i, title=ind.title, value=ind.value, chip_html=ind.chip, viz=ind.viz, ranks=ind.ranks,
-                        note=ind.note, lang=ctx.lang, href=ctx.url('overview', hash=f'ind-{ind.key}'))
-                 for i, ind in enumerate(indicators(ctx), 1))
+    overview, lang = data.overview(), ctx.lang
+    keys = {'accounts': 'accounts', 'pushes': 'pushes_per_account', 'repos': 'repos_per_account',
+            'orgs': 'orgs_per_account', 'topics': 'topics', 'permillion': 'accounts_per_million'}
+    tiles = []
+    for i, ind in enumerate(indicators(ctx), 1):
+        row = overview[keys[ind.key]]
+        ranks, note, viz = ind.ranks, ind.note, ind.viz
+        if ind.key == 'accounts':
+            # The total, trend and ranks all describe community size. The growth badge is separate.
+            badge = C.chip(ctx.t('home.score.growth', value=num(fpct(overview['yoy']['value'], 1, lang, sign=False))))
+        else:
+            peers = ind.key in ('topics', 'permillion')
+            median = row['core_peers_median' if peers else 'north_africa_median']
+            difference = row['value'] / median - 1
+            group = ctx.t('home.score.peer_median' if peers else 'home.score.na_median')
+            if abs(difference) < SAME:
+                badge = C.chip(ctx.t('home.score.equal', group=group))
+            else:
+                badge = C.chip(ctx.t('home.score.above' if difference > 0 else 'home.score.below',
+                                    value=num(fpct(abs(difference), 0, lang, sign=False)), group=group))
+        bars = ind.key in ('topics', 'permillion')
+        chart_key = Markup('')
+        if not bars:
+            viz = C.spark_block(charts.spark(data.series(keys[ind.key], 'DZ'),
+                                            data.series(keys[ind.key], 'median_north_africa')),
+                                quarter_label(data.quarters[0], lang, 'axis'), quarter_label(data.quarter, lang, 'axis'))
+            chart_key = Markup(f'<div class="tile-chart-key"><span><i class="score-line" aria-hidden="true"></i>{ctx.t("home.algeria")}</span>'
+                               f'<span><i class="score-line score-line-median" aria-hidden="true"></i>{ctx.t("home.score.na_median")}</span></div>')
+        tiles.append(C.tile(n=i, title=ind.title, value=ind.value, chip_html=badge, viz=viz, ranks=ranks,
+                            note=note, lang=lang, href=ctx.url('overview', hash=f'ind-{ind.key}'),
+                            intro=ctx.t(f'home.score.definitions.{ind.key}'),
+                            value_label=ctx.t('home.score.latest', quarter=_q(ctx, data.quarter)),
+                            chart_label=ctx.t('home.score.bars' if bars else 'home.score.history'), chart_key=chart_key,
+                            rank_label=ctx.t('home.score.size_rank' if ind.key == 'accounts' else 'home.score.metric_rank'),
+                            detail_label=Markup(f'{ctx.t("home.score.details")}{icon("arrow", 14)}')))
     folder = data.folder.name
     acts = C.action_link('CSV', f'/data/{folder}/overview.csv') + C.action_link('JSON', f'/data/{folder}/overview.json')
     source = C.source_line(ctx.t('home.score_source', quarter=_q(ctx, data.quarter),
                                  year=data.peers()['DZ']['population_year']), acts)
-    return C.section('scorecard', ctx.t('home.score_eyebrow'), ctx.t('home.score_title'),
-                     Markup(f'<div class="tiles">{tiles}</div>{source}'),
-                     lede=ctx.t('home.score_lede', n=data.overview()['yoy']['africa_ranked']),
+    return C.section('scorecard', ctx.t('home.score_eyebrow', quarter=_q(ctx, data.quarter)), ctx.t('home.score_title'),
+                     Markup(f'<div class="tiles">{join(tiles)}</div>{source}'),
+                     lede=ctx.t('home.score_lede'),
                      head_extra=C.btn(ctx.t('home.score_more'), ctx.url('overview'), 'secondary', size='s'))
 
 
@@ -439,7 +471,7 @@ def open_row(ctx) -> Markup:
 def render(ctx: Ctx) -> Page:
     body = hero(ctx) + scorecard(ctx) + trend(ctx) + report.teaser(ctx) + hub_teaser(ctx) + open_row(ctx)
     years = history(ctx.site.data)
-    script = ctx.site.assets.scripts.get('home-map')
+    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
-                scripts=(script,) if script else (),
+                scripts=scripts,
                 css=minify_css(hero_css(ctx.lang, years, year_figures(ctx.site.data, years))))   # Home's alone

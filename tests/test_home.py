@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite import data, editorial  # noqa: E402
 from djsite.build import build  # noqa: E402
-from djsite.fmt import MINUS, fint, fpct, ordinal, rank_text  # noqa: E402
+from djsite.fmt import MINUS, fint, fpct, ordinal, quarter_label, rank_text  # noqa: E402
 from djsite.pages import home  # noqa: E402
 from htmlcheck import Doc, stylesheet  # noqa: E402
 
@@ -304,6 +304,24 @@ class HomePage(unittest.TestCase):
         doc = Doc(self.html['en'])
         hrefs = [a['href'] for a in doc.find('a', class_='tile')]
         self.assertEqual(hrefs, [f'/en/index/#ind-{k}' for k in ('accounts', 'pushes', 'repos', 'orgs', 'topics', 'permillion')])
+
+    def test_scorecard_ranks_describe_the_displayed_measure(self):
+        overview = self.data.overview()
+        keys = ('accounts', 'pushes', 'repos', 'orgs', 'topics', 'permillion')
+        fields = ('accounts', 'pushes_per_account', 'repos_per_account', 'orgs_per_account', 'topics', 'accounts_per_million')
+        for lang, html in self.html.items():
+            cards = re.findall(r'<a class="card tile reveal"[^>]*>(.*?)</a>', html, re.S)
+            self.assertEqual(len(cards), 6)
+            for key, field, card in zip(keys, fields, cards):
+                row = overview[field]
+                groups = ('algeria_and_peers',) if key in ('topics', 'permillion') else ('north_africa', 'africa')
+                with self.subTest(lang=lang, measure=key):
+                    ranks = re.findall(r'<span class="num rank-n[^\"]*"[^>]*>(.*?)</span>', card)
+                    self.assertEqual(ranks, [rank_text(row[g + '_rank'], row[g + '_ranked'], lang) for g in groups])
+                    self.assertIn(quarter_label(self.data.quarter, lang), text_of(card))
+            # Total-account ranks must not silently become growth ranks again.
+            if overview['accounts']['africa_rank'] != overview['yoy']['africa_rank']:
+                self.assertNotIn(rank_text(overview['yoy']['africa_rank'], overview['yoy']['africa_ranked'], lang), text_of(cards[0]))
 
     def test_the_trend_chart_has_its_data(self):
         rows = (self.dist / 'charts' / self.data.folder.name / 'home-yoy.csv').read_text('utf-8').splitlines()

@@ -114,6 +114,46 @@
 .enter.d4 { --d: 280ms; }
 .enter.d5 { --d: 340ms; }
 
+/* ---- Scorecard: explanations stay beside the figures they describe. */
+#scorecard .section-head h2 { font-size: calc(var(--fs-section) * 1.21); font-weight: 400; }
+#scorecard .section-head .lede { font-size: 20px; }
+#scorecard .tile { gap: 16px; }
+#scorecard .tile-title { min-height: 0; }
+#scorecard .tile-top { margin-bottom: -8px; }
+#scorecard .tile-n { font-size: 13px; }
+#scorecard .tile h3 { font-size: 20px; line-height: 1.35; }
+.tile-intro { min-height: 4.65em; font-size: 16px; line-height: 1.55; color: var(--ink2); }
+.tile-reading { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.tile-value-label { font-size: 14px; line-height: 1.5; color: var(--ink2); }
+#scorecard .tile-value { font-size: clamp(38px, 3.4vw, 46px); }
+#scorecard .tile .chip { height: auto; min-height: 30px; max-width: 100%; padding: 5px 10px; white-space: normal; display: block; font-family: var(--sans); font-size: 14px; line-height: 1.5; }
+.tile-chart { display: flex; flex-direction: column; gap: 10px; }
+.tile-chart-label, .tile-rank-label { font-size: 14px; line-height: 1.5; font-weight: 700; color: var(--ink2); }
+.tile-chart-key { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 13px; color: var(--ink2); }
+.tile-chart-key > span { display: inline-flex; align-items: center; gap: 6px; }
+.score-line { width: 18px; border-top: 2px solid var(--mint); }
+.score-line-median { border-top: 2px dashed var(--grey-hi); }
+#scorecard .sp-ln { stroke: var(--mint-hi); filter: drop-shadow(0 0 2px var(--mint-glow)) drop-shadow(0 0 6px var(--mint-glow)); }
+#scorecard .sp-end { stroke: var(--mint-hi); filter: drop-shadow(0 0 3px var(--mint-glow)); }
+#scorecard .score-line:not(.score-line-median) { border-top-color: var(--mint-hi); filter: drop-shadow(0 0 3px var(--mint-glow)); }
+#scorecard .spark-axis { font-size: 12px; }
+#scorecard .hbars > div { font-size: 14px; }
+#scorecard .hb-val { font-size: 14px; }
+#scorecard .rank-head { font-size: 14px; color: var(--ink2); }
+#scorecard .rank-n { font-size: 15px; font-weight: 600; }
+#scorecard .tile-note { font-size: 14px; color: var(--ink2); }
+.tile-detail { display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 15px; font-weight: 700; color: var(--mint); }
+[dir=rtl] .tile-detail .icon { transform: scaleX(-1); }
+@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+  #scorecard .tile { position: relative; isolation: isolate; transition: border-color .25s var(--ease), background-color .25s var(--ease), transform .2s var(--ease), box-shadow .25s var(--ease); }
+  #scorecard .tile::before { content: ''; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; background: radial-gradient(circle at var(--score-px, 50%) var(--score-py, 50%), var(--mint-bg), transparent 65%); opacity: 0; transition: opacity .25s var(--ease); }
+  #scorecard .tile.score-tilting { transform: perspective(1200px) rotateX(var(--score-rx, 0deg)) rotateY(var(--score-ry, 0deg)) translateY(-2px); box-shadow: var(--shadow); }
+  #scorecard .tile.score-tilting::before { opacity: 1; }
+}
+@media (max-width: 760px) {
+  #scorecard .tile-title, .tile-intro { min-height: 0; }
+}
+
 /* ---- sections below the hero */
 .section-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .tiles + .src { margin-top: 28px; }

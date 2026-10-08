@@ -99,13 +99,11 @@ def indicators(ctx) -> list:
     t, pm = ov['topics'], ov['accounts_per_million']
     d2 = lambda v: fdec(v, 2, lang)
     d4 = lambda v: fdec(v, 4, lang)
-    pct = lambda v: fpct(v, 1, lang)
     up_chip = _chip(ctx, f'▲ {fpct(y["value"], 1, lang, sign=False)}', 'ind.in_year', 'up')
     out = [
         Indicator('accounts', ctx.t('ind.accounts.title'), fint(a['value'], lang), up_chip, _spark(ctx, data, 'accounts', False),
-                  ranks(y), ctx.t('ind.accounts.note', median=num(pct(y['north_africa_median']))),
-                  [(ctx.t('ind.med_na_growth'), pct(y['north_africa_median'])), (ctx.t('ind.med_cp'), pct(y['core_peers_median'])),
-                   (ctx.t('ind.med_af', n=y['africa_ranked']), pct(y['africa_median']))]),
+                  ranks(a), ctx.t('ind.accounts.note', median=num(fint(a['north_africa_median'], lang))),
+                  meds(a, lambda v: fint(v, lang))),
         Indicator('pushes', ctx.t('ind.pushes.title'), d2(p['value']), _vs_median(ctx, p['value'], p['north_africa_median']),
                   _spark(ctx, data, 'pushes_per_account', True), ranks(p),
                   ctx.t('ind.pushes.note', avg=num(d2(ov['pushes_per_account_4q']['value'])), median=num(d2(p['north_africa_median']))),

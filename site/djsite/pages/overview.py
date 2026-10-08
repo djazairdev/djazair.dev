@@ -7,8 +7,9 @@ from __future__ import annotations
 from .. import components as C
 from ..context import Ctx, Page
 from ..fmt import date_label, fdec, fint, fpct, num, quarter_label
+from ..icons import icon
 from ..markup import Markup, esc, join
-from ..scorecard import CORE_PEERS, indicators, name
+from ..scorecard import AFRICA_MIN_ACCOUNTS, CORE_PEERS, NORTH_AFRICA, indicators, name, year_earlier
 
 # Peers table: (peers field = overview indicator, header string, formatter)
 COLUMNS = [
@@ -48,6 +49,19 @@ def head(ctx) -> Markup:
                        lede=ctx.t('overview.lede', n=data.overview()['yoy']['africa_ranked']), meta=meta(ctx), actions=actions)
 
 
+def reading_guide(ctx) -> Markup:
+    """The ranking and comparison explanation belongs with the detailed Index."""
+    data = ctx.site.data
+    overview = data.overview()
+    lang = ctx.lang
+    return Markup(f'<div class="index-guide"><p>{ctx.t("overview.reading.guide")}</p>'
+                   f'<details class="index-groups"><summary>{ctx.t("overview.reading.groups_title")}{icon("chev", 14)}</summary><dl>'
+                   f'<div><dt>{ctx.t("ind.north_africa")}</dt><dd>{join((ctx.t("economy." + k) for k in NORTH_AFRICA), ", ")}.</dd></div>'
+                   f'<div><dt>{ctx.t("ind.africa")}</dt><dd>{ctx.t("overview.reading.africa_group", n=overview["accounts"]["africa_ranked"], min=num(fint(AFRICA_MIN_ACCOUNTS, lang)), quarter=_q(ctx, year_earlier(data.quarter)))}</dd></div>'
+                   f'<div><dt>{ctx.t("overview.reading.peers")}</dt><dd>{join((ctx.t("economy." + k) for k in CORE_PEERS), ", ")}.</dd></div>'
+                   f'</dl><p>{ctx.t("overview.reading.median_definition")}</p></details></div>')
+
+
 def cards(ctx) -> Markup:
     data = ctx.site.data
     q = data.quarter
@@ -66,7 +80,7 @@ def cards(ctx) -> Markup:
     acts = C.action_link('CSV', f'/data/{folder}/overview.csv') + C.action_link('JSON', f'/data/{folder}/overview.json')
     src = C.source_line(ctx.t('overview.source', quarter=_q(ctx, q), date=date_label(data.release_date, ctx.lang), year=year), acts)
     return Markup(f'<section class="ov-cards" aria-label="{ctx.ta("overview.cards_label")}"><div class="container">'
-                  f'<div class="ind-grid">{join(out)}</div>{src}</div></section>')
+                  f'{reading_guide(ctx)}<div class="ind-grid">{join(out)}</div>{src}</div></section>')
 
 
 def table_head(ctx) -> list:

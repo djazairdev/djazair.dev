@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite import data  # noqa: E402
 from djsite.build import build, csv_zip  # noqa: E402
-from djsite.fmt import date_label, fdec, fint, fpct, quarter_label  # noqa: E402
+from djsite.fmt import date_label, fdec, fint, fpct, quarter_label, rank_text  # noqa: E402
 from djsite.scorecard import CORE_PEERS  # noqa: E402
 from htmlcheck import Doc  # noqa: E402
 
@@ -71,6 +71,16 @@ class Overview(unittest.TestCase):
                         self.assertIn(value, row)
                 self.assertIn(fpct(ov['yoy']['africa_median'], 1, lang), foot)
                 self.assertIn('class="is-dz"', body)
+
+    def test_account_details_use_size_ranks_and_account_medians(self):
+        row = self.data.overview()['accounts']
+        for lang in ('en', 'ar'):
+            body = dict(self.cards(lang))['accounts']
+            ranks = re.findall(r'<span class="num rank-n[^\"]*"[^>]*>(.*?)</span>', body)
+            self.assertEqual(ranks, [rank_text(row[g + '_rank'], row[g + '_ranked'], lang)
+                                     for g in ('north_africa', 'africa')])
+            for group in ('north_africa', 'core_peers', 'africa'):
+                self.assertIn(fint(row[group + '_median'], lang), text_of(body))
 
     def test_page_head_names_the_quarter_and_release(self):
         doc = Doc(self.html['en'])

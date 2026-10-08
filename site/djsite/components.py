@@ -115,15 +115,17 @@ def spark_block(spark_svg, start_label: str, end_label: str) -> Markup:
                   f'<span>{esc(start_label)}</span><span>{esc(end_label)}</span></div></div>')
 
 
-def tile(*, n: int, title, value: str, chip_html, viz, ranks: Iterable, note, lang: str, href: Optional[str] = None) -> Markup:
+def tile(*, n: int, title, value: str, chip_html, viz, ranks: Iterable, note, lang: str, href: Optional[str] = None,
+         intro='', value_label='', chart_label='', chart_key='', rank_label='', detail_label='') -> Markup:
     """Compact indicator tile (Home scorecard): number, title, chip, value, chart, ranks, note."""
     rank_html = ''.join(rank_row(lb, r, of, lang) for lb, r, of in ranks)
     tag, link = ('a', f' href="{esc(href)}"') if href else ('article', '')
     return Markup(f'''<{tag} class="card tile reveal"{link}>
-<div class="tile-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h3>{title}</h3></div>{chip_html}</div>
-<div class="tile-value num" dir="ltr">{esc(value)}</div>
-{viz}
-<div class="tile-foot">{f'<div class="ranks">{rank_html}</div>' if rank_html else ''}<p class="tile-note">{note}</p></div>
+<div class="tile-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h3>{title}</h3></div>{'' if value_label else chip_html}</div>
+{f'<p class="tile-intro">{intro}</p>' if intro else ''}
+<div class="tile-reading">{f'<p class="tile-value-label">{value_label}</p>' if value_label else ''}<div class="tile-value num" dir="ltr">{esc(value)}</div>{chip_html if value_label else ''}</div>
+<div class="tile-chart">{f'<p class="tile-chart-label">{chart_label}</p>' if chart_label else ''}{viz}{chart_key}</div>
+<div class="tile-foot">{f'<p class="tile-rank-label">{rank_label}</p>' if rank_label else ''}{f'<div class="ranks">{rank_html}</div>' if rank_html else ''}<p class="tile-note">{note}</p>{f'<span class="tile-detail">{detail_label}</span>' if detail_label else ''}</div>
 </{tag}>''')
 
 
