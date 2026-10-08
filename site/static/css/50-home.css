@@ -37,7 +37,7 @@
 .hero-ctas { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 12px; }
 .hero-cta { display: flex; flex-direction: column; gap: 8px; }
 .hero-cta-note { max-width: 24ch; font-size: 12px; line-height: 1.5; color: var(--ink2); }
-.hero-ctas .btn { min-height: 52px; padding-inline: 22px; border-radius: 10px; }
+.hero-ctas .btn { min-height: 52px; padding-inline: 22px; border-radius: var(--r-chip); }
 .hero-ctas .btn-primary { box-shadow: 0 4px 24px var(--hover-tint); }
 .hero-ctas .btn-secondary { background: var(--tint); color: var(--ink); }
 .hero-source { margin-top: -12px; }

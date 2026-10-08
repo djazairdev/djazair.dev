@@ -71,7 +71,7 @@
   background: var(--mint);
 }
 
-.lang-switch { display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; }
+.lang-switch { display: flex; align-items: center; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: var(--r-chip); }
 .lang-switch a {
   display: inline-flex;
   align-items: center;
@@ -79,7 +79,7 @@
   min-width: 36px;
   height: 30px;
   padding-inline: 8px;
-  border-radius: 6px;
+  border-radius: var(--r-chip);
   font-weight: 600;
   color: var(--ink3);
   text-decoration: none;
@@ -96,7 +96,7 @@
   gap: 8px;
   min-height: 44px;
   padding-inline: 12px;
-  border-radius: 8px;
+  border-radius: var(--r-chip);
   border: 1px solid var(--line);
   font-size: 16px;
   font-weight: 500;
@@ -116,7 +116,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-radius: 10px;
+  border-radius: var(--r-chip);
   border: 1px solid var(--line);
   color: var(--ink);
   cursor: pointer;
