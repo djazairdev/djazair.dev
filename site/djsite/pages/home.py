@@ -1,5 +1,5 @@
 """Home (ticket #18; Home boards in docs/design): the hero with the unit map, the scorecard of
-six indicators, the growth trend, the Hub teaser and the
+six indicators, the growth trend, the Hub teaser, local developer meetups and the
 open-by-default links.
 
 Every number comes from the derived data. Sentences that state a fact are computed from it
@@ -21,6 +21,7 @@ from ..fmt import MINUS, date_label, fint, fpct, has_arabic, num, ordinal, quart
 from ..icons import icon
 from ..markup import Markup, esc, join
 from ..scorecard import SAME, indicators, year_earlier
+from . import meetups
 
 PER = 1000                     # accounts per square on the unit map
 GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
@@ -507,6 +508,52 @@ def hub_teaser(ctx) -> Markup:
                      lede=ctx.t('home.hub_lede'))
 
 
+# ---------------------------------------------------------------- local teammates
+def team_puzzle(ctx) -> Markup:
+    """Original interlocking pieces, each representing a skill rather than a real member."""
+    pieces = (
+        ('code', 168, 168, -130, -80, -22,
+         'M64 64H280V140C280 148 304 146 304 168C304 190 280 188 280 196V280H196C188 280 190 304 168 304C146 304 148 280 140 280H64Z'),
+        ('design', 392, 168, 130, -90, 24,
+         'M280 64H496V280H420C412 280 414 256 392 256C370 256 372 280 364 280H280V196C280 188 304 190 304 168C304 146 280 148 280 140Z'),
+        ('docs', 168, 392, -120, 100, 20,
+         'M64 280H140C148 280 146 304 168 304C190 304 188 280 196 280H280V364C280 372 256 370 256 392C256 414 280 412 280 420V496H64Z'),
+        ('testing', 392, 392, 120, 90, -20,
+         'M280 280H364C372 280 370 256 392 256C414 256 412 280 420 280H496V496H280V420C280 412 256 414 256 392C256 370 280 372 280 364Z'),
+    )
+    groups = []
+    for key, x, y, sx, sy, angle, path in pieces:
+        groups.append(f'<g class="team-piece team-piece-{key}" style="--team-x:{sx}px;--team-y:{sy}px;--team-angle:{angle}deg">'
+                      f'<path class="team-piece-shape" d="{path}"/>'
+                      f'<circle class="team-avatar-halo" cx="{x}" cy="{y - 20}" r="48"/>'
+                      f'<circle class="team-avatar-head" cx="{x}" cy="{y - 35}" r="18"/>'
+                      f'<path class="team-avatar-body" d="M{x - 31} {y + 11}C{x - 31} {y - 24} {x + 31} {y - 24} {x + 31} {y + 11}Z"/>'
+                      f'<text x="{x}" y="{y + 62}" text-anchor="middle">{ctx.t(f"home.team_skill_{key}")}</text></g>')
+    return Markup(f'<svg class="team-puzzle" viewBox="0 0 560 560" aria-hidden="true" focusable="false">'
+                  f'{join(groups)}<g class="team-coffee"><circle cx="280" cy="280" r="37"/>'
+                  f'<path d="M260 269h32v18a12 12 0 0 1-12 12h-8a12 12 0 0 1-12-12zM292 271h5a8 8 0 0 1 0 16h-5M256 307h46M269 255v-9M282 255v-9"/></g></svg>')
+
+
+def local_team(ctx) -> Markup:
+    platform = meetups.load()
+    steps = []
+    for i in (1, 2, 3):
+        issue_link = (Markup(f'<a class="lnk team-issue-link" href="{ctx.url("hub")}?kind=gfi#issues">'
+                             f'{ctx.t("home.team_issue")}{icon("arrow", 16)}</a>') if i == 2 else '')
+        steps.append(f'<li><span class="team-step-n num" aria-hidden="true">0{i}</span><div>'
+                     f'<h3>{ctx.t(f"home.team_step{i}_title")}</h3><p>{ctx.t(f"home.team_step{i}_text")}</p>'
+                     f'{issue_link}</div></li>')
+    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), out=True)
+    actions += C.btn(ctx.t('home.team_host'), meetups.link(platform, 'host', ctx.lang), 'secondary', out=True)
+    body = Markup(f'<div class="team-grid"><div class="team-visual">'
+                  f'<div class="team-assembly">{team_puzzle(ctx)}</div><p class="team-caption">{ctx.t("home.team_caption")}</p></div>'
+                  f'<div class="team-invitation"><ol class="team-steps" role="list">{join(steps)}</ol>'
+                  f'<div class="team-actions">{actions}</div><p class="team-host-note">{ctx.t("home.team_host_note")}</p>'
+                  f'<p class="team-platform">{ctx.t("home.team_platform", platform=Markup(f"<bdi>{esc(platform['platform'])}</bdi>"))}</p></div></div>')
+    return C.section('local-team', ctx.t('home.team_eyebrow'), ctx.t('home.team_title'), body,
+                     lede=ctx.t('home.team_lede'))
+
+
 # ---------------------------------------------------------------- open by default
 def open_row(ctx) -> Markup:
     items = [('table', 'home.open_data', 'home.open_data_sub', 'CC0', ctx.url('data')),
@@ -520,9 +567,9 @@ def open_row(ctx) -> Markup:
 
 
 def render(ctx: Ctx) -> Page:
-    body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + open_row(ctx)
+    body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + local_team(ctx) + open_row(ctx)
     years = history(ctx.site.data)
-    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub') if key in ctx.site.assets.scripts)
+    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub', 'home-team') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
                 scripts=scripts,
                 css=minify_css(hero_css(ctx.lang, years, year_figures(ctx.site.data, years))))   # Home's alone
