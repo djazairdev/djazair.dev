@@ -1,0 +1,26 @@
+{
+  "source": "GitHub Octoverse 2025",
+  "source_url": "https://github.blog/news-insights/octoverse/octoverse-a-new-developer-joins-github-every-second-as-ai-leads-typescript-to-1/",
+  "chart_url": "https://github.blog/wp-content/uploads/2025/10/octoverse-2025-projecting-the-top-developer-populations-2030.png",
+  "published": "2025-10-28",
+  "baseline": "2025-09",
+  "target_year": 2030,
+  "measure": "Projected total GitHub developer accounts, not new accounts or open-source contributors",
+  "method": "Mean of five models as labelled in GitHub's chart. Forecasts can change; no Algeria forecast is published here.",
+  "rows": [
+    {"economy": "IN", "projected_accounts": 57500000},
+    {"economy": "US", "projected_accounts": 54700000},
+    {"economy": "BR", "projected_accounts": 19600000},
+    {"economy": "CN", "projected_accounts": 17700000},
+    {"economy": "JP", "projected_accounts": 11700000},
+    {"economy": "GB", "projected_accounts": 11000000},
+    {"economy": "DE", "projected_accounts": 9800000},
+    {"economy": "ID", "projected_accounts": 8700000},
+    {"economy": "CA", "projected_accounts": 7200000},
+    {"economy": "EG", "projected_accounts": 4100000},
+    {"economy": "NG", "projected_accounts": 3300000},
+    {"economy": "ZA", "projected_accounts": 2700000},
+    {"economy": "KE", "projected_accounts": 1900000},
+    {"economy": "MA", "projected_accounts": 1400000}
+  ]
+}

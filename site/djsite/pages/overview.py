@@ -1,10 +1,10 @@
-"""Index overview, "Where Algeria stands" (ticket #19; Overview boards in docs/design): the six
-headline indicators with their change, medians, ranks and what each measures (IDX-05, IDX-12,
-IDX-13), Algeria and six peers with the group medians, and what the numbers can't tell you.
+"""Index overview: six detailed indicators, their comparison groups and sources.
+Full comparison tables and limitations live on Peers and Methodology respectively.
 Every number comes from the derived data."""
 from __future__ import annotations
 
 from .. import components as C
+from .. import outlook
 from ..context import Ctx, Page
 from ..fmt import date_label, fdec, fint, fpct, num, quarter_label
 from ..icons import icon
@@ -43,10 +43,9 @@ def meta(ctx) -> list:
 
 def head(ctx) -> Markup:
     data = ctx.site.data
-    actions = [C.btn(ctx.t('overview.download_all'), zip_url(data), arrow=False, attrs=' download'),
-               C.btn(ctx.t('overview.methodology'), ctx.url('methodology'), 'secondary')]
+    actions = [C.btn(ctx.t('overview.download_all'), zip_url(data), arrow=False, attrs=' download')]
     return C.page_head(eyebrow_text=ctx.t('overview.eyebrow'), title=ctx.t('overview.title', quarter=_q(ctx, data.quarter)),
-                       lede=ctx.t('overview.lede', n=data.overview()['yoy']['africa_ranked']), meta=meta(ctx), actions=actions)
+                       lede=ctx.t('overview.lede'), meta=meta(ctx), actions=actions)
 
 
 def reading_guide(ctx) -> Markup:
@@ -68,19 +67,26 @@ def cards(ctx) -> Markup:
     year = data.peers()['DZ']['population_year']
     out = []
     for i, ind in enumerate(indicators(ctx), 1):
-        if ind.key == 'permillion':
-            source = ctx.t('overview.ind_source_pop', quarter=_q(ctx, q), year=year)
-        else:
-            source = ctx.t('overview.ind_source', quarter=_q(ctx, q))
-        body = Markup(f'{C.measures(ctx, ind.does, ind.doesnt)}<p class="ind-src">{source}</p>')
+        bars = ind.key in ('topics', 'permillion')
+        legend = ''
+        if not bars:
+            median = (f'<li><i class="score-line score-line-median" aria-hidden="true"></i>{ctx.t("overview.chart_median")}</li>'
+                      if ind.key != 'accounts' else '')
+            legend = (f'<ul class="ind-chart-key" aria-label="{ctx.ta("chart.legend")}">'
+                      f'<li><i class="score-line" aria-hidden="true"></i>{ctx.t("economy.DZ")}</li>{median}</ul>')
+        viz = Markup(f'<figure class="ind-chart"><figcaption>{ctx.t("overview.chart_peers" if bars else "overview.chart_trend")}</figcaption>'
+                     f'{ind.viz}{legend}</figure>')
         out.append(C.indicator_card(n=i, title=ind.title, quarter=_q(ctx, q, 'short'), value=ind.value,
-                                    extras=Markup(ind.delta + ind.chip), viz=ind.viz, ranks=ind.ranks, medians=ind.medians,
-                                    measures_html=C.details(ctx.t('measures.summary'), body), lang=ctx.lang, id_=f'ind-{ind.key}'))
+                                    extras=Markup(ind.delta + ind.chip), viz=viz, ranks=ind.ranks, medians=ind.medians,
+                                    measures_html=C.measures_disclosure(ctx, ind.does, ind.doesnt),
+                                    median_label=ctx.t('overview.medians_label'), lang=ctx.lang, id_=f'ind-{ind.key}', heading_level=3))
     folder = data.folder.name
     acts = C.action_link('CSV', f'/data/{folder}/overview.csv') + C.action_link('JSON', f'/data/{folder}/overview.json')
     src = C.source_line(ctx.t('overview.source', quarter=_q(ctx, q), date=date_label(data.release_date, ctx.lang), year=year), acts)
-    return Markup(f'<section class="ov-cards" aria-label="{ctx.ta("overview.cards_label")}"><div class="container">'
-                  f'{reading_guide(ctx)}<div class="ind-grid">{join(out)}</div>{src}</div></section>')
+    intro = (f'<header class="section-head outlook-detail-head">{C.eyebrow(ctx.t("outlook.details.eyebrow"))}'
+             f'<h2 class="t-section" id="detailed-indicators-h">{ctx.t("outlook.details.title")}</h2><p class="lede">{ctx.t("outlook.details.lede")}</p></header>')
+    return Markup(f'<section class="ov-cards" id="detailed-indicators" aria-labelledby="detailed-indicators-h"><div class="container">'
+                  f'{intro}{reading_guide(ctx)}<div class="ind-grid">{join(out)}</div>{src}</div></section>')
 
 
 def table_head(ctx) -> list:
@@ -91,9 +97,8 @@ def economy_cell(ctx, code: str) -> tuple:
     return Markup(f'<span class="eco"><span class="eco-sq" aria-hidden="true"></span>{name(ctx, code)}</span>'), None
 
 
-def peers_table(ctx, link: bool = True, lede=None) -> Markup:
-    """Algeria and the six core peers with the group medians. The Peers page shows it with a
-    lede and without the link to itself."""
+def peers_table(ctx, lede=None) -> Markup:
+    """The Peers page's comparison table: Algeria, six core peers and group medians."""
     data = ctx.site.data
     lang = ctx.lang
     peers, ov = data.peers(), data.overview()
@@ -111,22 +116,22 @@ def peers_table(ctx, link: bool = True, lede=None) -> Markup:
     folder = data.folder.name
     acts = C.action_link('CSV', f'/data/{folder}/peers.csv') + C.action_link('JSON', f'/data/{folder}/peers.json')
     src = C.source_line(ctx.t('overview.peers_source', quarter=_q(ctx, data.quarter), year=peers['DZ']['population_year']), acts)
-    more = C.btn(ctx.t('overview.peers_open'), ctx.url('peers'), 'secondary', size='s') if link else ''
     return C.section('peers', ctx.t('overview.peers_eyebrow'), ctx.t('overview.peers_title'), Markup(f'{table}{src}'),
-                     lede=lede, size='s', head_extra=more)
+                     lede=lede, size='s')
 
 
-def limits(ctx) -> Markup:
-    data = ctx.site.data
-    items = [('lim_accounts', {}), ('lim_location', {}), ('lim_pushes', {}),
-             ('lim_lag', {'quarter': _q(ctx, data.quarter), 'date': date_label(data.release_date, ctx.lang)})]
-    cards_html = join(f'<div class="limit"><h3>{ctx.t(f"overview.{key}")}</h3><p>{ctx.t(f"overview.{key}_sub", **values)}</p></div>'
-                      for key, values in items)
-    more = C.btn(ctx.t('overview.limits_more'), ctx.url('methodology', hash='limitations'), 'secondary', size='s')
-    return C.section('limits', ctx.t('overview.limits_eyebrow'), ctx.t('overview.limits_title'),
-                     Markup(f'<div class="limits">{cards_html}</div><div class="limits-more">{more}</div>'), size='s')
+def next_steps(ctx) -> Markup:
+    """Give each detailed page a clear destination instead of copying its content here."""
+    destinations = [('peers', ''), ('trends', ''), ('methodology', 'limitations')]
+    links = join(f'<li><a href="{ctx.url(route, hash=fragment)}"><span class="overview-next-title">'
+                 f'{ctx.t(f"overview.next.{route}.title")}{icon("arrow", 18)}</span>'
+                 f'<span class="overview-next-desc">{ctx.t(f"overview.next.{route}.description")}</span></a></li>'
+                 for route, fragment in destinations)
+    return Markup(f'<nav class="overview-next container" aria-labelledby="overview-next-h">'
+                  f'{C.h2(ctx.t("overview.next.title"), "overview-next-h")}<ul>{links}</ul></nav>')
 
 
 def render(ctx: Ctx) -> Page:
-    body = head(ctx) + cards(ctx) + peers_table(ctx) + limits(ctx)
-    return Page(title=ctx.s('pages.overview.title'), description=ctx.s('pages.overview.description'), body=Markup(body))
+    body = head(ctx) + outlook.world(ctx) + outlook.outlook(ctx) + outlook.scenario(ctx) + cards(ctx) + next_steps(ctx)
+    return Page(title=ctx.s('pages.overview.title'), description=ctx.s('pages.overview.description'), body=Markup(body),
+                scripts=(ctx.site.assets.scripts['index-outlook'],))

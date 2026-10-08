@@ -55,12 +55,22 @@ class PeersPage(unittest.TestCase):
                 self.assertEqual(len(re.findall(r'<p class="sr-only sort-status" role="status" data-desc="[^"]*\{col\}', html)), 3)
                 self.assertEqual(html.count('aria-sort="descending"'), 2)        # the rank tables, by accounts
 
-    def test_the_core_table_matches_the_overview(self):
+    def test_the_core_table_and_medians_remain_on_the_peers_page(self):
+        values, ov = self.data.peers(), self.data.overview()
         for lang in ('en', 'ar'):
             self.assertEqual(list(self.rows(lang, 'peers')), ['DZ', *scorecard.CORE_PEERS])
+            for code, row in self.rows(lang, 'peers').items():
+                with self.subTest(lang=lang, economy=code):
+                    for value in (fint(values[code]['accounts'], lang), fpct(values[code]['yoy'], 1, lang),
+                                  fdec(values[code]['orgs_per_account'], 4, lang), fint(values[code]['accounts_per_million'], lang)):
+                        self.assertIn(value, row)
+            foot = self.section(lang, 'peers').split('<tfoot>')[1]
+            self.assertEqual(re.findall(r'data-key="(median_\w+)"', foot),
+                             ['median_north_africa', 'median_core_peers', 'median_africa'])
+            self.assertIn(fpct(ov['yoy']['africa_median'], 1, lang), foot)
         self.assertNotIn('Open the peers page', self.section('en', 'peers'))     # no link to itself
         overview = (self.dist / 'en' / 'index' / 'index.html').read_text('utf-8')
-        self.assertIn('Open the peers page', overview)
+        self.assertIn('Compare countries', overview)
 
     def test_rank_tables_list_every_member_by_accounts(self):
         for group, id_ in (('north_africa', 'north-africa'), ('africa', 'africa')):

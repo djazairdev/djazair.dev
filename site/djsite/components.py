@@ -130,16 +130,21 @@ def tile(*, n: int, title, value: str, chip_html, viz, ranks: Iterable, note, la
 
 
 def indicator_card(*, n: int, title, quarter: str, value: str, extras: str = '', viz, ranks: Iterable,
-                   medians: Iterable = (), measures_html='', lang: str, id_: str = '') -> Markup:
+                   medians: Iterable = (), measures_html='', median_label='', lang: str, id_: str = '', heading_level: int = 2) -> Markup:
     """Full indicator card (Index overview): value, change, chart, ranks, medians, 'What this measures'."""
     rank_html = ''.join(rank_row(lb, r, of, lang) for lb, r, of in ranks)
-    med_html = ''.join(f'<div class="med"><span>{k}</span>{num(v)}</div>' for k, v in medians)
+    med_html = ''.join(f'<div class="med"><dt>{k}</dt><dd>{num(v)}</dd></div>' for k, v in medians)
     ident = f' id="{esc(id_)}"' if id_ else ''
-    return Markup(f'''<article class="card indicator reveal"{ident}>
-<div class="ind-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h2>{title}</h2></div><span class="ind-q">{esc(quarter)}</span></div>
+    label = f' aria-labelledby="{esc(id_)}-h"' if id_ else ''
+    heading_id = f' id="{esc(id_)}-h"' if id_ else ''
+    med_label = f'<p class="ind-median-label">{median_label}</p>' if median_label else ''
+    if heading_level not in (2, 3):
+        raise ValueError('indicator headings must be h2 or h3')
+    return Markup(f'''<article class="card indicator reveal"{ident}{label}>
+<div class="ind-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h{heading_level}{heading_id}>{title}</h{heading_level}></div><span class="ind-q">{esc(quarter)}</span></div>
 <div class="ind-value"><span class="ind-v num" dir="ltr">{esc(value)}</span>{extras}</div>
 {viz}
-<div class="ind-foot"><div class="ranks">{rank_html}</div><div class="meds">{med_html}</div></div>
+<div class="ind-foot"><div class="ranks">{rank_html}</div><div>{med_label}<dl class="meds">{med_html}</dl></div></div>
 {measures_html}
 </article>''')
 
