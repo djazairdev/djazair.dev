@@ -75,7 +75,7 @@
 }
 @media (max-width: 760px) {
  .participation-title { font-size: clamp(36px,9vw,58px); }
- .hero-community .hero-h { flex-wrap: wrap; gap: 12px; }
+ .hero-community .hero-h { flex-direction: column; align-items: flex-start; gap: 12px; }
  .hero-community .hero-tail { max-width: none; }
  .opportunity-grid, .community-projects, .first-contribution ol { grid-template-columns: minmax(0,1fr); }
  .opportunity { padding: 24px; }
