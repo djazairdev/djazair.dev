@@ -15,8 +15,8 @@ from ..assets import minify_css
 from ..charts import Line, LineChart, Note, UnitMap, loc, tick_pct
 from ..config import LANGS
 from ..context import Ctx, Page
-from ..figures import figure, table, unit_key
-from ..fmt import MINUS, date_label, fint, fpct, has_arabic, num, ordinal, quarter_label, rank_text
+from ..figures import figure, table
+from ..fmt import MINUS, fint, fpct, has_arabic, num, ordinal, quarter_label, rank_text
 from ..icons import icon
 from ..markup import Markup, esc, join
 from ..scorecard import SAME, indicators, year_earlier
@@ -315,39 +315,30 @@ def hero(ctx) -> Markup:
              + _stat(Markup(num(rank, 'num hs-v') + each_year(1, rank)), rank_label)
              + _stat(Markup(num(added, 'num hs-v') + each_year(2, added)), ctx.t('home.stat_added_year')))
 
-    n, direction, _ = editorial.streak(data.series('yoy', 'DZ'))
-    lead = ''
-    if direction:
-        many, one = ('home.streak_many', 'home.streak_one') if direction > 0 else ('home.slowed_many', 'home.slowed_one')
-        lead = ctx.t(many, count=editorial.count_phrase(ctx, n)) if n > 1 else ctx.t(one)
-    lede = Markup(f'<strong>{lead}</strong> {ctx.t("home.intro")}'.strip())
-    source = ctx.t('home.source', quarter=_q(ctx, q), date=date_label(data.release_date, lang))
-
     chart = units_chart(ctx)
-    chart_title = ctx.t('home.map_title')
     desc = f'{loc(chart.summary, lang)} {ctx.s("chart.desc_table")}'
     label_id = 'home-units-label'
+    community = Markup(f'<div class="hero-community"><div class="hero-community-head">'
+                       f'<p id="{label_id}">{ctx.t("participation.hero_context")}</p>{when(ctx, years)}</div>'
+                       f'<div class="hero-count"><p class="hero-h">{ticker(ctx, int(a["value"]), years)} '
+                       f'<span class="hero-tail">{ctx.t("home.h1_tail")}</span></p></div>'
+                       f'<dl class="hero-stats">{stats}</dl></div>')
     fig = C.frame(Markup(f'<span class="layered-card-texture" aria-hidden="true"></span>'
-                         f'<div class="fig-head">{C.fig_label(ctx, 1, chart_title, label_id)}</div>'
-                         f'<p class="hero-map-caption">{esc(loc(chart.title, lang))}</p>'
-                         f'<div class="fig-body"><div class="hero-map-stage">{charts.svg(chart, lang, "wide", "home-units-m", desc)}</div>{unit_key(ctx, chart)}</div>'
-                         f'<div class="hero-map-footer"><span class="hero-map-range num" dir="ltr">{years[0][0][:4]} <span aria-hidden="true">—</span> {q[:4]}</span>'
-                         f'<a class="hero-story" href="#trend">{ctx.t("home.growth_story")}{icon("arrow", 16)}</a></div>'
+                         f'{community}'
+                         f'<div class="fig-body"><div class="hero-map-stage">{charts.svg(chart, lang, "wide", "home-units-m", desc)}</div></div>'
                          f'{table(ctx, chart)}'), cls='fig hero-fig layered-card-surface', labelledby=label_id)
     fig = Markup(f'<div class="hero-map-card layered-card enter d2">{fig}</div>')
 
-    return Markup(f'''<section class="hero" aria-labelledby="hero-h" data-map-first-year="{years[0][0][:4]}" data-map-latest-year="{q[:4]}" data-map-accounts="{int(a["value"])}">
+    platform = meetups.load()
+    return Markup(f'''<section class="hero participation-hero" aria-labelledby="hero-h" data-map-first-year="{years[0][0][:4]}" data-map-latest-year="{q[:4]}" data-map-accounts="{int(a["value"])}">
 <div class="hero-bg" aria-hidden="true"></div>
 <div class="container hero-grid">
 <div class="hero-text">
 {C.eyebrow(ctx.t('home.hero_eyebrow'), cls='enter')}
-<p class="hero-kicker enter">{ctx.t('home.kicker')}</p>
-<div class="hero-count enter d1">{when(ctx, years)}
-<h1 id="hero-h" class="hero-h">{ticker(ctx, int(a['value']), years)} <span class="hero-tail">{ctx.t('home.h1_tail')}</span></h1></div>
-<dl class="hero-stats enter d2">{stats}</dl>
-<p class="lede hero-lede enter d3">{lede}</p>
-<div class="hero-ctas enter d4"><div class="hero-cta">{C.btn(ctx.t('home.cta_index'), ctx.url('overview'))}</div><div class="hero-cta">{C.btn(ctx.t('home.cta_hub'), ctx.url('hub') + '?kind=gfi#issues', 'secondary', arrow=False, attrs=' aria-describedby="hero-contribute-note"')}<p id="hero-contribute-note" class="hero-cta-note">{ctx.t('home.cta_hub_note')}</p></div></div>
-<details class="hero-source enter d5"><summary>{ctx.t('home.source_short')}{icon('chev', 14)}</summary><p class="hero-src">{source} <a class="lnk" href="{ctx.url('data')}">{ctx.t('home.how')}</a></p></details>
+<p class="hero-kicker enter d1">{ctx.t('home.kicker')}</p>
+<h1 id="hero-h" class="participation-title enter d1">{ctx.t('participation.hero_title')} <span>{ctx.t('participation.hero_highlight')}</span></h1>
+<p class="lede hero-lede enter d2">{ctx.t('participation.hero_lede')}</p>
+<div class="hero-ctas enter d3"><div class="hero-cta">{C.btn(ctx.t('participation.hero_contribute'), ctx.url('hub') + '?kind=gfi#issues')}</div><div class="hero-cta">{C.btn(ctx.t('participation.hero_meet'), meetups.link(platform, 'find', ctx.lang), 'secondary', out=True)}</div></div>
 </div>
 {fig}
 </div>

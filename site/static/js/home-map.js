@@ -10,6 +10,15 @@
   var ticker = hero.querySelector('.hero-n .tick-anim');
   var year = hero.querySelector('.yr-anim');
   if (!replay || !ticker || !year || !window.ResizeObserver || !window.IntersectionObserver) return;
+  // On phones the benefit-led hero puts the map below the first viewport. Delay
+  // canvas creation and geometry/style reads until the map can actually be seen.
+  var activation = new IntersectionObserver(function (entries) {
+    if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+    activation.disconnect();
+    enhance();
+  });
+  activation.observe(stage);
+  function enhance() {
   var motion = matchMedia('(prefers-reduced-motion: reduce)');
   var finePointer = matchMedia('(hover: hover) and (pointer: fine)');
   var box = svg.viewBox.baseVal;
@@ -369,4 +378,5 @@
   canvas.addEventListener('webglcontextrestored',function () {
     try { renderer=createRenderer(); lost=false; lastFrame=0; resize(); wake(); } catch (err) { stage.classList.remove('map-ready'); }
   });
+  }
 })();

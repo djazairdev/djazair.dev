@@ -1586,5 +1586,13 @@
       "title": "Six measures. A clearer picture.",
       "lede": "Explore activity, reach and regional comparisons. Each indicator stands on its own; there is no combined score."
     }
+  },
+  "participation": {
+    "hero_title": "Contribute to open source.",
+    "hero_highlight": "Build it together.",
+    "hero_lede": "Find your next open-source contribution, meet local teammates, or turn an idea into something useful for Algeria.",
+    "hero_contribute": "Find a contribution",
+    "hero_meet": "Meet local developers",
+    "hero_context": "The community behind the momentum"
   }
 }

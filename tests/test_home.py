@@ -294,8 +294,6 @@ class HomePage(unittest.TestCase):
     def test_baseline_sentences(self):
         if self.data.quarter != BASELINE:
             self.skipTest(f'the expectations describe {BASELINE}')
-        self.assertIn('Growth has sped up for four quarters in a row.', self.text['en'])
-        self.assertIn('تسارع النموّ أربعة أرباع متتالية.', self.text['ar'])
         self.assertIn('Four quarters of acceleration', self.html['en'])
         self.assertIn('from 25.6% to 49.1% a year', self.html['en'])
         self.assertIn('Everyone sped up in 2025. Algeria kept pace with North Africa.', self.text['en'])
