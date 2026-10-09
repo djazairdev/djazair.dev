@@ -125,7 +125,7 @@ class Smoke(unittest.TestCase):
         rules = header_rules(self.dist)
         page, embed = headers_for(rules, '/en/index/trends/'), headers_for(rules, '/ar/embed/trends-accounts-actual/light/')
         self.assertEqual(page['X-Frame-Options'], 'SAMEORIGIN')
-        self.assertNotIn('Content-Security-Policy', page)
+        self.assertEqual(smoke.frame_ancestors(page['Content-Security-Policy']), [["'self'"]])
         self.assertNotIn('X-Frame-Options', embed)
         self.assertEqual(smoke.frame_ancestors(embed['Content-Security-Policy']), [['*']])
         self.assertEqual(embed['X-Content-Type-Options'], 'nosniff')

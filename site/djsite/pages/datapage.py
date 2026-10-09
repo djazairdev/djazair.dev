@@ -20,6 +20,7 @@ from . import overview
 from .methodology import REPO, toc, renderer
 from ..markdown import sections
 from ..icons import icon
+from .. import structured
 
 SITE = 'https://djazair.dev'
 SECTIONS = ('tables', 'country-data', 'charts', 'reading', 'addresses', 'changelog', 'corrections', 'licence')
@@ -191,4 +192,5 @@ def render(ctx: Ctx) -> Page:
                 for i, s in enumerate(secs, 1))
     page = Markup(f'{head(ctx)}{start(ctx)}<div class="container doc data-doc">{toc(ctx, secs)}<div class="doc-main">{body}</div></div>')
     return Page(title=ctx.s('pages.data.title'), description=ctx.s('pages.data.description'), body=page,
-                scripts=(ctx.site.assets.scripts['data'],))
+                scripts=(ctx.site.assets.scripts['data'],),
+                head=Markup(str(structured.catalog(ctx)) + f'<link rel="alternate" type="text/markdown" href="/{ctx.lang}/data/index.md">'))

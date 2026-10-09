@@ -7,6 +7,7 @@ from .components import btn
 from .fmt import fint, fpct, quarter_label
 from .icons import github_mark, icon, mark, wordmark
 from .markup import Markup, esc, join
+from . import structured
 
 # (main-nav key, route it links to)
 MAIN_NAV = [('index', 'overview'), ('hub', 'hub'), ('data', 'data')]
@@ -219,6 +220,8 @@ def document(ctx: Ctx, page: Page) -> str:
 <meta name="theme-color" content="{THEME_COLOR}">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="describedby" href="/llms.txt" type="text/markdown">
+{structured.page(ctx, title, page.description, page.indexed)}
 {assets.preloads(ctx.lang)}
 {assets.inline_style(page.css, route=ctx.route.key)}
 {scripts}
