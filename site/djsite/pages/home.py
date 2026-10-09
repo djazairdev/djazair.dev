@@ -20,7 +20,7 @@ from ..fmt import MINUS, date_label, fint, fpct, has_arabic, num, ordinal, quart
 from ..icons import icon
 from ..markup import Markup, esc, join
 from ..scorecard import SAME, indicators, year_earlier
-from . import meetups
+from . import meetups, participation, hub
 
 PER = 1000                     # accounts per square on the unit map
 GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
@@ -336,18 +336,21 @@ def hero(ctx) -> Markup:
                          f'{table(ctx, chart)}'), cls='fig hero-fig layered-card-surface', labelledby=label_id)
     fig = Markup(f'<div class="hero-map-card layered-card enter d2">{fig}</div>')
 
-    return Markup(f'''<section class="hero" aria-labelledby="hero-h" data-map-first-year="{years[0][0][:4]}" data-map-latest-year="{q[:4]}" data-map-accounts="{int(a["value"])}">
+    platform = meetups.load()
+    return Markup(f'''<section class="hero participation-hero" aria-labelledby="hero-h" data-map-first-year="{years[0][0][:4]}" data-map-latest-year="{q[:4]}" data-map-accounts="{int(a["value"])}">
 <div class="hero-bg" aria-hidden="true"></div>
 <div class="container hero-grid">
 <div class="hero-text">
-{C.eyebrow(ctx.t('home.hero_eyebrow'), cls='enter')}
-<p class="hero-kicker enter">{ctx.t('home.kicker')}</p>
-<div class="hero-count enter d1">{when(ctx, years)}
-<h1 id="hero-h" class="hero-h">{ticker(ctx, int(a['value']), years)} <span class="hero-tail">{ctx.t('home.h1_tail')}</span></h1></div>
-<dl class="hero-stats enter d2">{stats}</dl>
-<p class="lede hero-lede enter d3">{lede}</p>
-<div class="hero-ctas enter d4"><div class="hero-cta">{C.btn(ctx.t('home.cta_index'), ctx.url('overview'))}</div><div class="hero-cta">{C.btn(ctx.t('home.cta_hub'), ctx.url('hub') + '?kind=gfi#issues', 'secondary', arrow=False, attrs=' aria-describedby="hero-contribute-note"')}<p id="hero-contribute-note" class="hero-cta-note">{ctx.t('home.cta_hub_note')}</p></div></div>
+{C.eyebrow(ctx.t('participation.hero_eyebrow'), cls='enter')}
+<h1 id="hero-h" class="participation-title enter d1">{ctx.t('participation.hero_title')}<span>{ctx.t('participation.hero_highlight')}</span></h1>
+<p class="lede hero-lede enter d2">{ctx.t('participation.hero_lede')}</p>
+<div class="hero-ctas enter d3"><div class="hero-cta">{C.btn(ctx.t('participation.hero_contribute'), '#contributions')}</div><div class="hero-cta">{C.btn(ctx.t('participation.hero_meet'), meetups.link(platform, 'find', ctx.lang), 'secondary', out=True)}</div></div>
+<p class="hero-cta-note enter d3">{ctx.t('participation.hero_note')}</p>
+<div class="hero-community enter d4"><div class="hero-community-head"><p>{ctx.t('participation.hero_context')}</p>{when(ctx, years)}</div>
+<div class="hero-count"><p class="hero-h">{ticker(ctx, int(a['value']), years)} <span class="hero-tail">{ctx.t('home.h1_tail')}</span></p></div>
+<dl class="hero-stats">{stats}</dl><p class="hero-momentum">{lede}</p>
 <details class="hero-source enter d5"><summary>{ctx.t('home.source_short')}{icon('chev', 14)}</summary><p class="hero-src">{source} <a class="lnk" href="{ctx.url('data')}">{ctx.t('home.how')}</a></p></details>
+<a class="lnk hero-index-link" href="{ctx.url('overview')}">{ctx.t('home.cta_index')}{icon('arrow', 16)}</a></div>
 </div>
 {fig}
 </div>
@@ -469,7 +472,6 @@ def trend(ctx) -> Markup:
 
 # ---------------------------------------------------------------- Hub teaser
 def hub_teaser(ctx) -> Markup:
-    issues = ctx.site.hub.issues[:3]
     paths = []
     for key, glyph, href in (
             ('contribute', 'branch', ctx.url('hub') + '?kind=gfi#issues'),
@@ -489,22 +491,19 @@ def hub_teaser(ctx) -> Markup:
                             f'<h3 id="hub-{key}-h">{ctx.t(f"home.hub_{key}_title")}</h3>'
                             f'<p>{ctx.t(f"home.hub_{key}_text")}</p><div class="hub-path-action">{action}</div></article>'))
     routes = Markup(f'<div class="hub-paths">{join(paths)}</div>')
-    feed_head = Markup(f'<div class="hub-preview-head"><div><h3 id="hub-preview-h">{ctx.t("home.hub_preview_title")}</h3>'
-                       f'<p>{ctx.t("home.hub_preview_text")}</p></div>'
-                       f'{C.btn(ctx.t("home.hub_browse"), ctx.url("hub", hash="issues"), "secondary", size="s")}</div>')
-    if issues:
-        inner = Markup(f'<div class="issues">{join(C.issue_card(ctx, i) for i in issues)}</div>')
-    else:
-        inner = Markup(f'<div class="empty-state"><span class="empty-icon">{icon("plus", 20)}</span>'
-                       f'<div class="empty-text"><h3>{ctx.t("home.hub_empty_title")}</h3><p>{ctx.t("home.hub_empty")}</p></div></div>')
     listing = Markup(f'<div class="hub-listing layered-card" role="group" aria-labelledby="hub-listing-h">'
                      f'<div class="hub-listing-surface layered-card-surface"><span class="layered-card-texture" aria-hidden="true"></span>'
                      f'<h3 id="hub-listing-h">{ctx.t("home.hub_listing_title")}</h3>'
                      f'<p>{ctx.t("home.hub_listing_text")}</p>'
                      f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "primary")}</div></div>')
-    preview = Markup(f'<div class="hub-preview" role="group" aria-labelledby="hub-preview-h">{feed_head}{inner}</div>')
-    return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), routes + preview + listing,
-                     lede=ctx.t('home.hub_lede'))
+    ideas = ctx.site.hub.ideas
+    board = hub.ideas_board(ctx, ideas) if config.HUB_IDEAS and ideas and ideas.get('category') else Markup('')
+    if config.HUB_IDEAS and not board:
+        board = Markup(f'<div class="ideas-first"><h3>{ctx.t("participation.ideas_start")}</h3><p>{ctx.t("participation.ideas_start_text")}</p>'
+                       f'{C.btn(ctx.t("home.hub_propose_action"), config.NEW_IDEA_URL, "secondary", out=True)}</div>')
+    note = Markup(f'<p class="participation-note">{ctx.t("participation.ideas_note")}</p>') if config.HUB_IDEAS else Markup('')
+    return C.section('hub-teaser', ctx.t('participation.ideas_eyebrow'), ctx.t('participation.ideas_title'), routes + board + note + listing,
+                     lede=ctx.t('participation.ideas_lede'))
 
 
 # ---------------------------------------------------------------- local teammates
@@ -553,9 +552,10 @@ def local_team(ctx) -> Markup:
 
 
 def render(ctx: Ctx) -> Page:
-    body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + local_team(ctx)
+    body = (hero(ctx) + participation.opportunities(ctx) + local_team(ctx) + hub_teaser(ctx)
+            + participation.community(ctx) + participation.return_paths(ctx) + scorecard(ctx) + trend(ctx))
     years = history(ctx.site.data)
-    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub', 'home-team') if key in ctx.site.assets.scripts)
+    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub', 'home-team', 'participation') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
                 scripts=scripts,
                 css=minify_css(hero_css(ctx.lang, years, year_figures(ctx.site.data, years))))   # Home's alone

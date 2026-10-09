@@ -20,6 +20,7 @@ from urllib.parse import quote
 
 from .. import components as C
 from .. import config
+from .. import contributions
 from ..config import REPO_URL
 from ..context import Ctx, Page
 from ..fmt import and_list, date_label, fdec, fint, num, plural, quarter_label
@@ -85,7 +86,8 @@ def head(ctx, hub) -> Markup:
 
 # ---------------------------------------------------------------- feed
 def card(ctx, issue: dict) -> Markup:
-    data = {'lang': _lang_key(issue), 'repo': issue['repo'], 'days': issue['days'], 'kind': ' '.join(kinds(issue))}
+    data = {'lang': _lang_key(issue), 'repo': issue['repo'], 'days': issue['days'], 'kind': ' '.join(kinds(issue)),
+            'type': contributions.kind(issue)}
     return C.issue_card(ctx, dict(issue, labels=ordered_labels(issue), data=data))
 
 
@@ -112,8 +114,13 @@ def filters(ctx, issues: list) -> Markup:
     age_opts = [_option('age', value, ctx.t(f'hub.age_{value or "any"}'),
                         sum(1 for i in issues if days is None or i['days'] <= days), lang, checked=not value)
                 for value, days in AGES]
+    by_type = Counter(contributions.kind(i) for i in issues)
+    type_opts = [_option('type', '', ctx.t('participation.all_types'), len(issues), lang, checked=True)]
+    type_opts += [_option('type', key, ctx.t(f'participation.types.{key}'), by_type[key], lang)
+                  for key in contributions.TYPES if by_type[key]]
     groups = ''.join(f'<fieldset class="hf-group"><legend class="hf-legend">{ctx.t(title)}</legend>{"".join(opts)}</fieldset>'
-                     for title, opts in (('hub.language', lang_opts), ('hub.project', repo_opts), ('hub.opened', age_opts)))
+                     for title, opts in (('participation.type', type_opts), ('hub.language', lang_opts),
+                                        ('hub.project', repo_opts), ('hub.opened', age_opts)))
     return Markup(f'''<div class="hub-tools" hidden>
 <div class="hub-search">{icon("search", 17)}<label class="sr-only" for="hub-q">{ctx.t('hub.search')}</label>
 <input type="search" id="hub-q" name="q" placeholder="{ctx.ta('hub.search')}" autocomplete="off" spellcheck="false"></div>
@@ -124,6 +131,7 @@ def filters(ctx, issues: list) -> Markup:
 
 
 def feed(ctx, hub) -> Markup:
+    from .participation import save_control
     issues = hub.issues
     note = ctx.t('hub.note', gfi=Markup('<code dir="ltr">good first issue</code>'), hw=Markup('<code dir="ltr">help wanted</code>'),
                  hours=num(REFRESH_HOURS))
@@ -153,6 +161,7 @@ def feed(ctx, hub) -> Markup:
 <div class="hp-head">
 <p class="hp-count" role="status">{C.issue_icon()}<span class="hp-n"{count_forms(ctx, 'hub.count')}>{counted(ctx, 'hub.count', len(issues), plain=True)}</span></p>
 <button type="button" class="hp-clear" hidden>{ctx.t('hub.clear')}</button>
+{save_control(ctx)}
 <fieldset class="seg hp-kind" hidden><legend class="sr-only">{ctx.t('hub.kind_legend')}</legend>{tabs}</fieldset>
 </div>
 <div class="hp-list">{cards}</div>
@@ -366,6 +375,6 @@ def render(ctx: Ctx) -> Page:
     hub = ctx.site.hub
     body = (head(ctx, hub) + feed(ctx, hub) + steps(ctx) + projects(ctx, hub) + numbers(ctx, hub) + ideas(ctx, hub) + translate(ctx)
             + listing(ctx))
-    script = ctx.site.assets.scripts.get('hub')
+    scripts = tuple(ctx.site.assets.scripts[key] for key in ('hub', 'participation') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.hub.title'), description=ctx.s('pages.hub.description'), body=body,
-                scripts=(script,) if script and hub.issues else ())
+                scripts=scripts if hub.issues else ())

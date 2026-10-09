@@ -81,9 +81,9 @@ def build(out: Path, release: str = '') -> Assets:
     css = ''.join(parts.values())
     common = {name for name in parts if int(name[:2]) < 50 or int(name[:2]) >= 90}
     groups = {
-        'home': ('50-home.css',),
+        'home': ('50-home.css', '54-participation.css', '56-ideas.css'),
         'overview': ('51-index.css', '52-outlook.css'),
-        'hub': ('53-hub.css',), 'localisation': ('53-hub.css',),
+        'hub': ('53-hub.css', '56-ideas.css'), 'localisation': ('53-hub.css',),
         'meetups': ('53-hub.css',), 'about': ('52-docs.css',),
         'data': ('52-docs.css', '55-data.css'),
         'notfound': (), 'root': (),

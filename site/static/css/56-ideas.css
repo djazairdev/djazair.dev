@@ -1,0 +1,74 @@
+/* ---- ideas and the vote (ticket #39): the round's top ideas, then how proposing and adoption work */
+.ib { margin-bottom: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--s1); overflow: hidden; }
+.ib-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px 24px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+}
+.ib-round { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.ib-round h3 { font-size: 16px; line-height: 1.35; font-weight: 700; color: var(--ink); }
+.ib-round p, .ib-total { font-size: 13.5px; color: var(--ink3); }
+.ib-round time { color: var(--ink2); white-space: nowrap; }
+.ib-list { margin: 0; padding: 0; list-style: none; }
+.ib-list > li + li { border-top: 1px solid var(--line); }
+.idea {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  gap: 6px 16px;
+  align-items: center;
+  padding: 16px 22px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: background-color .15s var(--ease);
+}
+.idea:hover { background: var(--s1-hover); }
+.idea:hover .idea-title { color: var(--mint-hi); }
+.idea:focus-visible { outline-offset: -3px; }
+.idea-n { align-self: start; padding-top: 2px; font-size: 13px; color: var(--mint); }
+.idea-main { display: flex; flex-direction: column; gap: 9px; min-width: 0; }
+.idea-title {
+  align-self: flex-start;           /* a title in the other script keeps to the row's start */
+  font-size: 17px;
+  line-height: 1.35;
+  font-weight: 700;
+  text-wrap: pretty;
+  overflow-wrap: anywhere;
+  transition: color .15s var(--ease);
+}
+.idea-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font-size: 13px; color: var(--ink3); }
+.idea-meta .badge { min-height: 24px; padding: 2px 8px; font-size: 12px; }
+.idea-c { display: inline-flex; align-items: center; gap: 6px; }
+.idea-skills { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.idea-skills .lbl { font-family: var(--sans); font-size: 12px; }
+.idea-votes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  min-width: 64px;
+  padding: 8px 10px 7px;
+  border: 1px solid var(--line2);
+  border-radius: var(--r-chip);
+  background: var(--sunk);
+}
+.idea-votes .icon { color: var(--mint); }
+.idea-v { font-size: 18px; font-weight: 600; line-height: 1.25; color: var(--ink); }
+.idea-vl { font-size: 11.5px; color: var(--ink3); }
+.ib-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 44px 24px 48px; text-align: center; }
+.ib-empty .empty-icon { margin-bottom: 6px; background: var(--s2); color: var(--ink2); }
+.ib-empty-t { font-size: 16px; font-weight: 700; color: var(--ink); }
+.ib-empty p:not(.ib-empty-t) { font-size: 14px; color: var(--ink3); }
+.ib-foot { padding: 14px 22px; border-top: 1px solid var(--line); font-size: 13.5px; line-height: 1.6; color: var(--ink3); }
+.ib-foot a { color: var(--ink2); }
+.ib-foot a:hover { color: var(--mint-hi); }
+@media (max-width: 560px) {
+  .ib-head, .ib-foot { padding-inline: 16px; }
+  .idea { grid-template-columns: 16px minmax(0, 1fr) auto; gap: 6px 12px; padding: 14px 16px; }
+  .idea-title { font-size: 16px; }
+  .idea-votes { min-width: 52px; padding: 6px 8px; }
+}
+

@@ -19,7 +19,7 @@
 
   var lang = doc.documentElement.lang || 'en';
   var rules = window.Intl && Intl.PluralRules ? new Intl.PluralRules(lang) : null;
-  var names = ['lang', 'repo', 'age', 'kind'];
+  var names = ['lang', 'repo', 'age', 'kind', 'type'];
   var phone = window.matchMedia('(max-width: 960px)');
 
   function fold(text) {
@@ -52,7 +52,7 @@
 
   var timer = null;
   function apply(announce) {
-    var f = { lang: value('lang'), repo: value('repo'), age: value('age'), kind: value('kind') };
+    var f = { lang: value('lang'), repo: value('repo'), age: value('age'), kind: value('kind'), type: value('type') };
     var words = fold(search.value).split(/\s+/).filter(Boolean);
     var shown = 0;
     cards.forEach(function (card) {
@@ -60,11 +60,12 @@
         (!f.repo || card.getAttribute('data-repo') === f.repo) &&
         (!f.age || Number(card.getAttribute('data-days')) <= Number(f.age)) &&
         (!f.kind || (' ' + card.getAttribute('data-kind') + ' ').indexOf(' ' + f.kind + ' ') >= 0) &&
+        (!f.type || card.getAttribute('data-type') === f.type) &&
         words.every(function (w) { return card._text.indexOf(w) >= 0; });
       card.hidden = !ok;
       if (ok) shown += 1;
     });
-    var active = ['lang', 'repo', 'age'].filter(function (k) { return f[k]; }).length;
+    var active = ['lang', 'repo', 'age', 'type'].filter(function (k) { return f[k]; }).length;
     var any = active > 0 || !!f.kind || words.length > 0;
     clear.hidden = !any;
     empty.hidden = shown > 0;
