@@ -31,8 +31,11 @@
   canvas.setAttribute('aria-hidden', 'true');
   var rootStyle = getComputedStyle(document.documentElement);
   stage.appendChild(canvas);
-  var gl = canvas.getContext('webgl2', { alpha: true, antialias: true, premultipliedAlpha: true, powerPreference: 'low-power' });
-  if (!gl) { canvas.remove(); return; }
+  // Touch devices use the same scene in Canvas 2D: software WebGL drivers can otherwise
+  // block input for every frame, even with a small drawing buffer.
+  var gl = finePointer.matches ? canvas.getContext('webgl2', { alpha: true, antialias: true, premultipliedAlpha: true, powerPreference: 'low-power' }) : null;
+  var ctx = !gl && canvas.getContext('2d', { alpha: true });
+  if (!gl && !ctx) { canvas.remove(); return; }
   function color(token) {
     var hex = rootStyle.getPropertyValue(token).trim().slice(1);
     return [0, 2, 4].map(function (i) { return parseInt(hex.slice(i, i + 2), 16) / 255; });
@@ -51,6 +54,68 @@
   var firstYear = Number(hero.getAttribute('data-map-first-year'));
   var latestAccounts = Number(hero.getAttribute('data-map-accounts'));
   var latestYear = Number(hero.getAttribute('data-map-latest-year'));
+
+  function smooth(a, b, value) {
+    var t=Math.max(0,Math.min(1,(value-a)/(b-a)));
+    return t*t*(3-2*t);
+  }
+  function createCanvasRenderer() {
+    var border=new Path2D(outlinePath.getAttribute('d'));
+    function rgb(value, light) {
+      return 'rgb('+value.map(function (c) { return Math.round(c*255*light); }).join(',')+')';
+    }
+    var palettes=[old,mint].map(function (value) { return [rgb(value,.58),rgb(value,.85),rgb(value,1)]; });
+    var borderColor=rgb(highlight,1);
+    // Cache the glow once, instead of applying hundreds of per-frame blur filters.
+    var sprite=document.createElement('canvas'); sprite.width=sprite.height=12;
+    var spriteCtx=sprite.getContext('2d'), glow=spriteCtx.createRadialGradient(6,6,0,6,6,6);
+    glow.addColorStop(0,borderColor); glow.addColorStop(.35,rgb(mint,1)); glow.addColorStop(1,'transparent');
+    spriteCtx.fillStyle=glow; spriteCtx.fillRect(0,0,12,12);
+    var dust=[], perimeter=outlinePath.getTotalLength();
+    function hash(n) { var v=Math.sin(n*127.1+311.7)*43758.5453; return v-Math.floor(v); }
+    for (var i=0;i<720;i++) {
+      var point=outlinePath.getPointAtLength(perimeter*i/720), angle=hash(i+3)*Math.PI*2;
+      dust.push({x:point.x+6-box.width/2,y:point.y+6-box.height/2,
+                 ox:(hash(i+1)-.5)*box.width*1.22,oy:(hash(i+2)-.5)*box.height*1.10,
+                 ax:Math.cos(angle)*32,ay:Math.sin(angle)*32,delay:hash(i)*.15});
+    }
+    return function draw(time, assembly) {
+      var count=Number(getComputedStyle(ticker).getPropertyValue('--tick'));
+      var currentYear=Number(getComputedStyle(year).getPropertyValue('--yr'));
+      if (!Number.isFinite(count) || !count || !currentYear) { count=latestAccounts; currentYear=latestYear; }
+      count=Math.min(cells.length,count/1000);
+      var step=Math.max(0,Math.min(steps.length-1,currentYear-firstYear));
+      ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,canvas.width,canvas.height);
+      ctx.translate(canvas.width/2,canvas.height/2);
+      ctx.scale(renderDpr*scale,renderDpr*scale);
+      ctx.transform(Math.cos(yaw),0,Math.sin(pitch)*Math.sin(yaw),Math.cos(pitch),0,0);
+      var reveal=smooth(.82,1,assembly), dx=9*Math.sin(yaw), dy=-9*Math.tan(pitch);
+      for (var c=0;c<cells.length && c<count;c++) {
+        var cell=cells[c], pop=smooth(0,1,count-c)*reveal;
+        if (pop<=0) continue;
+        var size=cell[2]*pop, x=cell[0]-box.width/2-size/2, y=cell[1]-box.height/2-size/2;
+        var palette=palettes[cell[4]===step ? 1 : 0];
+        ctx.fillStyle=palette[0]; ctx.beginPath();
+        ctx.moveTo(x,y+size); ctx.lineTo(x+size,y+size); ctx.lineTo(x+size+dx,y+size+dy);
+        ctx.lineTo(x+dx,y+size+dy); ctx.closePath(); ctx.fill();
+        ctx.fillStyle=palette[1]; ctx.fillRect(x+dx,y+dy,size,size);
+        ctx.fillStyle=palette[2]; ctx.fillRect(x+dx+size*.08,y+dy+size*.08,size*.84,size*.84);
+      }
+      if (assembly<1) {
+        ctx.globalAlpha=.85*smooth(0,.12,assembly)*(1-smooth(.82,1,assembly));
+        for (var p=0;p<dust.length;p++) {
+          var particle=dust[p], progress=smooth(0,1,(assembly-particle.delay)/.65), arc=Math.sin(progress*Math.PI);
+          var px=particle.ox+(particle.x-particle.ox)*progress+particle.ax*arc;
+          var py=particle.oy+(particle.y-particle.oy)*progress+particle.ay*arc;
+          ctx.drawImage(sprite,px-3,py-3,6,6);
+        }
+      }
+      ctx.globalAlpha=.55*smooth(.78,.96,assembly);
+      ctx.strokeStyle=borderColor; ctx.lineWidth=1.4/scale;
+      ctx.translate(6-box.width/2,6-box.height/2); ctx.stroke(border);
+      ctx.globalAlpha=1;
+    };
+  }
 
   // Every program shares this projection; the border, particles and cubes rotate together.
   var projection = 'uniform vec2 uWorld; uniform vec2 uViewport; uniform vec2 uAngle; uniform float uScale;\n' +
@@ -263,7 +328,7 @@
   function initialise() {
     if (renderer || lost || motion.matches) return;
     try {
-      renderer=createRenderer(); resize();
+      renderer=gl ? createRenderer() : createCanvasRenderer(); resize();
       // Start empty when first visible; preserve the one-time formation and growth loop.
       renderer(0,0); stage.classList.add('map-ready');
     } catch (err) { lost=true; canvas.remove(); }

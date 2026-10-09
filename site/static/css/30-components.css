@@ -437,7 +437,7 @@ a.tile:hover { color: var(--ink); }
 .code .act { height: 28px; }
 .code-body { display: grid; grid-template-columns: auto minmax(0, 1fr); overflow-x: auto; }
 .code pre { margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.75; }
-.code-nums { padding: 16px 0 16px 16px; color: var(--code-dim); text-align: end; user-select: none; }
+.code-nums { padding: 16px 0 16px 16px; color: var(--ink3); text-align: end; user-select: none; }
 .code-src { padding: 16px 16px 16px 18px; color: var(--ink); }
 .c-comment { color: var(--ink3); }
 .c-key { color: var(--ink2); }

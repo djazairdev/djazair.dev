@@ -222,7 +222,7 @@ def document(ctx: Ctx, page: Page) -> str:
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="describedby" href="/llms.txt" type="text/markdown">
 {structured.page(ctx, title, page.description, page.indexed)}
-{assets.preloads(ctx.lang)}
+{assets.preloads(ctx.lang, route=ctx.route.key)}
 {assets.inline_style(page.css, route=ctx.route.key)}
 {scripts}
 {page.head}

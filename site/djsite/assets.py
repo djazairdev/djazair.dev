@@ -56,10 +56,13 @@ class Assets:
         css = base + minify_css(extra)
         return Markup(f'<style>{css}</style>')
 
-    def preloads(self, lang: str) -> Markup:
+    def preloads(self, lang: str, route: str = '') -> Markup:
+        names = list(PRELOAD[lang])
+        if route == 'hub':
+            names.append(f'tajawal-{"latin" if lang == "en" else "arabic"}-800.woff2')
         return Markup(''.join(
             f'<link rel="preload" href="/assets/fonts/{name}" as="font" type="font/woff2" crossorigin>'
-            for name in PRELOAD[lang] if name in self.fonts))
+            for name in names if name in self.fonts))
 
 
 def _write_hashed(out: Path, stem: str, ext: str, data: bytes) -> str:
