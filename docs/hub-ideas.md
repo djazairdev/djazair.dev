@@ -18,11 +18,19 @@ Discussions and its Ideas category are enabled. The Home participation cards lin
 
 Once a round's count is saved, the maintainers go down it, top first. The first idea that meets all three of these is adopted:
 
-1. **At least 10 votes.** The number is `IDEAS_MIN_VOTES` in [`site/djsite/config.py`](../site/djsite/config.py); the Hub and the form say the same, and a test keeps them in step.
+1. **Votes guide priority, with no minimum during the pilot.** `IDEAS_MIN_VOTES` is `0` in [`site/djsite/config.py`](../site/djsite/config.py). An early proposal can be reviewed without first finding ten voters. Votes still determine review order; they do not guarantee adoption. The Hub and proposal form explain this rule. Any future threshold must update the form, configuration and public explanation together.
 2. **A champion** ready to lead it. The form's *Champion* field names them; a maintainer checks with them in the discussion.
 3. **The maintainers' review.** The project is open source, legal and useful to people in Algeria, doesn't duplicate an active project, and the organisation can look after it. The review also looks for unusual voting, such as many new accounts voting for one idea at once.
 
 When an idea is passed over, say why in its discussion. If no idea meets all three, nothing is adopted that quarter, and the votes carry over.
+
+Proposing and discussion need no team or votes. After posting, people can clarify
+the problem, offer skills and volunteer as champion. Adoption remains a separate
+maintainer decision; no repository, role or announcement is created automatically.
+
+GitHub serves discussion forms from the repository's default branch. A comparison
+preview can show the pilot policy before its matching form is merged; publishing
+the policy to the main site must include the template change in the same merge.
 
 Then:
 

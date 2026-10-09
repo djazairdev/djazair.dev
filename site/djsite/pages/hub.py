@@ -119,7 +119,7 @@ def filters(ctx, issues: list) -> Markup:
     type_opts += [_option('type', key, ctx.t(f'participation.types.{key}'), by_type[key], lang)
                   for key in contributions.TYPES if by_type[key]]
     groups = ''.join(f'<fieldset class="hf-group"><legend class="hf-legend">{ctx.t(title)}</legend>{"".join(opts)}</fieldset>'
-                     for title, opts in (('participation.type', type_opts), ('hub.language', lang_opts),
+                     for title, opts in (('participation.type', type_opts), ('participation.project_language', lang_opts),
                                         ('hub.project', repo_opts), ('hub.opened', age_opts)))
     return Markup(f'''<div class="hub-tools" hidden>
 <div class="hub-search">{icon("search", 17)}<label class="sr-only" for="hub-q">{ctx.t('hub.search')}</label>
@@ -321,12 +321,20 @@ def ideas_board(ctx, data: dict) -> Markup:
         body = f'<ol class="ib-list" aria-label="{ctx.ta("hub.ideas_top")}">{rows}</ol>'
     else:
         body = (f'<div class="ib-empty"><span class="empty-icon">{icon("plus", 18)}</span>'
-                f'<p class="ib-empty-t">{ctx.t("hub.ideas_empty_title")}</p><p>{ctx.t("hub.ideas_empty")}</p></div>')
+                f'<p class="ib-empty-t">{ctx.t("hub.ideas_empty_title")}</p><p>{ctx.t("hub.ideas_empty")}</p>'
+                f'{C.btn(ctx.t("hub.ideas_new"), config.NEW_IDEA_URL, out=True)}</div>')
     foot = ''
     if adopted:
         links = [f'<a href="{esc(i["url"])}" dir="auto">{esc(i["title"])}</a>' for i in adopted]
         foot = f'<p class="ib-foot">{ctx.t("hub.ideas_adopted", ideas=Markup(and_list(links, lang)))}</p>'
     return Markup(f'<div class="ib">{head}{body}{foot}</div>')
+
+
+def adoption_note(ctx) -> Markup:
+    """Keep the pilot and any future vote threshold consistent on Home and the Hub."""
+    if config.IDEAS_MIN_VOTES == 0:
+        return ctx.t('participation.ideas_pilot')
+    return ctx.t('participation.ideas_note', votes=counted(ctx, 'hub.ideas_votes', config.IDEAS_MIN_VOTES))
 
 
 def ideas(ctx, hub) -> Markup:
@@ -339,7 +347,7 @@ def ideas(ctx, hub) -> Markup:
     board = ideas_board(ctx, data) if data and data.get('category') else ''
     votes = counted(ctx, 'hub.ideas_votes', config.IDEAS_MIN_VOTES)
     cards = join(f'<li class="step card"><span class="step-n num">0{i}</span><h3>{ctx.t(f"hub.idea{i}_t")}</h3>'
-                 f'<p>{ctx.t(f"hub.idea{i}", votes=votes)}</p></li>' for i in (1, 2, 3))
+                 f'<p>{ctx.t("hub.idea3_pilot" if i == 3 and config.IDEAS_MIN_VOTES == 0 else f"hub.idea{i}", votes=votes)}</p></li>' for i in (1, 2, 3))
     actions = join([C.btn(ctx.t('hub.ideas_new'), config.NEW_IDEA_URL, out=True),
                     C.btn(ctx.t('hub.ideas_browse'), config.IDEAS_BY_VOTES_URL, 'secondary', out=True)])
     results = Markup(f'<a href="{config.IDEAS_RESULTS_URL}">{ctx.t("hub.ideas_results")}</a>')

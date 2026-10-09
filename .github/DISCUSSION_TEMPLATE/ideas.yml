@@ -4,7 +4,7 @@ title: "Idea: "
 body:
   - type: markdown
     attributes:
-      value: "An idea for an open-source project that would help people in Algeria. Describe the problem first. Anyone with a GitHub account can upvote it. Every quarter, djazair.dev adopts the idea with the most votes among those with a champion and at least 10 votes. [How the vote works](https://github.com/djazairdev/djazair.dev/blob/main/docs/hub-ideas.md)"
+      value: "An idea for an open-source project that would help people in Algeria. Describe the problem first. Anyone with a GitHub account can upvote it. During the pilot, there is no minimum vote count. Votes guide priority; adoption needs a champion and maintainer review. You can propose before you have a team. [How the vote works](https://github.com/djazairdev/djazair.dev/blob/main/docs/hub-ideas.md)"
   - type: textarea
     id: problem
     attributes:

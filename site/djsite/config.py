@@ -27,7 +27,7 @@ IDEAS_URL = f'{REPO_URL}/discussions/categories/ideas'
 NEW_IDEA_URL = f'{REPO_URL}/discussions/new?category=ideas'
 IDEAS_BY_VOTES_URL = f'{IDEAS_URL}?discussions_q=is%3Aopen+category%3AIdeas+sort%3Atop'
 IDEAS_RESULTS_URL = f'{REPO_URL}/blob/hub-data/ideas.json'      # each round's count, saved by the Hub sync
-IDEAS_MIN_VOTES = 10                # the votes an idea needs before it can be adopted
+IDEAS_MIN_VOTES = 0                 # pilot: votes guide priority; no minimum before review
 IDEAS_SHOWN = 5                     # the ideas the Hub lists, most votes first
 
 LANGS = ('en', 'ar')

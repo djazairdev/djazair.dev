@@ -15,6 +15,7 @@ sys.path.insert(0, str(ROOT / 'site'))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite import data, editorial  # noqa: E402
+from djsite.context import Ctx
 from djsite.build import build  # noqa: E402
 from djsite.fmt import MINUS, fint, fpct, ordinal, quarter_label, rank_text  # noqa: E402
 from djsite.pages import home  # noqa: E402
@@ -204,7 +205,7 @@ class HomePage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        cls.site = build(cls.dist, quiet=True)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
         cls.text = {lang: text_of(h) for lang, h in cls.html.items()}
@@ -296,32 +297,22 @@ class HomePage(unittest.TestCase):
             self.skipTest(f'the expectations describe {BASELINE}')
         self.assertIn('Growth has sped up for four quarters in a row.', self.text['en'])
         self.assertIn('تسارع النموّ أربعة أرباع متتالية.', self.text['ar'])
-        self.assertIn('Four quarters of acceleration', self.html['en'])
-        self.assertIn('from 25.6% to 49.1% a year', self.html['en'])
-        self.assertIn('Everyone sped up in 2025. Algeria kept pace with North Africa.', self.text['en'])
+        chart = home.trend_chart(Ctx(self.site, 'en', self.site.routes['home']))
+        self.assertIn('Four quarters of acceleration', str(chart.notes[0].text['en']))
 
-    def test_the_scorecard_links_each_indicator_to_the_overview(self):
-        doc = Doc(self.html['en'])
-        hrefs = [a['href'] for a in doc.find('a', class_='tile')]
-        self.assertEqual(hrefs, [f'/en/index/#ind-{k}' for k in ('accounts', 'pushes', 'repos', 'orgs', 'topics', 'permillion')])
-
-    def test_scorecard_ranks_describe_the_displayed_measure(self):
-        overview = self.data.overview()
-        keys = ('accounts', 'pushes', 'repos', 'orgs', 'topics', 'permillion')
-        fields = ('accounts', 'pushes_per_account', 'repos_per_account', 'orgs_per_account', 'topics', 'accounts_per_million')
+    def test_home_is_a_compact_gateway_to_the_detailed_index(self):
         for lang, html in self.html.items():
-            cards = re.findall(r'<a class="card tile reveal"[^>]*>(.*?)</a>', html, re.S)
-            self.assertEqual(len(cards), 6)
-            for key, field, card in zip(keys, fields, cards):
-                row = overview[field]
-                groups = ('algeria_and_peers',) if key in ('topics', 'permillion') else ('north_africa', 'africa')
-                with self.subTest(lang=lang, measure=key):
-                    ranks = re.findall(r'<span class="num rank-n[^\"]*"[^>]*>(.*?)</span>', card)
-                    self.assertEqual(ranks, [rank_text(row[g + '_rank'], row[g + '_ranked'], lang) for g in groups])
-                    self.assertIn(quarter_label(self.data.quarter, lang), text_of(card))
-            # Total-account ranks must not silently become growth ranks again.
-            if overview['accounts']['africa_rank'] != overview['yoy']['africa_rank']:
-                self.assertNotIn(rank_text(overview['yoy']['africa_rank'], overview['yoy']['africa_ranked'], lang), text_of(cards[0]))
+            with self.subTest(lang=lang):
+                doc = Doc(html)
+                self.assertEqual(doc.find('a', class_='tile'), [])
+                self.assertNotIn('home-yoy-table', html)
+                self.assertNotRegex(html, r'/assets/home-(scorecard|trend)\.')
+                self.assertIn(f'href="/{lang}/index/"', html)
+                self.assertIn(f'href="/{lang}/index/trends/"', html)
+                self.assertIn('id="fig-home-yoy"', html)
+                index = (self.dist / lang / 'index' / 'index.html').read_text('utf-8')
+                for key in ('accounts', 'pushes', 'repos', 'orgs', 'topics', 'permillion'):
+                    self.assertIn(f'id="ind-{key}"', index)
 
     def test_the_trend_chart_has_its_data(self):
         rows = (self.dist / 'charts' / self.data.folder.name / 'home-yoy.csv').read_text('utf-8').splitlines()
@@ -329,7 +320,7 @@ class HomePage(unittest.TestCase):
         last = rows[-1].split(',')
         self.assertEqual(last[0], self.data.quarter)
         self.assertAlmostEqual(float(last[1]), self.data.series('yoy', 'DZ')[-1], places=6)
-        self.assertIn('id="home-yoy-table"', self.html['en'])
+        self.assertTrue((self.dist / 'en' / 'embed' / 'home-yoy' / 'index.html').is_file())
 
     def test_the_derived_data_is_published(self):
         folder = self.data.folder

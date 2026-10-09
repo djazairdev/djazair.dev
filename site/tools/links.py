@@ -1,5 +1,6 @@
 """Open every link the site curates: the translation teams in content/localisation.json
-(ticket #40) and the founders.coffee pages in content/meetups/meetups.json (ticket #43). A link
+(ticket #40), founders.coffee pages in content/meetups/meetups.json (ticket #43), and public
+project contribution guides in content/community-projects.json. A link
 works when it answers 200 at the same address with a page whose title names what it should: a
 team's language, or Founders Coffee. So a team that moved, closed or turned into a sign-in
 page is caught, and so is a founders.coffee page that moved.
@@ -28,7 +29,8 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[2]
 LIST = ROOT / 'content' / 'localisation.json'
 MEETUPS = ROOT / 'content' / 'meetups' / 'meetups.json'
-PAGES = {'localisation': 'https://djazair.dev/en/hub/localisation/', 'meetups': 'https://djazair.dev/en/meetups/'}
+DISCOVERY = ROOT / 'content' / 'community-projects.json'
+PAGES = {'localisation': 'https://djazair.dev/en/hub/localisation/', 'meetups': 'https://djazair.dev/en/meetups/', 'projects': 'https://djazair.dev/en/#public-projects-h'}
 # Some platforms challenge browser-like agents; this one says what it is.
 AGENT = 'djazair.dev link check (+https://github.com/djazairdev/djazair.dev)'
 LANGUAGES = {'ar': 'Arabic', 'kab': 'Kabyle', 'zgh': 'Tamazight'}   # what each team's page calls its language
@@ -98,13 +100,17 @@ def verdict(url: str, expect: str, answer: Answer) -> tuple:
     return 'ok', ''
 
 
-def curated(localisation: Path = LIST, meetups: Path = MEETUPS) -> list:
+def curated(localisation: Path = LIST, meetups: Path = MEETUPS, discovery: Path = DISCOVERY) -> list:
     """Every Link the site curates, in the order of the files."""
     teams = json.loads(Path(localisation).read_text('utf-8'))['teams']
     out = [Link('localisation', t['name'], code, url, LANGUAGES[code]) for t in teams for code, url in t['links'].items()]
     m = json.loads(Path(meetups).read_text('utf-8'))
     out += [Link('meetups', f'{m["platform"]}: {key}', lang, m['url'].rstrip('/') + path.replace('{lang}', lang), m['title'])
             for key, path in m['links'].items() for lang in ('en', 'ar')]
+    projects = json.loads(Path(discovery).read_text('utf-8'))['projects']
+    for p in projects:
+        urls = {'https://github.com/' + p['repository'], p['contribute']}
+        out += [Link('projects', p['repository'], 'en', url, p['repository']) for url in sorted(urls)]
     return out
 
 
@@ -131,9 +137,10 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
     parser.add_argument('--list', type=Path, default=LIST, help='the translation teams (default: content/localisation.json)')
     parser.add_argument('--meetups', type=Path, default=MEETUPS, help='the meetups links (default: content/meetups/meetups.json)')
+    parser.add_argument('--projects', type=Path, default=DISCOVERY, help='public project discovery links')
     parser.add_argument('--report', type=Path, help='write the broken links here as Markdown')
     args = parser.parse_args(argv)
-    results = check(curated(args.list, args.meetups))
+    results = check(curated(args.list, args.meetups, args.projects))
     for r in results:
         print(f'{r.verdict:9} {r.team} · {r.lang}  {r.url}' + (f'  ({r.reason})' if r.reason else ''))
     counts = {v: sum(r.verdict == v for r in results) for v in ('ok', 'broken', 'unchecked')}
