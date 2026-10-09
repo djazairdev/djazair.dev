@@ -92,6 +92,9 @@ def build(out: Path, release: str = '') -> Assets:
         groups[route] = ('51-index.css',)
     styles = {route: ''.join(value for name, value in parts.items() if name in common or name in extra)
               for route, extra in groups.items()}
+    # Keep the issue feed stable on slow connections: use preloaded fonts on the
+    # first paint when available, otherwise keep the fallback for this page load.
+    styles['hub'] = styles['hub'].replace('font-display: swap', 'font-display: optional')
     if '</' in css:
         raise ValueError('the stylesheet must not contain "</": it is inlined in a <style> element')
 
