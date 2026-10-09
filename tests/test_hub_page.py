@@ -134,8 +134,40 @@ class HubPage(unittest.TestCase):
         self.assertIn('6 أكتوبر 2026، <span dir="ltr">18:41 UTC</span>', self.html['ar'])
 
     def test_home_reads_the_same_feed(self):
-        teaser = re.search(r'id="hub-teaser".*?</section>', self.home, re.S).group(0)
-        self.assertEqual(re.findall(r'<a class="issue" href="([^"]+)"', teaser), [i['url'] for i in ISSUES[:3]])
+        teaser = re.search(r'id="contributions".*?</section>', self.home, re.S).group(0)
+        self.assertEqual(re.findall(r'<h3><a href="([^"]+)"', teaser), [i['url'] for i in ISSUES[:6]])
+
+    def test_matching_types_are_consistent_on_home_and_hub(self):
+        attrs = dict(self.cards())
+        expected = ('translation', 'testing', 'docs', 'code')
+        for issue, kind in zip(ISSUES, expected):
+            self.assertIn(f'data-type="{kind}"', attrs[issue['url']])
+        teaser = re.search(r'id="contributions".*?</section>', self.home, re.S).group(0)
+        self.assertEqual(re.findall(r'class="card opportunity" data-type="([^"]+)"', teaser), list(expected))
+        self.assertIn('method="get"', teaser)
+        self.assertIn('action="/en/hub/#issues"', teaser)
+        self.assertIn('Document webhooks &lt;in Arabic&gt;', teaser)
+        for who in ('amina-dz', 'yacine', 'avatars.githubusercontent.com'):
+            self.assertNotIn(who, teaser)
+
+    def test_participation_precedes_the_statistics(self):
+        for lang in LANGS:
+            page = (self.tmp / 'dist' / lang / 'index.html').read_text('utf-8')
+            anchors = ('contributions', 'local-team', 'hub-teaser', 'community-progress', 'stay-connected', 'scorecard', 'trend')
+            self.assertEqual(sorted(anchors, key=lambda a: page.index(f'id="{a}"')), list(anchors))
+            self.assertEqual(len(re.findall(r'<h1\b', page)), 1)
+            self.assertNotIn('class="untranslated"', page)
+            self.assertIn(f'https://founders.coffee/{lang}/algeria', page)
+            self.assertIn('data-save-view', page)
+            self.assertRegex(page, r'/assets/participation\.[0-9a-f]+\.js')
+            self.assertNotIn('class="community-measured"', page, 'no invented contributor count before the metrics snapshot')
+
+    def test_public_work_includes_only_visible_projects(self):
+        section = re.search(r'id="community-progress".*?</section>', self.home, re.S).group(0)
+        self.assertNotIn(GONE, section)
+        for repo in (DZ, PAY):
+            self.assertIn(f'https://github.com/{repo}/pulls?q=is%3Apr+is%3Amerged', section)
+        self.assertIn('<time datetime="2026-10-01T00:00:00Z">', section)
 
 
 class EmptyHub(unittest.TestCase):
@@ -179,6 +211,10 @@ class Numbers(unittest.TestCase):
             self.assertIn('26' + ('.' if lang == 'en' else ',') + '5', rows[1][1], 'under two days, in hours')
             self.assertIn('hn-part', rows[0][1], 'the current quarter says it is not over')
             self.assertLess(page.index('id="projects"'), page.index('id="numbers"'))
+            home = (tmp / 'dist' / lang / 'index.html').read_text('utf-8')
+            measured = re.search(r'class="community-measured".*?</div>', home, re.S).group(0)
+            self.assertRegex(measured, r'class="num" dir="ltr">0</span>', 'a measured zero is visible')
+            self.assertIn(f'href="/{lang}/hub/#numbers"', measured)
         about = (tmp / 'dist' / 'en' / 'about' / 'index.html').read_text('utf-8')
         self.assertIn('usernames are read during the count and never kept', about, 'the privacy section says so')
 
