@@ -2,6 +2,7 @@
 import datetime
 import base64
 import hashlib
+from html.parser import HTMLParser
 import json
 import re
 import shutil
@@ -21,6 +22,29 @@ from djsite.structured import script
 from htmlcheck import Doc
 
 
+class Scripts(HTMLParser):
+    """Read script text with HTML tag semantics, including mixed-case tag names."""
+    def __init__(self, text):
+        super().__init__()
+        self.items = []
+        self.current = None
+        self.feed(text)
+
+    def handle_starttag(self, tag, attrs):
+        if tag == 'script':
+            self.current = (dict(attrs), [])
+
+    def handle_data(self, text):
+        if self.current is not None:
+            self.current[1].append(text)
+
+    def handle_endtag(self, tag):
+        if tag == 'script' and self.current is not None:
+            attrs, parts = self.current
+            self.items.append((attrs, ''.join(parts)))
+            self.current = None
+
+
 class Discovery(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -34,7 +58,7 @@ class Discovery(unittest.TestCase):
 
     def graphs(self, lang):
         text = (self.dist / lang / 'data/index.html').read_text('utf-8')
-        return [json.loads(p) for p in re.findall(r'<script type="application/ld\+json">(.*?)</script>', text)]
+        return [json.loads(p) for attrs, p in Scripts(text).items if attrs.get('type') == 'application/ld+json']
 
     def test_dataset_catalogue_describes_every_real_download(self):
         for lang in ('en', 'ar'):
@@ -119,7 +143,7 @@ class Discovery(unittest.TestCase):
 
     def test_script_policy_allows_only_the_known_language_redirect_inline(self):
         root = (self.dist / 'index.html').read_text('utf-8')
-        inline = re.search(r'<script>(.*?)</script>', root)[1]
+        inline = next(text for attrs, text in Scripts(root).items if not attrs.get('src') and not attrs.get('type'))
         digest = base64.b64encode(hashlib.sha256(inline.encode()).digest()).decode()
         headers = (self.dist / '_headers').read_text('utf-8')
         policy = re.search(r'Content-Security-Policy: (.+)', headers)[1]
