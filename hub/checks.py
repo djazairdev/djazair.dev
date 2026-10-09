@@ -15,14 +15,13 @@ from .github import GitHub, GitHubError
 
 TOPIC = 'djazairdev'
 ACTIVE_DAYS = 90
-MIN_ISSUES = 3
 BEGINNER_LABELS = ('good first issue', 'help wanted')
 
 CHECKS = (
     ('licence', 'An OSI-approved open-source licence'),
     ('activity', 'At least one commit in the last 90 days'),
     ('docs', 'A README and a CONTRIBUTING file'),
-    ('issues', 'At least 3 open issues labelled good first issue or help wanted'),
+    ('issues', 'Issues turned on, with the label good first issue or help wanted'),
     ('pledge', 'Maintainers pledge to reply to newcomer pull requests within 7 days'),
     ('topic', 'The repository carries the GitHub topic djazairdev'),
     ('relevance', 'Algerian maintainers, or clear relevance to Algeria'),
@@ -161,18 +160,27 @@ def _docs(repo: str, info: dict, github: GitHub, today: date, report: Report) ->
 
 
 def _issues(repo: str, info: dict, github: GitHub, today: date, report: Report) -> Result:
+    """Issues are on and the repository has a beginner label (decision D27): the Hub gathers a
+    project's beginner issues by these labels. How many issues carry them is a note, not a check."""
     if info.get('has_issues') is False:
-        return Result('issues', 'fail', 'Issues are turned off.', 'Turn on issues, then label at least 3 for newcomers.')
+        return Result('issues', 'fail', 'Issues are turned off.',
+                      'Turn on issues (*Settings → General → Features*), and keep the label `good first issue` or `help wanted`.')
+    labels = [label for label in BEGINNER_LABELS if github.label(repo, label)]
+    if not labels:
+        return Result('issues', 'fail', 'Neither `good first issue` nor `help wanted` is among the repository’s labels.',
+                      'Create one of them under *Issues → Labels*, with that exact name. GitHub adds both to new repositories.')
     found = {}
-    for label in BEGINNER_LABELS:
+    for label in labels:
         for issue in github.labelled_issues(repo, label):
             found[issue['number']] = issue
     n = len(found)
-    text = f'{n} open issue{"s" if n != 1 else ""} labelled `good first issue` or `help wanted`.'
-    if n >= MIN_ISSUES:
-        return Result('issues', 'pass', text)
-    return Result('issues', 'fail', text, f'Label at least {MIN_ISSUES} open issues `good first issue` or `help wanted`, each '
-                                          'described well enough for a newcomer to start.')
+    names = ' and '.join(f'`{label}`' for label in labels)
+    if not n:
+        report.notes.append('No open issue carries a beginner label yet: label a few, each described well enough for a '
+                            'newcomer to start, and the Hub shows them.')
+    return Result('issues', 'pass', f'The label{"s" if len(labels) > 1 else ""} {names} exist{"" if len(labels) > 1 else "s"}; '
+                                    f'{n} open issue{"s" if n != 1 else ""} carr{"y" if n != 1 else "ies"} '
+                                    f'{"them" if len(labels) > 1 else "it"}.')
 
 
 def _pledge(entry: dict) -> Result:
