@@ -104,7 +104,7 @@ class Overview(unittest.TestCase):
                 links = {a['href'] for a in doc.anchors}
                 self.assertIn(f'/{lang}/index/peers/', links)
                 self.assertIn(f'/{lang}/index/trends/', links)
-                self.assertIn(f'/{lang}/methodology/#limitations', links)
+                self.assertIn(f'/{lang}/data/#limitations', links)
                 self.assertNotIn('each compared with North Africa', text_of(self.html[lang]))
 
     def test_indicator_semantics_keep_names_charts_and_comparisons_connected(self):

@@ -122,7 +122,7 @@ def peers_table(ctx, lede=None) -> Markup:
 
 def next_steps(ctx) -> Markup:
     """Give each detailed page a clear destination instead of copying its content here."""
-    destinations = [('peers', ''), ('trends', ''), ('methodology', 'limitations')]
+    destinations = [('peers', ''), ('trends', ''), ('data', 'limitations')]
     links = join(f'<li><a href="{ctx.url(route, hash=fragment)}"><span class="overview-next-title">'
                  f'{ctx.t(f"overview.next.{route}.title")}{icon("arrow", 18)}</span>'
                  f'<span class="overview-next-desc">{ctx.t(f"overview.next.{route}.description")}</span></a></li>'

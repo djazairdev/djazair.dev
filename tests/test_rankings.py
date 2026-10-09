@@ -117,8 +117,8 @@ class RankingsPage(unittest.TestCase):
             own = re.search(r'<nav class="subnav".*?</nav>', self.html[lang], re.S).group(0)
             self.assertRegex(own, rf'<a href="/{lang}/index/rankings/"[^>]*aria-current="page"')
             self.assertIn(f'<loc>https://djazair.dev/{lang}/index/rankings/</loc>', sitemap)
-            self.assertIn(f'/{lang}/methodology/#gdc26', self.main(lang))
-            self.assertIn('id="gdc26"', (self.dist / lang / 'methodology' / 'index.html').read_text('utf-8'))
+            self.assertIn(f'/{lang}/data/#gdc26', self.main(lang))
+            self.assertIn('id="gdc26"', (self.dist / lang / 'data' / 'index.html').read_text('utf-8'))
             self.assertIn('/data/2026-q1/gdc26.csv', self.main(lang))
 
 

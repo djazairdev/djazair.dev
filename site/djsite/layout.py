@@ -9,7 +9,7 @@ from .icons import github_mark, icon, mark, wordmark
 from .markup import Markup, esc, join
 
 # (main-nav key, route it links to)
-MAIN_NAV = [('index', 'overview'), ('hub', 'hub'), ('reports', 'reports'), ('methodology', 'methodology'), ('data', 'data')]
+MAIN_NAV = [('index', 'overview'), ('hub', 'hub'), ('data', 'data')]
 
 # Index sections, in order; an item shows only once its page exists.
 SUB_NAV = ['overview', 'peers', 'trends', 'languages', 'topics', 'collaboration', 'rankings']
@@ -22,7 +22,7 @@ FOOTER = [
     ('footer.hub', [('footer.issues', 'hub', 'issues'), ('footer.projects', 'hub', 'projects'),
                     ('footer.list', 'hub', 'list'), ('footer.localisation', 'localisation', ''),
                     ('footer.meetups', 'meetups', '')]),
-    ('footer.project', [('nav.methodology', 'methodology', ''), ('footer.data', 'data', ''),
+    ('footer.project', [('footer.data', 'data', ''),
                         ('footer.changelog', 'data', 'changelog'), ('footer.corrections', 'data', 'corrections'),
                         ('footer.about', 'about', '')]),
 ]

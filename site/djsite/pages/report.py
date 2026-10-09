@@ -468,7 +468,7 @@ def presskit_block(ctx, report: reports.Report, data: Derived, figs: Figures):
 
 # ---------------------------------------------------------------- the report page
 def renderer(ctx, report: reports.Report, data: Derived, front: dict, figs: Figures, seen: list) -> Renderer:
-    return Renderer(values=values(ctx, report, data), link=lambda key, hash_: ctx.url(key, hash=hash_), directives={
+    return Renderer(values=values(ctx, report, data), link=lambda key, hash_: ctx.url("data" if key == "methodology" else key, hash=hash_), directives={
         'numbers': key_figures(ctx, data), 'figure': figure_block(ctx, data, figs, seen), 'changes': changes_table(ctx, data),
         'peers': peers_table(ctx, data), 'languages': languages_table(ctx, data), 'hub': hub_block(ctx, report),
         'presskit': presskit_block(ctx, report, data, figs), 'method': method_block(ctx), 'cite': cite_block(ctx, report, front)})
@@ -507,7 +507,7 @@ def render(ctx: Ctx) -> Page:
             (ctx.t('overview.meta_released'), date_label(data.release_date, ctx.lang, short=ctx.en)),
             (ctx.t('report.meta_status' if report.draft else 'report.meta_published'), status(ctx, report)),
             (ctx.t('overview.meta_licence'), 'CC BY 4.0')]
-    actions = [C.btn(ctx.t('report.kit'), '#press', arrow=False), C.btn(ctx.t('overview.methodology'), ctx.url('methodology'), 'secondary')]
+    actions = [C.btn(ctx.t('report.kit'), '#press', arrow=False), C.btn(ctx.t('overview.methodology'), ctx.url('data'), 'secondary')]
     head = C.page_head(eyebrow_text=ctx.t('report.eyebrow', n=f'{report.number:02d}'), title=esc(front['title']),
                        lede=standfirst, meta=meta, actions=actions)
     page = Markup(f'{head}<div class="container doc rp">{toc(ctx, secs)}<div class="doc-main">{notes(ctx, report, data)}{out}</div></div>')

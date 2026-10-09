@@ -22,7 +22,7 @@ Each number is read against group medians before anything else.
 
 ## Sources {#sources}
 
-Four public sources. The scorecard uses the Innovation Graph and World Bank population, and the GitHub API feeds the Project Hub. GDC26 is kept for comparisons with GitHub’s own country rankings.
+Five public sources. Octoverse supplies the separate 2030 outlook; those projections are not quarterly observations. The scorecard uses the Innovation Graph and World Bank population, and the GitHub API feeds the Project Hub. GDC26 is kept for comparisons with GitHub’s own country rankings.
 
 | Source | What it provides | Licence | Updated |
 |---|---|---|---|
@@ -30,7 +30,8 @@ Four public sources. The scorecard uses the Innovation Graph and World Bank popu
 | **GDC26 supplementary data** | VPN-corrected pushes and pushes per 1,000 working-age people, top 10 per region. | CC0 | One-off, September 2026 |
 | **World Bank** | Population and working-age population. | CC BY 4.0 | Yearly |
 | **GitHub REST API** | Hub only: repository details, issues and pull requests. | GitHub terms | Every 6 hours |
-Table: The four sources and what each provides
+| **GitHub Octoverse 2025** | Published country account projections for 2030, based on September 2025. No Algeria forecast is provided. | Original GitHub publication | Published October 2025 |
+Table: The five sources and what each provides
 
 ::: releases
 - 2025-08-13
@@ -117,11 +118,10 @@ Read these before quoting a number. They are also summarised next to each chart.
 ### What “developer accounts” counts
 - **Accounts are not active developers.** The count is a running total that includes dormant accounts.
 - **Location is by network address,** so VPN use distorts it. GitHub’s GDC26 data corrects pushes using profile locations; the main dataset does not.
-- **Profile location barely affects the headline counts.** Octoverse’s country totals closely match the Innovation Graph’s network-address counts: Morocco 560K against Octoverse 2024’s “>556K”, Kenya 395K against “>393K”. Only 12–16k accounts mention Algeria in their profile.
 ### Repositories and pushes
 - **Repositories counts public repositories only.**
 - **A push can contain many commits,** and edits in GitHub’s web interface count as pushes.
-- **Pushes are rising sharply everywhere:** the US {{pushes_us}} and Algeria {{pushes_dz}} year on year in {{quarter}}. This is likely linked to AI coding tools, which is why peer comparisons come first.
+- **Push totals change rapidly:** the US {{pushes_us}} and Algeria {{pushes_dz}} year on year in {{quarter}}. Counts alone do not explain the cause; compare countries and activity per account.
 ### Thresholds and coverage
 - **A 100-developer threshold** hides small categories. Only {{dz_topics}} of Algeria’s topics clear it.
 - **Translation work** done on platforms like Weblate or Crowdin is pushed from their servers, so it doesn’t count as Algerian activity.
@@ -132,7 +132,7 @@ Read these before quoting a number. They are also summarised next to each chart.
 
 ## Update process {#updates}
 
-Steps 1 to 5 run automatically on GitHub Actions. Step 6 is editorial and needs people.
+The five steps below run automatically on GitHub Actions. Flagged revisions still need editorial review.
 
 ::: steps
 1. `detect` [Daily] Look for a new commit to the Innovation Graph’s data folder. If there is one, download every file, record its SHA-256 checksum and archive it. Archived releases are never overwritten.
@@ -140,7 +140,6 @@ Steps 1 to 5 run automatically on GitHub Actions. Step 6 is editorial and needs 
 3. `compute` [On release] Compute every indicator for every economy and quarter, written as CSV and JSON under `data/derived/`.
 4. `test` [On release] The published 2026 Q1 baseline must still match exactly. A changed past value is flagged as a revision for editorial review.
 5. `deploy` [Within 24 hours] The data pages build and deploy automatically.
-6. `report` [Within 14 days] [Human step] The quarterly report is drafted, translated, checked by a second person and a fluent reviewer, then published in Arabic and English.
 :::
 
 ## Corrections and citation {#corrections}

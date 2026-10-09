@@ -111,7 +111,7 @@ def steps(ctx) -> Markup:
 
 def suggest(ctx, data) -> Markup:
     """The note PRD HUB-08 asks for, and how to add a team."""
-    limits = Markup(f'<a href="{ctx.url("methodology", hash="limitations")}">{ctx.t("localisation.limits")}</a>')
+    limits = Markup(f'<a href="{ctx.url("data", hash="limitations")}">{ctx.t("localisation.limits")}</a>')
     note = (f'<aside class="callout lz-note" role="note"><span class="callout-i">{icon("info", 20)}</span><div>'
             f'<h3>{ctx.t("localisation.index_t")}</h3><p>{ctx.t("localisation.index", limits=limits)}</p></div></aside>')
     actions = join([C.btn(ctx.t('localisation.edit'), EDIT_URL),

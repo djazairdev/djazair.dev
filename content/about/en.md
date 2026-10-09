@@ -34,4 +34,4 @@ For anything public, such as an error, an idea or a project for the Hub, [open a
 
 ## Partners {#partners}
 
-None yet. Universities, meetups and companies that want to help Algeria’s developers can write to {{contact}}. Partners never change the numbers: the [methodology](route:methodology) and the data are public, and every change to them goes in the changelog.
+None yet. Universities, meetups and companies that want to help Algeria’s developers can write to {{contact}}. Partners never change the numbers: the [methodology](route:data#reading) and the data are public, and every change to them goes in the changelog.

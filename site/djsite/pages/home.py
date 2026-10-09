@@ -347,7 +347,7 @@ def hero(ctx) -> Markup:
 <dl class="hero-stats enter d2">{stats}</dl>
 <p class="lede hero-lede enter d3">{lede}</p>
 <div class="hero-ctas enter d4"><div class="hero-cta">{C.btn(ctx.t('home.cta_index'), ctx.url('overview'))}</div><div class="hero-cta">{C.btn(ctx.t('home.cta_hub'), ctx.url('hub') + '?kind=gfi#issues', 'secondary', arrow=False, attrs=' aria-describedby="hero-contribute-note"')}<p id="hero-contribute-note" class="hero-cta-note">{ctx.t('home.cta_hub_note')}</p></div></div>
-<details class="hero-source enter d5"><summary>{ctx.t('home.source_short')}{icon('chev', 14)}</summary><p class="hero-src">{source} <a class="lnk" href="{ctx.url('methodology')}">{ctx.t('home.how')}</a></p></details>
+<details class="hero-source enter d5"><summary>{ctx.t('home.source_short')}{icon('chev', 14)}</summary><p class="hero-src">{source} <a class="lnk" href="{ctx.url('data')}">{ctx.t('home.how')}</a></p></details>
 </div>
 {fig}
 </div>

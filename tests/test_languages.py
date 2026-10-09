@@ -76,7 +76,7 @@ class LanguagesPage(unittest.TestCase):
                 self.assertIn(f'data-v="{len(langs)}"', row)
 
     def test_methodology_link_and_download(self):
-        self.assertIn('/en/methodology/#languages', self.html['en'])
+        self.assertIn('/en/data/#languages', self.html['en'])
         self.assertIn(f'/data/{self.data.folder.name}/languages.csv', self.html['en'])
 
     def test_no_placeholders_left(self):

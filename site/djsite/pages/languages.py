@@ -76,7 +76,7 @@ def lede(ctx) -> Markup:
 def head(ctx) -> Markup:
     data = ctx.site.data
     actions = [C.btn(ctx.t('languages.download'), f'/data/{data.folder.name}/languages.csv', arrow=False, attrs=' download'),
-               C.btn(ctx.t('languages.methodology'), ctx.url('methodology', hash='languages'), 'secondary')]
+               C.btn(ctx.t('languages.methodology'), ctx.url('data', hash='languages'), 'secondary')]
     return C.page_head(eyebrow_text=ctx.t('languages.eyebrow'), title=ctx.t('languages.title', quarter=_q(ctx, data.quarter)),
                        lede=ctx.t('languages.lede'), meta=overview.meta(ctx), actions=actions)
 

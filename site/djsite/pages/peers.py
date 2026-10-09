@@ -39,7 +39,7 @@ def head(ctx) -> Markup:
     data = ctx.site.data
     folder = data.folder.name
     actions = [C.btn(ctx.t('peers.download'), f'/data/{folder}/ranks.csv', arrow=False, attrs=' download'),
-               C.btn(ctx.t('peers.methodology'), ctx.url('methodology', hash='peer-groups'), 'secondary')]
+               C.btn(ctx.t('peers.methodology'), ctx.url('data', hash='peer-groups'), 'secondary')]
     return C.page_head(eyebrow_text=ctx.t('peers.eyebrow'), title=ctx.t('peers.title', quarter=_q(ctx, data.quarter)),
                        lede=ctx.t('peers.lede', n=group_row(data, 'africa')['members']), meta=overview.meta(ctx),
                        actions=actions)

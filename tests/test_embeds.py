@@ -64,7 +64,7 @@ class Embeds(unittest.TestCase):
                 for theme in THEMES:
                     self.assertTrue((self.dist / embeds.path(lang, chart_id, theme).lstrip('/') / 'index.html').is_file())
 
-    def test_reports_and_other_pages_keep_their_downloads_only(self):
+    def test_other_pages_keep_their_downloads_only(self):
         pages = [p for p in self.dist.rglob('index.html') if '/embed/' not in p.as_posix()]
         for page in pages:
             route = page.relative_to(self.dist).parent.as_posix()
@@ -74,7 +74,7 @@ class Embeds(unittest.TestCase):
                 body = page.read_text('utf-8').split('</head>', 1)[1]          # the stylesheet in the head styles them
                 self.assertNotIn('class="dl-menu emb-panel"', body)
                 self.assertNotIn('data-share', body)
-        self.assertTrue(any('/reports/' in p.as_posix() and 'class="dl"' in p.read_text('utf-8') for p in pages))
+        self.assertFalse(any('/reports/' in p.as_posix() for p in pages))
         self.assertFalse(any(p.name.startswith('report-') for p in (self.dist / 'en' / 'embed').iterdir()))
 
     def test_the_embed_page_credits_and_links_back(self):
@@ -135,7 +135,7 @@ class Embeds(unittest.TestCase):
     def test_downloads_carry_the_credit(self):
         """The Trends views' SVG files once went out without it."""
         svgs = sorted((self.dist / 'charts').rglob('*.svg'))
-        self.assertGreaterEqual(len(svgs), 80)
+        self.assertEqual(len(svgs), len(self.site.charts) * 4)
         for svg in svgs:
             with self.subTest(svg=svg.name):
                 self.assertRegex(svg.read_text('utf-8'), r'djazair\.dev ‏?\(CC BY 4\.0\)')
@@ -162,7 +162,7 @@ class ShareImages(unittest.TestCase):
                 image, alt = layout.share_image(self.ctx(key, lang, drawn))
                 self.assertEqual(image, drawn[lang])
                 self.assertIn(home.figures(self.ctx(key, lang, drawn))[0][0], alt, 'the growth figure')
-            for key in ('hub', 'about', 'methodology', 'reports'):
+            for key in ('hub', 'about', 'data'):
                 self.assertEqual(layout.share_image(self.ctx(key, lang, drawn)), ('', self.site.catalog.lookup(lang, 'share.alt')[0]))
             self.assertEqual(layout.share_image(self.ctx('home', lang, {}))[0], '', "until it is drawn: the site's card")
 

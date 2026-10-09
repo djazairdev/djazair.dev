@@ -88,7 +88,7 @@ def bring(ctx) -> Markup:
     """What djazair.dev brings to a table: a first issue, and the quarter's numbers."""
     items = join(f'<li><a class="card mt-card" href="{href}"><h3>{ctx.t(f"meetups.bring_{key}_t")}'
                  f'<span class="arr">{icon("arrow", 18, 2)}</span></h3><p>{ctx.t(f"meetups.bring_{key}")}</p></a></li>'
-                 for key, href in (('hub', ctx.url('hub')), ('report', ctx.url('reports'))))
+                 for key, href in (('hub', ctx.url('hub')), ('report', ctx.url('overview'))))
     return C.section('bring', ctx.t('meetups.bring_eyebrow'), ctx.t('meetups.bring_title'),
                      Markup(f'<ul class="mt-bring" role="list">{items}</ul>'))
 

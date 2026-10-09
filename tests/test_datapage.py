@@ -41,7 +41,7 @@ class DataPage(unittest.TestCase):
                 self.assertGreater(len(links), 30)
                 for link in links:
                     self.assertTrue((self.dist / link.lstrip('/')).is_file(), link)
-                    if link.startswith(f'/data/{latest}/') and not link.endswith('.zip'):
+                    if link.startswith(f'/data/{latest}/') and link.rsplit('/', 1)[1] in self.data.files:
                         self.assertEqual((self.dist / link.lstrip('/')).read_bytes(),
                                          (ROOT / 'data' / 'derived' / link[len('/data/'):]).read_bytes(), link)
 
@@ -62,6 +62,33 @@ class DataPage(unittest.TestCase):
             with self.subTest(chart=chart_id):
                 self.assertIn(f'href="{c["csv"][0]}"', self.html['en'])
                 self.assertTrue((self.dist / c['json'][0].lstrip('/')).is_file())
+
+    def test_country_downloads_keep_measured_data_and_forecasts_separate(self):
+        quarter = self.data.quarter.lower()
+        measured = f'/data/{quarter}/global-accounts.csv'
+        forecast = '/data/octoverse-2025/country-outlook.json'
+        for lang in LANGS:
+            with self.subTest(lang=lang):
+                html = self.html[lang]
+                self.assertIn(f'href="{measured}" download', html)
+                self.assertIn(f'href="{forecast}" download', html)
+                self.assertEqual(html.count('class="data-country-card"'), 2)
+        self.assertTrue((self.dist / measured.lstrip('/')).is_file())
+        self.assertTrue((self.dist / forecast.lstrip('/')).is_file())
+        self.assertIn('No Algeria forecast', self.html['en'])
+
+    def test_explanations_have_unique_deep_links_without_duplicate_logs(self):
+        for lang in LANGS:
+            with self.subTest(lang=lang):
+                html = self.html[lang]
+                ids = re.findall(r'\bid="([^"]+)"', html)
+                self.assertEqual(len(ids), len(set(ids)))
+                for anchor in ('sources', 'indicators', 'peer-groups', 'limitations', 'updates'):
+                    self.assertIn(f'<details class="data-method" id="{anchor}">', html)
+                for anchor in ('accounts', 'languages', 'topics', 'collaboration', 'gdc26'):
+                    self.assertIn(f'id="{anchor}"', html)
+                self.assertEqual(html.count('id="corrections"'), 1)
+                self.assertEqual(html.count('id="changelog"'), 1)
 
     def test_logs_and_anchors(self):
         for lang in LANGS:

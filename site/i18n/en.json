@@ -25,7 +25,7 @@
   },
   "nav": {
     "index": "Developer Index",
-    "hub": "Open-source Projects",
+    "hub": "Open source",
     "reports": "Reports",
     "methodology": "Methodology",
     "data": "Data",
@@ -382,7 +382,7 @@
     "bring_hub_t": "A first open-source issue",
     "bring_hub": "Pick a beginner-friendly issue from the Project Hub and work on it together.",
     "bring_report_t": "The quarter’s numbers",
-    "bring_report": "Talk through what the quarterly report says about Algeria’s developers.",
+    "bring_report": "Discuss the latest Index figures and what they mean for Algeria’s developer community.",
     "note_t": "{platform} is a separate site",
     "note": "It has its own accounts, {terms} and {privacy}. djazair.dev has no accounts and shares nothing with it: these are plain links.",
     "terms": "terms of use",
@@ -907,9 +907,9 @@
         "title": "Explore changes over time",
         "description": "Follow quarterly changes and compare Algeria’s trajectory with its peers."
       },
-      "methodology": {
+      "data": {
         "title": "Understand the limitations",
-        "description": "Read the coverage, timing and measurement limits before quoting these figures."
+        "description": "Read the source definitions, comparison groups and measurement limits on the Data page."
       }
     }
   },
@@ -1243,9 +1243,9 @@
   "downloads": {
     "eyebrow": "Data",
     "title": "Data and downloads",
-    "lede": "Every table behind the Index as CSV and JSON, free to reuse under CC0. Each quarter’s files stay online with a manifest of checksums, and every change is logged.",
+    "lede": "Download the data, understand how it is measured, and reuse it with confidence. Quarterly snapshots, country datasets and their sources are kept together here.",
     "meta_tables": "Tables",
-    "download_all": "Download all (CSV)",
+    "download_all": "Download quarterly CSVs",
     "dictionary": "Data dictionary",
     "sec_tables": "Tables",
     "sec_charts": "Chart data",
@@ -1260,7 +1260,7 @@
     "readme": "README.md",
     "earlier": "Earlier quarters stay online, unchanged:",
     "earlier_none": "{quarter} is the first quarter published. Earlier quarters will stay online, unchanged, as new ones arrive.",
-    "charts_lede": "The figures behind every chart on the site, as CSV and JSON. Each chart’s download menu also has SVG and PNG files, dark or light.",
+    "charts_lede": "CSV and JSON for the Index’s trend and comparison charts, grouped by page. Country standings and the published outlook have separate downloads above.",
     "page_home": "Home",
     "addresses_lede": "Stable addresses, served with CORS, so code and pages on other sites can fetch them. latest.json names the newest quarter’s folder; a folder never changes once a newer quarter is out.",
     "code_latest": "The newest quarter, as {\"folder\": \"yyyy-qn\", …}",
@@ -1268,9 +1268,9 @@
     "code_charts": "The data behind a chart",
     "changelog_lede": "One entry per data release, with any revised past values flagged, and the changes to the site worth knowing about.",
     "corrections_lede": "Every correction to a published number or statement, with the date the error was found and the date it was fixed. Corrections are published within 7 days of discovery.",
-    "licence_lede": "The derived data is CC0 1.0: use it for anything, without asking. Credit is welcome, not required. Accounts per million people also uses World Bank population, which is CC BY 4.0: when you reuse that column, credit the World Bank. Text and charts on the site are CC BY 4.0.",
+    "licence_lede": "The quarterly derived data is CC0 1.0. World Bank inputs are CC BY 4.0; credit the World Bank when reusing population-based measures. Our text and charts are CC BY 4.0. The separate Octoverse file records numerical facts and links to GitHub’s original publication; this does not relicense GitHub’s article or artwork.",
     "attribution": "Attribution",
-    "attribution_text": "Data: GitHub Innovation Graph (CC0) · djazair.dev. Population: World Bank (CC BY 4.0).",
+    "attribution_text": "djazair.dev. Algeria Developer Index, {quarter}. {url}. Data: GitHub Innovation Graph (CC0). Population: World Bank (CC BY 4.0).",
     "attribution_note": "Population figures are the World Bank’s for {year}.",
     "t": {
       "overview": {
@@ -1320,6 +1320,37 @@
       "revisions": {
         "title": "Revised past values",
         "text": "Past values this release changed, against the release archived before it."
+      }
+    },
+    "sec_country-data": "Country standings and forecasts",
+    "sec_reading": "How to read the data",
+    "reading_lede": "Accounts measure community size, not active contributors or code quality. Open a panel to inspect the sources, formulas, comparison groups and limits.",
+    "start_label": "Choose how to use the data",
+    "start": {
+      "download": {
+        "title": "Download a snapshot",
+        "text": "Get the quarterly CSV bundle, or choose an individual CSV or JSON table."
+      },
+      "understand": {
+        "title": "Understand the numbers",
+        "text": "Inspect sources, formulas, peer groups and known limitations."
+      },
+      "reuse": {
+        "title": "Build with the data",
+        "text": "Use stable file addresses, checksums and clear attribution."
+      }
+    },
+    "country": {
+      "lede": "These files are separate from the quarterly CSV bundle. Measured counts and published forecasts have different sources and time periods.",
+      "standing": {
+        "kind": "Measured · {quarter}",
+        "title": "Global account standings",
+        "text": "All reported economies in {quarter}, with account totals, annual growth and calculated ranks. The EU aggregate is excluded."
+      },
+      "forecast": {
+        "kind": "Published forecast · 2030",
+        "title": "GitHub’s country outlook",
+        "text": "Octoverse 2025’s projected country totals for 2030, with a September 2025 baseline and source metadata. No Algeria forecast is included."
       }
     }
   },
@@ -1472,7 +1503,7 @@
     },
     "data": {
       "title": "Data and downloads",
-      "description": "Download the Algeria Developer Index as CSV and JSON (CC0), with the changelog and the corrections log."
+      "description": "Download Algeria Developer Index data, country standings and 2030 forecasts. Check sources, formulas, limitations, update logs and reuse licences."
     },
     "about": {
       "title": "About",

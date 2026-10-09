@@ -2,9 +2,8 @@
 from __future__ import annotations
 
 from .context import Route
-from .pages import (about, collaboration, datapage, home, hub, languages, localisation, meetups, methodology, notfound, overview, peers,
-                    rankings, report, topics, trends)
-from .reports import all_reports
+from .pages import (about, collaboration, datapage, home, hub, languages, localisation, meetups, notfound, overview, peers,
+                    rankings, topics, trends)
 
 ROUTES = [
     Route('home', '', home.render, ticket=18),
@@ -18,9 +17,6 @@ ROUTES = [
     Route('hub', 'hub/', hub.render, section='hub'),
     Route('localisation', 'hub/localisation/', localisation.render, section='hub', ticket=40),
     Route('meetups', 'meetups/', meetups.render, ticket=43),
-    Route('reports', 'reports/', report.render_index, section='reports', ticket=34),
-    *(Route(r.key, r.path, report.render, section='reports', ticket=34) for r in all_reports()),
-    Route('methodology', 'methodology/', methodology.render, section='methodology', ticket=23),
     Route('data', 'data/', datapage.render, section='data', ticket=24, last=True),
     Route('about', 'about/', about.render, ticket=23),
     Route('notfound', '404.html', notfound.render, switchable=False, indexed=False),

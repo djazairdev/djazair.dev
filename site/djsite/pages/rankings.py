@@ -197,6 +197,6 @@ def render(ctx: Ctx) -> Page:
     fig = figure(ctx, chart(ctx), 1, source=source, lede=lede(ctx), note=world_note(ctx))
     body = Markup(f'{head(ctx)}{outlook.global_table(ctx)}<section class="rank-body" aria-label="{ctx.ta("rankings.fig_label")}"><div class="container">'
                   f'<h2 class="t-section">{ctx.t("rankings.fig_label")}</h2><p class="lede">{ctx.t("rankings.lede")}</p>'
-                  f'<div class="outlook-actions">{C.btn(ctx.t("rankings.methodology"), ctx.url("methodology", hash="gdc26"), "secondary")}</div>'
+                  f'<div class="outlook-actions">{C.btn(ctx.t("rankings.methodology"), ctx.url("data", hash="gdc26"), "secondary")}</div>'
                   f'{fig}</div></section>{estimate_section(ctx)}{check_section(ctx)}{read_well(ctx)}')
     return Page(title=ctx.s('pages.rankings.title'), description=ctx.s('pages.rankings.description'), body=body)

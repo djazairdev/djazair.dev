@@ -136,12 +136,19 @@ class Claims(unittest.TestCase):
                 self.assertTrue(failures[0].startswith(claim['claim']))
 
 
+def archived_routes():
+    from djsite.context import Route
+    from djsite.routes import ROUTES
+    return list(ROUTES) + [Route('reports', 'reports/', page.render_index),
+                           *(Route(r.key, r.path, page.render) for r in reports.all_reports())]
+
+
 class ReportPage(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        cls.site = build(cls.dist, quiet=True)
+        cls.site = build(cls.dist, routes=archived_routes(), quiet=True)
         cls.report = reports.all_reports()[-1]          # report no. 1
         cls.data = Derived(DERIVED_DIR / cls.report.slug)
 
@@ -220,7 +227,7 @@ class ReportPage(unittest.TestCase):
         self.assertNotIn('**', summary['en'])
         self.assertIn('7 جويلية 2026', summary['ar'])
         self.assertIn('total,586990,587', csv)
-        again = build(self.tmp / 'again', quiet=True)
+        again = build(self.tmp / 'again', routes=archived_routes(), quiet=True)
         self.assertEqual((self.tmp / 'again' / page.zip_path(self.report).lstrip('/')).read_bytes(), path.read_bytes(),
                          'the same report always gives the same file')
         self.assertTrue(again.files)
@@ -266,7 +273,7 @@ class Published(unittest.TestCase):
         doc = json.loads((folder / 'report.json').read_text('utf-8'))
         (folder / 'report.json').write_text(json.dumps({**doc, **changes}), 'utf-8')
         with mock.patch.object(reports, 'REPORTS_DIR', tmp / 'reports'):
-            build(tmp / 'dist', quiet=True)
+            build(tmp / 'dist', routes=archived_routes(), quiet=True)
         return tmp / 'dist'
 
     def test_a_published_report_is_indexed(self):

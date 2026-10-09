@@ -120,7 +120,7 @@ class PeersPage(unittest.TestCase):
         doc = Doc(self.html['en'])
         self.assertEqual(len(doc.find('h1')), 1)
         self.assertIn(f'/data/{self.data.folder.name}/ranks.csv', self.html['en'])
-        self.assertIn('/en/methodology/#peer-groups', self.html['en'])
+        self.assertIn('/en/data/#peer-groups', self.html['en'])
 
     def test_no_placeholders_left(self):
         for lang, html in self.html.items():

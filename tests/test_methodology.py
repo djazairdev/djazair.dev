@@ -52,21 +52,20 @@ class MethodologyPage(unittest.TestCase):
         cls.dist = cls.tmp / 'dist'
         build(cls.dist, quiet=True)
         cls.data = data.load()
-        cls.html = {lang: (cls.dist / lang / 'methodology' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
+        cls.html = {lang: (cls.dist / lang / 'data' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
         cls.about = {lang: (cls.dist / lang / 'about' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
 
     @classmethod
     def tearDownClass(cls):
         shutil.rmtree(cls.tmp)
 
-    def test_every_section_in_both_languages_with_a_contents_list(self):
+    def test_definitions_live_in_expandable_data_panels(self):
         for lang in ('en', 'ar'):
-            with self.subTest(lang=lang):
-                found = re.findall(r'<section class="doc-sec" id="([\w-]+)"', self.html[lang])
-                self.assertEqual(found, SECTIONS)
-                toc = re.search(r'<nav class="toc".*?</nav>', self.html[lang], re.S).group(0)
-                self.assertEqual(re.findall(r'href="#([\w-]+)"', toc), SECTIONS)
-                self.assertIn('id="languages"', self.html[lang])          # the Languages page links here
+            found = re.findall(r'<details class="data-method" id="([\w-]+)"', self.html[lang])
+            self.assertEqual(found, ['sources', 'indicators', 'peer-groups', 'limitations', 'updates'])
+            self.assertIn('id="languages"', self.html[lang])
+            toc = re.search(r'<nav class="toc".*?</nav>', self.html[lang], re.S).group(0)
+            self.assertIn('href="#reading"', toc)
 
     def test_formulas_match_the_pipeline(self):
         expected = pipeline_formulas()
@@ -111,12 +110,12 @@ class MethodologyPage(unittest.TestCase):
 
     def test_logs_and_citation(self):
         page = self.html['en']
-        self.assertIn(f'{self.data.quarter.replace("-", " ").replace("2026 Q1", "Q1 2026")} data.', text_of(page))
+        self.assertIn('Q1 2026', text_of(page))
         self.assertIn('No corrections yet.', page)
         self.assertIn('issues/new?template=correction.yml', page)
         self.assertTrue((ROOT / '.github' / 'ISSUE_TEMPLATE' / 'correction.yml').is_file())
         cite = text_of(re.search(r'<p class="cite-text">.*?</p>', page, re.S).group(0))
-        self.assertIn('https://djazair.dev/en/index/', cite)
+        self.assertIn('https://djazair.dev/en/data/', cite)
         self.assertIn('Algeria Developer Index', cite)
 
     def test_about(self):

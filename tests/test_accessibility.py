@@ -58,7 +58,7 @@ class Pages(unittest.TestCase):
 
     def test_tables_have_names(self):
         for lang in LANGS:
-            for page in ('about', 'methodology'):
+            for page in ('about', 'data'):
                 html = (self.dist / lang / page / 'index.html').read_text('utf-8')
                 with self.subTest(lang=lang, page=page):
                     self.assertRegex(html, r'<caption class="sr-only">[^<]{12,}</caption>')
