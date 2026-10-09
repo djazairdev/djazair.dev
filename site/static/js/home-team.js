@@ -22,7 +22,7 @@
     frame = 0;
     board.classList.toggle('team-assembling', !motion.matches);
     if (motion.matches) board.style.removeProperty('--team-progress');
-    else update();
+    else schedule();
   }
   var observer = new IntersectionObserver(function (entries) {
     visible = entries[0].isIntersecting;

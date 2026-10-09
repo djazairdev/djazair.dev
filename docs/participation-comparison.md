@@ -34,8 +34,9 @@ retaining the bilingual Index, data downloads, map replay, chart effects and foo
 
 A saved view is a filter, not a frozen issue list. It is device- and origin-specific;
 preview and production do not share it. There is no new account system, email list,
-job board or background subscription. Core content, links and GET searches remain
-usable without JavaScript.
+job board or background subscription. Core content and links remain usable without
+JavaScript. Matching and saved views need JavaScript; the Home GET form passes
+the chosen filters to the Hub.
 
 ## Compare outcomes
 
