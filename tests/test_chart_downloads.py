@@ -45,6 +45,11 @@ class ChartDownloads(unittest.TestCase):
                 rows = list(csv.reader(io.StringIO(csv_path.read_text('utf-8'))))
                 payload = json.loads(json_path.read_text('utf-8'))
 
+                self.assertTrue(rows, 'the CSV is empty')
+                width = len(rows[0])
+                for number, row in enumerate(rows[1:], start=2):
+                    self.assertEqual(len(row), width, f'CSV row {number} has {len(row)} cells, the header has {width}')
+
                 if 'series' in payload:
                     # the JSON holds columns, the CSV holds rows
                     self.assertEqual(rows[0], ['quarter'] + [s['key'] for s in payload['series']])
@@ -57,17 +62,21 @@ class ChartDownloads(unittest.TestCase):
                     # one CSV row per JSON item
                     items = payload['bars'] if 'bars' in payload else payload['rows']
                     header, body = rows[0], rows[1:]
+                    columns = ['key' if c == 'series' else c for c in header]
+
+                    required = {'key', 'value'} if 'bars' in payload else {'key', 'accounts', 'squares'}
+                    required |= {field for item in items for field in item} - {'label', 'estimate'}
+                    self.assertEqual(required - set(columns), set(), 'required CSV columns are missing')
+
                     self.assertEqual(len(body), len(items))
                     for row, item in zip(body, items):
-                        for column, cell in zip(header, row):
-                            field = 'key' if column == 'series' else column
-                            if field == 'key':
+                        for column, cell in zip(columns, row):
+                            if column == 'key':
                                 self.assertEqual(cell, item['key'])
                             else:
                                 value = parse(cell)
-                                self.assertEqual(value, item[field])
-                                # False == 0 in Python, so check booleans separately
-                                self.assertEqual(type(value) is bool, type(item[field]) is bool)
+                                self.assertEqual(value, item[column])
+                                self.assertEqual(type(value) is bool, type(item[column]) is bool)
 
                 else:
                     self.fail(f'unknown JSON shape in {chart_id}')
