@@ -1,5 +1,5 @@
 """Participation-first Home content, drawn from the existing public Hub snapshot."""
-from .. import components as C, config, contributions, public_projects as project_discovery
+from .. import components as C, config, contributions
 from ..fmt import date_label, fint, num, quarter_label
 from ..icons import icon
 from ..markup import Markup, esc, join
@@ -12,17 +12,7 @@ def save_control(ctx) -> Markup:
 
 def opportunities(ctx) -> Markup:
     data = ctx.site.hub
-    # A small, diverse preview; the full issue inventory remains in the Hub.
-    issues, seen_types = [], set()
-    for issue in data.issues:
-        kind = contributions.kind(issue)
-        if kind not in seen_types:
-            issues.append(issue)
-            seen_types.add(kind)
-        if len(issues) == 3:
-            break
-    if len(issues) < 3:
-        issues += [i for i in data.issues if i not in issues][:3 - len(issues)]
+    issues = data.issues[:6]
     projects = {p['repository']: p for p in data.projects}
     types = {contributions.kind(i) for i in issues}
     options = join(f'<option value="{key}">{ctx.t(f"participation.types.{key}")}</option>'
@@ -31,7 +21,7 @@ def opportunities(ctx) -> Markup:
     languages_html = join(f'<option value="{esc(k)}">{esc(k)}</option>' for k in languages)
     tools = Markup(f'<form class="opportunity-tools" action="{ctx.url("hub")}#issues" method="get">'
                    f'<label>{ctx.t("participation.type")}<select name="type"><option value="">{ctx.t("participation.all_types")}</option>{options}</select></label>'
-                   f'<label>{ctx.t("participation.project_language")}<select name="lang"><option value="">{ctx.t("hub.all_languages")}</option>{languages_html}</select></label>'
+                   f'<label>{ctx.t("hub.language")}<select name="lang"><option value="">{ctx.t("hub.all_languages")}</option>{languages_html}</select></label>'
                    f'<label class="opportunity-search">{ctx.t("participation.skills")}<input type="search" name="q" placeholder="{ctx.ta("participation.search")}"></label>'
                    f'<button class="btn btn-secondary" type="submit">{ctx.t("participation.browse")}{icon("arrow", 18)}</button></form>')
     cards = []
@@ -69,37 +59,24 @@ def opportunities(ctx) -> Markup:
                      f'<ol>{steps}</ol>'
                      f'<a class="lnk" href="{ctx.url("hub", hash="contribute")}">{ctx.t("participation.guide")}{icon("arrow", 16)}</a></details>')
     return C.section('contributions', ctx.t('participation.opportunities_eyebrow'), ctx.t('participation.opportunities_title'),
-                     body + note + starter + public_projects(ctx), lede=ctx.t('participation.opportunities_lede'))
+                     body + note + starter, lede=ctx.t('participation.opportunities_lede'))
 
 
-def public_projects(ctx) -> Markup:
-    data = project_discovery.load()
+def community(ctx) -> Markup:
     cards = []
-    for project in data['projects']:
-        repo = project['repository']
-        stamp = Markup(f'<time datetime="{esc(project["last_commit"])}">{esc(date_label(project["last_commit"], ctx.lang))}</time>')
-        cards.append(f'<article class="card public-project"><h4><a href="https://github.com/{esc(repo)}"><bdi>{esc(project["name"])}</bdi></a></h4>'
-                     f'<p class="public-project-stack"><bdi>{esc(project["language"])} · {esc(project["licence"])}</bdi></p>'
-                     f'<p>{esc(project[ctx.lang])}</p><p class="participation-note">{ctx.t("participation.project_updated", date=stamp)}</p>'
-                     f'<a class="lnk" href="{esc(project["contribute"])}">{ctx.t("participation.public_action")}{icon("arrow-ur", 16)}</a></article>')
-    stamp = Markup(f'<time datetime="{data["checked"]}">{esc(date_label(data["checked"], ctx.lang))}</time>')
-    return Markup(f'<div class="public-discovery" role="group" aria-labelledby="public-projects-h">'
-                  f'<h3 id="public-projects-h">{ctx.t("participation.public_title")}</h3>'
-                  f'<p class="participation-note">{ctx.t("participation.public_note", date=stamp)}</p>'
-                  f'<div class="public-projects">{join(cards)}</div></div>')
-
-
-def follow_work(ctx) -> Markup:
-    """Public activity and saved searches share one compact follow-up section."""
-    projects = []
     for project in ctx.site.hub.projects[:3]:
         repo = project['repository']
+        work_url = f'https://github.com/{repo}/pulls?q=is%3Apr+is%3Amerged'
         commit = project.get('last_commit')
         stamp = Markup(f'<time datetime="{esc(commit)}">{esc(date_label(commit, ctx.lang))}</time>') if commit else ''
-        updated = f'<p class="participation-note">{ctx.t("participation.project_updated", date=stamp)}</p>' if commit else ''
-        projects.append(f'<li><a class="lnk" href="https://github.com/{esc(repo)}/pulls?q=is%3Apr+is%3Amerged"><bdi>{esc(repo)}</bdi>{icon("arrow-ur", 16)}</a>{updated}</li>')
-    work = (Markup(f'<ul class="follow-projects" role="list">{join(projects)}</ul>') if projects else
-            Markup(f'<p class="participation-note">{ctx.t("participation.projects_empty")}</p>'))
+        updated = (f'<p class="participation-note">{ctx.t("participation.project_updated", date=stamp)}</p>'
+                   if commit else '')
+        cards.append(f'<article class="card community-project"><span class="community-icon">{icon("branch", 25)}</span>'
+                     f'<h3><a href="{esc(project.get("url") or "https://github.com/" + repo)}"><bdi>{esc(repo)}</bdi></a></h3>'
+                     f'<p dir="auto">{esc(project.get("description") or "")}</p>{updated}'
+                     f'<a class="lnk" href="{work_url}">{ctx.t("participation.reviewed_work")}{icon("arrow-ur", 16)}</a></article>')
+    projects = (Markup(f'<div class="community-projects">{join(cards)}</div>') if cards else
+                Markup(f'<p class="participation-note">{ctx.t("participation.projects_empty")}</p>'))
     metrics = getattr(ctx.site.hub, 'metrics', None)
     measured = ''
     if metrics and metrics.get('quarters'):
@@ -107,26 +84,25 @@ def follow_work(ctx) -> Markup:
         measured = (f'<div class="community-measured"><p>{ctx.t("participation.contributors", n=num(fint(row["new_contributors"], ctx.lang)), quarter=quarter_label(row["quarter"], ctx.lang))}</p>'
                     f'<p class="participation-note">{ctx.t("participation.metrics_note")}</p>'
                     f'<a class="lnk" href="{ctx.url("hub", hash="numbers")}">{ctx.t("participation.metrics_more")}</a></div>')
-    saved = (f'<h3>{ctx.t("participation.return_saved_title")}</h3><p>{ctx.t("participation.return_saved_text")}</p>'
-             f'<a class="lnk" data-saved-hub href="{ctx.url("hub", hash="issues")}">{ctx.t("participation.return_saved_action")}{icon("arrow", 16)}</a>')
-    watch = (f'<details class="first-contribution"><summary>{ctx.t("participation.watch_help")}{icon("chev", 18)}</summary>'
-             f'<p>{ctx.t("participation.watch_steps")}</p><a class="lnk" href="{config.REPO_URL}">{ctx.t("participation.return_watch_action")}{icon("arrow-ur", 16)}</a>'
-             f'<p><a class="lnk" href="https://docs.github.com/en/subscriptions-and-notifications/get-started/configuring-notifications">{ctx.t("participation.watch_docs")}{icon("arrow-ur", 16)}</a></p></details>')
-    body = Markup(f'<div class="follow-grid"><div class="card follow-panel" id="community-progress">'
-                  f'<h3>{ctx.t("participation.reviewed_work")}</h3><p>{ctx.t("participation.progress_lede")}</p>{work}{measured}</div>'
-                  f'<div class="card follow-panel">{saved}{watch}</div></div>')
-    return C.section('stay-connected', ctx.t('participation.progress_eyebrow'), ctx.t('participation.return_title'),
-                     body, lede=ctx.t('participation.return_lede'))
+    return C.section('community-progress', ctx.t('participation.progress_eyebrow'), ctx.t('participation.progress_title'),
+                     Markup(projects + measured), lede=ctx.t('participation.progress_lede'))
 
 
-def index_teaser(ctx) -> Markup:
-    """Keep a sourced gateway to the Index instead of repeating its six charts."""
-    folder = ctx.site.data.folder.name
-    source = ctx.t('home.source', quarter=quarter_label(ctx.site.data.quarter, ctx.lang), date=date_label(ctx.site.data.release_date, ctx.lang))
-    actions = (C.btn(ctx.t('home.cta_index'), ctx.url('overview')) +
-               C.btn(ctx.t('participation.index_trends'), ctx.url('trends'), 'secondary'))
-    files = C.action_link('CSV', f'/data/{folder}/overview.csv') + C.action_link('JSON', f'/data/{folder}/overview.json')
-    body = Markup(f'<div class="index-teaser" id="scorecard"><div id="fig-home-yoy">'
-                  f'<div class="page-actions">{actions}</div>{C.source_line(source, files)}</div></div>')
-    return C.section('trend', ctx.t('participation.index_eyebrow', quarter=quarter_label(ctx.site.data.quarter, ctx.lang)),
-                     ctx.t('participation.index_title'), body, lede=ctx.t('participation.index_lede'))
+def return_paths(ctx) -> Markup:
+    paths = (
+        ('saved', 'filter', ctx.url('hub', hash='issues')),
+        ('watch', 'reply', config.REPO_URL),
+        ('ideas', 'vote', config.IDEAS_BY_VOTES_URL if config.HUB_IDEAS else ctx.url('hub', hash='projects')),
+    )
+    cards = []
+    for key, glyph, href in paths:
+        extra = ' data-saved-hub' if key == 'saved' else ''
+        cards.append(f'<article class="card return-card"><span class="community-icon">{icon(glyph, 24)}</span>'
+                     f'<h3>{ctx.t(f"participation.return_{key}_title")}</h3><p>{ctx.t(f"participation.return_{key}_text")}</p>'
+                     f'<a class="lnk" href="{esc(href)}"{extra}>{ctx.t(f"participation.return_{key}_action")}{icon("arrow", 16)}</a></article>')
+    watch = Markup(f'<details class="first-contribution"><summary>{ctx.t("participation.watch_help")}{icon("chev", 18)}</summary>'
+                   f'<p>{ctx.t("participation.watch_steps")}</p><a class="lnk" href="https://docs.github.com/en/subscriptions-and-notifications/get-started/configuring-notifications">'
+                   f'{ctx.t("participation.watch_docs")}{icon("arrow-ur", 16)}</a></details>')
+    return C.section('stay-connected', ctx.t('participation.return_eyebrow'), ctx.t('participation.return_title'),
+                     Markup(f'<div class="return-grid">{join(cards)}</div>') + watch,
+                     lede=ctx.t('participation.return_lede'))

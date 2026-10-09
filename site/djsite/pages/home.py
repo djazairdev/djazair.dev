@@ -332,7 +332,7 @@ def hero(ctx) -> Markup:
                          f'<p class="hero-map-caption">{esc(loc(chart.title, lang))}</p>'
                          f'<div class="fig-body"><div class="hero-map-stage">{charts.svg(chart, lang, "wide", "home-units-m", desc)}</div>{unit_key(ctx, chart)}</div>'
                          f'<div class="hero-map-footer"><span class="hero-map-range num" dir="ltr">{years[0][0][:4]} <span aria-hidden="true">—</span> {q[:4]}</span>'
-                         f'<a class="hero-story" href="{ctx.url("trends")}">{ctx.t("home.growth_story")}{icon("arrow", 16)}</a></div>'
+                         f'<a class="hero-story" href="#trend">{ctx.t("home.growth_story")}{icon("arrow", 16)}</a></div>'
                          f'{table(ctx, chart)}'), cls='fig hero-fig layered-card-surface', labelledby=label_id)
     fig = Markup(f'<div class="hero-map-card layered-card enter d2">{fig}</div>')
 
@@ -474,11 +474,12 @@ def trend(ctx) -> Markup:
 def hub_teaser(ctx) -> Markup:
     paths = []
     for key, glyph, href in (
+            ('contribute', 'branch', ctx.url('hub') + '?kind=gfi#issues'),
             ('propose', 'plus', config.NEW_IDEA_URL),
             ('vote', 'vote', config.IDEAS_BY_VOTES_URL)):
-        available = config.HUB_IDEAS
+        available = key == 'contribute' or config.HUB_IDEAS
         action = (C.btn(ctx.t(f'home.hub_{key}_action'), href,
-                        'primary' if key == 'propose' else 'secondary', out=True)
+                        'primary' if key == 'contribute' else 'secondary', out=key != 'contribute')
                   if available else Markup(f'<span class="hub-path-status">{ctx.t("home.hub_soon")}</span>'))
         # Decorative mint tiles echo the hero's map; they never carry content or intercept a link.
         tiles = join(f'<span class="hub-art-tile{" hub-art-bright" if (row + col) % 4 == 0 else ""}" '
@@ -500,7 +501,7 @@ def hub_teaser(ctx) -> Markup:
     if config.HUB_IDEAS and not board:
         board = Markup(f'<div class="ideas-first"><h3>{ctx.t("participation.ideas_start")}</h3><p>{ctx.t("participation.ideas_start_text")}</p>'
                        f'{C.btn(ctx.t("home.hub_propose_action"), config.NEW_IDEA_URL, "secondary", out=True)}</div>')
-    note = Markup(f'<p class="participation-note">{hub.adoption_note(ctx)}</p>') if config.HUB_IDEAS else Markup('')
+    note = Markup(f'<p class="participation-note">{ctx.t("participation.ideas_note")}</p>') if config.HUB_IDEAS else Markup('')
     return C.section('hub-teaser', ctx.t('participation.ideas_eyebrow'), ctx.t('participation.ideas_title'), routes + board + note + listing,
                      lede=ctx.t('participation.ideas_lede'))
 
@@ -552,12 +553,9 @@ def local_team(ctx) -> Markup:
 
 def render(ctx: Ctx) -> Page:
     body = (hero(ctx) + participation.opportunities(ctx) + local_team(ctx) + hub_teaser(ctx)
-            + participation.follow_work(ctx) + participation.index_teaser(ctx))
-    # Preserve published chart downloads and embeds when shortening Home. Their
-    # source anchor now explains where the detailed charts live in the Index.
-    figure(ctx, trend_chart(ctx), 2, source=ctx.t('home.trend_source'), footer=False)
+            + participation.community(ctx) + participation.return_paths(ctx) + scorecard(ctx) + trend(ctx))
     years = history(ctx.site.data)
-    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-hub', 'home-team', 'participation') if key in ctx.site.assets.scripts)
+    scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub', 'home-team', 'participation') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),
                 scripts=scripts,
                 css=minify_css(hero_css(ctx.lang, years, year_figures(ctx.site.data, years))))   # Home's alone

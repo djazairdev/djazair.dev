@@ -7,7 +7,6 @@ import shutil
 import sys
 import tempfile
 import unittest
-from unittest import mock
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -136,7 +135,7 @@ class HubPage(unittest.TestCase):
 
     def test_home_reads_the_same_feed(self):
         teaser = re.search(r'id="contributions".*?</section>', self.home, re.S).group(0)
-        self.assertEqual(re.findall(r'<h3><a href="([^"]+)"', teaser), [i['url'] for i in ISSUES[:3]])
+        self.assertEqual(re.findall(r'<h3><a href="([^"]+)"', teaser), [i['url'] for i in ISSUES[:6]])
 
     def test_matching_types_are_consistent_on_home_and_hub(self):
         attrs = dict(self.cards())
@@ -144,7 +143,7 @@ class HubPage(unittest.TestCase):
         for issue, kind in zip(ISSUES, expected):
             self.assertIn(f'data-type="{kind}"', attrs[issue['url']])
         teaser = re.search(r'id="contributions".*?</section>', self.home, re.S).group(0)
-        self.assertEqual(re.findall(r'class="card opportunity" data-type="([^"]+)"', teaser), list(expected[:3]))
+        self.assertEqual(re.findall(r'class="card opportunity" data-type="([^"]+)"', teaser), list(expected))
         self.assertIn('method="get"', teaser)
         self.assertIn('action="/en/hub/#issues"', teaser)
         self.assertIn('Document webhooks &lt;in Arabic&gt;', teaser)
@@ -154,7 +153,7 @@ class HubPage(unittest.TestCase):
     def test_participation_precedes_the_statistics(self):
         for lang in LANGS:
             page = (self.tmp / 'dist' / lang / 'index.html').read_text('utf-8')
-            anchors = ('contributions', 'local-team', 'hub-teaser', 'stay-connected', 'community-progress', 'trend')
+            anchors = ('contributions', 'local-team', 'hub-teaser', 'community-progress', 'stay-connected', 'scorecard', 'trend')
             self.assertEqual(sorted(anchors, key=lambda a: page.index(f'id="{a}"')), list(anchors))
             self.assertEqual(len(re.findall(r'<h1\b', page)), 1)
             self.assertNotIn('class="untranslated"', page)
@@ -302,9 +301,9 @@ class Ideas(unittest.TestCase):
         self.assertIn('من اقترحها أو صوّت لها', self.about['ar'])
         for lang, page in self.home.items():
             section = re.search(r'id="hub-teaser".*?</section>', page, re.S).group(0)
-            self.assertEqual(section.count('class="card hub-path"'), 2)
+            self.assertEqual(section.count('class="card hub-path"'), 3)
             for url in (config.NEW_IDEA_URL, config.IDEAS_BY_VOTES_URL,
-                        f'/{lang}/hub/#list'):
+                        f'/{lang}/hub/?kind=gfi#issues', f'/{lang}/hub/#list'):
                 self.assertIn(f'href="{url}"', section)
             self.assertNotIn('class="hub-path-status"', section)
 
@@ -338,21 +337,16 @@ class Ideas(unittest.TestCase):
                      'تبحث عن قائد', 'تعليق واحد', '3 تعليقات', '6 أفكار · 57 صوتًا', 'اعتُمدت حتى الآن: School calendar API.'):
             self.assertIn(text, plain['ar'])
 
-    def test_the_pilot_removes_the_vote_gate_but_keeps_review(self):
+    def test_the_rules_name_the_votes_needed(self):
         from djsite import config
-        self.assertEqual(config.IDEAS_MIN_VOTES, 0)
         en, ar = (self.section(p) for p in self.build(True, IDEAS).values())
-        self.assertIn('no minimum vote count', en)
-        self.assertIn('maintainer approval', en)
-        self.assertIn('لا يوجد حدّ أدنى للأصوات', ar)
-        self.assertNotIn('0</span> votes', en)
-        with mock.patch.object(config, 'IDEAS_MIN_VOTES', 10):
-            en = self.section(self.build(True, IDEAS)['en'])
-            self.assertIn('at least <span class="num" dir="ltr">10</span> votes', en)
+        n = config.IDEAS_MIN_VOTES
+        self.assertIn(f'at least <span class="num" dir="ltr">{n}</span> votes', en)
+        self.assertIn(f'<span class="num" dir="ltr">{n}</span> أصوات على الأقل', ar)
 
     def test_an_empty_round(self):
         pages = self.build(True, dict(IDEAS, ideas=[]))
-        for lang, text in (('en', 'A useful project starts with a real problem.'), ('ar', 'المشروع المفيد يبدأ بمشكلة حقيقية.')):
+        for lang, text in (('en', 'No ideas yet'), ('ar', 'لا أفكار بعد')):
             section = self.section(pages[lang])
             self.assertIn(text, section)
             self.assertNotIn('class="idea"', section)
@@ -381,9 +375,7 @@ class Ideas(unittest.TestCase):
             self.assertTrue(fields[key]['validations']['required'], key)
         self.assertTrue(fields['skills']['attributes']['multiple'])
         intro = form['body'][0]['attributes']['value']
-        self.assertEqual(config.IDEAS_MIN_VOTES, 0)
-        self.assertIn('no minimum vote count', intro)
-        self.assertIn('champion and maintainer review', intro)
+        self.assertIn(f'at least {config.IDEAS_MIN_VOTES} votes', intro, 'the form and the Hub give the same rule')
         self.assertTrue(config.NEW_IDEA_URL.endswith(f'category={path.stem}'))
         self.assertTrue(config.IDEAS_URL.endswith(f'/categories/{path.stem}'))
 
