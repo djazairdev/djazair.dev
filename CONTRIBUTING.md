@@ -9,7 +9,7 @@ The Hub lists active open-source projects with Algerian maintainers or a clear l
 1. An OSI-approved open-source licence.
 2. At least one commit in the last 90 days.
 3. A README and a CONTRIBUTING file.
-4. At least 3 open issues labelled `good first issue` or `help wanted`.
+4. Issues turned on, with the label `good first issue` or `help wanted` (GitHub adds both to new repositories). No number of open issues is required, but label a few: they are how newcomers find the project in the Hub.
 5. Maintainers who pledge to respond to newcomer pull requests within 7 days.
 6. The GitHub topic `djazairdev` on the repository. Only maintainers can set topics, so this shows the listing is yours to ask for.
 7. Algerian maintainers, or clear relevance to Algeria (local data, languages, payments, public services and so on).
@@ -35,7 +35,7 @@ An entry looks like this:
 
 Don't add the language, licence or activity: they're read from GitHub. CI checks the entry against [`hub/projects.schema.json`](hub/projects.schema.json) and names any field to fix; you can run the same check with `python3 -m hub check-registry`. Editors that read the `yaml-language-server` comment at the top of the file check it as you type.
 
-**Staying listed.** Every 6 hours the Hub refreshes each project's beginner issues and checks its health. A project with no commit in 90 days or no open `good first issue` or `help wanted` issues is flagged, and hidden after 14 days if nothing changes; it comes back as soon as it's fixed. Removing the `djazairdev` topic takes a project off the Hub at the next refresh. The [health report](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md) lists every flagged project, why, and since when. To help newcomers, add a line such as `You'll need: Python, pytest` to an issue; the Hub shows it on the issue's card.
+**Staying listed.** Every 6 hours the Hub refreshes each project's beginner issues and checks its health. A project with no commit in 90 days is flagged, and hidden after 14 days if nothing changes; it comes back as soon as it's fixed. A project with no open beginner issues stays listed, with nothing in the issue feed until it labels one. Removing the `djazairdev` topic takes a project off the Hub at the next refresh. The [health report](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md) lists every flagged project, why, and since when. To help newcomers, add a line such as `You'll need: Python, pytest` to an issue; the Hub shows it on the issue's card.
 
 **Categories:** `app` (something people use), `library` (code other programs use), `tool` (something developers use) or `dataset`.
 

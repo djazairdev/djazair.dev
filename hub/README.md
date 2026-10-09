@@ -38,7 +38,7 @@ The `Hub listing check` workflow (`.github/workflows/hub-listing.yml`) then runs
 | `licence` | GitHub's licence detection: an OSI-approved SPDX licence (or an open data licence for a dataset) |
 | `activity` | The last commit on the default branch is at most 90 days old, and the repository isn't archived |
 | `docs` | GitHub's community profile finds a README and a CONTRIBUTING file (a code of conduct is noted, not required) |
-| `issues` | At least 3 open issues, not pull requests, labelled `good first issue` or `help wanted` |
+| `issues` | Issues are turned on, and the label `good first issue` or `help wanted` exists. How many open issues carry it is reported, not required (decision D27) |
 | `pledge` | `maintainer_pledge: true`, or the pledge ticked in the issue form |
 | `topic` | The repository carries the topic `djazairdev` |
 | `relevance` | A person checks this; a listed project counts as checked |
@@ -127,11 +127,10 @@ Every sync, so four times a day, checks each listed project with what it has jus
 | Flag | When | Hidden |
 |---|---|---|
 | `inactive` | No commit on the default branch in the last 90 days | After 14 days flagged |
-| `no_issues` | No open issues labelled `good first issue` or `help wanted` | After 14 days flagged |
 | `topic` | The repository no longer carries the `djazairdev` topic | At once (AC-HUB-3): only maintainers set topics, so removing it withdraws consent |
 | `archived` | The repository is archived | At once |
 | `missing` | The repository is gone or private | At once |
 
-A project shows again as soon as the problem is fixed. `projects.json` gives each project its `flags` (reason, the date it was first flagged, what was found), `status` (`healthy`, `flagged` or `hidden`), `hide_on` and `shown`; the next sync reads the dates from it, so a flag keeps its first date. The Hub only shows projects with `shown`, and the feed only their issues.
+A project with no open beginner issues is not flagged (decision D27): it stays listed, and `HEALTH.md` names it under *No open beginner issues*. A project shows again as soon as the problem is fixed. `projects.json` gives each project its `flags` (reason, the date it was first flagged, what was found), `status` (`healthy`, `flagged` or `hidden`), `hide_on` and `shown`; the next sync reads the dates from it, so a flag keeps its first date. The Hub only shows projects with `shown`, and the feed only their issues.
 
 The health report, [`HEALTH.md` on the `hub-data` branch](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md), lists every flagged and hidden project with the reason, what was found, the date it was flagged and the date it is or was hidden. A project stays in `projects.yml` while it is hidden; remove its entry by pull request if it won't come back.
