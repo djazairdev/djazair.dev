@@ -29,10 +29,10 @@
   var canvas = document.createElement('canvas');
   canvas.className = 'hero-map-canvas';
   canvas.setAttribute('aria-hidden', 'true');
-  stage.appendChild(canvas);
-  var gl = canvas.getContext('webgl2', { alpha: true, antialias: true, premultipliedAlpha: true });
-  if (!gl) { canvas.remove(); return; }
   var rootStyle = getComputedStyle(document.documentElement);
+  stage.appendChild(canvas);
+  var gl = canvas.getContext('webgl2', { alpha: true, antialias: true, premultipliedAlpha: true, powerPreference: 'low-power' });
+  if (!gl) { canvas.remove(); return; }
   function color(token) {
     var hex = rootStyle.getPropertyValue(token).trim().slice(1);
     return [0, 2, 4].map(function (i) { return parseInt(hex.slice(i, i + 2), 16) / 255; });
@@ -44,6 +44,10 @@
   var motionTime = 0;
   var assemblyElapsed = 0, assemblyDuration = 1600;
   var boundsDirty = true, stageTop = 0;
+  // The decorative map does not need the display's full refresh rate or a 2x pixel buffer.
+  // Adapt to actual rendering cost as well, for phones and software graphics renderers.
+  var renderDpr = Math.min(devicePixelRatio || 1, finePointer.matches ? 1.5 : 1);
+  var frameInterval = 1000 / 30, lastDraw = 0, renderCost = 0;
   var firstYear = Number(hero.getAttribute('data-map-first-year'));
   var latestAccounts = Number(hero.getAttribute('data-map-accounts'));
   var latestYear = Number(hero.getAttribute('data-map-latest-year'));
@@ -179,7 +183,7 @@
       gl.uniform2f(u('uViewport'),width,height);
       gl.uniform2f(u('uAngle'),pitch,yaw); gl.uniform1f(u('uScale'),scale);
       gl.uniform1f(u('uAssembly'),assembly);
-      gl.uniform1f(u('uDpr'),Math.min(devicePixelRatio || 1,2));
+      gl.uniform1f(u('uDpr'),renderDpr);
       if (p !== line) {
         // Only the cube shader consumes the counters and ripples. Reading them again for
         // the particle shader forced redundant style calculations during the entrance.
@@ -191,7 +195,9 @@
         gl.uniform1f(u('uStep'),Math.max(0,Math.min(steps.length-1,currentYear-firstYear)));
         gl.uniform1f(u('uTime'),time);
         for (var i=0;i<6;i++) {
-          var r=ripples[i]; trail.set(r ? [r.x,r.y,r.time,r.strength] : [0,0,-100,0],i*4);
+          var r=ripples[i], offset=i*4;
+          trail[offset]=r ? r.x : 0; trail[offset+1]=r ? r.y : 0;
+          trail[offset+2]=r ? r.time : -100; trail[offset+3]=r ? r.strength : 0;
         }
         gl.uniform4fv(u('uRipples[0]'),trail);
         }
@@ -221,6 +227,8 @@
   function frame(now) {
     frameId=0;
     if (!visible || lost || motion.matches || document.hidden) return;
+    if (lastDraw && now-lastDraw<frameInterval) { wake(); return; }
+    lastDraw=now;
     var elapsed=Math.min(64,now-(lastFrame || now)); lastFrame=now;
     if (boundsDirty) { stageTop=stage.getBoundingClientRect().top; boundsDirty=false; }
     var progress=Math.max(0,Math.min(1,(innerHeight-stageTop)/(innerHeight*.88)));
@@ -233,7 +241,13 @@
     var time=motionTime;
     ripples=ripples.filter(function (r) { return time-r.time<1.15; });
     if (running) assemblyElapsed=Math.min(assemblyDuration,assemblyElapsed+elapsed);
+    var renderStart=performance.now();
     renderer(time,assemblyElapsed/assemblyDuration);
+    renderCost=renderCost*.8+(performance.now()-renderStart)*.2;
+    if (renderCost>28) {
+      frameInterval=1000/20;
+      if (renderDpr>1) { renderDpr=1; resize(); }
+    }
     if (!stage.classList.contains('map-ready')) stage.classList.add('map-ready');
     if (running ||
         Math.abs(targetPitch-pitch)+Math.abs(targetYaw-yaw)>.0003) wake();
@@ -241,7 +255,7 @@
   function resize() {
     var rect=stage.getBoundingClientRect(); width=rect.width; height=rect.height;
     stageTop=rect.top; boundsDirty=false;
-    var dpr=Math.min(devicePixelRatio || 1,2);
+    var dpr=renderDpr;
     canvas.width=Math.round(width*dpr); canvas.height=Math.round(height*dpr);
     scale=Math.min((width-12)/box.width,(height-12)/box.height)*1.015;
     wake();
@@ -258,15 +272,15 @@
   new ResizeObserver(resize).observe(stage);
   new IntersectionObserver(function (entries) {
     visible=entries[entries.length-1].isIntersecting;
-    lastFrame=0;
+    lastFrame=lastDraw=0;
     if (visible) { initialise(); wake(); } else { cancelAnimationFrame(frameId); frameId=0; ripples=[]; }
   }).observe(stage);
   window.addEventListener('scroll',function () { boundsDirty=true; wake(); },{passive:true});
   replay.addEventListener('change',function () {
-    lastFrame=0;
+    lastFrame=lastDraw=0;
     wake();
   });
-  document.addEventListener('visibilitychange',function () { lastFrame=0; wake(); });
+  document.addEventListener('visibilitychange',function () { lastFrame=lastDraw=0; wake(); });
   motion.addEventListener('change',function () {
     if (motion.matches) { cancelAnimationFrame(frameId); frameId=0; ripples=[]; assemblyElapsed=assemblyDuration; stage.classList.remove('map-ready'); }
     else { lastFrame=0; if (visible) initialise(); wake(); }

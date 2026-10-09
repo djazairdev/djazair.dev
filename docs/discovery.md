@@ -13,6 +13,6 @@ Cloudflare headers revalidate HTML and discovery documents, preserve immutable a
 
 Founders.coffee links are ordinary editorial HTML anchors. They carry no `nofollow`, `ugc` or `sponsored` qualifier, so no nonstandard `rel="dofollow"` value is necessary. Tests check both languages on Home and Meetups.
 
-Page styles include shared components and only the route's own rules. CSS compaction preserves strings, descendant selectors and arithmetic spacing. The map caches its bounds until scrolling or resizing, reads replay counters only for the cube shader, reuses its ripple buffer, and initializes the renderer when first visible on mobile. Its particle entrance still runs once, and the numbers and cubes keep looping until paused.
+Page styles include shared components and only the route's own rules. CSS compaction preserves strings, descendant selectors and arithmetic spacing. The map caches its bounds until scrolling or resizing, reads replay counters only for the cube shader, reuses its ripple buffer, and initializes the renderer when first visible on mobile. It renders at up to 30 frames per second, with a smaller pixel buffer on touch devices, and adapts resolution and cadence when rendering takes too long. Its particle entrance still runs once, and the numbers and cubes keep looping until paused.
 
 PageSpeed is a variable lab measurement, not a production-readiness certificate. Recheck mobile and desktop after changes and on the final production domain; do not remove preview indexing protection to raise its SEO score.
