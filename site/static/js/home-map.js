@@ -43,6 +43,7 @@
   var pointerX = 0, pointerY = 0, ripples = [], lastPointerTime = 0;
   var motionTime = 0;
   var assemblyElapsed = 0, assemblyDuration = 1600;
+  var boundsDirty = true, stageTop = 0;
   var firstYear = Number(hero.getAttribute('data-map-first-year'));
   var latestAccounts = Number(hero.getAttribute('data-map-accounts'));
   var latestYear = Number(hero.getAttribute('data-map-latest-year'));
@@ -170,6 +171,7 @@
       });
       locations.set(p,values);
     });
+    var trail = new Float32Array(24);
     function uniforms(p, time, assembly) {
       gl.useProgram(p);
       function u(name) { return locations.get(p)[name]; }
@@ -179,17 +181,20 @@
       gl.uniform1f(u('uAssembly'),assembly);
       gl.uniform1f(u('uDpr'),Math.min(devicePixelRatio || 1,2));
       if (p !== line) {
+        // Only the cube shader consumes the counters and ripples. Reading them again for
+        // the particle shader forced redundant style calculations during the entrance.
+        if (p === cubes) {
         var count = Number(getComputedStyle(ticker).getPropertyValue('--tick'));
         var currentYear = Number(getComputedStyle(year).getPropertyValue('--yr'));
         if (!Number.isFinite(count) || !count || !currentYear) { count=latestAccounts; currentYear=latestYear; }
         gl.uniform1f(u('uCount'),Math.min(cells.length,count/1000));
         gl.uniform1f(u('uStep'),Math.max(0,Math.min(steps.length-1,currentYear-firstYear)));
         gl.uniform1f(u('uTime'),time);
-        var trail = new Float32Array(24);
         for (var i=0;i<6;i++) {
           var r=ripples[i]; trail.set(r ? [r.x,r.y,r.time,r.strength] : [0,0,-100,0],i*4);
         }
         gl.uniform4fv(u('uRipples[0]'),trail);
+        }
         gl.uniform3fv(u('uOld'),old); gl.uniform3fv(u('uMint'),mint); gl.uniform3fv(u('uHighlight'),highlight);
       } else gl.uniform3fv(u('uColor'),highlight);
     }
@@ -211,14 +216,14 @@
     };
   }
   function wake() {
-    if (!frameId && visible && !lost && !motion.matches && !document.hidden) frameId=requestAnimationFrame(frame);
+    if (renderer && !frameId && visible && !lost && !motion.matches && !document.hidden) frameId=requestAnimationFrame(frame);
   }
   function frame(now) {
     frameId=0;
     if (!visible || lost || motion.matches || document.hidden) return;
     var elapsed=Math.min(64,now-(lastFrame || now)); lastFrame=now;
-    var rect=stage.getBoundingClientRect();
-    var progress=Math.max(0,Math.min(1,(innerHeight-rect.top)/(innerHeight*.88)));
+    if (boundsDirty) { stageTop=stage.getBoundingClientRect().top; boundsDirty=false; }
+    var progress=Math.max(0,Math.min(1,(innerHeight-stageTop)/(innerHeight*.88)));
     var targetPitch=.24+.56*(1-progress)+pointerY*.035;
     var targetYaw=-.10-.10*(1-progress)+pointerX*.045;
     var ease=1-Math.exp(-elapsed/110);
@@ -229,29 +234,34 @@
     ripples=ripples.filter(function (r) { return time-r.time<1.15; });
     if (running) assemblyElapsed=Math.min(assemblyDuration,assemblyElapsed+elapsed);
     renderer(time,assemblyElapsed/assemblyDuration);
-    stage.classList.add('map-ready');
+    if (!stage.classList.contains('map-ready')) stage.classList.add('map-ready');
     if (running ||
         Math.abs(targetPitch-pitch)+Math.abs(targetYaw-yaw)>.0003) wake();
   }
   function resize() {
     var rect=stage.getBoundingClientRect(); width=rect.width; height=rect.height;
+    stageTop=rect.top; boundsDirty=false;
     var dpr=Math.min(devicePixelRatio || 1,2);
     canvas.width=Math.round(width*dpr); canvas.height=Math.round(height*dpr);
     scale=Math.min((width-12)/box.width,(height-12)/box.height)*1.015;
     wake();
   }
-  try {
-    renderer=createRenderer(); resize();
-    // Replace the SVG only after setup succeeds, with an empty first frame.
-    if (!motion.matches) { renderer(0,0); stage.classList.add('map-ready'); }
-  } catch (err) { canvas.remove(); return; }
+  function initialise() {
+    if (renderer || lost || motion.matches) return;
+    try {
+      renderer=createRenderer(); resize();
+      // Start empty when first visible; preserve the one-time formation and growth loop.
+      renderer(0,0); stage.classList.add('map-ready');
+    } catch (err) { lost=true; canvas.remove(); }
+  }
+  if (stage.getBoundingClientRect().top < innerHeight) initialise();
   new ResizeObserver(resize).observe(stage);
   new IntersectionObserver(function (entries) {
     visible=entries[entries.length-1].isIntersecting;
     lastFrame=0;
-    if (visible) wake(); else { cancelAnimationFrame(frameId); frameId=0; ripples=[]; }
+    if (visible) { initialise(); wake(); } else { cancelAnimationFrame(frameId); frameId=0; ripples=[]; }
   }).observe(stage);
-  window.addEventListener('scroll',wake,{passive:true});
+  window.addEventListener('scroll',function () { boundsDirty=true; wake(); },{passive:true});
   replay.addEventListener('change',function () {
     lastFrame=0;
     wake();
@@ -259,7 +269,7 @@
   document.addEventListener('visibilitychange',function () { lastFrame=0; wake(); });
   motion.addEventListener('change',function () {
     if (motion.matches) { cancelAnimationFrame(frameId); frameId=0; ripples=[]; assemblyElapsed=assemblyDuration; stage.classList.remove('map-ready'); }
-    else { lastFrame=0; wake(); }
+    else { lastFrame=0; if (visible) initialise(); wake(); }
   });
   canvas.addEventListener('pointermove',function (event) {
     if (!replay.checked || !finePointer.matches || motion.matches || assemblyElapsed<assemblyDuration) return;

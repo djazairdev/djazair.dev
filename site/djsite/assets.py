@@ -1,9 +1,8 @@
 """Stylesheet, scripts, fonts and icons.
 
-Scripts and fonts are copied to ``dist/assets`` with content-hashed names, so they can be cached
-for a year. The stylesheet (about 15 KB compressed) is inlined in every page instead: on a first
-visit over a slow mobile network that saves a round trip before anything shows (ticket #30,
-docs/performance.md).
+Scripts are copied to ``dist/assets`` with content-hashed names. Fixed font subsets are
+self-hosted there too. Each page inlines shared CSS and its own route's rules, saving a
+render-blocking round trip without transferring unrelated pages' styles.
 """
 from __future__ import annotations
 
@@ -16,7 +15,7 @@ from pathlib import Path
 from .config import STATIC_DIR
 from .markup import Markup
 
-# Fonts preloaded on every page: the files the first screen needs (see 00-fonts.css).
+# Fonts preloaded on every page: the files the first screen needs (see 05-fonts.css).
 PRELOAD = {
     'en': ['tajawal-latin-400.woff2', 'jetbrains-mono-latin.woff2'],
     'ar': ['tajawal-arabic-400.woff2', 'jetbrains-mono-latin.woff2'],
@@ -28,10 +27,15 @@ def _hash(data: bytes) -> str:
 
 
 def minify_css(css: str) -> str:
-    """Drop comments and indentation. Safe for our own CSS, which keeps strings simple."""
-    css = re.sub(r'/\*.*?\*/', '', css, flags=re.S)
-    lines = (line.strip() for line in css.splitlines())
-    return '\n'.join(line for line in lines if line)
+    """Compact whitespace outside strings, preserving calc operators and descendant selectors."""
+    tokens = re.split(r'("(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|/\*.*?\*/)', css, flags=re.S)
+    for i, token in enumerate(tokens):
+        if token.startswith('/*'):
+            tokens[i] = ''
+        elif not token.startswith(('"', "'")):
+            token = re.sub(r'\s+', ' ', token)
+            tokens[i] = re.sub(r'\s*([{};])\s*', r'\1', token)
+    return ''.join(tokens).strip()
 
 
 @dataclass
@@ -42,12 +46,14 @@ class Assets:
     scripts: dict = field(default_factory=dict)   # name -> URL of page-specific scripts
     share: dict = field(default_factory=dict)     # lang -> URL of the 1200 × 630 share image (site/tools/share.py)
     release_share: dict = field(default_factory=dict)   # lang -> URL of the quarter's share image, when there is one
+    styles: dict = field(default_factory=dict)          # route -> only the styles that page uses
 
-    def inline_style(self, extra: str = '') -> Markup:
+    def inline_style(self, extra: str = '', route: str = '') -> Markup:
         """The stylesheet for a <style> element, with the page's own rules after it (Home's hero)."""
         if '</' in extra:
             raise ValueError('a page\'s rules must not contain "</": they are inlined in a <style> element')
-        css = f'{self.style}\n{extra}' if extra else self.style
+        base = self.styles.get(route, self.style)
+        css = base + minify_css(extra)
         return Markup(f'<style>{css}</style>')
 
     def preloads(self, lang: str) -> Markup:
@@ -68,7 +74,21 @@ def build(out: Path, release: str = '') -> Assets:
     (out / 'assets' / 'fonts').mkdir(parents=True, exist_ok=True)
 
     css_files = sorted((STATIC_DIR / 'css').glob('*.css'))
-    css = '\n'.join(minify_css(p.read_text('utf-8')) for p in css_files)
+    parts = {p.name: minify_css(p.read_text('utf-8')) for p in css_files}
+    css = ''.join(parts.values())
+    common = {name for name in parts if int(name[:2]) < 50 or int(name[:2]) >= 90}
+    groups = {
+        'home': ('50-home.css',),
+        'overview': ('51-index.css', '52-outlook.css'),
+        'hub': ('53-hub.css',), 'localisation': ('53-hub.css',),
+        'meetups': ('53-hub.css',), 'about': ('52-docs.css',),
+        'data': ('52-docs.css', '55-data.css'),
+        'notfound': (), 'root': (),
+    }
+    for route in ('peers', 'trends', 'languages', 'topics', 'collaboration', 'rankings'):
+        groups[route] = ('51-index.css',)
+    styles = {route: ''.join(value for name, value in parts.items() if name in common or name in extra)
+              for route, extra in groups.items()}
     if '</' in css:
         raise ValueError('the stylesheet must not contain "</": it is inlined in a <style> element')
 
@@ -93,4 +113,5 @@ def build(out: Path, release: str = '') -> Assets:
                          for path in sorted((STATIC_DIR / 'share' / release).glob('*.png'))}
 
     shutil.copy2(STATIC_DIR / 'favicon.svg', out / 'favicon.svg')
-    return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts, share=share, release_share=release_share)
+    return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts, share=share, release_share=release_share,
+                  styles=styles)

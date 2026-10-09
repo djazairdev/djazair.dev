@@ -36,7 +36,7 @@ class Trends(unittest.TestCase):
         build(cls.dist, quiet=True)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index' / 'trends' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
-        cls.css = stylesheet(cls.dist)
+        cls.css = stylesheet(cls.dist, 'en/index/trends/index.html')
         cls.payload = {lang: json.loads(re.search(r'<script type="application/json" id="trends-data">(.*?)</script>',
                                                   html, re.S).group(1).replace('<\\/', '</')) for lang, html in cls.html.items()}
 
@@ -61,7 +61,7 @@ class Trends(unittest.TestCase):
         self.assertIn('.trc:has(#tr-scale-actual:checked) .v.s-indexed', self.css)
         self.assertIn('@supports not selector(:has(*))', self.css)
         # the readout overlay only shows once the script marks the chart active
-        self.assertIn('.cw[data-act=true] .ov { opacity: 1; }', self.css)
+        self.assertRegex(self.css, r'\.cw\[data-act=true\] \.ov\s*\{\s*opacity:\s*1;\s*\}')
 
     def test_controls_are_radio_buttons(self):
         html = self.html['en']

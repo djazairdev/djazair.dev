@@ -46,7 +46,7 @@ def render(site: Site) -> str:
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 {site.assets.preloads('en')}
-{site.assets.inline_style()}
+{site.assets.inline_style(route='root')}
 </head>
 <body class="chooser-page">
 <main class="chooser">
@@ -62,4 +62,3 @@ def render(site: Site) -> str:
 </body>
 </html>
 '''
-

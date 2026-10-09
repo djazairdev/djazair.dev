@@ -110,7 +110,7 @@ class Texts(HTMLParser):
         self.items.append((data, direction))
 
 
-def stylesheet(dist: Path) -> str:
-    """The site's stylesheet, as every page inlines it (here, the English home page's copy)."""
-    html = (dist / 'en' / 'index.html').read_text('utf-8')
+def stylesheet(dist: Path, page: str = 'en/index.html') -> str:
+    """The common styles plus the selected page's rules, inlined in its head."""
+    html = (dist / page).read_text('utf-8')
     return html.split('<style>', 1)[1].split('</style>', 1)[0]

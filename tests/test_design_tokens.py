@@ -108,7 +108,7 @@ class Fonts(unittest.TestCase):
                 self.assertTrue((self.dist / href.lstrip('/')).exists(), href)
 
     def test_reduced_motion_stops_everything(self):
-        block = re.search(r'@media \(prefers-reduced-motion: reduce\) \{(.*?)\}\s*\}', self.css, re.S)
+        block = re.search(r'@media\s*\(prefers-reduced-motion: reduce\)\s*\{(.*?)\}\s*\}', self.css, re.S)
         self.assertIsNotNone(block)
         self.assertIn('animation: none !important', block.group(1))
         self.assertIn('transition: none !important', block.group(1))
