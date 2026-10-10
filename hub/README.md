@@ -18,9 +18,19 @@ Set `GITHUB_TOKEN` for the higher API rate limit; public data needs no token, ex
 
 [`projects.yml`](../projects.yml) lists the projects, one entry each: `repository`, `category`, `tags`, `maintainer_pledge` and `added` (PRD HUB-01). Language, licence and activity are read from GitHub, so they aren't stored. [CONTRIBUTING.md](../CONTRIBUTING.md#list-a-project-in-the-hub) explains each field and lists the tags.
 
+The djazairdev organisation's own repositories need no entry (decision D29, `discover.py`). Every sync lists the organisation's public repositories. One that carries the `djazairdev` topic, and isn't a fork, archived or already in `projects.yml`, joins with the entry its topics give:
+
+- the category: the one topic among `app`, `library`, `tool` and `dataset`;
+- the tags: the topics in the tag list, in the schema's order, one to five;
+- `maintainer_pledge: true`, which the project template's CONTRIBUTING file makes;
+- `added`: the date of the first sync that found it, which the snapshot carries forward.
+
+`projects.json` marks it `"source": "topic"`, and registry entries `"source": "registry"`. A repository with the topic but no category, several categories, no tag or more than five is left out, and `HEALTH.md` says what to add. Only the organisation's maintainers can create its repositories or set their topics, which is why other repositories still apply by pull request or the issue form.
+
 | File | What it does |
 |---|---|
 | `projects.schema.json` | The JSON Schema for `projects.yml`. Editors with a YAML language server use it while you type |
+| `discover.py` | Lists the djazairdev organisation's public repositories and gives each one with the topics an entry, or the reason it can't have one |
 | `registry.py` | Reads `projects.yml`, checks it against the schema, then checks what a schema can't: a repository listed twice (GitHub names ignore case) and a date in the future |
 | `miniyaml.py` | A strict reader for the part of YAML the registry uses. Anything else (anchors, tags, block scalars, tabs, duplicate keys) is an error with its line number |
 | `schemacheck.py` | Applies the JSON Schema keywords the schema uses, and refuses a schema that uses any other, so no check is silently skipped. Errors name the field (`projects[2] (owner/name).category`) and say what to write instead |
@@ -53,14 +63,14 @@ Pull requests are checked with `pull_request_target`, so the bot can comment on 
 
 ## Sync (issues feed)
 
-`python -m hub sync` builds the Hub's data (PRD HUB-04, HUB-05). For each project in `projects.yml` it asks GitHub for the repository (description, primary language, licence, topics, archived), its last commit on the default branch, and its open issues labelled `good first issue` or `help wanted`, pull requests left out. It writes a snapshot to `data/derived/hub/`:
+`python -m hub sync` builds the Hub's data (PRD HUB-04, HUB-05). For each project in `projects.yml`, and each djazairdev repository found by its topic, it asks GitHub for the repository (description, primary language, licence, topics, archived), its last commit on the default branch, and its open issues labelled `good first issue` or `help wanted`, pull requests left out. It writes a snapshot to `data/derived/hub/`:
 
 | File | What it holds |
 |---|---|
-| `projects.json` | Every listed project: its registry entry, what GitHub says about it, its number of open beginner issues, and `shown` |
+| `projects.json` | Every listed project: its registry entry (or the one its topics give, with `source`), what GitHub says about it, its number of open beginner issues, and `shown` |
 | `issues.json` | The open beginner issues of the projects the Hub shows, newest first: `repo`, `number`, `url`, `title`, `labels`, `created_at`, the repository's `language`, and `needs` |
 | `cache.json` | The ETag of each answer and what was kept from it, for the next run |
-| `HEALTH.md` | The health report |
+| `HEALTH.md` | The health report, and the djazairdev repositories with the topic that can't be listed yet |
 
 Which projects show is decided by the health checks below.
 
@@ -133,4 +143,4 @@ Every sync, so four times a day, checks each listed project with what it has jus
 
 A project with no open beginner issues is not flagged (decision D27): it stays listed, and `HEALTH.md` names it under *No open beginner issues*. A project shows again as soon as the problem is fixed. `projects.json` gives each project its `flags` (reason, the date it was first flagged, what was found), `status` (`healthy`, `flagged` or `hidden`), `hide_on` and `shown`; the next sync reads the dates from it, so a flag keeps its first date. The Hub only shows projects with `shown`, and the feed only their issues.
 
-The health report, [`HEALTH.md` on the `hub-data` branch](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md), lists every flagged and hidden project with the reason, what was found, the date it was flagged and the date it is or was hidden. A project stays in `projects.yml` while it is hidden; remove its entry by pull request if it won't come back.
+The health report, [`HEALTH.md` on the `hub-data` branch](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md), lists every flagged and hidden project with the reason, what was found, the date it was flagged and the date it is or was hidden. A project stays in `projects.yml` while it is hidden; remove its entry by pull request if it won't come back. A djazairdev repository found by its topic leaves the Hub at the next sync after the topic is removed or the repository is archived.
