@@ -11,7 +11,7 @@ sys.path.insert(0, str(ROOT / 'site'))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite.build import build, output_path  # noqa: E402
-from djsite.config import LANGS  # noqa: E402
+from djsite.config import LANGS, PUBLISHED  # noqa: E402
 from djsite.context import Ctx, Route, Site  # noqa: E402
 from djsite.i18n import Catalog, MissingString  # noqa: E402
 from djsite.pages import stub  # noqa: E402
@@ -24,11 +24,14 @@ DRAFTS = {r.key for r in all_reports() if r.draft}
 
 
 class BuiltSite(unittest.TestCase):
+    """The site as it ships: Arabic shows the invitation to translate until it is reviewed (#61)."""
+    PUBLISHED = PUBLISHED
+
     @classmethod
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        cls.site = build(cls.dist, quiet=True)
+        cls.site = build(cls.dist, quiet=True, published=cls.PUBLISHED)
         cls.docs = {}
         for path in cls.dist.rglob('*.html'):
             cls.docs[path] = Doc(path.read_text('utf-8'))
@@ -56,12 +59,15 @@ class BuiltSite(unittest.TestCase):
                 alternates = {l['hreflang']: l['href'] for l in doc.links if l.get('rel') == 'alternate' and 'hreflang' in l}
                 canonical = [l['href'] for l in doc.links if l.get('rel') == 'canonical']
                 with self.subTest(route=route.key, lang=lang):
-                    if not route.indexed or route.render is stub.render or route.key in DRAFTS:    # placeholders and drafts stay out of search
+                    # Placeholders, drafts and invitations to translate stay out of search.
+                    if (not route.indexed or route.render is stub.render or route.key in DRAFTS
+                            or lang not in self.PUBLISHED):
                         self.assertEqual(alternates, {})
+                        self.assertEqual(canonical, [])
                         continue
-                    self.assertEqual(set(alternates), {'en', 'ar', 'x-default'})
-                    self.assertEqual(alternates['en'], f'https://djazair.dev/en/{route.path}')
-                    self.assertEqual(alternates['ar'], f'https://djazair.dev/ar/{route.path}')
+                    self.assertEqual(set(alternates), {*self.PUBLISHED, 'x-default'})
+                    for other in self.PUBLISHED:
+                        self.assertEqual(alternates[other], f'https://djazair.dev/{other}/{route.path}')
                     self.assertEqual(canonical, [f'https://djazair.dev/{lang}/{route.path}'])
 
     def test_skip_link_comes_first(self):
@@ -92,8 +98,10 @@ class BuiltSite(unittest.TestCase):
         self.assertEqual(hrefs.get('/en/index/trends/'), 'page')     # sub-nav: this page
 
     def test_internal_links_resolve(self):
-        # Links into a section of a page whose ticket isn't done yet can't be checked until it is.
+        # Links into a section of a page whose ticket isn't done yet can't be checked until it is,
+        # nor those into a page that shows the invitation to translate: the header's and footer's.
         stubs = {output_path(self.dist, lang, r.path) for r in ROUTES if r.render is stub.render for lang in LANGS}
+        stubs |= {p for lang in LANGS if lang not in self.PUBLISHED for p in (self.dist / lang).rglob('*.html')}
         for path, doc in self.docs.items():
             refs = [a.get('href', '') for a in doc.anchors] + [l.get('href', '') for l in doc.links]
             for href in refs:
@@ -108,13 +116,17 @@ class BuiltSite(unittest.TestCase):
                     elif href.startswith('#'):
                         self.assertIn(href[1:], doc.ids)
 
-    def test_root_page_redirects_and_offers_both_languages(self):
+    def test_root_page_redirects_to_the_published_languages(self):
         doc = self.docs[self.dist / 'index.html']
         hrefs = {a['href'] for a in doc.anchors}
-        self.assertTrue({'/en/', '/ar/'} <= hrefs)
+        self.assertEqual(hrefs, {f'/{lang}/' for lang in self.PUBLISHED})
+        self.assertEqual(doc.html.get('data-langs'), ' '.join(self.PUBLISHED))
         text = (self.dist / 'index.html').read_text('utf-8')
         self.assertIn("localStorage.getItem('djz-lang')", text)
-        self.assertIn('location.replace', text)
+        self.assertIn("location.replace('/'+l+'/'+location.search)", text, 'the query string is kept')
+        refresh = [m for t, m in doc.elements if t == 'meta' and m.get('http-equiv') == 'refresh']
+        # One language: everyone goes there, with or without JavaScript.
+        self.assertEqual(refresh, [{'http-equiv': 'refresh', 'content': '0; url=/en/'}] if self.PUBLISHED == ('en',) else [])
 
     def test_404_pages_are_not_indexed(self):
         for path in (self.dist / '404.html', self.dist / 'en' / '404.html', self.dist / 'ar' / '404.html'):
@@ -122,9 +134,15 @@ class BuiltSite(unittest.TestCase):
             self.assertTrue(any(m for t, m in doc.elements if t == 'meta' and m.get('name') == 'robots'))
 
     def test_arabic_shows_the_draft_notice_until_reviewed(self):
+        """On its pages once published; the invitation to translate has nothing to warn about."""
         doc = self.doc('ar', self.site.routes['home'])
-        self.assertTrue(doc.find('div', class_='notice'))
+        self.assertEqual(bool(doc.find('div', class_='notice')), 'ar' in self.PUBLISHED)
         self.assertFalse(self.doc('en', self.site.routes['home']).find('div', class_='notice'))
+
+
+class BuiltSiteWithArabic(BuiltSite):
+    """The same checks with the Arabic pages built, as they will be once reviewed."""
+    PUBLISHED = LANGS
 
 
 class Strings(unittest.TestCase):

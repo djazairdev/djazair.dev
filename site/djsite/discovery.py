@@ -8,6 +8,8 @@ from .config import CONTENT_DIR, REPO_URL, SITE_URL
 from .context import Ctx
 from .markdown import sections
 
+NAMES = {'en': 'English', 'ar': 'Arabic'}
+
 # Renew this after checking that the reporting channels still work (RFC 9116).
 SECURITY_EXPIRES = '2027-10-01T00:00:00Z'
 SECURITY = f'''Contact: {REPO_URL}/security/advisories/new
@@ -20,6 +22,8 @@ Policy: {REPO_URL}/blob/main/SECURITY.md
 
 
 def write(out, site, xml: str) -> None:
+    """Only the published languages: an address in another one shows the invitation to translate."""
+    others = [lang for lang in site.published if lang != 'en']
     urls = [node.text for node in ET.fromstring(xml).findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
     (out / 'sitemap.txt').write_text('\n'.join(urls) + '\n', 'utf-8')
     (out / '.well-known').mkdir(exist_ok=True)
@@ -45,7 +49,8 @@ Quarterly derived data is CC0; population inputs are World Bank CC BY 4.0. Do no
             continue
         ctx = Ctx(site, 'en', site.routes[key])
         label = 'Home' if key == 'home' else ctx.s(f'pages.{key}.title')
-        guide += f'- [{label}]({ctx.abs_url(key)}): English page; Arabic version at {ctx.abs_url(key, lang="ar")}\n'
+        versions = '; '.join(f'{NAMES[lang]} version at {ctx.abs_url(key, lang=lang)}' for lang in others)
+        guide += f'- [{label}]({ctx.abs_url(key)})' + (f': English page; {versions}' if others else '') + '\n'
     guide += f'''
 ## Data and definitions
 
@@ -54,7 +59,7 @@ Quarterly derived data is CC0; population inputs are World Bank CC BY 4.0. Do no
 - [Release manifest]({SITE_URL}/data/{data.folder.name}/manifest.json): file sizes, SHA-256 checksums and source references.
 - [Release README]({SITE_URL}/data/{data.folder.name}/README.md): table descriptions and licensing.
 - [Data dictionary]({REPO_URL}/blob/main/data/README.md): column definitions and formulas.
-- [All indexed pages]({SITE_URL}/sitemap.txt): canonical English and Arabic URLs.
+- [All indexed pages]({SITE_URL}/sitemap.txt): canonical {' and '.join(NAMES[lang] for lang in site.published)} URLs.
 
 ## Participation
 
@@ -70,7 +75,7 @@ Quarterly derived data is CC0; population inputs are World Bank CC BY 4.0. Do no
 '''
     (out / 'llms.txt').write_text(guide, 'utf-8')
     # A native Markdown guide avoids requiring AI readers to interpret chart SVGs or animation.
-    for lang in ('en', 'ar'):
+    for lang in site.published:
         ctx = Ctx(site, lang, site.routes['data'])
         text = f'# {ctx.s("pages.data.title")}\n\n{ctx.s("pages.data.description")}\n\n'
         text += f'{data.quarter} · {data.release_date}\n\n'

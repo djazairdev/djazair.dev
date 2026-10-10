@@ -11,7 +11,7 @@ python3 site/build.py                                         # writes site/dist
 python3 -m http.server 4322 --bind 127.0.0.1 --directory site/dist
 ```
 
-Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/en/_dev/components/` and `/ar/_dev/components/`, which show every shared component and the chart kit on real data; they are never deployed.
+Then open <http://localhost:4322/>. `python3 site/build.py --all-languages` also builds the Arabic pages, which aren't published yet (below), to translate or review them; never deploy that build. `python3 site/build.py --dev` also builds `/en/_dev/components/` and `/ar/_dev/components/`, which show every shared component and the chart kit on real data; they are never deployed.
 
 ## How it's organised
 
@@ -30,7 +30,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 | `djsite/embeds.py` | Chart embeds (IDX-18): a page for each chart on the Index pages and Home, made for iframes, and the *Embed* and *Share* buttons under those charts |
 | `djsite/unitmap.py`, `geo/algeria.json` | The unit map's layout inside Algeria's outline |
 | `djsite/fmt.py` | Number, quarter and date formats for `en` and `ar-DZ` |
-| `djsite/pages/` | One renderer per page; `root.py` is the language chooser at `/` |
+| `djsite/pages/` | One renderer per page; `root.py` is the page at `/`, which sends readers to their language, and `invitation.py` the invitation to translate at every address of a language that isn't published |
 | `djsite/i18n.py`, `i18n/*.json` | Interface strings (see below) |
 | `djsite/markup.py` | HTML escaping: everything that isn't our own markup goes through `esc()` |
 | `static/css/` | Stylesheets, concatenated in file-name order and inlined in every page ([docs/performance.md](../docs/performance.md)) |
@@ -49,7 +49,7 @@ Then open <http://localhost:4322/>. `python3 site/build.py --dev` also builds `/
 
 ## Search and sharing
 
-Every page has its own title and description, a canonical link and `hreflang` links to both languages; Home's `x-default` is `/`, the language chooser. Shared links show an Open Graph and X card with the page's title and description and the share image in the page's language: on Home and the Index pages, the card of the quarter they show once `tools/share.py --release` has drawn it, and the site's card everywhere else and until then. The build writes `sitemap.xml`, with both languages of every page, and `robots.txt`, which points to it. A placeholder page (`pages/stub.py`), a report still in draft and the 404 page carry `noindex` and stay out of the sitemap. `tests/test_seo.py` checks all of it.
+Every page has its own title and description, a canonical link and `hreflang` links to each published language; Home's `x-default` is `/`. Shared links show an Open Graph and X card with the page's title and description and the share image in the page's language: on Home and the Index pages, the card of the quarter they show once `tools/share.py --release` has drawn it, and the site's card everywhere else and until then. The build writes `sitemap.xml`, with every published language of every page, and `robots.txt`, which points to it. A placeholder page (`pages/stub.py`), a report still in draft, the 404 page and the invitation to translate carry `noindex` and stay out of the sitemap. `tests/test_seo.py` checks all of it.
 
 ## Design tokens
 
@@ -59,7 +59,9 @@ Every page has its own title and description, a canonical link and `hreflang` li
 
 Pages live at `/en/<path>` and `/ar/<path>` with matching `lang`, `dir`, `hreflang` and canonical links. The language switcher keeps the reader on the same page.
 
-`/` picks a language with a small inline script: the language the reader last chose with the switcher (kept in `localStorage`), otherwise the first Arabic or English entry in the browser's preferred languages, otherwise English. Without JavaScript, `/` is a plain bilingual chooser. Each language also has its own `404.html`; Cloudflare serves the nearest one (`not_found_handling` in [`wrangler.jsonc`](../wrangler.jsonc)).
+**Arabic is out until it is reviewed** (D28, [#61](https://github.com/djazairdev/djazair.dev/issues/61)). The site launches in English only, because the Arabic text is an unreviewed draft and no unreviewed machine translation ships (D13). `config.PUBLISHED` lists the languages served in full: for any other, the build writes the invitation to translate (`pages/invitation.py`) at every address in that language, the chart embeds and `/ar/404.html` included, so an unknown `/ar/…` address gets it too. It says in Arabic, then in English, that the site isn't translated yet, links to [#62](https://github.com/djazairdev/djazair.dev/issues/62), which lists the work, and to the same page in English; it keeps the header and footer, carries `noindex` and works without JavaScript. The sitemap, `hreflang` links, share tags, structured data, `llms.txt` and the Markdown data guides name the published languages only, and no Arabic share image or chart file is published. The Arabic strings stay in `i18n/ar.json` for translators. To bring Arabic back once [#33](https://github.com/djazairdev/djazair.dev/issues/33) signs it off, add `'ar'` to `PUBLISHED` and update `tests/test_arabic_invitation.py`; the other tests already build the Arabic pages with `published=LANGS`.
+
+`/` picks a published language with a small inline script: the language the reader last chose with the switcher (kept in `localStorage`), otherwise the first published entry in the browser's preferred languages, otherwise English. With English alone it sends everyone to `/en/`, and without JavaScript a meta refresh and a plain link do the same; with more than one language, `/` without JavaScript is a plain chooser. Each language also has its own `404.html`; Cloudflare serves the nearest one (`not_found_handling` in [`wrangler.jsonc`](../wrangler.jsonc)).
 
 ## Strings
 

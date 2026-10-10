@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'site'))
 from djsite.assets import minify_css
 from djsite.build import build
-from djsite.config import SITE_URL
+from djsite.config import LANGS, PUBLISHED, SITE_URL
 from djsite.structured import script
 from htmlcheck import Doc
 
@@ -46,11 +46,14 @@ class Scripts(HTMLParser):
 
 
 class Discovery(unittest.TestCase):
+    """The site as it ships, in its published languages."""
+    PUBLISHED = PUBLISHED
+
     @classmethod
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        cls.site = build(cls.dist, quiet=True)
+        cls.site = build(cls.dist, quiet=True, published=cls.PUBLISHED)
 
     @classmethod
     def tearDownClass(cls):
@@ -61,7 +64,7 @@ class Discovery(unittest.TestCase):
         return [json.loads(p) for attrs, p in Scripts(text).items if attrs.get('type') == 'application/ld+json']
 
     def test_dataset_catalogue_describes_every_real_download(self):
-        for lang in ('en', 'ar'):
+        for lang in self.PUBLISHED:
             nodes = [node for graph in self.graphs(lang) for node in graph['@graph']]
             datasets = [n for n in nodes if n['@type'] == 'Dataset']
             self.assertEqual(len(datasets), 14)
@@ -124,11 +127,15 @@ class Discovery(unittest.TestCase):
             if path.endswith('/'):
                 target /= 'index.html'
             self.assertTrue(target.is_file(), url)
-        for lang in ('en', 'ar'):
-            md = (self.dist / lang / 'data/index.md').read_text('utf-8')
-            self.assertTrue(md.startswith('# '))
-            self.assertNotIn('route:', md)
-            self.assertIn('/overview.csv)', md)
+        for lang in LANGS:
+            md = self.dist / lang / 'data/index.md'
+            self.assertEqual(md.is_file(), lang in self.PUBLISHED, 'a guide in each published language only')
+            if md.is_file():
+                text = md.read_text('utf-8')
+                self.assertTrue(text.startswith('# '))
+                self.assertNotIn('route:', text)
+                self.assertIn('/overview.csv)', text)
+        self.assertEqual(f'{SITE_URL}/ar/' in guide, 'ar' in self.PUBLISHED, 'Arabic addresses only once published')
 
     def test_security_disclosure_is_canonical_private_and_not_expired(self):
         text = (self.dist / '.well-known/security.txt').read_text('utf-8')
@@ -154,7 +161,7 @@ class Discovery(unittest.TestCase):
         self.assertNotIn("'unsafe-eval'", policy)
 
     def test_founders_coffee_has_followable_editorial_links(self):
-        for lang in ('en', 'ar'):
+        for lang in self.PUBLISHED:
             for page in ('index.html', 'meetups/index.html'):
                 doc = Doc((self.dist / lang / page).read_text('utf-8'))
                 links = [a for a in doc.anchors if urlsplit(a.get('href', '')).hostname == 'founders.coffee']
@@ -179,6 +186,11 @@ class Discovery(unittest.TestCase):
         self.assertIn('calc(100% - 2px)', result)
         self.assertIn('"x /* literal */ y"', result)
         self.assertNotIn('drop', result)
+
+
+class DiscoveryWithArabic(Discovery):
+    """The same checks with the Arabic pages built, as they will be once reviewed."""
+    PUBLISHED = LANGS
 
 
 if __name__ == '__main__':

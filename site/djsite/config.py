@@ -31,8 +31,11 @@ IDEAS_MIN_VOTES = 10                # the votes an idea needs before it can be a
 IDEAS_SHOWN = 5                     # the ideas the Hub lists, most votes first
 
 LANGS = ('en', 'ar')
+# The languages served in full (D28). Arabic is an unreviewed draft, and no unreviewed machine
+# translation ships (D13), so every /ar/ address shows the invitation to translate instead
+# (pages/invitation.py, #61). Arabic returns by adding it here once #33 signs it off.
+PUBLISHED = ('en',)
 DIRS = {'en': 'ltr', 'ar': 'rtl'}
-OTHER = {'en': 'ar', 'ar': 'en'}
 OG_LOCALES = {'en': 'en_GB', 'ar': 'ar_DZ'}    # Open Graph: British spelling; Algerian Arabic
 
 THEME_COLOR = '#0E1A15'

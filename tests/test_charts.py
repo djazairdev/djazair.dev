@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite import charts, unitmap  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.charts import (Bar, BarChart, Line, LineChart, UnitMap, nice_ticks, place_labels,  # noqa: E402
                            tick_compact, tick_decimals)
 from djsite.fmt import fint, fpct  # noqa: E402
@@ -208,7 +209,7 @@ class Figures(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, dev=True, quiet=True)
+        build(cls.dist, dev=True, quiet=True, published=LANGS)
 
     @classmethod
     def tearDownClass(cls):
@@ -268,7 +269,7 @@ class Figures(unittest.TestCase):
 
     def test_the_build_is_deterministic(self):
         other = self.tmp / 'again'
-        build(other, dev=True, quiet=True)
+        build(other, dev=True, quiet=True, published=LANGS)
         first = {p.relative_to(self.dist): p.read_bytes() for p in self.dist.rglob('*') if p.is_file()}
         second = {p.relative_to(other): p.read_bytes() for p in other.rglob('*') if p.is_file()}
         self.assertEqual(first.keys(), second.keys())

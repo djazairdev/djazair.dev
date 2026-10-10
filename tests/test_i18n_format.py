@@ -12,7 +12,7 @@ sys.path.insert(0, str(ROOT / 'site'))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite.build import build  # noqa: E402
-from djsite.config import I18N_DIR  # noqa: E402
+from djsite.config import I18N_DIR, LANGS  # noqa: E402
 from djsite.fmt import (date_label, fcompact, fdec, fint, fpct, num, quarter_label,  # noqa: E402
                         rank_text)
 from htmlcheck import Doc, Texts  # noqa: E402
@@ -81,7 +81,7 @@ class ArabicPages(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, dev=True, quiet=True)
+        build(cls.dist, dev=True, quiet=True, published=LANGS)
 
     @classmethod
     def tearDownClass(cls):
@@ -111,7 +111,7 @@ class Fallback(unittest.TestCase):
         del ar['nav']['hub']
         ar['_meta']['reviewed'] = True
         (strings / 'ar.json').write_text(json.dumps(ar, ensure_ascii=False), 'utf-8')
-        build(tmp / 'dist', quiet=True, i18n_dir=strings)
+        build(tmp / 'dist', quiet=True, i18n_dir=strings, published=LANGS)
 
         page = (tmp / 'dist' / 'ar' / 'index.html').read_text('utf-8')
         self.assertIn('<span lang="en" dir="ltr" class="untranslated">Open source</span>', page)

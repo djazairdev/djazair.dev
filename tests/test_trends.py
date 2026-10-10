@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite import data  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.fmt import fdec, fint  # noqa: E402
 from djsite.pages.trends import INDS, SCALES, SERIES  # noqa: E402
 from htmlcheck import stylesheet  # noqa: E402
@@ -33,7 +34,7 @@ class Trends(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=LANGS)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index' / 'trends' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
         cls.css = stylesheet(cls.dist, 'en/index/trends/index.html')

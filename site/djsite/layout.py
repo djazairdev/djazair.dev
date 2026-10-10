@@ -1,7 +1,7 @@
 """The page shell: document head, skip link, header, Index sub-nav, notices and footer."""
 from __future__ import annotations
 
-from .config import BEACON_URL, LANGS, OG_LOCALES, OTHER, ORG_URL, REPO_URL, SITE_URL, THEME_COLOR
+from .config import BEACON_URL, LANGS, OG_LOCALES, ORG_URL, REPO_URL, SITE_URL, THEME_COLOR
 from .context import Ctx, Page
 from .components import btn
 from .fmt import fint, fpct, quarter_label
@@ -131,7 +131,8 @@ def footer(ctx: Ctx) -> Markup:
 
 def notices(ctx: Ctx) -> Markup:
     items = []
-    if not ctx.site.catalog.reviewed(ctx.lang):
+    # A language that isn't published shows only the invitation to translate: no draft to warn about.
+    if ctx.lang in ctx.site.published and not ctx.site.catalog.reviewed(ctx.lang):
         items.append(ctx.t('notice.draft'))
     if ctx.fallbacks:
         items.append(ctx.t('notice.fallback'))
@@ -142,11 +143,11 @@ def notices(ctx: Ctx) -> Markup:
 
 
 def head_links(ctx: Ctx, page: Page) -> Markup:
-    """Canonical and hreflang links, or noindex for pages kept out of search."""
+    """Canonical and hreflang links to the published languages, or noindex for pages kept out of search."""
     if not (ctx.route.indexed and page.indexed):
         return Markup('<meta name="robots" content="noindex">')
     key = ctx.route.key
-    alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ctx.abs_url(key, l)}">' for l in LANGS)
+    alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ctx.abs_url(key, l)}">' for l in ctx.site.published)
     x_default = SITE_URL + '/' if key == 'home' else ctx.abs_url(key, 'en')
     return Markup(f'<link rel="canonical" href="{ctx.abs_url(key)}">{alts}'
                   f'<link rel="alternate" hreflang="x-default" href="{x_default}">')
@@ -154,10 +155,11 @@ def head_links(ctx: Ctx, page: Page) -> Markup:
 
 def social(site, lang: str, title: str, description: str, url: str, image_alt: str, image: str = '') -> Markup:
     """Open Graph and X card tags: what a shared link shows. ``image``: the site's card in the
-    language unless another is given."""
+    language unless another is given. The other published languages are its alternate locales."""
     image = image or site.assets.share.get(lang)
     tags = [('og:type', 'website'), ('og:site_name', 'djazair.dev'), ('og:title', title), ('og:description', description),
-            ('og:url', url), ('og:locale', OG_LOCALES[lang]), ('og:locale:alternate', OG_LOCALES[OTHER[lang]])]
+            ('og:url', url), ('og:locale', OG_LOCALES[lang])]
+    tags += [('og:locale:alternate', OG_LOCALES[other]) for other in site.published if other != lang]
     if image:
         tags += [('og:image', SITE_URL + image), ('og:image:width', '1200'), ('og:image:height', '630'),
                  ('og:image:alt', image_alt)]
@@ -222,8 +224,8 @@ def document(ctx: Ctx, page: Page) -> str:
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="describedby" href="/llms.txt" type="text/markdown">
 {structured.page(ctx, title, page.description, page.indexed)}
-{assets.preloads(ctx.lang, route=ctx.route.key)}
-{assets.inline_style(page.css, route=ctx.route.key)}
+{assets.preloads(ctx.lang, route=page.style or ctx.route.key)}
+{assets.inline_style(page.css, route=page.style or ctx.route.key)}
 {scripts}
 {page.head}
 </head>

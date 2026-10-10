@@ -63,7 +63,7 @@ class HubPage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         write_snapshot(cls.tmp / 'hub', PROJECTS, ISSUES)
-        cls.site = build(cls.tmp / 'dist', quiet=True, hub_dir=cls.tmp / 'hub')
+        cls.site = build(cls.tmp / 'dist', quiet=True, hub_dir=cls.tmp / 'hub', published=LANGS)
         cls.html = {lang: (cls.tmp / 'dist' / lang / 'hub' / 'index.html').read_text('utf-8') for lang in LANGS}
         cls.home = (cls.tmp / 'dist' / 'en' / 'index.html').read_text('utf-8')
 
@@ -142,7 +142,7 @@ class EmptyHub(unittest.TestCase):
     def test_before_the_first_sync(self):
         tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)
-        build(tmp / 'dist', quiet=True, hub_dir=tmp / 'none')
+        build(tmp / 'dist', quiet=True, hub_dir=tmp / 'none', published=LANGS)
         page = (tmp / 'dist' / 'en' / 'hub' / 'index.html').read_text('utf-8')
         self.assertIn('The first projects are being listed.', page)
         self.assertNotIn('class="hub-tools"', page)
@@ -168,7 +168,7 @@ class Numbers(unittest.TestCase):
         self.addCleanup(shutil.rmtree, tmp)
         write_snapshot(tmp / 'hub', PROJECTS, ISSUES)
         (tmp / 'hub' / 'metrics.json').write_text(json.dumps(self.METRICS))
-        build(tmp / 'dist', quiet=True, hub_dir=tmp / 'hub')
+        build(tmp / 'dist', quiet=True, hub_dir=tmp / 'hub', published=LANGS)
         for lang, cells in (('en', ['1', '2 of 3', '4.0 days']), ('ar', ['1', '2 من 3', '4,0 يوم'])):
             page = (tmp / 'dist' / lang / 'hub' / 'index.html').read_text('utf-8')
             section = re.search(r'<section class="section section-m" id="numbers".*?</section>', page, re.S).group(0)
@@ -186,7 +186,7 @@ class Numbers(unittest.TestCase):
         tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp)
         write_snapshot(tmp / 'hub', PROJECTS, ISSUES)
-        build(tmp / 'dist', quiet=True, hub_dir=tmp / 'hub')
+        build(tmp / 'dist', quiet=True, hub_dir=tmp / 'hub', published=LANGS)
         page = (tmp / 'dist' / 'en' / 'hub' / 'index.html').read_text('utf-8')
         self.assertNotIn('id="numbers"', page)
         about = (tmp / 'dist' / 'en' / 'about' / 'index.html').read_text('utf-8')
@@ -228,7 +228,7 @@ class Ideas(unittest.TestCase):
         was = config.HUB_IDEAS
         config.HUB_IDEAS = on
         try:
-            build(tmp / 'dist', quiet=True, hub_dir=hub_dir)
+            build(tmp / 'dist', quiet=True, hub_dir=hub_dir, published=LANGS)
         finally:
             config.HUB_IDEAS = was
         self.about = {lang: (tmp / 'dist' / lang / 'about' / 'index.html').read_text('utf-8') for lang in LANGS}

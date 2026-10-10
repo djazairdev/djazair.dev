@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / 'site' / 'tools'))
 
 import links  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.pages import localisation  # noqa: E402
 from djsite.pages.localisation import LocalisationError, load  # noqa: E402
 
@@ -34,7 +35,7 @@ class LocalisationPage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=LANGS)
         cls.html = {lang: (cls.dist / lang / 'hub' / 'localisation' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
 
     @classmethod

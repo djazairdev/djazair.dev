@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT))
 
 from djsite import charts, data  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.charts import HBar, HBarChart  # noqa: E402
 from djsite.i18n import Catalog  # noqa: E402
 from djsite.pages import collaboration  # noqa: E402
@@ -34,7 +35,7 @@ class CollaborationPage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=LANGS)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index' / 'collaboration' / 'index.html').read_text('utf-8')
                     for lang in ('en', 'ar')}
