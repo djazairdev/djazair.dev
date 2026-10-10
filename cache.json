@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"ff7e4c2675f30ebe9afd839d4286a333161aa412b00509b6d4cf40961a959d20\"",
+   "etag": "\"bad406ea88e1900faa84c5cb764ffd4453f92ee974ba082f0a6172e23db8ccb1\"",
    "data": {
     "n": 7,
     "repos": [
@@ -81,7 +81,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"b5b1087a634d8100fee60efde430e9c3cd6a71cb6f6baa2b7759a8a8c6888bcf\"",
+   "etag": "\"6313aff9d81f156b5467e0683dce52e1cf50900a6fc0bf3769b94e2f4a5fd3df\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -96,11 +96,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"d17aba78c9d15d6323bd010cf649a5cc71a1305435bef9894401d4b38ecf49fd\"",
-   "data": "2026-10-10T14:23:38Z"
+   "etag": "\"65174e1101137792fe7e51727a5f6f7663d3bd69f398bc2482a40fa13595b4f3\"",
+   "data": "2026-10-10T17:07:55Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"c4531d8c356eefe32bf1716ce7d9b5e3c3098925a69ea22fdc9a2f4c049c4205\"",
+   "etag": "\"0dece31dc8a810f9a3b47988405e5d71cd8e275776926c1a71aee2f1163a7c18\"",
    "data": {
     "n": 3,
     "issues": [
@@ -142,9 +142,9 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"2ae2186934c3731f63758b7f7715dab787aa4ae2cac39511bc9389ba238b1056\"",
+   "etag": "\"a2910557637cb33f16a86ce007b5457c9e50a95e71fbb16d00017957e04a4609\"",
    "data": {
-    "n": 9,
+    "n": 7,
     "issues": [
      {
       "number": 69,
@@ -205,19 +205,6 @@
       "needs": "Arabic, English, JSON"
      },
      {
-      "number": 61,
-      "url": "https://github.com/djazairdev/djazair.dev/issues/61",
-      "title": "Show an invitation to translate on every Arabic page",
-      "labels": [
-       "help wanted",
-       "area: site",
-       "area: content",
-       "priority: must"
-      ],
-      "created_at": "2026-10-10T13:42:05Z",
-      "needs": "Python, HTML, CSS"
-     },
-     {
       "number": 49,
       "url": "https://github.com/djazairdev/djazair.dev/issues/49",
       "title": "Test the Trends chart with a screen reader",
@@ -228,17 +215,6 @@
       ],
       "created_at": "2026-10-06T22:57:08Z",
       "needs": "a screen reader (NVDA, JAWS, VoiceOver or TalkBack)"
-     },
-     {
-      "number": 48,
-      "url": "https://github.com/djazairdev/djazair.dev/issues/48",
-      "title": "Test that each chart's CSV and JSON downloads hold the same numbers",
-      "labels": [
-       "help wanted",
-       "area: site"
-      ],
-      "created_at": "2026-10-06T22:39:46Z",
-      "needs": "Python, unittest"
      },
      {
       "number": 47,
@@ -256,7 +232,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"04484da5da3476bd566bdcfd7df96df36d4a5b5db2943160488c49c5207390f6\"",
+   "etag": "\"11b8a1402f61ab7ef0e4420734a7af49a8f3f7ba29bdca3b37d14af6ec0a79ad\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -271,11 +247,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"4649152c6a1d13c789828c9ea3d7570ca1c8d9bfc1d4bee9824e06580346515d\"",
+   "etag": "\"6c941c033f190f0f044968637a13b3201fb226ab7f32923fc862199f9ab83081\"",
    "data": "2026-10-10T10:58:05Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"b18888d4e8751dead06a98cb9dc49cdf1206f1e25946619cd7c7a52552ef7d0c\"",
+   "etag": "\"7ec8eb7a41f0a1028ee50b32c166acd8ab8426cc543c3038fdf7bfdf2237c522\"",
    "data": {
     "n": 2,
     "issues": [
@@ -304,7 +280,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"5627deae752a4caacce980e977e793f696dc5db0fd2ab65760041736d6a32f6f\"",
+   "etag": "\"b3cf81518caf01283d463c738c0de234f36ac19ee1cbc8333b70833c99dc68af\"",
    "data": {
     "n": 2,
     "issues": [
@@ -334,7 +310,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"e728bf1ed11b9a55e1ed1f0570380598319301d3d2d09250a8068ebe853d3ad3\"",
+   "etag": "\"405a1a7571def4e0c26e8cad4f00819a3b30c44b7fc65c5656182f17881867d5\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -349,11 +325,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"3130f9ab6ed002aa7477a7f78ffba3d7a59580a93adcb04d7b5b913bf2a32c09\"",
-   "data": "2026-10-10T10:58:10Z"
+   "etag": "\"4db4367dcb0d553f9295981aafa7b79b0239ff97673a6109fb3757ce89c874bb\"",
+   "data": "2026-10-10T17:27:17Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"e209c47175b498563f35a6a8d02b3b1864af6da4452d03757d895a396587c133\"",
+   "etag": "\"f248889d15390557971b5d32222d8061f2b9f71feb3db1a079b5a80c898c90fc\"",
    "data": {
     "n": 2,
     "issues": [
@@ -383,7 +359,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"3e0697d645682082f0ccfbb77a5b813f4dc1d2b502db35e703eed7dd2c908a95\"",
+   "etag": "\"67ffd5583ddc143e2a98699e4b181483ed6238dd5c5a2292f5c2ca86cd4da86d\"",
    "data": {
     "n": 1,
     "issues": [
@@ -401,7 +377,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"63ae2f98bdc30a997f51e61c88a28c16b2c53b947915e907d0a1c625da1f21ac\"",
+   "etag": "\"abdf90d480582150d84f6ba9e3262435fd0b29a1d0c3a46d572e39c499939a96\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -416,11 +392,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"e57038b5ec530e991976a7cd27f5ba70fcc91b97c823e2899383fde5434e6cb5\"",
+   "etag": "\"ccc52e90e477eaebab4cfe98c0c2b53e5e93f31b74f2a53e520fde3ac82c7476\"",
    "data": "2026-10-10T11:10:48Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"90875b39af5865220e879788c6f67f3a869192598087768fddfca8a4a70bb754\"",
+   "etag": "\"eac20d5dd041cee5280143d9a538a8b1bfd6f5d2f037fcfca73776f3344dfa36\"",
    "data": {
     "n": 3,
     "issues": [
@@ -461,14 +437,14 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"59d5d72825b41a76ef63e1f6c5acb5317cba745c3e64ef6d65fd65a34c648424\"",
+   "etag": "\"f2fa4b0088665fc2b0c1779c6a234f4a04b4d64186d5249819910d88229ba55f\"",
    "data": {
     "n": 0,
     "issues": []
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"e0b062836021d296e8fb271cf0105bb5c5a3b0db29a79101bd6b718984b1548f\"",
+   "etag": "\"cb46673a44060e39e1577f694a5e8b99ebc1ca25c4991af5a002b9a428f7ccf3\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -483,11 +459,11 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"ed8076a2c420d4a1ee46c8db21ca7933d2581b88d44ca1859fd4ec1164f8e09b\"",
+   "etag": "\"87364dca0336df4f4fa5832e3ad488d555fb80506fbc231323a0ffa5dc379959\"",
    "data": "2026-10-10T13:12:06Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"c59c50dc51d9d17455ea70e0fd4cfcb18a68569b2a9c3c1c749d2052709b08e7\"",
+   "etag": "\"a876f1def832272eeb31701abe360740c9ea2eb6c5908fa3044f6d75420794d1\"",
    "data": {
     "n": 3,
     "issues": [
@@ -528,7 +504,7 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"59d5d72825b41a76ef63e1f6c5acb5317cba745c3e64ef6d65fd65a34c648424\"",
+   "etag": "\"f2fa4b0088665fc2b0c1779c6a234f4a04b4d64186d5249819910d88229ba55f\"",
    "data": {
     "n": 0,
     "issues": []

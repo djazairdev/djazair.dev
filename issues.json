@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-10T14:23:58Z",
+ "generated_at": "2026-10-10T21:58:33Z",
  "issues": [
   {
    "number": 69,
@@ -80,21 +80,6 @@
    ],
    "created_at": "2026-10-10T13:42:07Z",
    "needs": "Arabic, English, JSON",
-   "repo": "djazairdev/djazair.dev",
-   "language": "Python"
-  },
-  {
-   "number": 61,
-   "url": "https://github.com/djazairdev/djazair.dev/issues/61",
-   "title": "Show an invitation to translate on every Arabic page",
-   "labels": [
-    "help wanted",
-    "area: site",
-    "area: content",
-    "priority: must"
-   ],
-   "created_at": "2026-10-10T13:42:05Z",
-   "needs": "Python, HTML, CSS",
    "repo": "djazairdev/djazair.dev",
    "language": "Python"
   },
@@ -276,19 +261,6 @@
    ],
    "created_at": "2026-10-06T22:57:08Z",
    "needs": "a screen reader (NVDA, JAWS, VoiceOver or TalkBack)",
-   "repo": "djazairdev/djazair.dev",
-   "language": "Python"
-  },
-  {
-   "number": 48,
-   "url": "https://github.com/djazairdev/djazair.dev/issues/48",
-   "title": "Test that each chart's CSV and JSON downloads hold the same numbers",
-   "labels": [
-    "help wanted",
-    "area: site"
-   ],
-   "created_at": "2026-10-06T22:39:46Z",
-   "needs": "Python, unittest",
    "repo": "djazairdev/djazair.dev",
    "language": "Python"
   },
