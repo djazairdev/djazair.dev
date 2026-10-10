@@ -1,15 +1,17 @@
 """Sync the Hub from GitHub (ticket #25; PRD HUB-04, HUB-05, AC-HUB-4, AC-HUB-5).
 
-``python -m hub sync`` reads ``projects.yml`` and asks GitHub, for each listed repository, for
+``python -m hub sync`` reads ``projects.yml``, adds the djazairdev organisation's repositories
+that carry the ``djazairdev`` topic (``hub/discover.py``, decision D29), and asks GitHub, for each, for
 the repository itself (description, primary language, licence, topics), its last commit on
 the default branch, and its open issues labelled ``good first issue`` or ``help wanted``.
 It writes the snapshot the site builds the Hub from, in ``data/derived/hub/``:
 
-    projects.json   every listed project: its registry entry, what GitHub says about it, and
-                    its health (``hub/health.py``)
+    projects.json   every listed project: its registry entry (or the one its topics give),
+                    what GitHub says about it, and its health (``hub/health.py``)
     issues.json     the open beginner issues of the projects the Hub shows, newest first
     cache.json      the ETag of each answer and what was kept from it, for the next run
-    HEALTH.md       the health report: every flagged or hidden project, why and since when
+    HEALTH.md       the health report: every flagged or hidden project, why and since when,
+                    and the djazairdev repositories whose topics don't say how to list them
 
 GitHub Actions runs it every 6 hours and keeps the snapshot on the ``hub-data`` branch
 (``.github/workflows/hub.yml``); the site build reads it from there.
@@ -33,7 +35,7 @@ from pathlib import Path
 from typing import Callable, Optional
 from urllib.parse import quote
 
-from . import health, registry
+from . import discover, health, registry
 from .checks import BEGINNER_LABELS, TOPIC
 from .github import GitHub, GitHubError, _repo
 
@@ -48,15 +50,16 @@ NEEDS = re.compile(r"^\s*(?:[-*]\s+)?(?:#{1,6}\s*)?(?:\*\*|__)?\s*(?:you(?:'|’
 README = '''# Hub snapshot
 
 Written by `python -m hub sync` every 6 hours (`.github/workflows/hub.yml`), from the projects
-listed in `projects.yml` on `main`. Don't edit it: the next sync replaces it. The site build
-reads it from this branch (`.github/scripts/hub-snapshot.sh`).
+listed in `projects.yml` on `main` and the djazairdev repositories that carry the `djazairdev`
+topic. Don't edit it: the next sync replaces it. The site build reads it from this branch
+(`.github/scripts/hub-snapshot.sh`).
 
 | File | What it holds |
 |---|---|
-| `projects.json` | Every listed project: its registry entry and what GitHub says about it |
+| `projects.json` | Every listed project: its registry entry (or the one its topics give) and what GitHub says about it |
 | `issues.json` | The open `good first issue` and `help wanted` issues of the projects the Hub shows |
 | `cache.json` | The ETag of each GitHub answer and what was kept from it, for the next sync |
-| `HEALTH.md` | The health report: every flagged or hidden project, why, and since when |
+| `HEALTH.md` | The health report: every flagged or hidden project, why, and since when, and the djazairdev repositories that can't be listed yet |
 | `metrics.json` | Contributor counts by quarter, counts only, once `HUB_METRICS` is on (`python -m hub metrics`) |
 | `ideas.json` | Project ideas from GitHub Discussions, ranked by votes, and each quarter's count once it closes (`python -m hub ideas`) |
 
@@ -178,6 +181,7 @@ class Snapshot:
     projects: list
     issues: list
     cache: dict
+    skipped: list = ()          # (repository, reason): djazairdev repositories with the topic that can't be listed
 
     @property
     def generated_at(self) -> str:
@@ -186,14 +190,15 @@ class Snapshot:
 
 def collect(projects: list, github: GitHub, cache_entries: Optional[dict] = None, now: Optional[datetime] = None,
             previous: Optional[dict] = None) -> Snapshot:
-    """Ask GitHub about every registry project (``registry.Project``), then run the health
-    checks (``previous``: the last snapshot's projects, by repository)."""
+    """Ask GitHub about every project (``registry.Project``, from the registry or found by
+    ``hub/discover.py``), then run the health checks (``previous``: the last snapshot's
+    projects, by repository)."""
     now = now or datetime.now(timezone.utc)
     cache = Cache(cache_entries)
     out, found_issues = [], {}
     for p in projects:
         project = {'repository': p.repository, 'category': p.category, 'tags': list(p.tags), 'pledge': p.maintainer_pledge,
-                   'added': p.added}
+                   'added': p.added, 'source': p.source}
         out.append(project)
         info = cache.get(github, f'/repos/{_repo(p.repository)}', keep_repository)
         if info is None or info['private']:
@@ -229,7 +234,7 @@ def write(snapshot: Snapshot, out: Path = OUT) -> None:
                            'entries': snapshot.cache}}
     texts = {name: json.dumps(doc, ensure_ascii=False, indent=1) + '\n' for name, doc in docs.items()}
     texts['README.md'] = README
-    texts['HEALTH.md'] = health.report(snapshot.projects, snapshot.checked)
+    texts['HEALTH.md'] = health.report(snapshot.projects, snapshot.checked, snapshot.skipped)
     for name, text in texts.items():
         (out / f'{name}.tmp').write_text(text, 'utf-8')
     for name in texts:
@@ -262,6 +267,12 @@ def _reset(rate: dict) -> str:
         return 'later'
 
 
+def _enough(rate: dict, needed: int) -> None:
+    if rate and int(rate.get('remaining', 0)) < needed:
+        raise GitHubError(f'only {rate["remaining"]} of {rate.get("limit")} API requests are left until {_reset(rate)}, '
+                          f'and a sync needs up to {needed}. Set GITHUB_TOKEN, or wait.')
+
+
 def run(registry_path: Path = registry.REGISTRY, out: Path = OUT, github: Optional[GitHub] = None,
         now: Optional[datetime] = None) -> str:
     """Sync and write the snapshot; returns the log line. Raises GitHubError (nothing written)
@@ -270,20 +281,28 @@ def run(registry_path: Path = registry.REGISTRY, out: Path = OUT, github: Option
     reg = registry.load(registry_path)
     if not reg.ok:
         raise ValueError(f'{registry_path} has {len(reg.problems)} problem(s): run python -m hub check-registry')
-    needed = PER_PROJECT * len(reg.projects) + 2
+    needed = PER_PROJECT * len(reg.projects) + 3    # + the rate limit twice and the organisation's repositories
     before = github.rate_limit() or {}
-    if before and int(before.get('remaining', 0)) < needed:
-        raise GitHubError(f'only {before["remaining"]} of {before.get("limit")} API requests are left until {_reset(before)}, '
-                          f'and a sync needs up to {needed}. Set GITHUB_TOKEN, or wait.')
-    snapshot = collect(reg.projects, github, load_cache(out), now, load_previous(out))
+    _enough(before, needed)
+    now = now or datetime.now(timezone.utc)
+    cache_entries, previous = load_cache(out), load_previous(out)
+    cache = Cache(cache_entries)
+    found, skipped = discover.discover(cache, github, reg.projects, previous, now.astimezone(timezone.utc).date())
+    if found and github.rate.get('remaining') not in (None, ''):
+        _enough(github.rate, PER_PROJECT * (len(reg.projects) + len(found)) + 1)
+    snapshot = collect(reg.projects + found, github, {**cache_entries, **cache.new}, now, previous)
+    snapshot.cache = {**cache.new, **snapshot.cache}
+    snapshot.skipped = skipped
     write(snapshot, out)
     after = github.rate_limit() or github.rate or {}
     status = {k: sum(1 for p in snapshot.projects if p['status'] == k) for k in ('healthy', 'flagged', 'hidden')}
     quota = (f'{int(after["remaining"]):,} of {int(after["limit"]):,} left, resets at {_reset(after)}'
              if after.get('remaining') not in (None, '') else 'quota unknown')
+    org = [f'{len(found)} found in {discover.ORG} by the topic'] if found else []
+    org += [f'{len(skipped)} with the topic not listed yet (HEALTH.md)'] if skipped else []
     return (f'Hub: {len(snapshot.projects)} project{"s" if len(snapshot.projects) != 1 else ""} ({status["healthy"]} healthy, '
             f'{status["flagged"]} flagged, {status["hidden"]} hidden), '
-            f'{len(snapshot.issues)} open issue{"s" if len(snapshot.issues) != 1 else ""}. GitHub API: {github.calls} '
+            f'{len(snapshot.issues)} open issue{"s" if len(snapshot.issues) != 1 else ""}{"; " + ", ".join(org) if org else ""}. GitHub API: {github.calls} '
             f'request{"s" if github.calls != 1 else ""}, {github.unchanged} unchanged (304{", free" if github.token else ""}); '
             f'{quota}.')
 

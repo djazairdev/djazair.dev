@@ -10,7 +10,9 @@ again as soon as the problem is fixed. A project with no open beginner issues is
 
 The date a project was first flagged is carried from one snapshot to the next in
 ``projects.json``. ``report`` writes ``HEALTH.md``, which lists every flagged and hidden
-project with the reason and the date it was flagged, on the ``hub-data`` branch.
+project with the reason and the date it was flagged, on the ``hub-data`` branch. It also names
+the djazairdev repositories that carry the topic but whose topics don't give a category and
+tags (``hub/discover.py``), with what to add.
 """
 from __future__ import annotations
 
@@ -73,8 +75,9 @@ def _project(p: dict) -> str:
     return f'[{p.get("name") or p["repository"]}](https://github.com/{p.get("name") or p["repository"]})'
 
 
-def report(projects: list, now: datetime) -> str:
-    """HEALTH.md: every flagged and hidden project, with the reason and the date it was flagged."""
+def report(projects: list, now: datetime, skipped=()) -> str:
+    """HEALTH.md: every flagged and hidden project, with the reason and the date it was flagged.
+    ``skipped``: (repository, reason) for the djazairdev repositories that can't be listed."""
     counts = {s: sum(1 for p in projects if p['status'] == s) for s in ('healthy', 'flagged', 'hidden')}
     when = now.astimezone(timezone.utc)
     lines = ['# Hub health report', '',
@@ -83,7 +86,8 @@ def report(projects: list, now: datetime) -> str:
              f'topic (PRD HUB-06). It is hidden from the Hub after '
              f'{FLAGGED_DAYS} days flagged, and at once when the topic is removed or the repository is archived, private or '
              'gone. It shows again as soon as the problem is fixed. Projects are listed in '
-             '[`projects.yml`](https://github.com/djazairdev/djazair.dev/blob/main/projects.yml).', '']
+             '[`projects.yml`](https://github.com/djazairdev/djazair.dev/blob/main/projects.yml), or found in the '
+             f'[djazairdev](https://github.com/djazairdev) organisation by the `{TOPIC}` topic (decision D29).', '']
     n = len(projects)
     lines += [f'**{n} project{"s" if n != 1 else ""}: {counts["healthy"]} healthy, {counts["flagged"]} flagged, '
               f'{counts["hidden"]} hidden.**', '']
@@ -110,4 +114,10 @@ def report(projects: list, now: datetime) -> str:
         lines.extend(['## No open beginner issues', '',
                       'Not a flag: these projects stay listed, with nothing in the Hub’s issue feed until they label an issue '
                       '`good first issue` or `help wanted`.', '', ', '.join(_project(p) for p in quiet) + '.', ''])
+    if skipped:
+        lines.extend(['## Found in djazairdev, not listed yet', '',
+                      f'These repositories carry the `{TOPIC}` topic, but their topics don’t say how to list them. They join the '
+                      'Hub at the next sync after the fix.', '', '| Repository | What to add |', '|---|---|'])
+        lines.extend(f'| [{name}](https://github.com/{name}) | {reason} |' for name, reason in sorted(skipped, key=lambda s: s[0].lower()))
+        lines.append('')
     return '\n'.join(lines)

@@ -67,6 +67,12 @@ def commits(day):
 
 
 GFI, HW = 'labels=good%20first%20issue', 'labels=help%20wanted'
+ORG = '/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1'
+
+
+def org(*repos):
+    """The djazairdev organisation's repositories: (name, topics, changes) each."""
+    return [repository(f'djazairdev/{name}', topics=topics, **changes) for name, topics, changes in repos]
 
 
 def routes(**changes) -> dict:
@@ -87,6 +93,7 @@ def routes(**changes) -> dict:
         f'/repos/{dz}/issues?state=open&{GFI}&per_page=100&page=1': [
             issue(51, 'Proofread the Arabic methodology page', ['good first issue', 'translation'], '2026-10-04T10:00:00Z')],
         f'/repos/{dz}/issues?state=open&{HW}&per_page=100&page=1': [],
+        ORG: org(('djazair.dev', ['djazairdev'], {}), ('project-template', [], {})),
     }
     out.update(changes)
     return out
@@ -120,7 +127,7 @@ class FakeGitHub:
         return 200, {**head, 'ETag': etag}, raw
 
 
-class Sync(unittest.TestCase):
+class SyncCase(unittest.TestCase):
     def setUp(self):
         self.tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, self.tmp)
@@ -137,6 +144,8 @@ class Sync(unittest.TestCase):
     def read(self, name):
         return json.loads((self.out / name).read_text('utf-8'))
 
+
+class Sync(SyncCase):
     def test_the_snapshot(self):
         line, _, _ = self.sync()
         issues = self.read('issues.json')
@@ -157,7 +166,7 @@ class Sync(unittest.TestCase):
                           'topic': True, 'archived': False, 'last_commit': '2026-10-02T09:00:00Z', 'issues': 2, 'shown': True})
         self.assertEqual(pay['description'], 'Accept Edahabia and CIB payments. From Python.')
         self.assertIn('Hub: 2 projects (2 healthy, 0 flagged, 0 hidden), 3 open issues.', line)
-        self.assertRegex(line, r'GitHub API: 10 requests, 0 unchanged \(304, free\); 4,982 of 5,000 left, resets at \d\d:\d\d UTC')
+        self.assertRegex(line, r'GitHub API: 11 requests, 0 unchanged \(304, free\); 4,981 of 5,000 left, resets at \d\d:\d\d UTC')
 
     def test_no_personal_data_is_kept(self):
         self.sync()
@@ -223,7 +232,7 @@ class Sync(unittest.TestCase):
 
     def test_the_quota_is_checked_before_anything_is_asked(self):
         fake = FakeGitHub(routes(), remaining=9)
-        with self.assertRaisesRegex(GitHubError, 'only 9 of 5000 API requests are left until .* needs up to 10'):
+        with self.assertRaisesRegex(GitHubError, 'only 9 of 5000 API requests are left until .* needs up to 11'):
             sync.run(self.registry, self.out, GitHub('t', fake), NOW)
         self.assertEqual([p for p, _ in fake.calls], ['/rate_limit'])
         self.assertFalse(self.out.exists(), 'nothing written')
@@ -248,6 +257,83 @@ class Sync(unittest.TestCase):
         self.sync()
         issues = data.hub_issues(self.out)
         self.assertEqual([i['days'] for i in issues], [1, 2, 16])
+
+
+
+class Discover(SyncCase):
+    """djazairdev's repositories that carry the topic join the Hub without a projects.yml entry (D29)."""
+
+    WIL = 'djazairdev/wilayas'
+
+    def answers(self, *repos, **changes):
+        wil = {f'/repos/{self.WIL}': repository(self.WIL, language='JavaScript', topics=['djazairdev', 'dataset', 'open-data', 'maps']),
+               f'/repos/{self.WIL}/commits?sha=main&per_page=1': commits('2026-10-05T09:00:00Z'),
+               f'/repos/{self.WIL}/issues?state=open&{GFI}&per_page=100&page=1': [
+                   issue(3, 'Add the Tamazight names', ['good first issue'], '2026-10-03T10:00:00Z')],
+               f'/repos/{self.WIL}/issues?state=open&{HW}&per_page=100&page=1': []}
+        repos = repos or (('djazair.dev', ['djazairdev'], {}), ('wilayas', ['djazairdev', 'dataset', 'open-data', 'maps'], {}))
+        return routes(**wil, **{ORG: org(*repos)}, **changes)
+
+    def projects(self):
+        return {p['repository']: p for p in self.read('projects.json')['projects']}
+
+    def test_a_repository_with_the_topic_joins(self):
+        line, _, _ = self.sync(FakeGitHub(self.answers()))
+        wil = self.projects()[self.WIL]
+        self.assertEqual({k: wil[k] for k in ('category', 'tags', 'pledge', 'added', 'source', 'shown', 'issues')},
+                         {'category': 'dataset', 'tags': ['open-data', 'maps'], 'pledge': True, 'added': '2026-10-06',
+                          'source': 'topic', 'shown': True, 'issues': 1})
+        self.assertEqual(self.projects()['djazairdev/djazair.dev']['source'], 'registry')
+        self.assertIn((self.WIL, 3), {(i['repo'], i['number']) for i in self.read('issues.json')['issues']})
+        self.assertIn('Hub: 3 projects (3 healthy, 0 flagged, 0 hidden), 4 open issues; 1 found in djazairdev by the topic.', line)
+        self.assertNotIn('not listed yet', (self.out / 'HEALTH.md').read_text())
+
+    def test_the_tags_follow_the_schema_order_and_projects_yml_wins(self):
+        repos = (('djazair.dev', ['djazairdev', 'app', 'education'], {}),
+                 ('wilayas', ['maps', 'djazairdev', 'dataset', 'javascript', 'open-data'], {}))
+        self.sync(FakeGitHub(self.answers(*repos)))
+        projects = self.projects()
+        self.assertEqual(projects[self.WIL]['tags'], ['open-data', 'maps'], 'other topics left out')
+        self.assertEqual((projects['djazairdev/djazair.dev']['category'], projects['djazairdev/djazair.dev']['source']),
+                         ('tool', 'registry'))
+
+    def test_the_date_it_joined_is_kept(self):
+        self.sync(FakeGitHub(self.answers()))
+        later = datetime(2026, 11, 2, 6, 0, tzinfo=timezone.utc)
+        sync.run(self.registry, self.out, GitHub('t', FakeGitHub(self.answers())), later)
+        self.assertEqual(self.projects()[self.WIL]['added'], '2026-10-06')
+
+    def test_forks_archived_and_untagged_repositories_are_left_out(self):
+        topics = ['djazairdev', 'tool', 'arabic']
+        repos = (('fork', topics, {'fork': True}), ('old', topics, {'archived': True}), ('project-template', ['tool', 'arabic'], {}))
+        self.sync(FakeGitHub(self.answers(*repos)))
+        self.assertEqual(set(self.projects()), {'chargily/chargily-pay-python', 'djazairdev/djazair.dev'})
+        self.assertNotIn('not listed yet', (self.out / 'HEALTH.md').read_text())
+
+    def test_what_is_missing_is_in_the_health_report(self):
+        repos = (('a', ['djazairdev', 'arabic'], {}), ('b', ['djazairdev', 'app', 'tool', 'arabic'], {}), ('c', ['djazairdev', 'app'], {}),
+                 ('d', ['djazairdev', 'app', 'arabic', 'darija', 'tamazight', 'maps', 'health', 'education'], {}))
+        line, _, _ = self.sync(FakeGitHub(self.answers(*repos)))
+        self.assertIn('4 with the topic not listed yet (HEALTH.md)', line)
+        health = (self.out / 'HEALTH.md').read_text()
+        self.assertIn('## Found in djazairdev, not listed yet', health)
+        for name, why in (('a', 'No category'), ('b', 'Several categories (`app`, `tool`)'), ('c', 'No tag'), ('d', '6 tags')):
+            self.assertRegex(health, rf'\| \[djazairdev/{name}\]\(https://github.com/djazairdev/{name}\) \| {re.escape(why)}')
+        self.assertEqual(len(self.projects()), 2)
+
+    def test_removing_the_topic_takes_it_off(self):
+        self.sync(FakeGitHub(self.answers()))
+        self.sync(FakeGitHub(self.answers(('wilayas', ['dataset', 'open-data'], {}))))
+        self.assertNotIn(self.WIL, self.projects())
+        self.assertNotIn(self.WIL, {i['repo'] for i in self.read('issues.json')['issues']})
+
+    def test_the_organisation_listing_keeps_no_personal_data_and_is_cached(self):
+        self.sync(FakeGitHub(self.answers()))
+        entry = self.read('cache.json')['entries'][ORG]
+        self.assertEqual(set(entry['data']['repos'][0]), {'full_name', 'topics', 'fork', 'archived', 'private'})
+        _, fake, github = self.sync(FakeGitHub(self.answers()))
+        self.assertIn((ORG, entry['etag']), fake.calls, 'asked with the last ETag')
+        self.assertEqual(github.unchanged, len([c for c in fake.calls if c[0] != '/rate_limit']))
 
 
 class Needs(unittest.TestCase):

@@ -40,6 +40,7 @@ class Project:
     maintainer_pledge: bool
     added: str
     line: int = 0
+    source: str = 'registry'    # or 'topic': found in the djazairdev organisation (hub/discover.py)
 
     @property
     def owner(self) -> str:

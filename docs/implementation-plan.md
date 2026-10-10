@@ -18,6 +18,8 @@ This plan turns the PRD (v0.3, 6 October 2026) into ordered, estimated tickets. 
 
 **The Hub no longer requires 3 open beginner issues (decision D27, 9 October 2026).** A project needs issues turned on and the label `good first issue` or `help wanted`, which GitHub adds to every new repository; how many open issues carry it is reported, not required. A listed project with no open beginner issues is no longer flagged or hidden: it stays listed, and the health report names it. The founder's reason: the count shouldn't be forced on maintainers.
 
+**The djazairdev organisation's repositories join the Hub by their topics (decision D29, 10 October 2026).** A public djazairdev repository that carries the `djazairdev` topic, a category topic (`app`, `library`, `tool` or `dataset`) and one to five tag topics is listed at the next Hub sync, without an entry in `projects.yml`. Only the organisation's maintainers can create those repositories or set their topics, and the project template makes the maintainer pledge. Projects outside the organisation still apply by pull request or the issue form, so this extends HUB-01 rather than replacing it. The founder's reason: the Hub showed 1 project while five djazairdev projects were ready, and a new project shouldn't wait on a pull request here ([hub/README.md](../hub/README.md#registry)).
+
 **Should items are planned for Phase 1.1 from the start.** The Topics, Collaboration and External rankings pages, Hub ideas and the localisation section don't fit the capacity below. They come back into the MVP only if the work is ahead at the checkpoint. Quarterly report #1 stays in the MVP as a Should item because the launch is built around it.
 
 ## 2. How it is built
@@ -245,3 +247,4 @@ If the work is ahead, Phase 1.1 Should tickets come in, in this order: Topics, E
 | 7 October 2026 | Hosting moves from Cloudflare Pages to Cloudflare Workers, static assets only (D23). The holding page went up on djazair.dev and the site on its workers.dev address, deployed by hand; CI deploys once the API token is in ([#6](https://github.com/djazairdev/djazair.dev/issues/6)). |
 | 7 October 2026 | Home's hero replays the years in a loop, with a pause button (D24): the count, the map and the three figures under the count follow the year. It was counting up from the year earlier only. |
 | 9 October 2026 | The Hub's issues check asks for a beginner label, not 3 open issues, and no open beginner issues no longer hides a project (D27). |
+| 10 October 2026 | djazairdev's repositories join the Hub by their topics, without a `projects.yml` entry (D29). |
