@@ -74,10 +74,12 @@ class Handler(SimpleHTTPRequestHandler):
     """site/dist with gzip and no caching, so every load is cold, as on a first visit."""
 
     def do_GET(self):
-        root = os.path.realpath(self.directory)
-        path = os.path.realpath(os.path.join(root, unquote(urlparse(self.path).path).lstrip('/')))
-        if path != root and not path.startswith(root + os.sep):
+        root = os.path.normpath(os.path.abspath(self.directory))
+        path = os.path.normpath(os.path.join(root, unquote(urlparse(self.path).path).lstrip('/')))
+        if not path.startswith(root):
             return self.send_file(os.path.join(root, '404.html'), 404)      # nothing outside the folder
+        if path != root and not path.startswith(root + os.sep):
+            return self.send_file(os.path.join(root, '404.html'), 404)      # nor beside it (dist2/)
         if os.path.isdir(path):
             path = os.path.join(path, 'index.html')
         if not os.path.isfile(path):
