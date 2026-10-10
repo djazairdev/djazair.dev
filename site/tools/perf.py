@@ -74,21 +74,23 @@ class Handler(SimpleHTTPRequestHandler):
     """site/dist with gzip and no caching, so every load is cold, as on a first visit."""
 
     def do_GET(self):
-        # Only files under the folder: the address is resolved, and anything outside gets the 404.
         root = os.path.realpath(self.directory)
-        found = os.path.realpath(os.path.join(root, unquote(urlparse(self.path).path).lstrip('/')))
-        inside = found == root or found.startswith(root + os.sep)
-        path = Path(found) if inside else Path(root) / '.outside'
-        if path.is_dir():
-            path = path / 'index.html'
-        status = 200
-        if not path.is_file():
-            path, status = Path(root) / '404.html', 404
-            if not path.is_file():
-                self.send_error(404)
-                return
-        body = path.read_bytes()
-        kind = TYPES.get(path.suffix.lower(), 'application/octet-stream')   # from the table, never the address
+        path = os.path.realpath(os.path.join(root, unquote(urlparse(self.path).path).lstrip('/')))
+        if path != root and not path.startswith(root + os.sep):
+            return self.send_file(os.path.join(root, '404.html'), 404)      # nothing outside the folder
+        if os.path.isdir(path):
+            path = os.path.join(path, 'index.html')
+        if not os.path.isfile(path):
+            return self.send_file(os.path.join(root, '404.html'), 404)
+        return self.send_file(path, 200)
+
+    def send_file(self, path: str, status: int):
+        if not os.path.isfile(path):
+            self.send_error(404)
+            return
+        with open(path, 'rb') as f:
+            body = f.read()
+        kind = TYPES.get(os.path.splitext(path)[1].lower(), 'application/octet-stream')   # from the table, never the address
         self.send_response(status)
         self.send_header('Content-Type', kind + ('; charset=utf-8' if kind.startswith('text/') else ''))
         if kind.startswith(GZIP) and 'gzip' in self.headers.get('Accept-Encoding', ''):
