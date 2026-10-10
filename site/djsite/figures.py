@@ -71,12 +71,14 @@ def line_key(ctx, chart: LineChart) -> Markup:
 
 
 def unit_key(ctx, chart: UnitMap) -> Markup:
+    """The squares' colours, with their counts; a map that replays the years has no one count."""
     total, added = chart.squares
     lang = ctx.lang
+    old, new = ('', '') if chart.history else (f' {num(fint(total - added, lang))}', f' {num(fint(added, lang))}')
     return Markup(
         f'<ul class="chart-key um-key" aria-label="{ctx.ta("chart.legend")}">'
-        f'<li><span class="sw sw-old" aria-hidden="true"></span>{esc(loc(chart.start_label, lang))} {num(fint(total - added, lang))}</li>'
-        f'<li><span class="sw sw-new" aria-hidden="true"></span>{esc(loc(chart.added_label, lang))} {num(fint(added, lang))}</li>'
+        f'<li><span class="sw sw-old" aria-hidden="true"></span>{esc(loc(chart.start_label, lang))}{old}</li>'
+        f'<li><span class="sw sw-new" aria-hidden="true"></span>{esc(loc(chart.added_label, lang))}{new}</li>'
         f'<li class="um-note">{esc(loc(chart.square_label, lang))}</li></ul>')
 
 
@@ -101,10 +103,11 @@ def table(ctx, chart) -> Markup:
                    cls='fig-table', icon_name='table', id_=f'{chart.id}-table')
 
 
-def figure(ctx, chart, n: int, *, source, controls='', lede='', note='', cls: str = '') -> Markup:
+def figure(ctx, chart, n: int, *, source, controls='', lede='', note='', cls: str = '', footer: bool = True) -> Markup:
     """Figure ``n``. ``source``: HTML for the source line, naming the source and the data
     quarter (IDX-13). ``controls`` sit beside the label; ``lede`` goes under it; ``note``
-    under the drawing, for what it leaves out."""
+    under the drawing, for what it leaves out. ``footer`` controls the source and action row;
+    downloads and embeds remain registered when it is omitted."""
     chart = credited(ctx, chart)
     lang = ctx.lang
     desc = f'{loc(chart.summary, lang)} {ctx.s("chart.desc_table")}'
@@ -122,6 +125,8 @@ def figure(ctx, chart, n: int, *, source, controls='', lede='', note='', cls: st
     lede_html = Markup(f'<p class="fig-lede">{lede}</p>') if lede else ''
     note_html = Markup(f'<p class="fig-note">{note}</p>') if note else ''
     anchor = f'fig-{chart.id}'
+    chart_actions = actions(ctx, chart, source, anchor)
+    footer_html = source_line(source, chart_actions) if footer else Markup('')
     inner = (head + lede_html + Markup(f'<div class="fig-body">{body}</div>') + note_html
-             + source_line(source, actions(ctx, chart, source, anchor)) + table(ctx, chart))
+             + footer_html + table(ctx, chart))
     return frame(inner, cls=f'fig {cls}'.strip(), labelledby=label_id, id_=anchor)

@@ -9,7 +9,9 @@ The meetups section, [`/en/meetups/`](https://djazair.dev/en/meetups/) and [`/ar
 - It copies no meetups, dates, places or names from founders.coffee, so it can't go out of date. founders.coffee keeps the accounts, the RSVPs and the hosts.
 - It says founders.coffee is a separate site, with its own accounts, terms and privacy policy, and that djazair.dev shares nothing with it.
 
-It is linked from the footer (Hub column) and listed in the sitemap, but it isn't in the main navigation yet.
+Home also invites developers to find local teammates through founders.coffee, after Project Hub. Its four-piece skill illustration assembles with scroll; reduced motion and no JavaScript show the completed illustration. The meetup and hosting buttons reuse the configured platform paths below, in the page's language. No live events, member profiles or city availability claims are copied into Home.
+
+The meetups page is linked from the footer (Hub column) and listed in the sitemap, but it isn't in the main navigation yet.
 
 Where it links lives in [`content/meetups/meetups.json`](../content/meetups/meetups.json): the founders.coffee address and four paths, each with `{lang}`. The weekly *Link check* ([deploy.md](deploy.md#link-check)) opens every one of them in both languages. It opens an issue if one stops answering or no longer looks like a Founders Coffee page.
 

@@ -178,6 +178,28 @@ class UnitMaps(unittest.TestCase):
         chart = UnitMap(id='u', quarter='2026-Q1', title='', summary='', total=586990, start=393565)
         self.assertEqual(charts.unit_drawing(chart, 'en').body, charts.unit_drawing(chart, 'ar').body)
 
+    def test_a_replay_adds_each_year_to_the_one_before(self):
+        history = (('2024-Q1', 313294), ('2025-Q1', 393565), ('2026-Q1', 586990))
+        chart = UnitMap(id='u', quarter='2026-Q1', title='', summary='', total=586990, start=393565, history=history)
+        self.assertEqual(chart.steps(), (313, 394, 587))
+        m = chart.layout()
+        self.assertEqual([sum(c.step == k for c in m.cells) for k in range(3)], [313, 81, 193])
+        self.assertEqual({c for c in m.cells if c.step == 2}, {c for c in m.cells if c.new}, 'the latest year is the bright one')
+        plain = UnitMap(id='u', quarter='2026-Q1', title='', summary='', total=586990, start=393565).layout()
+        self.assertEqual([(c.x, c.y, c.new) for c in m.cells], [(c.x, c.y, c.new) for c in plain.cells], 'the same picture')
+        d = charts.unit_drawing(chart, 'en')
+        self.assertEqual(d.cls, 'um um-years')
+        self.assertEqual(re.findall(r'<g class="(s\d[^"]*)"', d.body), ['s0', 's1', 's2 um-new'])
+        head, rows = charts.table(chart, 'en', {k: k for k in ('quarter', 'series', 'accounts', 'squares')})
+        self.assertEqual(head[0][0], 'quarter')
+        self.assertEqual([key for key, _ in rows], ['2024-Q1', '2025-Q1', '2026-Q1'])
+
+    def test_a_replay_must_add_up(self):
+        with self.assertRaises(ValueError):
+            unitmap.layout(587, 193, history=(400, 394, 587))     # a year with fewer squares than the one before
+        with self.assertRaises(ValueError):
+            unitmap.layout(587, 193, history=(300, 587))          # the year before isn't 587 - 193
+
 
 class Figures(unittest.TestCase):
     """The chart figures on the built component pages."""

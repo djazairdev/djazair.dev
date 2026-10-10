@@ -71,8 +71,8 @@ class LocalisationPage(unittest.TestCase):
         for lang, heading in (('en', 'This work doesn’t show up in the Index'), ('ar', 'هذا العمل لا يظهر في المؤشر')):
             note = re.search(r'<aside class="callout lz-note" role="note">.*?</aside>', self.html[lang], re.S).group(0)
             self.assertIn(heading, note)
-            self.assertIn(f'href="/{lang}/methodology/#limitations"', note)
-            methodology = (self.dist / lang / 'methodology' / 'index.html').read_text('utf-8')
+            self.assertIn(f'href="/{lang}/data/#limitations"', note)
+            methodology = (self.dist / lang / 'data' / 'index.html').read_text('utf-8')
             limits = re.search(r'id="limitations".*?</section>', methodology, re.S).group(0)
             self.assertIn('Crowdin', limits)
 

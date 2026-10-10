@@ -61,10 +61,10 @@ class MeetupsPage(unittest.TestCase):
             self.assertNotIn('<time', self.main[lang])
             self.assertNotRegex(self.main[lang], r'\d{1,2}:\d{2}')
 
-    def test_it_links_to_the_hub_and_the_reports(self):
+    def test_it_links_to_the_hub_and_the_index(self):
         for lang in ('en', 'ar'):
             bring = re.search(r'<ul class="mt-bring" role="list">.*?</ul>', self.main[lang], re.S).group(0)
-            self.assertEqual(re.findall(r'href="([^"]+)"', bring), [f'/{lang}/hub/', f'/{lang}/reports/'])
+            self.assertEqual(re.findall(r'href="([^"]+)"', bring), [f'/{lang}/hub/', f'/{lang}/index/'])
 
     def test_reached_from_the_footer_and_the_sitemap(self):
         sitemap = (self.dist / 'sitemap.xml').read_text()

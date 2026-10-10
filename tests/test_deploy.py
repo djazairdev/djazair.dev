@@ -82,6 +82,11 @@ class Workflow(unittest.TestCase):
         self.assertIn('CLOUDFLARE_API_TOKEN', settings)
         self.assertIn('CLOUDFLARE_ACCOUNT_ID', settings)
 
+    def test_security_discovery_survives_the_artifact_upload(self):
+        upload = CI[CI.index('uses: actions/upload-artifact@'):CI.index('retention-days: 7')]
+        self.assertIn('include-hidden-files: true', upload, '.well-known/security.txt must reach the deploy job')
+        self.assertIn('!site/dist/.djsite-build', upload, 'the private build marker is excluded')
+
     def test_nothing_is_left_from_pages(self):
         self.assertNotIn('pages deploy', CI)
         self.assertNotIn('CLOUDFLARE_PAGES_PROJECT', CI, 'the Worker is named in wrangler.jsonc')

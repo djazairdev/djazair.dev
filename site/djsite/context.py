@@ -32,6 +32,7 @@ class Page:
     full_title: Optional[str] = None  # overrides "title · djazair.dev"
     head: Markup = Markup('')
     indexed: bool = True           # False keeps the page out of search and the sitemap (placeholders)
+    css: str = ''                  # the page's own rules, generated from the data, after the stylesheet (Home's hero)
 
 
 @dataclass

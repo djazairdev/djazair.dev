@@ -33,6 +33,8 @@ _PATHS = {
     'copy': '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>',
     'link': '<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
     'vote': '<path d="M12 19V6"/><path d="m6 11 6-6 6 6"/>',
+    'pause': '<path d="M9 6v12"/><path d="M15 6v12"/>',
+    'play': '<path d="M8 5.5v13l10.5-6.5z"/>',
     'comment': '<path d="M20 15a2 2 0 0 1-2 2H9l-5 4V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/>',
 }
 
@@ -59,3 +61,16 @@ def mark(size: int = 28, cls: str = 'mark') -> Markup:
 
 def wordmark(cls: str = 'wordmark') -> Markup:
     return Markup(f'<span class="{cls}" lang="en" dir="ltr">djazair<span>.dev</span></span>')
+
+
+@lru_cache(maxsize=None)
+def _github_path() -> str:
+    """The official white Invertocat geometry, kept unchanged from the source SVG."""
+    svg = (STATIC_DIR / 'brand' / 'github-invertocat-white.svg').read_text('utf-8')
+    return re.search(r'<path\b[^>]*>', svg).group(0)
+
+
+def github_mark(size: int = 20) -> Markup:
+    """Decorative GitHub logo; the adjacent link text provides its accessible name."""
+    return Markup(f'<svg class="icon github-mark" width="{size}" height="{size}" viewBox="0 0 98 96" '
+                  f'fill="none" aria-hidden="true" focusable="false">{_github_path()}</svg>')

@@ -1,6 +1,6 @@
-"""Embeddable charts and share images (ticket #42, PRD IDX-18 and IDX-19): every chart with a
-title on the Index pages and Home has Share and Embed under it, and an embed page in each
-language, dark and light, that credits its source and links back; downloads carry the credit;
+"""Embeddable charts and share images (ticket #42, PRD IDX-18 and IDX-19): titled charts have
+an embed page in each language; Index figures display Share and Embed, while Home omits its footer.
+Dark and light embeds credit their source and link back; downloads carry the credit;
 Home and the Index pages show the quarter's share image once it is drawn."""
 import dataclasses
 import html
@@ -49,7 +49,7 @@ class Embeds(unittest.TestCase):
 
     def test_every_titled_chart_on_the_index_and_home_can_be_embedded(self):
         found = {key: self.panels(key, 'en') for key in PAGES}
-        self.assertEqual(found['home'], ['home-yoy'], "Home's unit picture has no title")
+        self.assertEqual(found['home'], [], "Home's trend footer is omitted")
         self.assertEqual(len(found['trends']), 9, 'eight views and the quarterly growth bars')
         self.assertIn('trends-q-growth', found['trends'])
         for key in ('languages', 'topics', 'collaboration', 'rankings'):
@@ -59,12 +59,12 @@ class Embeds(unittest.TestCase):
         for lang in LANGS:
             self.assertEqual(sorted(i for key in PAGES for i in self.panels(key, lang)), ids)
             folders = sorted(p.name for p in (self.dist / lang / 'embed').iterdir())
-            self.assertEqual(folders, ids, 'a page for each panel, and no others')
-            for chart_id in ids:
+            self.assertEqual(folders, sorted(ids + ['home-yoy']), 'Home keeps its embed available without a panel')
+            for chart_id in ids + ['home-yoy']:
                 for theme in THEMES:
                     self.assertTrue((self.dist / embeds.path(lang, chart_id, theme).lstrip('/') / 'index.html').is_file())
 
-    def test_reports_and_other_pages_keep_their_downloads_only(self):
+    def test_other_pages_keep_their_downloads_only(self):
         pages = [p for p in self.dist.rglob('index.html') if '/embed/' not in p.as_posix()]
         for page in pages:
             route = page.relative_to(self.dist).parent.as_posix()
@@ -74,13 +74,13 @@ class Embeds(unittest.TestCase):
                 body = page.read_text('utf-8').split('</head>', 1)[1]          # the stylesheet in the head styles them
                 self.assertNotIn('class="dl-menu emb-panel"', body)
                 self.assertNotIn('data-share', body)
-        self.assertTrue(any('/reports/' in p.as_posix() and 'class="dl"' in p.read_text('utf-8') for p in pages))
+        self.assertFalse(any('/reports/' in p.as_posix() for p in pages))
         self.assertFalse(any(p.name.startswith('report-') for p in (self.dist / 'en' / 'embed').iterdir()))
 
     def test_the_embed_page_credits_and_links_back(self):
         for lang in LANGS:
             for key in ('trends', 'languages', 'home'):
-                for chart_id in self.panels(key, lang):
+                for chart_id in (['home-yoy'] if key == 'home' else self.panels(key, lang)):
                     for theme in THEMES:
                         with self.subTest(lang=lang, chart=chart_id, theme=theme):
                             page = self.embed(lang, chart_id, theme)
@@ -128,14 +128,14 @@ class Embeds(unittest.TestCase):
                 self.assertEqual(len(targets), len(set(targets)))
                 for target in targets:
                     self.assertIn(f'id="{target}"', text)
-                expected = {'home': 1, 'trends': 2, 'overview': 0, 'peers': 0}.get(key)
+                expected = {'home': 0, 'trends': 2, 'overview': 0, 'peers': 0}.get(key)
                 if expected is not None:
                     self.assertEqual(len(targets), expected, 'the eight Trends views share one link')
 
     def test_downloads_carry_the_credit(self):
         """The Trends views' SVG files once went out without it."""
         svgs = sorted((self.dist / 'charts').rglob('*.svg'))
-        self.assertGreaterEqual(len(svgs), 80)
+        self.assertEqual(len(svgs), len(self.site.charts) * 4)
         for svg in svgs:
             with self.subTest(svg=svg.name):
                 self.assertRegex(svg.read_text('utf-8'), r'djazair\.dev ‏?\(CC BY 4\.0\)')
@@ -162,7 +162,7 @@ class ShareImages(unittest.TestCase):
                 image, alt = layout.share_image(self.ctx(key, lang, drawn))
                 self.assertEqual(image, drawn[lang])
                 self.assertIn(home.figures(self.ctx(key, lang, drawn))[0][0], alt, 'the growth figure')
-            for key in ('hub', 'about', 'methodology', 'reports'):
+            for key in ('hub', 'about', 'data'):
                 self.assertEqual(layout.share_image(self.ctx(key, lang, drawn)), ('', self.site.catalog.lookup(lang, 'share.alt')[0]))
             self.assertEqual(layout.share_image(self.ctx('home', lang, {}))[0], '', "until it is drawn: the site's card")
 

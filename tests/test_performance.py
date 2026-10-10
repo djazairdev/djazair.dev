@@ -59,7 +59,7 @@ class Budgets(unittest.TestCase):
                     if 'src=' in tag:
                         self.assertIn(' defer', tag)
                     else:   # inline: data for a script, or the root page's language redirect
-                        self.assertTrue('type="application/json"' in tag or path == self.dist / 'index.html', tag)
+                        self.assertTrue('type="application/json"' in tag or 'type="application/ld+json"' in tag or path == self.dist / 'index.html', tag)
 
     def test_fonts_are_subset_preloaded_and_swap(self):
         for font in sorted((self.dist / 'assets' / 'fonts').glob('*.woff2')):
@@ -77,7 +77,7 @@ class Budgets(unittest.TestCase):
 
     def test_the_unit_map_stays_light(self):
         for lang in ('en', 'ar'):
-            svg = re.search(r'<svg class="chart um".*?</svg>', self.pages[self.dist / lang / 'index.html'], re.S).group(0)
+            svg = re.search(r'<svg class="chart um[ "].*?</svg>', self.pages[self.dist / lang / 'index.html'], re.S).group(0)
             with self.subTest(lang=lang):
                 self.assertLessEqual(len(svg.encode('utf-8')), 48 * 1024)
                 self.assertLessEqual(gz(svg.encode('utf-8')), 6 * 1024)
@@ -85,7 +85,7 @@ class Budgets(unittest.TestCase):
 
     def test_hashed_files_are_cached_for_a_year(self):
         headers = (self.dist / '_headers').read_text('utf-8')
-        self.assertIn('/assets/*\n  Cache-Control: public, max-age=31536000, immutable', headers)
+        self.assertIn('/assets/*\n  ! Cache-Control\n  Cache-Control: public, max-age=31536000, immutable', headers)
         for path in sorted((self.dist / 'assets').glob('*.js')):
             with self.subTest(file=path.name):
                 self.assertRegex(path.name, r'^[\w-]+\.[0-9a-f]{10}\.js$')

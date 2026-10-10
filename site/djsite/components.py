@@ -115,29 +115,36 @@ def spark_block(spark_svg, start_label: str, end_label: str) -> Markup:
                   f'<span>{esc(start_label)}</span><span>{esc(end_label)}</span></div></div>')
 
 
-def tile(*, n: int, title, value: str, chip_html, viz, ranks: Iterable, note, lang: str, href: Optional[str] = None) -> Markup:
+def tile(*, n: int, title, value: str, chip_html, viz, ranks: Iterable, note, lang: str, href: Optional[str] = None,
+         intro='', value_label='', chart_label='', chart_key='', rank_label='', detail_label='') -> Markup:
     """Compact indicator tile (Home scorecard): number, title, chip, value, chart, ranks, note."""
     rank_html = ''.join(rank_row(lb, r, of, lang) for lb, r, of in ranks)
     tag, link = ('a', f' href="{esc(href)}"') if href else ('article', '')
     return Markup(f'''<{tag} class="card tile reveal"{link}>
-<div class="tile-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h3>{title}</h3></div>{chip_html}</div>
-<div class="tile-value num" dir="ltr">{esc(value)}</div>
-{viz}
-<div class="tile-foot">{f'<div class="ranks">{rank_html}</div>' if rank_html else ''}<p class="tile-note">{note}</p></div>
+<div class="tile-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h3>{title}</h3></div>{'' if value_label else chip_html}</div>
+{f'<p class="tile-intro">{intro}</p>' if intro else ''}
+<div class="tile-reading">{f'<p class="tile-value-label">{value_label}</p>' if value_label else ''}<div class="tile-value num" dir="ltr">{esc(value)}</div>{chip_html if value_label else ''}</div>
+<div class="tile-chart">{f'<p class="tile-chart-label">{chart_label}</p>' if chart_label else ''}{viz}{chart_key}</div>
+<div class="tile-foot">{f'<p class="tile-rank-label">{rank_label}</p>' if rank_label else ''}{f'<div class="ranks">{rank_html}</div>' if rank_html else ''}<p class="tile-note">{note}</p>{f'<span class="tile-detail">{detail_label}</span>' if detail_label else ''}</div>
 </{tag}>''')
 
 
 def indicator_card(*, n: int, title, quarter: str, value: str, extras: str = '', viz, ranks: Iterable,
-                   medians: Iterable = (), measures_html='', lang: str, id_: str = '') -> Markup:
+                   medians: Iterable = (), measures_html='', median_label='', lang: str, id_: str = '', heading_level: int = 2) -> Markup:
     """Full indicator card (Index overview): value, change, chart, ranks, medians, 'What this measures'."""
     rank_html = ''.join(rank_row(lb, r, of, lang) for lb, r, of in ranks)
-    med_html = ''.join(f'<div class="med"><span>{k}</span>{num(v)}</div>' for k, v in medians)
+    med_html = ''.join(f'<div class="med"><dt>{k}</dt><dd>{num(v)}</dd></div>' for k, v in medians)
     ident = f' id="{esc(id_)}"' if id_ else ''
-    return Markup(f'''<article class="card indicator reveal"{ident}>
-<div class="ind-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h2>{title}</h2></div><span class="ind-q">{esc(quarter)}</span></div>
+    label = f' aria-labelledby="{esc(id_)}-h"' if id_ else ''
+    heading_id = f' id="{esc(id_)}-h"' if id_ else ''
+    med_label = f'<p class="ind-median-label">{median_label}</p>' if median_label else ''
+    if heading_level not in (2, 3):
+        raise ValueError('indicator headings must be h2 or h3')
+    return Markup(f'''<article class="card indicator reveal"{ident}{label}>
+<div class="ind-top"><div class="tile-title"><span class="tile-n num">{n:02d}</span><h{heading_level}{heading_id}>{title}</h{heading_level}></div><span class="ind-q">{esc(quarter)}</span></div>
 <div class="ind-value"><span class="ind-v num" dir="ltr">{esc(value)}</span>{extras}</div>
 {viz}
-<div class="ind-foot"><div class="ranks">{rank_html}</div><div class="meds">{med_html}</div></div>
+<div class="ind-foot"><div class="ranks">{rank_html}</div><div>{med_label}<dl class="meds">{med_html}</dl></div></div>
 {measures_html}
 </article>''')
 

@@ -252,7 +252,7 @@ def read_well(ctx) -> Markup:
                   + C.details(ctx.t('trends.what'), what, open_=True)
                   + C.details(ctx.t('trends.why_index', quarter=qlabel(qs[0], lang)), Markup(f'<p class="rw-p">{why_index}</p>'))
                   + C.details(ctx.t('trends.why_median'), Markup(f'<p class="rw-p">{why_median}</p>'))
-                  + f'<div class="rw-more">{C.btn(ctx.t("trends.methodology"), ctx.url("methodology"), "secondary", size="s")}</div>'
+                  + f'<div class="rw-more">{C.btn(ctx.t("trends.methodology"), ctx.url("data"), "secondary", size="s")}</div>'
                   + '</article>')
 
 

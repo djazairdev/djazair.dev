@@ -58,7 +58,7 @@ class Pages(unittest.TestCase):
 
     def test_tables_have_names(self):
         for lang in LANGS:
-            for page in ('about', 'methodology'):
+            for page in ('about', 'data'):
                 html = (self.dist / lang / page / 'index.html').read_text('utf-8')
                 with self.subTest(lang=lang, page=page):
                     self.assertRegex(html, r'<caption class="sr-only">[^<]{12,}</caption>')
@@ -159,9 +159,10 @@ class Styles(unittest.TestCase):
             self.assertGreaterEqual(contrast(self.t['--mint'], self.t[surface]), 3, 'focus ring against ' + surface)
 
     def test_radios_drawn_as_buttons_show_focus(self):
-        # Inputs that are visually hidden inside a styled label hand their focus ring to it.
+        # Inputs that are visually hidden inside a styled label hand their focus ring to it
+        # (radio buttons, and the checkbox that pauses Home's hero).
         css = ''.join(self.css.values())
-        for label in ('.mt', '.pk', '.seg label', '.hf-opt'):
+        for label in ('.mt', '.pk', '.seg label', '.hf-opt', '.hero-pause'):
             self.assertRegex(css, re.escape(label) + r':has\(> input:focus-visible\)[^{]*\{[^}]*outline: 2px solid var\(--mint\)')
 
     def test_motion_stops_for_people_who_ask(self):

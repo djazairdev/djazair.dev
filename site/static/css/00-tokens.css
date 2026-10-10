@@ -100,7 +100,7 @@
   --r-chip: 999px;
   --section-pad: clamp(64px, 7.5vw, 104px);
 
-  /* layout (breakpoints: 760 chart switch, 900 navigation, 980 home hero) */
+  /* layout (breakpoints: 760 chart switch, 1360 navigation, 980 home hero) */
   --container: 1280px;
   --gutter: clamp(16px, 4vw, 48px);
   --header-h: 64px;

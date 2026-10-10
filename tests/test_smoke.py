@@ -94,10 +94,12 @@ class Smoke(unittest.TestCase):
         self.assertTrue(result.ok, result.report())
         self.assertEqual(result.counts['sitemap'], len(self.locs))
         self.assertGreaterEqual(result.counts['page'], 2)      # report drafts, outside the sitemap
-        embeds = [p for p in self.dist.rglob('index.html') if '/embed/' in p.as_posix()]
+        # Home's trend no longer links its action footer; its four existing embeds remain available.
+        embeds = [p for p in self.dist.rglob('index.html')
+                  if '/embed/' in p.as_posix() and '/embed/home-yoy/' not in p.as_posix()]
         self.assertEqual(result.counts['embed'], len(embeds))  # linked from the Embed panels, dark and light
         self.assertGreaterEqual(result.counts['file'], 100)
-        self.assertEqual(result.counts['zip'], 2)              # the CSV bundle and the press kit
+        self.assertEqual(result.counts['zip'], 1)              # the quarterly CSV bundle; report press kits are retired
         self.assertEqual(result.counts['image'], len(list((self.dist / 'assets').glob('share-*.png'))))   # the site's and the quarter's
         self.assertIn('response headers were not checked', result.report())
 
@@ -123,7 +125,7 @@ class Smoke(unittest.TestCase):
         rules = header_rules(self.dist)
         page, embed = headers_for(rules, '/en/index/trends/'), headers_for(rules, '/ar/embed/trends-accounts-actual/light/')
         self.assertEqual(page['X-Frame-Options'], 'SAMEORIGIN')
-        self.assertNotIn('Content-Security-Policy', page)
+        self.assertEqual(smoke.frame_ancestors(page['Content-Security-Policy']), [["'self'"]])
         self.assertNotIn('X-Frame-Options', embed)
         self.assertEqual(smoke.frame_ancestors(embed['Content-Security-Policy']), [['*']])
         self.assertEqual(embed['X-Content-Type-Options'], 'nosniff')
@@ -147,7 +149,7 @@ class Smoke(unittest.TestCase):
         page = broken / 'en' / 'about' / 'index.html'
         page.write_text(page.read_text('utf-8').replace('<head>', '<head><meta name="robots" content="noindex">', 1), 'utf-8')
         (broken / '404.html').unlink()
-        next((broken / 'reports').rglob('*.zip')).write_bytes(b'not a zip')
+        next((broken / 'data').rglob('*.zip')).write_bytes(b'not a zip')
         (broken / 'robots.txt').write_text('User-agent: *\nAllow: /\n')
         root = broken / 'index.html'
         root.write_text(root.read_text('utf-8').replace('location.replace', 'location.assign'), 'utf-8')
@@ -156,10 +158,10 @@ class Smoke(unittest.TestCase):
         report = result.report()
         self.assertFalse(result.ok)
         expected = [re.escape(f'{chart.relative_to(broken).as_posix()} answered 404, not 200'),
-                    r"/ar/hub/(\?repo=\S+)? says it is in 'en', not 'ar'",      # with the Hub's project pages, if any
+                    r"/ar/hub/(\?(?:repo=\S+|kind=gfi))? says it is in 'en', not 'ar'",  # project and beginner filters
                     re.escape('/en/about/ is in the sitemap but asks search engines not to index it'),
                     re.escape("a missing page doesn't show the site's own 404 page"),
-                    r'/reports/\S+\.zip is not a zip file',
+                    r'/data/\S+\.zip is not a zip file',
                     re.escape('/robots.txt does not name the sitemap'),
                     re.escape('/ does not send readers to their language')]
         for pattern in expected:

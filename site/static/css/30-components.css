@@ -31,7 +31,7 @@
   gap: 10px;
   height: 48px;
   padding-inline: 20px;
-  border-radius: var(--r-control);
+  border-radius: var(--r-chip);
   border: 1px solid transparent;
   font-family: var(--sans);
   font-size: 16px;
@@ -45,12 +45,12 @@
 .btn:hover { transform: translateY(-1px); }
 .btn:active { transform: translateY(0) scale(.98); transition-duration: .08s; }
 .btn-s { height: 40px; padding-inline: 16px; font-size: 15px; }
-.btn-primary { background: var(--mint); color: var(--on-mint); }
-.btn-primary:hover { background: var(--mint-hover); color: var(--on-mint); }
+.btn-primary { background: var(--ink); color: var(--bg); }
+.btn-primary:hover { background: var(--ink); color: var(--bg); }
 .btn-secondary { background: transparent; color: var(--ink2); border-color: var(--line2); }
 .btn-secondary:hover { border-color: var(--mint-line); color: var(--ink); }
 .btn:disabled, .btn[aria-disabled=true] { opacity: .55; cursor: not-allowed; transform: none; }
-.btn-primary:disabled:hover, .btn-primary[aria-disabled=true]:hover { background: var(--mint); }
+.btn-primary:disabled:hover, .btn-primary[aria-disabled=true]:hover { background: var(--ink); }
 .btn-secondary:disabled:hover, .btn-secondary[aria-disabled=true]:hover { border-color: var(--line2); color: var(--ink2); }
 .btn .arr { display: inline-flex; transition: transform .25s var(--ease); }
 .btn:hover .arr { transform: translateX(3px); }
@@ -109,12 +109,12 @@
 .lbl-gfi { color: var(--mint); background: var(--mint-bg); border-color: transparent; }
 
 /* ---- chart controls: segmented control, metric tabs, peer chips */
-.seg { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 9px; background: var(--sunk); }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: var(--r-chip); background: var(--sunk); }
 .seg button, .seg label {
   height: 34px;
   padding-inline: 12px;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--r-chip);
   background: transparent;
   color: var(--ink3);
   font-size: 14px;
@@ -138,13 +138,13 @@
   min-width: 0;
   padding: 16px 18px 18px;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: var(--r-chip);
   background: transparent;
   color: var(--ink);
   text-align: start;
   transition: border-color .2s var(--ease), background-color .2s var(--ease);
 }
-.mt::before { content: ''; position: absolute; inset-inline: 18px; top: -1px; height: 2px; border-radius: 0 0 2px 2px; background: transparent; transition: background-color .2s var(--ease); }
+.mt::before { content: ''; position: absolute; inset-inline: calc(50% - 18px); top: -1px; height: 2px; border-radius: 0 0 2px 2px; background: transparent; transition: background-color .2s var(--ease); }
 .mt:hover { border-color: var(--line3); }
 label.mt { cursor: pointer; }
 .mt[aria-pressed=true], .mt:has(> input:checked) { background: var(--s2); border-color: var(--mint-line); }
@@ -230,7 +230,7 @@ a.tile:hover { color: var(--ink); }
 
 .indicator { display: flex; flex-direction: column; gap: 22px; min-width: 0; padding: clamp(22px, 2.4vw, 32px); border-radius: var(--r-card); }
 .ind-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.indicator h2 { font-size: var(--fs-title); line-height: 1.3; font-weight: 700; }
+.indicator :is(h2, h3) { font-size: var(--fs-title); line-height: 1.3; font-weight: 700; }
 .ind-q { padding-top: 3px; font-family: var(--mono); font-size: 11.5px; color: var(--ink3); white-space: nowrap; }
 .ind-q:lang(ar) { font-family: var(--sans); font-size: 13px; }
 .ind-value { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 18px; }
@@ -238,8 +238,8 @@ a.tile:hover { color: var(--ink); }
 .ind-foot { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: 18px 28px; padding-top: 18px; border-top: 1px solid var(--line); }
 .meds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-content: start; }
 .med { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-.med > span:first-child { font-size: 12.5px; color: var(--ink3); }
-.med > .num { align-self: flex-start; font-size: 15px; color: var(--ink); }
+.med > dt { font-size: 12.5px; color: var(--ink3); }
+.med > dd { margin: 0; font-size: 15px; color: var(--ink); }
 
 /* ---- "What this measures" disclosure */
 .disclosure { border-top: 1px solid var(--line); }
@@ -294,7 +294,7 @@ a.tile:hover { color: var(--ink); }
   gap: 6px;
   height: 32px;
   padding-inline: 10px;
-  border-radius: 7px;
+  border-radius: var(--r-chip);
   border: 1px solid var(--line);
   background: transparent;
   color: var(--ink3);
@@ -325,7 +325,7 @@ a.tile:hover { color: var(--ink); }
   box-shadow: var(--shadow);
 }
 .dl-menu.dl-flip { inset-inline-start: 0; inset-inline-end: auto; }   /* site.js: when the end side has no room */
-.dl-menu a { display: flex; align-items: center; min-height: 36px; padding-inline: 10px; border-radius: 6px; font-size: 14px; color: var(--ink2); text-decoration: none; }
+.dl-menu a { display: flex; align-items: center; min-height: 36px; padding-inline: 10px; border-radius: var(--r-chip); font-size: 14px; color: var(--ink2); text-decoration: none; }
 .dl-menu a:hover { background: var(--hover-tint); color: var(--ink); }
 /* Embed (ticket #42): the iframe code under a chart, in the download menu's panel */
 .emb-panel { display: flex; flex-direction: column; gap: 10px; width: min(340px, calc(100vw - 32px)); padding: 12px; }
@@ -338,7 +338,7 @@ a.tile:hover { color: var(--ink); }
 .emb-note { font-size: 12px; line-height: 1.5; color: var(--ink3); }
 .emb-note code { font-family: var(--mono); font-size: 11.5px; color: var(--ink2); }
 .emb-acts { display: flex; flex-wrap: wrap; gap: 6px; }
-.emb-acts .act { height: 30px; min-height: 0; border-radius: 7px; font-size: 13px; color: var(--ink2); }   /* not .dl-menu a */
+.emb-acts .act { height: 30px; min-height: 0; border-radius: var(--r-chip); font-size: 13px; color: var(--ink2); }   /* not .dl-menu a */
 .emb-acts .act:hover { background: transparent; color: var(--ink); }
 
 /* ---- data tables: tabular figures; wide tables scroll inside their card */
@@ -437,7 +437,7 @@ a.tile:hover { color: var(--ink); }
 .code .act { height: 28px; }
 .code-body { display: grid; grid-template-columns: auto minmax(0, 1fr); overflow-x: auto; }
 .code pre { margin: 0; font-family: var(--mono); font-size: 13px; line-height: 1.75; }
-.code-nums { padding: 16px 0 16px 16px; color: var(--code-dim); text-align: end; user-select: none; }
+.code-nums { padding: 16px 0 16px 16px; color: var(--ink3); text-align: end; user-select: none; }
 .code-src { padding: 16px 16px 16px 18px; color: var(--ink); }
 .c-comment { color: var(--ink3); }
 .c-key { color: var(--ink2); }

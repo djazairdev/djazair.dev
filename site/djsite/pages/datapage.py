@@ -1,6 +1,6 @@
 """Data and downloads (ticket #24; PRD IDX-15, IDX-16, §13): every derived table as CSV and
 JSON with its size, the data behind every chart, stable addresses for code, the full
-changelog and corrections log, and the licence and attribution. In the Methodology layout.
+changelog and corrections log, and the licence and attribution. Source definitions share the document layout.
 
 Everything listed is a file the build writes: the tables come from the quarter's manifest,
 and the charts from what the other pages registered (``Site.charts``), which is why this
@@ -9,18 +9,21 @@ page is rendered last.
 from __future__ import annotations
 
 from .. import components as C
-from .. import logs
+from .. import logs, outlook
+from ..config import CONTENT_DIR
 from ..context import Ctx, Page
 from ..data import manifests
 from ..fmt import date_label, fint, fsize, num, quarter_label
 from ..markup import Markup, esc, join
 from ..charts import loc
-from ..reports import all_reports
 from . import overview
-from .methodology import REPO, toc
+from .methodology import REPO, toc, renderer
+from ..markdown import sections
+from ..icons import icon
+from .. import structured
 
 SITE = 'https://djazair.dev'
-SECTIONS = ('tables', 'charts', 'addresses', 'changelog', 'corrections', 'licence')
+SECTIONS = ('tables', 'country-data', 'charts', 'reading', 'addresses', 'changelog', 'corrections', 'licence')
 # The pipeline's order: Algeria first, then the groups, the series, and the full table last.
 TABLES = ('overview', 'peers', 'groups', 'ranks', 'trends', 'languages', 'languages_algeria', 'topics', 'collaboration',
           'gdc26', 'indicators', 'revisions')
@@ -44,8 +47,46 @@ def head(ctx) -> Markup:
             (ctx.t('overview.meta_licence'), 'CC0')]
     actions = [C.btn(ctx.t('downloads.download_all'), overview.zip_url(data), arrow=False, attrs=' download'),
                C.btn(ctx.t('downloads.dictionary'), f'{REPO}/blob/main/data/README.md', 'secondary')]
-    return C.page_head(eyebrow_text=ctx.t('downloads.eyebrow'), title=ctx.t('downloads.title'),
-                       lede=ctx.t('downloads.lede'), meta=meta, actions=actions)
+    return Markup(str(C.page_head(eyebrow_text=ctx.t('downloads.eyebrow'), title=ctx.t('downloads.title'),
+                                 lede=ctx.t('downloads.lede'), meta=meta, actions=actions))
+                  .replace('class="page-head"', 'class="page-head data-page-head"'))
+
+
+def start(ctx) -> Markup:
+    """Three task-based entry points, before the detailed file catalogue."""
+    cards = join(f'<li><a href="#{target}"><h2>{ctx.t(f"downloads.start.{key}.title")}{icon("arrow", 20)}</h2>'
+                 f'<p>{ctx.t(f"downloads.start.{key}.text")}</p></a></li>'
+                 for key, target in (('download', 'tables'), ('understand', 'reading'), ('reuse', 'addresses')))
+    return Markup(f'<nav class="container data-start" aria-label="{ctx.ta("downloads.start_label")}"><ul>{cards}</ul></nav>')
+
+
+def country_data(ctx) -> Markup:
+    """The generated country files have their own provenance, outside the quarterly bundle."""
+    rows = outlook.standings(ctx.site.data)
+    actual = outlook.csv_url(ctx, rows)
+    forecast = '/data/octoverse-2025/country-outlook.json'
+    # The overview registers the shared source file before this page is rendered.
+    cards = []
+    for key, url, fmt in (('standing', actual, 'CSV'), ('forecast', forecast, 'JSON')):
+        size = len(ctx.site.files[url])
+        cards.append(f'<article class="data-country-card"><p class="eyebrow">{ctx.t(f"downloads.country.{key}.kind",quarter=_q(ctx,ctx.site.data.quarter))}</p>'
+                     f'<h3>{ctx.t(f"downloads.country.{key}.title")}</h3><p>{ctx.t(f"downloads.country.{key}.text", quarter=_q(ctx,ctx.site.data.quarter))}</p>'
+                     f'<div>{_file(url,fmt,size,ctx.lang)}</div></article>')
+    return Markup(f'<p>{ctx.t("downloads.country.lede")}</p><div class="data-country-grid">{join(cards)}</div>')
+
+
+def reading(ctx) -> Markup:
+    """Keep source definitions and stable formula anchors together without repeating logs."""
+    secs = sections((CONTENT_DIR / 'methodology' / f'{ctx.lang}.md').read_text('utf-8'))
+    md = renderer(ctx)
+    panels = []
+    for s in secs:
+        if s.id not in ('sources', 'indicators', 'peer-groups', 'limitations', 'updates'):
+            continue
+        body = str(md.render(s.body)).replace('<h3', '<h4').replace('</h3>', '</h4>')
+        panels.append(f'<details class="data-method" id="{s.id}"><summary><h3>{md.inline(s.title)}</h3>{icon("chev",18)}</summary>'
+                      f'<div class="data-method-body">{body}</div></details>')
+    return Markup(f'<p>{ctx.t("downloads.reading_lede")}</p><div class="data-methods">{join(panels)}</div>')
 
 
 def _file(url: str, label: str, size: int, lang: str) -> str:
@@ -84,8 +125,9 @@ def tables(ctx) -> Markup:
 
 def page_name(ctx, key: str) -> Markup:
     """A page's name in the chart list: a report's own title, or the page title."""
-    report = next((r for r in all_reports() if r.key == key), None)
-    if report is not None:
+    if key.startswith('report-'):  # Archived report tooling may render explicit test fixtures.
+        from ..reports import all_reports
+        report = next(r for r in all_reports() if r.key == key)
         return esc(report.source(ctx.lang)[0]['title'])
     return ctx.t(f'pages.{key}.title')
 
@@ -132,7 +174,7 @@ def corrections(ctx) -> Markup:
 
 def licence(ctx) -> Markup:
     data = ctx.site.data
-    attribution = ctx.t('downloads.attribution_text')
+    attribution = ctx.t('downloads.attribution_text', quarter=_q(ctx,data.quarter),url=ctx.abs_url('data'))
     return Markup(f'<p>{ctx.t("downloads.licence_lede")}</p>'
                   f'<figure class="cite"><figcaption><span class="cite-t">{ctx.t("downloads.attribution")}</span>'
                   f'<button type="button" class="act" data-copy data-copied="{ctx.ta("code.copied")}" hidden>{ctx.t("code.copy")}</button>'
@@ -141,11 +183,14 @@ def licence(ctx) -> Markup:
 
 
 def render(ctx: Ctx) -> Page:
-    parts = {'tables': tables, 'charts': charts, 'addresses': addresses, 'changelog': changelog,
+    parts = {'tables': tables, 'country-data': country_data, 'charts': charts, 'reading': reading,
+             'addresses': addresses, 'changelog': changelog,
              'corrections': corrections, 'licence': licence}
     secs = [Sec(key, ctx.t(f'downloads.sec_{key}')) for key in SECTIONS]
     body = join(f'<section class="doc-sec" id="{s.id}" aria-labelledby="{s.id}-h"><h2 id="{s.id}-h">'
                 f'<span class="sec-n" aria-hidden="true">{i:02d}</span>{s.title}</h2>{parts[s.id](ctx)}</section>'
                 for i, s in enumerate(secs, 1))
-    page = Markup(f'{head(ctx)}<div class="container doc">{toc(ctx, secs)}<div class="doc-main">{body}</div></div>')
-    return Page(title=ctx.s('pages.data.title'), description=ctx.s('pages.data.description'), body=page)
+    page = Markup(f'{head(ctx)}{start(ctx)}<div class="container doc data-doc">{toc(ctx, secs)}<div class="doc-main">{body}</div></div>')
+    return Page(title=ctx.s('pages.data.title'), description=ctx.s('pages.data.description'), body=page,
+                scripts=(ctx.site.assets.scripts['data'],),
+                head=Markup(str(structured.catalog(ctx)) + f'<link rel="alternate" type="text/markdown" href="/{ctx.lang}/data/index.md">'))

@@ -175,7 +175,7 @@ def read_well(ctx) -> Markup:
 def head(ctx) -> Markup:
     data = ctx.site.data
     actions = [C.btn(ctx.t('topics.download'), f'/data/{data.folder.name}/topics.csv', arrow=False, attrs=' download'),
-               C.btn(ctx.t('topics.methodology'), ctx.url('methodology', hash='topics'), 'secondary')]
+               C.btn(ctx.t('topics.methodology'), ctx.url('data', hash='topics'), 'secondary')]
     return C.page_head(eyebrow_text=ctx.t('topics.eyebrow'), title=ctx.t('topics.title', quarter=_q(ctx, data.quarter)),
                        lede=ctx.t('topics.lede', a=name('python'), b=name('machine-learning')), meta=overview.meta(ctx),
                        actions=actions)

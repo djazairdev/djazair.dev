@@ -191,7 +191,7 @@ def head(ctx) -> Markup:
     data = ctx.site.data
     actions = [C.btn(ctx.t('collaboration.download'), f'/data/{data.folder.name}/collaboration.csv', arrow=False,
                      attrs=' download'),
-               C.btn(ctx.t('collaboration.methodology'), ctx.url('methodology', hash='collaboration'), 'secondary')]
+               C.btn(ctx.t('collaboration.methodology'), ctx.url('data', hash='collaboration'), 'secondary')]
     return C.page_head(eyebrow_text=ctx.t('collaboration.eyebrow'),
                        title=ctx.t('collaboration.title', quarter=_q(ctx, data.quarter)), lede=ctx.t('collaboration.lede'),
                        meta=overview.meta(ctx), actions=actions)

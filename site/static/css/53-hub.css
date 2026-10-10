@@ -53,13 +53,12 @@
   min-height: 38px;
   padding: 6px 10px;
   border-inline-start: 2px solid transparent;
-  border-radius: 0 7px 7px 0;
+  border-radius: var(--r-chip);
   color: var(--ink2);
   font-size: 14px;
   cursor: pointer;
   transition: background-color .15s var(--ease), color .15s var(--ease);
 }
-[dir=rtl] .hf-opt { border-radius: 7px 0 0 7px; }
 .hf-opt:hover { color: var(--ink); background: var(--hover-tint); }
 .hf-opt:has(> input:checked) { border-inline-start-color: var(--mint); background: var(--s1); color: var(--ink); }
 .hf-opt:has(> input:focus-visible) { outline: 2px solid var(--mint); outline-offset: 1px; }
@@ -76,7 +75,7 @@
   height: 30px;
   padding-inline: 8px;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--r-chip);
   background: transparent;
   color: var(--ink2);
   font: inherit;
@@ -260,7 +259,7 @@
   min-width: 64px;
   padding: 8px 10px 7px;
   border: 1px solid var(--line2);
-  border-radius: 10px;
+  border-radius: var(--r-chip);
   background: var(--sunk);
 }
 .idea-votes .icon { color: var(--mint); }

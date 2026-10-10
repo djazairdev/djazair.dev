@@ -1,5 +1,5 @@
-"""Peers (ticket #21, IDX-06): Algeria, the six core peers and the group medians, as on the
-Overview, then rank tables for North Africa (all seven) and Africa (economies with at least
+"""Peers (ticket #21, IDX-06): Algeria, the six core peers and the group medians,
+then rank tables for North Africa (all seven) and Africa (economies with at least
 20,000 accounts a year earlier; PRD §9.3). Ranks come from the derived ranks table: 1 is the
 highest and ties share a place. Every table sorts by keyboard and announces its new order
 (site.js); without JavaScript the rank tables keep their order by accounts."""
@@ -39,7 +39,7 @@ def head(ctx) -> Markup:
     data = ctx.site.data
     folder = data.folder.name
     actions = [C.btn(ctx.t('peers.download'), f'/data/{folder}/ranks.csv', arrow=False, attrs=' download'),
-               C.btn(ctx.t('peers.methodology'), ctx.url('methodology', hash='peer-groups'), 'secondary')]
+               C.btn(ctx.t('peers.methodology'), ctx.url('data', hash='peer-groups'), 'secondary')]
     return C.page_head(eyebrow_text=ctx.t('peers.eyebrow'), title=ctx.t('peers.title', quarter=_q(ctx, data.quarter)),
                        lede=ctx.t('peers.lede', n=group_row(data, 'africa')['members']), meta=overview.meta(ctx),
                        actions=actions)
@@ -83,6 +83,6 @@ def rank_table(ctx, group: str, id_: str, short: str, median: str) -> Markup:
 
 
 def render(ctx: Ctx) -> Page:
-    body = join([head(ctx), overview.peers_table(ctx, link=False, lede=ctx.t('peers.core_lede'))]
+    body = join([head(ctx), overview.peers_table(ctx, lede=ctx.t('peers.core_lede'))]
                 + [rank_table(ctx, *group) for group in GROUPS])
     return Page(title=ctx.s('pages.peers.title'), description=ctx.s('pages.peers.description'), body=Markup(body))

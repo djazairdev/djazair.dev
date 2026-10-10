@@ -1,0 +1,96 @@
+/* The Index moves from measured standings to sourced forecasts, then scenarios.
+   Mint identifies Algeria and the selected path; forecasts use outlined bars. */
+.outlook-section { border-top: 0; padding-block: 0 var(--section-pad); }
+.outlook-section .section-head, .outlook-detail-head { justify-content: center; text-align: center; }
+.outlook-section .section-head-text, .outlook-detail-head { max-width: 840px; margin-inline: auto; }
+.outlook-section .eyebrow, .outlook-detail-head .eyebrow { justify-content: center; }
+.outlook-section h2, .outlook-detail-head h2 { font-size: clamp(34px, 4vw, 56px); font-weight: 400; line-height: 1.15; }
+.outlook-section .lede, .outlook-detail-head .lede { font-size: clamp(18px, 1.7vw, 22px); color: var(--ink2); }
+.outlook-detail-head { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 32px; }
+.outlook-note, .outlook-source { color: var(--ink2); font-size: 15px; line-height: 1.7; margin-top: 24px; max-width: 100ch; }
+.outlook-source { font-size: 14px; }
+.outlook-source a, .participation-note a { text-decoration: underline; text-underline-offset: 4px; }
+.outlook-actions { display: flex; justify-content: center; margin-top: 28px; }
+.world-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(24px, 5vw, 80px); align-items: center; padding: clamp(24px, 3vw, 48px); border: 1px solid var(--line); border-radius: var(--r-panel); background: var(--s1); }
+.world-stats { display: grid; gap: 28px; margin: 0; }
+.world-stats dt, .scenario-readout dt { font-size: 16px; line-height: 1.5; color: var(--ink2); margin-bottom: 8px; }
+.world-stats dd, .scenario-readout dd { margin: 0; font-size: clamp(28px, 3vw, 42px); line-height: 1.2; }
+.world-position dd > .num { display: block; font-size: clamp(64px, 8vw, 112px); letter-spacing: -.06em; }
+.world-position small { display: block; font-size: 15px; color: var(--ink2); margin-top: 12px; }
+.world-stats .mint { color: var(--mint-hi); }
+.world-preview, .forecast-view, .scenario-figure { margin: 0; min-width: 0; }
+.world-preview figcaption, .forecast-view figcaption, .scenario-figure figcaption { font-size: 18px; font-weight: 500; line-height: 1.5; margin-bottom: 20px; }
+.country-bars { display: grid; gap: 20px; padding: 0; list-style: none; }
+.country-bar-label { display: flex; gap: 12px; align-items: baseline; font-size: 16px; margin-bottom: 10px; }
+.country-bar-label > .num:last-child { margin-inline-start: auto; white-space: nowrap; font-size: 15px; }
+.country-rank { color: var(--ink3); font-size: 13px; }
+.country-bar-track { display: block; height: 8px; background: var(--line); border-radius: 99px; }
+.country-bar-track > span { display: block; height: 100%; background: var(--grey); border-radius: inherit; }
+.country-bar.is-dz { padding-top: 8px; }
+.country-bar.is-dz .country-bar-label { color: var(--mint-hi); }
+.country-bar.is-dz .country-bar-track > span { background: var(--mint-hi); box-shadow: 0 0 8px var(--mint-glow); }
+.forecast-switch { max-width: 920px; margin-inline: auto; }
+.forecast-controls { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; border: 0; padding: 0; margin: 0 0 32px; }
+.forecast-controls label { position: relative; cursor: pointer; }
+.forecast-controls input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; }
+.forecast-controls span { display: block; border: 1px solid var(--line3); border-radius: 99px; padding: 12px 22px; color: var(--ink2); min-height: 44px; }
+.forecast-controls input:checked + span { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.forecast-controls input:focus-visible + span { outline: 2px solid var(--mint); outline-offset: 4px; }
+.forecast-view { padding: clamp(20px, 3vw, 40px); border: 1px solid var(--line); border-radius: var(--r-panel); background: var(--s1); }
+.forecast-unit { color: var(--ink2); font-size: 14px; margin-bottom: 28px; }
+.forecast-bars .country-bar-track { height: 12px; background: transparent; }
+.forecast-bars .country-bar-track > span { border: 1px solid var(--mint); background: var(--mint-bg); }
+.forecast-switch:has(#outlook-africa:checked) .forecast-global,
+.forecast-switch:has(#outlook-global:checked) .forecast-africa,
+.forecast-switch[data-group=africa] .forecast-global,
+.forecast-switch[data-group=global] .forecast-africa { display: none; }
+@supports not selector(:has(*)) {
+  .forecast-switch:not([data-group]) .forecast-controls { display: none; }
+  .forecast-view + .forecast-view { margin-top: 24px; }
+}
+.outlook-section .disclosure { margin-top: 24px; }
+.participation-note { padding: 24px 28px; margin-top: 28px; background: var(--tint); border-radius: var(--r-card); }
+.participation-note h3, .scenario-action h3 { font-size: 21px; font-weight: 500; margin-bottom: 10px; }
+.participation-note p, .scenario-action p { font-size: 16px; line-height: 1.7; color: var(--ink2); }
+.scenario-panel { display: grid; grid-template-columns: .85fr 1.15fr; align-items: center; gap: 48px; padding: clamp(24px, 3vw, 48px); background: var(--s1); border: 1px solid var(--line); border-radius: var(--r-panel); }
+.scenario-readout dl { display: grid; gap: 24px; margin: 0; }
+.scenario-readout output { color: var(--mint-hi); font-size: clamp(32px, 4vw, 52px); }
+.scenario-needed { font-size: 30px !important; }
+.scenario-control { display: grid; grid-template-columns: 1fr auto; gap: 12px; margin-top: 36px; font-size: 16px; }
+.scenario-control[hidden] { display: none; }
+.scenario-control output { font-size: 20px; }
+.scenario-control input { grid-column: 1 / -1; width: 100%; min-height: 44px; accent-color: var(--mint-hi); cursor: pointer; }
+.scenario-range-ends { grid-column: 1 / -1; display: flex; justify-content: space-between; font-family: var(--mono); color: var(--ink2); font-size: 13px; }
+.scenario-chart { width: 100%; height: auto; overflow: visible; display: block; direction: ltr; }
+.scenario-chart path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.scenario-grid { stroke: var(--line3); stroke-width: 1; }
+.scenario-goal { stroke: var(--ink2); stroke-dasharray: 5 6; stroke-width: 1; }
+.scenario-reference { stroke: var(--grey); stroke-width: 1.5; stroke-dasharray: 3 4; }
+.scenario-selected { stroke: var(--mint-hi); stroke-width: 3; filter: drop-shadow(0 0 3px var(--mint-glow)); }
+.scenario-endpoint { fill: var(--mint-hi); filter: drop-shadow(0 0 3px var(--mint-glow)); }
+.scenario-tick { fill: var(--ink2); font: 16px var(--mono); }
+.scenario-goal-label { color: var(--ink2); font-size: 14px; text-align: end; }
+.scenario-dates { display: flex; justify-content: space-between; direction: ltr; color: var(--ink2); font-size: 14px; margin-inline-start: 9%; }
+.scenario-legend { display: flex; align-items: center; gap: 8px; margin-top: 24px; font-size: 15px; }
+.scenario-figure .outlook-note { margin-top: 10px; font-size: 13px; }
+.scenario-action { display: flex; align-items: center; justify-content: space-between; gap: 28px; margin-top: 32px; padding: 28px; background: var(--tint); border-radius: var(--r-card); }
+.scenario-action .btn { flex: none; }
+.economy-code { font: 12px var(--mono); color: var(--ink3); margin-inline-start: 8px; }
+.global-accounts-table { margin-top: 24px; max-height: 650px; overflow: auto; }
+.global-accounts-table .dt { min-width: 620px; }
+.global-accounts-table thead { position: sticky; top: 0; z-index: 1; background: var(--s1); }
+@media (max-width: 760px) {
+  .world-grid, .scenario-panel { grid-template-columns: 1fr; gap: 32px; }
+  .world-stats { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .world-position { grid-column: 1 / -1; }
+  .world-stats dt { font-size: 14px; }
+  .world-stats dd { font-size: clamp(24px, 6vw, 34px); }
+  .country-bar-label { font-size: 15px; gap: 8px; flex-wrap: wrap; }
+  .country-bar-label > .num:last-child { font-size: 13px; }
+  .scenario-action { flex-direction: column; align-items: flex-start; padding: 24px; }
+  .scenario-action .btn { align-self: center; }
+}
+.global-accounts-table tr.is-dz { scroll-margin-top: 64px; }
+@media (max-width: 760px) {
+  .scenario-tick { font-size: 26px; }
+}

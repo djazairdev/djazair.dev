@@ -1,11 +1,35 @@
 /* Index pages (tickets #19 to #22; Overview, Trends and Index boards in docs/design) */
 
 /* ---- overview: the six indicator cards */
+.index-guide { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; padding: 16px 20px; border: 1px solid var(--line); border-radius: var(--r-panel); background: var(--sunk); }
+.index-guide > p { max-width: 100ch; font-size: 14px; line-height: 1.6; color: var(--ink2); }
+.index-groups > summary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; font-size: 14px; font-weight: 700; color: var(--ink); cursor: pointer; list-style: none; }
+.index-groups > summary::-webkit-details-marker { display: none; }
+.index-groups[open] > summary .icon { transform: rotate(180deg); }
+.index-groups dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-block: 12px; }
+.index-groups dt { margin-bottom: 6px; font-size: 14px; font-weight: 700; color: var(--ink); }
+.index-groups dd, .index-groups > p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--ink2); }
+@media (max-width: 760px) {
+  .index-groups dl { grid-template-columns: 1fr; gap: 16px; }
+}
+
 .ov-cards { padding-bottom: clamp(56px, 7vw, 96px); }
 .ind-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(520px, 100%), 1fr)); gap: 16px; }
 .ind-grid + .src { margin-top: 28px; }
-.ind-src { padding-top: 14px; font-size: 13px; line-height: 1.5; color: var(--ink3); }
-.ind-src:lang(ar) { line-height: 1.8; }
+.ind-chart { display: flex; flex-direction: column; gap: 12px; margin: 0; }
+.ind-chart figcaption, .ind-median-label { font-size: 14px; line-height: 1.5; font-weight: 600; color: var(--ink2); }
+.ind-chart-key { display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 0; list-style: none; font-size: 13px; color: var(--ink2); }
+.ind-chart-key li { display: inline-flex; align-items: center; gap: 8px; }
+.ind-median-label { margin-bottom: 10px; }
+.overview-next { padding-bottom: var(--section-pad); }
+.overview-next h2 { font-size: var(--fs-title); margin-bottom: 20px; }
+.overview-next ul { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 16px; padding: 0; list-style: none; }
+.overview-next li { display: flex; }
+.overview-next a { display: flex; flex-direction: column; gap: 10px; width: 100%; padding: 22px; border: 1px solid var(--line); border-radius: var(--r-card); background: var(--tint); }
+.overview-next a:hover { border-color: var(--mint); }
+.overview-next-title { display: flex; justify-content: space-between; gap: 14px; font-size: 17px; font-weight: 600; }
+.overview-next-title .icon { flex: none; color: var(--mint); }
+.overview-next-desc { font-size: 14px; line-height: 1.6; color: var(--ink2); }
 
 /* ---- peers table: Algeria first, then the core peers; group medians stay below when sorting */
 .eco { display: inline-flex; align-items: center; gap: 10px; }
@@ -17,13 +41,12 @@
 .dt tfoot tr:first-child > * { border-top-color: var(--line3); }
 .table-wrap + .src { margin-top: 18px; }
 
-/* ---- what the numbers can't tell you */
+/* Context cards shared by the detailed Index pages and Reports. */
 .limits { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: 12px; }
 .limit { display: flex; flex-direction: column; gap: 6px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--tint); }
 .limit h3 { font-size: 16px; line-height: 1.35; font-weight: 700; }
 .limit p { font-size: 14px; line-height: 1.55; color: var(--ink2); }
 .limit p:lang(ar) { line-height: 1.8; }
-.limits-more { margin-top: 22px; }
 
 /* ---- trends: one view at a time. Radio buttons pick it and these rules hide the others, so
    the controls work without JavaScript; trends.js mirrors the choice in data attributes for

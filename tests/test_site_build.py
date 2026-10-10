@@ -53,7 +53,7 @@ class BuiltSite(unittest.TestCase):
         for route in ROUTES:
             for lang in LANGS:
                 doc = self.doc(lang, route)
-                alternates = {l['hreflang']: l['href'] for l in doc.links if l.get('rel') == 'alternate'}
+                alternates = {l['hreflang']: l['href'] for l in doc.links if l.get('rel') == 'alternate' and 'hreflang' in l}
                 canonical = [l['href'] for l in doc.links if l.get('rel') == 'canonical']
                 with self.subTest(route=route.key, lang=lang):
                     if not route.indexed or route.render is stub.render or route.key in DRAFTS:    # placeholders and drafts stay out of search
@@ -85,7 +85,8 @@ class BuiltSite(unittest.TestCase):
 
     def test_current_section_is_marked(self):
         doc = self.doc('en', self.site.routes['trends'])
-        nav = [a for a in doc.find('a') if a.get('aria-current')]
+        # The footer's current language can share the current page URL.
+        nav = [a for a in doc.find('a') if a.get('aria-current') and 'data-lang' not in a]
         hrefs = {a['href']: a['aria-current'] for a in nav}
         self.assertEqual(hrefs.get('/en/index/'), 'true')            # main nav: Index section
         self.assertEqual(hrefs.get('/en/index/trends/'), 'page')     # sub-nav: this page

@@ -9,6 +9,7 @@ from __future__ import annotations
 import math
 
 from .. import components as C
+from .. import outlook
 from ..charts import HBar, HBarChart
 from ..context import Ctx, Page
 from ..figures import figure
@@ -187,22 +188,15 @@ def read_well(ctx) -> Markup:
 
 
 def head(ctx) -> Markup:
-    data = ctx.site.data
-    published = data.manifest['gdc26']['date']
-    meta = [(ctx.t('rankings.meta_period'), period(ctx)),
-            (ctx.t('rankings.meta_published'), date_label(published, ctx.lang, short=ctx.en)),
-            (ctx.t('overview.meta_updated'), ctx.t('rankings.meta_once')),
-            (ctx.t('overview.meta_licence'), 'CC0')]
-    actions = [C.btn(ctx.t('rankings.download'), f'/data/{data.folder.name}/gdc26.csv', arrow=False, attrs=' download'),
-               C.btn(ctx.t('rankings.methodology'), ctx.url('methodology', hash='gdc26'), 'secondary')]
-    return C.page_head(eyebrow_text=ctx.t('rankings.eyebrow'), title=ctx.t('rankings.title'), lede=ctx.t('rankings.lede'),
-                       meta=meta, actions=actions)
+    return C.page_head(eyebrow_text=ctx.t('rankings.eyebrow'), title=ctx.t('rankings.title'), lede=ctx.t('rankings.intro'))
 
 
 def render(ctx: Ctx) -> Page:
     data = ctx.site.data
     source = ctx.t('rankings.source', date=date_label(data.manifest['gdc26']['date'], ctx.lang))
     fig = figure(ctx, chart(ctx), 1, source=source, lede=lede(ctx), note=world_note(ctx))
-    body = Markup(f'{head(ctx)}<section class="rank-body" aria-label="{ctx.ta("rankings.fig_label")}"><div class="container">'
+    body = Markup(f'{head(ctx)}{outlook.global_table(ctx)}<section class="rank-body" aria-label="{ctx.ta("rankings.fig_label")}"><div class="container">'
+                  f'<h2 class="t-section">{ctx.t("rankings.fig_label")}</h2><p class="lede">{ctx.t("rankings.lede")}</p>'
+                  f'<div class="outlook-actions">{C.btn(ctx.t("rankings.methodology"), ctx.url("data", hash="gdc26"), "secondary")}</div>'
                   f'{fig}</div></section>{estimate_section(ctx)}{check_section(ctx)}{read_well(ctx)}')
     return Page(title=ctx.s('pages.rankings.title'), description=ctx.s('pages.rankings.description'), body=body)
