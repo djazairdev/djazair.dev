@@ -73,21 +73,23 @@ TYPES = {'.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.j
 class Handler(SimpleHTTPRequestHandler):
     """site/dist with gzip and no caching, so every load is cold, as on a first visit."""
 
-    def do_GET(self):
-        root = os.path.normpath(os.path.abspath(self.directory))
-        path = os.path.normpath(os.path.join(root, unquote(urlparse(self.path).path).lstrip('/')))
-        if not path.startswith(root):
-            return self.send_file(os.path.join(root, '404.html'), 404)      # nothing outside the folder
-        if path != root and not path.startswith(root + os.sep):
-            return self.send_file(os.path.join(root, '404.html'), 404)      # nor beside it (dist2/)
-        if os.path.isdir(path):
-            path = os.path.join(path, 'index.html')
-        if not os.path.isfile(path):
-            return self.send_file(os.path.join(root, '404.html'), 404)
-        return self.send_file(path, 200)
+    def files(self) -> dict:
+        """Every file in the folder by its address (/en/index.html), listed once per server. A
+        request only picks from this list, so nothing outside the folder can be read."""
+        if getattr(self.server, 'files', None) is None:
+            root = Path(self.directory)
+            self.server.files = {'/' + f.relative_to(root).as_posix(): str(f) for f in root.rglob('*') if f.is_file()}
+        return self.server.files
 
-    def send_file(self, path: str, status: int):
-        if not os.path.isfile(path):
+    def do_GET(self):
+        files, address = self.files(), unquote(urlparse(self.path).path)
+        found = files.get(address) or files.get(address.rstrip('/') + '/index.html')
+        if found:
+            return self.send_file(found, 200)
+        return self.send_file(files.get('/404.html'), 404)
+
+    def send_file(self, path, status: int):
+        if path is None:
             self.send_error(404)
             return
         with open(path, 'rb') as f:
