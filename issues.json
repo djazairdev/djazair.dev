@@ -1,6 +1,270 @@
 {
- "generated_at": "2026-10-10T13:01:25Z",
+ "generated_at": "2026-10-10T14:23:58Z",
  "issues": [
+  {
+   "number": 69,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/69",
+   "title": "Show organisations per 1,000 accounts",
+   "labels": [
+    "help wanted",
+    "area: site",
+    "area: content"
+   ],
+   "created_at": "2026-10-10T13:42:19Z",
+   "needs": "Python, JSON",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 67,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/67",
+   "title": "Shorten the scorecard on Home for phones",
+   "labels": [
+    "help wanted",
+    "area: site",
+    "area: design"
+   ],
+   "created_at": "2026-10-10T13:42:16Z",
+   "needs": "CSS, HTML, design",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 65,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/65",
+   "title": "Draw the hero map sharply on phones",
+   "labels": [
+    "help wanted",
+    "area: site"
+   ],
+   "created_at": "2026-10-10T13:42:13Z",
+   "needs": "JavaScript, Canvas 2D, a phone",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 64,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/64",
+   "title": "Show the hero map from the first paint",
+   "labels": [
+    "help wanted",
+    "area: site",
+    "area: design"
+   ],
+   "created_at": "2026-10-10T13:42:11Z",
+   "needs": "JavaScript, CSS, WebGL or Canvas 2D",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 63,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/63",
+   "title": "Put the language switch in the header and the phone menu",
+   "labels": [
+    "accessibility",
+    "good first issue",
+    "area: site"
+   ],
+   "created_at": "2026-10-10T13:42:09Z",
+   "needs": "Python, HTML, CSS",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 62,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/62",
+   "title": "Translate djazair.dev into Arabic",
+   "labels": [
+    "help wanted",
+    "area: content"
+   ],
+   "created_at": "2026-10-10T13:42:07Z",
+   "needs": "Arabic, English, JSON",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 61,
+   "url": "https://github.com/djazairdev/djazair.dev/issues/61",
+   "title": "Show an invitation to translate on every Arabic page",
+   "labels": [
+    "help wanted",
+    "area: site",
+    "area: content",
+    "priority: must"
+   ],
+   "created_at": "2026-10-10T13:42:05Z",
+   "needs": "Python, HTML, CSS",
+   "repo": "djazairdev/djazair.dev",
+   "language": "Python"
+  },
+  {
+   "number": 64,
+   "url": "https://github.com/djazairdev/minhajna/issues/64",
+   "title": "Write an Arabic summary of the privacy policy",
+   "labels": [
+    "documentation",
+    "good first issue"
+   ],
+   "created_at": "2026-10-10T12:58:34Z",
+   "needs": "Arabic, English, Markdown",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 63,
+   "url": "https://github.com/djazairdev/minhajna/issues/63",
+   "title": "Check the French names in Algeria's reference data",
+   "labels": [
+    "good first issue",
+    "area: i18n"
+   ],
+   "created_at": "2026-10-10T12:58:32Z",
+   "needs": "French, Arabic, JSON",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 62,
+   "url": "https://github.com/djazairdev/minhajna/issues/62",
+   "title": "Check the 2026/27 calendar against the Ministry's communiqué",
+   "labels": [
+    "good first issue",
+    "area: calendar"
+   ],
+   "created_at": "2026-10-10T12:58:30Z",
+   "needs": "Arabic, JSON",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 144,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/144",
+   "title": "Check sign-in and onboarding with a screen reader in Arabic",
+   "labels": [
+    "good first issue",
+    "a11y"
+   ],
+   "created_at": "2026-10-10T09:50:12Z",
+   "needs": "a screen reader you know; Arabic helps (no code)",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 143,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/143",
+   "title": "Read the notifications in French",
+   "labels": [
+    "good first issue",
+    "area: i18n"
+   ],
+   "created_at": "2026-10-10T09:50:10Z",
+   "needs": "native French (no code)",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 142,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/142",
+   "title": "Read the host wizard in Arabic and fix what reads wrong",
+   "labels": [
+    "good first issue",
+    "area: i18n"
+   ],
+   "created_at": "2026-10-10T09:50:09Z",
+   "needs": "native Arabic (editing JSON helps; no code)",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 15,
+   "url": "https://github.com/djazairdev/detent/issues/15",
+   "title": "detent --version",
+   "labels": [
+    "help wanted"
+   ],
+   "created_at": "2026-10-10T09:11:13Z",
+   "needs": "TypeScript, vitest",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 14,
+   "url": "https://github.com/djazairdev/detent/issues/14",
+   "title": "docs: a glossary of Detent's words",
+   "labels": [
+    "documentation",
+    "good first issue"
+   ],
+   "created_at": "2026-10-10T09:11:12Z",
+   "needs": "careful reading, plain English (no code)",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 13,
+   "url": "https://github.com/djazairdev/detent/issues/13",
+   "title": "docs: say what Detent needs before you install it",
+   "labels": [
+    "documentation",
+    "good first issue"
+   ],
+   "created_at": "2026-10-10T09:11:10Z",
+   "needs": "Markdown; reading TypeScript helps",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 14,
+   "url": "https://github.com/djazairdev/wilayas/issues/14",
+   "title": "test: the landing page's counts match the data",
+   "labels": [
+    "good first issue"
+   ],
+   "created_at": "2026-10-10T09:11:08Z",
+   "needs": "Python, unittest (standard library only)",
+   "repo": "djazairdev/wilayas",
+   "language": "Python"
+  },
+  {
+   "number": 12,
+   "url": "https://github.com/djazairdev/wilayas/issues/12",
+   "title": "docs: add Python and PHP examples to docs/api.md",
+   "labels": [
+    "documentation",
+    "good first issue"
+   ],
+   "created_at": "2026-10-10T09:11:05Z",
+   "needs": "basic Python or PHP",
+   "repo": "djazairdev/wilayas",
+   "language": "Python"
+  },
+  {
+   "number": 3,
+   "url": "https://github.com/djazairdev/wilayas/issues/3",
+   "title": "Five communes ONS lists under a new name: find the renaming texts",
+   "labels": [
+    "help wanted",
+    "question"
+   ],
+   "created_at": "2026-10-09T13:49:34Z",
+   "needs": "",
+   "repo": "djazairdev/wilayas",
+   "language": "Python"
+  },
+  {
+   "number": 2,
+   "url": "https://github.com/djazairdev/wilayas/issues/2",
+   "title": "Which spelling for the names of wilayas 01 to 48?",
+   "labels": [
+    "help wanted",
+    "question"
+   ],
+   "created_at": "2026-10-09T13:49:31Z",
+   "needs": "",
+   "repo": "djazairdev/wilayas",
+   "language": "Python"
+  },
   {
    "number": 49,
    "url": "https://github.com/djazairdev/djazair.dev/issues/49",
