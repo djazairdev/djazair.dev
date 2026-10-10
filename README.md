@@ -17,7 +17,7 @@ djazair.dev helps Algerian developers find their first open-source contribution,
 - **Project Hub**: open-source projects by Algerian developers, or relevant to Algeria, with beginner-friendly issues to start on.
 - **Algeria Developer Index**: Algeria's GitHub activity compared with similar countries, updated every quarter from [GitHub Innovation Graph](https://github.com/github/innovationgraph) data.
 
-**Status:** pre-launch, planned for 30 November 2026 ([#1](https://github.com/djazairdev/djazair.dev/issues/1)). The site is in English first. Arabic comes with the community's help: [#62](https://github.com/djazairdev/djazair.dev/issues/62).
+**Status:** pre-launch, launching on 12 October 2026 ([#35](https://github.com/djazairdev/djazair.dev/issues/35), [#1](https://github.com/djazairdev/djazair.dev/issues/1)). The site is in English first. Arabic comes with the community's help: [#62](https://github.com/djazairdev/djazair.dev/issues/62).
 
 ## Run it locally
 
