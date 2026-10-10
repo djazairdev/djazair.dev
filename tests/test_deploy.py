@@ -1,6 +1,6 @@
 """Deploys (ticket #6, docs/deploy.md): the site is a Cloudflare Worker made only of static
 assets (wrangler.jsonc), deployed by CI once the tests and the build pass. The holding page
-keeps djazair.dev until launch (wrangler.holding.jsonc)."""
+had djazair.dev until launch, and can take it back (wrangler.holding.jsonc)."""
 import json
 import shutil
 import sys
@@ -45,9 +45,12 @@ class Configuration(unittest.TestCase):
         self.assertEqual(assets['not_found_handling'], '404-page', 'the nearest 404.html, with status 404')
         self.assertEqual(assets['html_handling'], 'auto-trailing-slash', '/en/hub/ is the address of /en/hub/index.html')
         self.assertNotIn('main', config, 'no Worker code')
-        self.assertNotIn('routes', config, 'djazair.dev stays on the holding page until launch (docs/launch.md)')
+        self.assertEqual(config['routes'], [{'pattern': 'djazair.dev', 'custom_domain': True}], 'djazair.dev since launch')
+        self.assertIs(config['workers_dev'], False, 'one address')
+        self.assertIs(config['preview_urls'], True, 'pull requests still get a preview')
 
-    def test_the_holding_page_has_the_domain_until_launch(self):
+    def test_the_holding_page_can_take_the_domain_back(self):
+        """Kept for a week after launch, in case the site has to move back (docs/launch.md)."""
         config = jsonc(ROOT / 'wrangler.holding.jsonc')
         self.assertTrue((ROOT / config['assets']['directory'] / 'index.html').is_file())
         self.assertEqual(config['routes'], [{'pattern': 'djazair.dev', 'custom_domain': True}])

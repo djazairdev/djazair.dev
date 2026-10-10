@@ -11,10 +11,10 @@
     // a missing page gets the nearest 404.html, with status 404
     "not_found_handling": "404-page"
   },
-  // The site's own address before launch, djazair-dev-site.<account>.workers.dev, and
-  // pr-<number>-djazair-dev-site.<account>.workers.dev for pull requests.
-  "workers_dev": true,
+  // djazair.dev, moved here from the holding page at launch (docs/launch.md). The site has
+  // one address, so its workers.dev one is off; pull requests still get
+  // pr-<number>-djazair-dev-site.<account>.workers.dev previews.
+  "routes": [{ "pattern": "djazair.dev", "custom_domain": true }],
+  "workers_dev": false,
   "preview_urls": true
-  // At launch, djazair.dev moves here from the holding page (docs/launch.md):
-  // "routes": [{ "pattern": "djazair.dev", "custom_domain": true }]
 }
