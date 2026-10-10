@@ -21,7 +21,7 @@ from djsite.routes import ROUTES  # noqa: E402
 from htmlcheck import Doc  # noqa: E402
 
 ISSUE = 'https://github.com/djazairdev/djazair.dev/issues/62'
-ARABIC = re.compile(r'[؀-ۿ][؀-ۿً-ٟ ،؛؟]*')
+ARABIC = re.compile(r'[؀-ۿ][؀-ۿ ]*')     # the block holds the harakat and punctuation too
 STRINGS = {lang: json.loads((ROOT / 'site' / 'i18n' / f'{lang}.json').read_text('utf-8'))['invite'] for lang in LANGS}
 
 
