@@ -1,6 +1,7 @@
 """Search and sharing metadata (ticket #31): titles and descriptions, canonical and hreflang
 links, Open Graph and X card tags with a share image per language, sitemap.xml and robots.txt.
 Placeholder pages, report drafts and the invitations to translate (#61) stay out of search."""
+import json
 import re
 import shutil
 import struct
@@ -85,7 +86,8 @@ class Metadata(unittest.TestCase):
                 self.assertEqual(m['canonical'], url)
                 for other in LANGS:
                     self.assertEqual(m.get(f'alternate:{other}'), f'{SITE_URL}/{other}/{route.path}' if other in self.PUBLISHED else None)
-                self.assertEqual(m['alternate:x-default'], f'{SITE_URL}/' if route.key == 'home' else f'{SITE_URL}/en/{route.path}')
+                chooser = route.key == 'home' and len(self.PUBLISHED) > 1     # / chooses only between several languages
+                self.assertEqual(m['alternate:x-default'], f'{SITE_URL}/' if chooser else f'{SITE_URL}/en/{route.path}')
 
     def test_shared_links_show_a_card(self):
         """The site's card, or on Home and the Index pages the card of the quarter they show
@@ -125,7 +127,7 @@ class Metadata(unittest.TestCase):
         tree = ET.parse(self.dist / 'sitemap.xml')
         urls = {u.findtext('s:loc', namespaces=NS): {a.get('hreflang'): a.get('href') for a in u.findall('x:link', NS)}
                 for u in tree.getroot().findall('s:url', NS)}
-        expected = {url for _, _, url, _ in self.indexed()} | {f'{SITE_URL}/'}
+        expected = {url for _, _, url, _ in self.indexed()} | ({f'{SITE_URL}/'} if len(self.PUBLISHED) > 1 else set())
         self.assertEqual(set(urls), expected)
         for loc, alts in urls.items():
             with self.subTest(url=loc):
@@ -134,6 +136,34 @@ class Metadata(unittest.TestCase):
                     self.assertIn(href, urls, 'every alternate is listed too')
                 if loc != f'{SITE_URL}/':
                     self.assertEqual(meta(self.page(loc))['canonical'], loc)
+
+    def test_sitemap_dates_say_when_the_content_changed(self):
+        dates = {u.findtext('s:loc', namespaces=NS): u.findtext('s:lastmod', namespaces=NS)
+                 for u in ET.parse(self.dist / 'sitemap.xml').getroot().findall('s:url', NS)}
+        release = self.site.data.release_date
+        for route, lang, url, _ in self.indexed():
+            with self.subTest(page=url):
+                if route.section == 'index':
+                    self.assertEqual(dates[url], release)
+                elif route.key in ('home', 'data'):
+                    self.assertGreaterEqual(dates[url], release)
+                elif route.key in ('about', 'meetups', 'localisation'):
+                    self.assertIsNone(dates[url], 'no date rather than one that changes with every build')
+
+    def test_redirects(self):
+        rules = [line.split() for line in (self.dist / '_redirects').read_text('utf-8').splitlines() if line and not line.startswith('#')]
+        expected = [[f'/{lang}/index', f'/{lang}/index/', '301'] for lang in LANGS]
+        if len(self.PUBLISHED) == 1:
+            expected.insert(0, ['/', f'/{self.PUBLISHED[0]}/', '301'])
+        self.assertEqual(rules, expected)
+
+    def test_the_organisation_has_a_logo_and_its_profiles(self):
+        found = re.search(r'<script type="application/ld\+json">(.*?)</script>', self.page(f'{SITE_URL}/en/')).group(1)
+        org = next(g for g in json.loads(found)['@graph'] if g['@type'] == 'Organization')
+        self.assertEqual(org['logo']['url'], f'{SITE_URL}/logo.png')
+        self.assertEqual(png_size(self.dist / 'logo.png'), (org['logo']['width'], org['logo']['height']))
+        self.assertGreaterEqual(org['logo']['width'], 112, "Google's minimum")
+        self.assertEqual(org['sameAs'], ['https://github.com/djazairdev', 'https://x.com/djazairdev', 'https://www.facebook.com/djazairdev'])
 
     def test_robots_point_to_the_sitemap(self):
         robots = (self.dist / 'robots.txt').read_text('utf-8')

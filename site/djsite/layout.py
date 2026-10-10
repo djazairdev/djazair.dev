@@ -148,7 +148,7 @@ def head_links(ctx: Ctx, page: Page) -> Markup:
         return Markup('<meta name="robots" content="noindex">')
     key = ctx.route.key
     alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ctx.abs_url(key, l)}">' for l in ctx.site.published)
-    x_default = SITE_URL + '/' if key == 'home' else ctx.abs_url(key, 'en')
+    x_default = SITE_URL + '/' if key == 'home' and ctx.site.chooser else ctx.abs_url(key, 'en')
     return Markup(f'<link rel="canonical" href="{ctx.abs_url(key)}">{alts}'
                   f'<link rel="alternate" hreflang="x-default" href="{x_default}">')
 

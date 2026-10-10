@@ -15,6 +15,7 @@ SITE_URL = 'https://djazair.dev'
 REPO = 'djazairdev/djazair.dev'
 REPO_URL = f'https://github.com/{REPO}'
 ORG_URL = f'https://github.com/{REPO.split("/")[0]}'
+PROFILES = (ORG_URL, 'https://x.com/djazairdev', 'https://www.facebook.com/djazairdev')   # the organisation's sameAs
 ISSUES_URL = f'{REPO_URL}/issues'
 
 # Hub ideas (ticket #39, PRD HUB-07) live in the "Ideas" category of GitHub Discussions, with the

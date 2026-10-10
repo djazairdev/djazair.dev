@@ -53,12 +53,34 @@ def headers_for(rules: list, path: str) -> dict:
     return dict(out.values())
 
 
+def redirect_rules(dist: Path) -> dict:
+    """source -> (destination, status) from the site's _redirects file, as Cloudflare reads it."""
+    rules = {}
+    for line in (dist / '_redirects').read_text().splitlines():
+        if line.strip() and not line.startswith('#'):
+            source, destination, status = line.split()
+            rules[source] = (destination, int(status))
+    return rules
+
+
 class Cloudflareish(perf.Handler):
-    """The local server, answering as Cloudflare does: with the headers from _headers."""
+    """The local server, answering as Cloudflare does: with the headers from _headers, and the
+    redirects from _redirects before any file."""
     rules: list = []
+    redirects: dict = {}
 
     def version_string(self):
         return 'cloudflare'
+
+    def do_GET(self):
+        found = self.redirects.get(urlsplit(self.path).path)
+        if found:
+            self.send_response(found[1])
+            self.send_header('Location', found[0])
+            self.send_header('Content-Length', '0')
+            self.end_headers()
+            return
+        super().do_GET()
 
     def end_headers(self):
         for name, value in headers_for(self.rules, urlsplit(self.path).path).items():
@@ -79,6 +101,7 @@ class Smoke(unittest.TestCase):
         cls.dist = cls.tmp / 'dist'
         build(cls.dist, quiet=True)
         cls.locs = re.findall(r'<loc>([^<]+)</loc>', (cls.dist / 'sitemap.xml').read_text())
+        Cloudflareish.redirects = redirect_rules(cls.dist)
 
     @classmethod
     def tearDownClass(cls):
@@ -139,6 +162,21 @@ class Smoke(unittest.TestCase):
         self.assertIn('/en/ lacks X-Content-Type-Options: nosniff', report)
         self.assertIn('/en/index/trends/ can be framed by any site (no X-Frame-Options: SAMEORIGIN)', report)
         self.assertNotIn('cannot be embedded', report)    # with no headers at all, anyone can frame them
+
+    def test_redirects_are_checked_when_cloudflare_answers(self):
+        Cloudflareish.rules = header_rules(self.dist)
+        Cloudflareish.redirects = {}          # Cloudflare without the _redirects file
+        self.addCleanup(setattr, Cloudflareish, 'redirects', redirect_rules(self.dist))
+        result, _ = self.check(self.dist, Cloudflareish)
+        fails = [line for line in result.report().splitlines() if line.startswith('FAIL')]
+        self.assertEqual(fails, ['FAIL  / answered 200, not a permanent redirect to /en/ (_redirects)',
+                                 'FAIL  /en/index answered 200 to nowhere, not a permanent redirect to /en/index/ (_redirects)'])
+
+        Cloudflareish.redirects = {'/': ('/ar/', 301), '/en/index': ('/en/', 307)}
+        result, _ = self.check(self.dist, Cloudflareish)
+        fails = [line for line in result.report().splitlines() if line.startswith('FAIL')]
+        self.assertEqual(fails, ['FAIL  / redirects to /ar/, not to /en/',
+                                 f'FAIL  /en/index answered 307 to {_}/en/, not a permanent redirect to /en/index/ (_redirects)'])
 
     def test_only_chart_embeds_can_be_framed(self):
         rules = header_rules(self.dist)

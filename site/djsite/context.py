@@ -61,6 +61,13 @@ class Site:
         self.files[path] = data
         return path
 
+    @property
+    def chooser(self) -> bool:
+        """Whether ``/`` lets readers choose a language. With one published language it
+        redirects to it instead (``_redirects``), stays out of the sitemap, and the language's
+        Home is the x-default."""
+        return len(self.published) > 1
+
 
 class Ctx:
     """Everything a renderer needs for one page in one language."""

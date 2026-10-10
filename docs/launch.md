@@ -50,7 +50,8 @@ Note who checked and when in a comment on #35.
    - every page and every link to the site itself, and the chart embeds, dark and light;
    - the share images and the zip files;
    - robots.txt and the 404 page;
-   - the headers from `_headers`, including that only the chart embeds can be framed by other sites.
+   - the headers from `_headers`, including that only the chart embeds can be framed by other sites;
+   - the redirects from `_redirects`: `/` to `/en/` while English is the only language, and `/en/index` to the Index.
 
    It should end with *All good.*
 3. **Date the launch:** set the date of the *Index v1* entry in [content/changelog.json](../content/changelog.json). Merging it deploys. The public Reports and Methodology pages were removed on 9 October; sources and formulas are on the Data page, and report #1 stays a draft in `content/reports/`.
