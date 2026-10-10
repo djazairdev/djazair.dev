@@ -260,7 +260,7 @@
     "translate_cta": "Find a translation team",
     "projects_eyebrow": "Projects",
     "projects_title": "Listed projects and open slots",
-    "projects_lede": "Every listed project passes a daily health check: recent commits, open beginner issues and the djazairdev topic. Dashed cards are projects Algeria’s ecosystem still needs.",
+    "projects_lede": "Every listed project passes a daily health check: recent commits and the djazairdev topic. Dashed cards are projects Algeria’s ecosystem still needs.",
     "projects_note": "A project that fails a check for 14 days is hidden until it’s fixed, and one that removes the topic leaves at once. {report}.",
     "health_report": "Read the health report",
     "listed": "{category} · listed {date}",
@@ -304,7 +304,7 @@
       "licence": "An OSI-approved open-source licence",
       "activity": "At least one commit in the last 90 days",
       "docs": "A README and a CONTRIBUTING file",
-      "issues": "At least 3 open issues labelled {gfi} or {hw}",
+      "issues": "Issues turned on, with the label {gfi} or {hw}",
       "pledge": "Maintainers pledge to reply to newcomer pull requests within 7 days",
       "topic": "The repository carries the GitHub topic {topic}",
       "relevance": "Algerian maintainers, or clear relevance to Algeria"

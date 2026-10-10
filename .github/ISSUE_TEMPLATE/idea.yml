@@ -1,0 +1,26 @@
+name: Idea
+description: A new feature or an improvement to this project.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: "What is hard or impossible today, and who it affects."
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: "What you would change. Sketches, examples and links to other projects help."
+    validations:
+      required: true
+  - type: dropdown
+    id: help
+    attributes:
+      label: Would you work on it?
+      options:
+        - "Yes, with some guidance"
+        - "Yes, on my own"
+        - "No, it's a suggestion"

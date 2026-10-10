@@ -48,6 +48,8 @@ def healthy(**changes) -> dict:
         ('GET', rf'/repos/{REPO}/community/profile'): (200, {'files': {'readme': {}, 'contributing': {}, 'code_of_conduct': {}}}),
         ('GET', rf'/repos/{REPO}/issues\?state=open&labels=good%20first%20issue&per_page=100&page=1'): (200, [issue(1), issue(2), issue(9, pr=True)]),
         ('GET', rf'/repos/{REPO}/issues\?state=open&labels=help%20wanted&per_page=100&page=1'): (200, [issue(2), issue(3)]),
+        ('GET', rf'/repos/{REPO}/labels/good%20first%20issue'): (200, {'name': 'good first issue'}),
+        ('GET', rf'/repos/{REPO}/labels/help%20wanted'): (200, {'name': 'help wanted'}),
     }
     routes.update(changes.pop('routes', {}))
     return routes
@@ -69,7 +71,8 @@ class Checks(unittest.TestCase):
                                           'pledge': 'pass', 'topic': 'pass', 'relevance': 'review'})
         self.assertTrue(report.ok)
         self.assertEqual(report.summary(), '6 of 7 passed, 1 waits for a reviewer')
-        self.assertIn('3 open issues', report.results[3].found, 'issues de-duplicated, pull requests left out')
+        self.assertEqual(report.results[3].found, 'The labels `good first issue` and `help wanted` exist; 3 open issues carry them.',
+                         'issues de-duplicated, pull requests left out')
         self.assertEqual(report.notes, [])
 
     def test_a_listed_project_passes_all_seven(self):
@@ -107,10 +110,20 @@ class Checks(unittest.TestCase):
         self.assertEqual(report.notes, ['A code of conduct is recommended, not required: none found.'])
         self.assertTrue(all(r.status != 'fail' or r.key == 'docs' for r in report.results))
 
-    def test_beginner_issues(self):
-        few = {('GET', rf'/repos/{REPO}/issues\?state=open&labels=help%20wanted&per_page=100&page=1'): (200, [])}
-        result = run(healthy(routes=few)).results[3]
-        self.assertEqual((result.status, result.found), ('fail', '2 open issues labelled `good first issue` or `help wanted`.'))
+    def test_beginner_labels(self):
+        """Decision D27: one of the labels is enough, and no number of open issues is required."""
+        no_help = {('GET', rf'/repos/{REPO}/labels/help%20wanted'): (404, {'message': 'Not Found'})}
+        result = run(healthy(routes=no_help)).results[3]
+        self.assertEqual((result.status, result.found), ('pass', 'The label `good first issue` exists; 2 open issues carry it.'))
+        none_open = {**no_help, ('GET', rf'/repos/{REPO}/issues\?state=open&labels=good%20first%20issue&per_page=100&page=1'): (200, [])}
+        report = run(healthy(routes=none_open))
+        self.assertEqual((report.results[3].status, report.results[3].found),
+                         ('pass', 'The label `good first issue` exists; 0 open issues carry it.'))
+        self.assertIn('No open issue carries a beginner label yet', report.notes[0])
+        neither = {**no_help, ('GET', rf'/repos/{REPO}/labels/good%20first%20issue'): (404, {'message': 'Not Found'})}
+        result = run(healthy(routes=neither)).results[3]
+        self.assertEqual(result.status, 'fail')
+        self.assertIn('Issues → Labels', result.fix)
         self.assertEqual(run(healthy(repo={'has_issues': False})).results[3].found, 'Issues are turned off.')
 
     def test_topic_and_pledge(self):

@@ -118,6 +118,10 @@ class GitHub:
     def community(self, repo: str):
         return self.get(f'/repos/{_repo(repo)}/community/profile')
 
+    def label(self, repo: str, name: str):
+        """The repository's label called ``name``, or None if it has none."""
+        return self.get(f'/repos/{_repo(repo)}/labels/{quote(name, safe="")}')
+
     def labelled_issues(self, repo: str, label: str) -> list:
         """Open issues (not pull requests) with ``label``."""
         out, page = [], 1
