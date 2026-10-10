@@ -15,7 +15,6 @@ Ticket status lives in GitHub.
 | Every MVP page is built in English, and every `/ar/` address shows the invitation to translate | [implementation plan](implementation-plan.md), [#61](https://github.com/djazairdev/djazair.dev/issues/61) |
 | The latest Innovation Graph release is live: Q1 2026 at launch, and Q2 2026 within a day of GitHub releasing it | the `Data` workflow ([deploy.md](deploy.md#data-updates)) |
 | Someone other than the founder has checked the published numbers | [below](#checking-the-numbers) |
-| Report #1 is ready to publish, in English | [#34](https://github.com/djazairdev/djazair.dev/issues/34), [reports.md](reports.md#publishing) |
 | The seed projects that pass every check are listed in the Hub: five of six at launch, and ksarjs once it passes (D25, D30) | [#28](https://github.com/djazairdev/djazair.dev/issues/28), the [health report](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md) |
 | The corrections log is live on the Data page | `/en/data/#corrections` |
 | The Cloudflare API token, its two secrets and the `main` ruleset exist, and CI has deployed `main` | [deploy.md](deploy.md#one-time-setup-founder) |
@@ -33,7 +32,6 @@ Before launch, someone other than the founder checks every number on the site ag
 | Peers | North Africa and the core peers; the rank tables | `peers.csv`, `ranks.csv`, `groups.csv` |
 | Trends | Every quarter since 2020, for Algeria and the medians | `trends.csv` |
 | Languages | The top ten, a year earlier and the change | `languages_algeria.csv` |
-| Report #1 | Every figure in the text, the tables and the charts | the same files; `tests/test_reports.py` also checks every claim the words make |
 
 Then check a few numbers against GitHub's own files. For example, take Algeria's account count in `data/raw/<release>/developers.csv` (economy `DZ`, the latest quarter). Then recompute one ratio from the Methodology page's formulas: its worked example shows how.
 
@@ -55,11 +53,7 @@ Note who checked and when in a comment on #35.
    - the headers from `_headers`, including that only the chart embeds can be framed by other sites.
 
    It should end with *All good.*
-3. **Date the launch** in one pull request:
-   - set the date of the *Index v1* entry in [content/changelog.json](../content/changelog.json);
-   - publish report #1 in English (see [reports.md](reports.md#publishing)): `status`, `published`, and the Hub numbers from that day.
-
-   Merging it deploys.
+3. **Date the launch:** set the date of the *Index v1* entry in [content/changelog.json](../content/changelog.json). Merging it deploys. The public Reports and Methodology pages were removed on 9 October; sources and formulas are on the Data page, and report #1 stays a draft in `content/reports/`.
 4. **Move the domain** from the holding page to the site:
    1. In Cloudflare, open *Workers & Pages → djazair-dev-holding → Settings → Domains & Routes* and remove `djazair.dev`. The address stops answering until the next step has deployed.
    2. Merge a pull request that changes [`wrangler.jsonc`](../wrangler.jsonc): add the `routes` line from the comment at its end, and set `"workers_dev": false`, so the site has one address. Keep `"preview_urls": true`: pull-request previews still work. CI deploys it, and Cloudflare attaches djazair.dev with its DNS record and certificate within minutes.
@@ -94,7 +88,11 @@ Note who checked and when in a comment on #35.
 
 ## Drafts
 
-Use the numbers from the published report: the drafts below take its title and standfirst. At launch the site is in English (D28), so post the English drafts, and ask Arabic speakers to help translate it ([#62](https://github.com/djazairdev/djazair.dev/issues/62)). Keep the Arabic drafts for when the Arabic site is live, and don't post Arabic that a fluent reader hasn't checked (D13).
+The drafts use this summary of the Q1 2026 data, from `data/derived/2026-q1/overview.csv` and `trends.csv`; update it when a new quarter is published:
+
+> Algeria had 586,990 developer accounts on GitHub at the end of March 2026, 49% more than a year earlier. Growth has sped up four quarters in a row and kept pace with North Africa (median 44%). Pushes per account more than doubled, from 0.51 to 1.06, but still trail the North African median of 1.34.
+
+At launch the site is in English (D28), so post the English drafts, and ask Arabic speakers to help translate it ([#62](https://github.com/djazairdev/djazair.dev/issues/62)). Keep the Arabic drafts for when the Arabic site is live, and don't post Arabic that a fluent reader hasn't checked (D13).
 
 ### For the Innovation Graph team
 
@@ -104,8 +102,8 @@ Use the numbers from the published report: the drafts below take its title and s
 >
 > We have launched [djazair.dev](https://djazair.dev/en/), an open-source site that follows Algeria's developer accounts every quarter with your data. It compares Algeria with the medians of North African and African peer groups. Every figure names its source quarter, and every table we derive is published as CSV and JSON under CC0.
 >
-> - Methodology (sources, formulas, peer groups, known limitations): https://djazair.dev/en/methodology/
-> - Our first quarterly report: https://djazair.dev/en/reports/&lt;quarter&gt;/
+> - The Index: https://djazair.dev/en/index/
+> - Sources, formulas, peer groups, known limitations and every table: https://djazair.dev/en/data/
 > - Code and data: https://github.com/djazairdev/djazair.dev
 >
 > We describe the counts as developer accounts placed in an economy by network address, not as people. We also note that pushes are rising across GitHub. If we describe anything wrongly, or there is a better way to use the data, we would be glad to know: corrections go in our public log within 7 days.
@@ -116,33 +114,33 @@ Use the numbers from the published report: the drafts below take its title and s
 
 **LinkedIn, English:**
 
-> *[the report's standfirst]*
+> Algeria had 586,990 developer accounts on GitHub at the end of March 2026, 49% more than a year earlier. Growth has sped up four quarters in a row and kept pace with North Africa (median 44%). Pushes per account more than doubled, from 0.51 to 1.06, but still trail the North African median of 1.34.
 >
 > Today we are launching djazair.dev:
 > - a quarterly Algeria Developer Index built on GitHub's Innovation Graph, compared with the North African and African medians, with every table free to reuse;
 > - a Hub of open-source projects with issues for first-time contributors.
 >
-> Report: https://djazair.dev/en/reports/&lt;quarter&gt;/ · Index: https://djazair.dev/en/index/ · Hub: https://djazair.dev/en/hub/
+> Index: https://djazair.dev/en/index/ · Data: https://djazair.dev/en/data/ · Hub: https://djazair.dev/en/hub/
 >
 > Read Arabic? Help us bring djazair.dev to Arabic: https://github.com/djazairdev/djazair.dev/issues/62
 
 **LinkedIn, Arabic** (once the Arabic site is live, D28):
 
-> *[ملخّص التقرير]*
+> *[ملخّص أرقام الربع]*
 >
 > نطلق اليوم djazair.dev:
 > - مؤشرًا ربعيًا لحسابات المطوّرين في الجزائر، مبنيًا على بيانات GitHub Innovation Graph، يقارن الجزائر بوسيطَي شمال أفريقيا وأفريقيا، وكل جداوله متاحة لإعادة الاستخدام بحرّية؛
 > - مركزًا للمشاريع مفتوحة المصدر ومهامها المناسبة للمبتدئين.
 >
-> التقرير: https://djazair.dev/ar/reports/&lt;quarter&gt;/ · المؤشر: https://djazair.dev/ar/index/ · المركز: https://djazair.dev/ar/hub/
+> المؤشر: https://djazair.dev/ar/index/ · البيانات: https://djazair.dev/ar/data/ · المركز: https://djazair.dev/ar/hub/
 
-**X:** the report's title and link, plus one chart from the press kit, and a line asking Arabic speakers to help translate the site.
+**X:** the summary's first sentence and https://djazair.dev/en/, plus one chart from the Index (each chart has an SVG download), and a line asking Arabic speakers to help translate the site.
 
 **Meetups:** a ten-minute talk.
 1. What the Index measures: accounts, not people.
-2. Three numbers from the report, including the bad news.
+2. Three numbers from the Q1 2026 data, including the bad news.
 3. Algeria against the medians.
 4. The languages.
 5. How to help: translate the site into Arabic, list a project in the Hub, pick an issue, or check the numbers.
 
-The press kit's charts work as slides.
+The Index's chart downloads (SVG) work as slides.
