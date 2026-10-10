@@ -1,11 +1,12 @@
 """Hub health checks (ticket #26; PRD HUB-06, AC-HUB-3).
 
 Every sync (every 6 hours, so at least daily) checks each listed project with what it has
-just fetched, at no extra cost. A project is flagged when it has no commit in 90 days, no
-open beginner issues, or no longer carries the ``djazairdev`` topic. It is hidden after 14
+just fetched, at no extra cost. A project is flagged when it has no commit in 90 days, or no
+longer carries the ``djazairdev`` topic. It is hidden after 14
 days flagged, and at once when the topic is removed (only maintainers can set topics, so
 removing it withdraws consent) or the repository is archived, private or gone. It shows
-again as soon as the problem is fixed.
+again as soon as the problem is fixed. A project with no open beginner issues is not flagged
+(decision D27): the report lists it, and its card shows 0 open issues.
 
 The date a project was first flagged is carried from one snapshot to the next in
 ``projects.json``. ``report`` writes ``HEALTH.md``, which lists every flagged and hidden
@@ -25,7 +26,6 @@ REASONS = {
     'archived': 'The repository is archived',
     'topic': f'The `{TOPIC}` topic was removed',
     'inactive': f'No commit in {ACTIVE_DAYS} days',
-    'no_issues': 'No open `good first issue` or `help wanted` issues',
 }
 AT_ONCE = ('missing', 'archived', 'topic')
 
@@ -50,8 +50,6 @@ def problems(project: dict, today: date) -> dict:
         days = (today - _date(last)).days
         if days > ACTIVE_DAYS:
             out['inactive'] = f'Last commit on {_date(last).isoformat()}, {days} days ago.'
-    if not project.get('issues'):
-        out['no_issues'] = '0 open issues with either label.'
     return out
 
 
@@ -81,8 +79,8 @@ def report(projects: list, now: datetime) -> str:
     when = now.astimezone(timezone.utc)
     lines = ['# Hub health report', '',
              f'Checked on {when.day} {when:%B %Y} at {when:%H:%M} UTC by `python -m hub sync`, which runs every 6 hours.', '',
-             f'A listed project is flagged when it has no commit in {ACTIVE_DAYS} days, no open `good first issue` or '
-             f'`help wanted` issues, or no longer carries the `{TOPIC}` topic (PRD HUB-06). It is hidden from the Hub after '
+             f'A listed project is flagged when it has no commit in {ACTIVE_DAYS} days, or no longer carries the `{TOPIC}` '
+             f'topic (PRD HUB-06). It is hidden from the Hub after '
              f'{FLAGGED_DAYS} days flagged, and at once when the topic is removed or the repository is archived, private or '
              'gone. It shows again as soon as the problem is fixed. Projects are listed in '
              '[`projects.yml`](https://github.com/djazairdev/djazair.dev/blob/main/projects.yml).', '']
@@ -107,4 +105,9 @@ def report(projects: list, now: datetime) -> str:
     table('hidden', 'Hidden', 'Hidden since')
     healthy = sorted((p for p in projects if p['status'] == 'healthy'), key=lambda p: p['repository'].lower())
     lines.extend(['## Healthy', '', ', '.join(_project(p) for p in healthy) + '.' if healthy else 'None.', ''])
+    quiet = sorted((p for p in projects if p['shown'] and not p.get('issues')), key=lambda p: p['repository'].lower())
+    if quiet:
+        lines.extend(['## No open beginner issues', '',
+                      'Not a flag: these projects stay listed, with nothing in the Hub’s issue feed until they label an issue '
+                      '`good first issue` or `help wanted`.', '', ', '.join(_project(p) for p in quiet) + '.', ''])
     return '\n'.join(lines)
