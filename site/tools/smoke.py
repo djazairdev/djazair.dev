@@ -11,7 +11,9 @@ It reads the sitemap the site publishes and checks that:
 - every link on those pages to the site itself answers 200: other pages, downloads, the
   press kit, fonts and scripts;
 - the share images are PNG files, the press kit is a zip, the root page sends readers to
-  /en/ or /ar/, robots.txt names the sitemap, and a missing page gets the site's 404 page;
+  each language the sitemap lists (only /en/ while Arabic shows the invitation to translate,
+  which the language switch's "ع" links lead to), robots.txt names the sitemap, and a missing
+  page gets the site's 404 page;
 - the chart embeds the Index pages link to answer, dark and light;
 - when Cloudflare answers, the headers from site/dist/_headers are there (caching, CORS for
   the data and charts, nosniff), and only the chart embeds can be framed by other sites;
@@ -167,6 +169,7 @@ class Smoke:
             return self
         pages = self.fetch_all(self.local(loc, self.base + '/') for loc in locs)
         self.counts['sitemap'] = len(pages)
+        langs = sorted({self.path(url).strip('/').split('/')[0] for url in pages} & {'en', 'ar'})
         links, images = set(), set()
         for url, answer in pages.items():
             path = self.path(url)
@@ -185,7 +188,7 @@ class Smoke:
                 elif not self.notes:      # Cloudflare hides preview addresses from search engines
                     self.notes.append(f'this address is hidden from search engines, as Cloudflare does for previews ({hidden}).')
             if path == '/':
-                self.check_root(answer, page)
+                self.check_root(answer, page, langs)
             image = page.meta.get('og:image')
             if image:
                 images.add(self.local(image, url) or image)
@@ -214,11 +217,12 @@ class Smoke:
     def links(self, page: Page, url: str) -> set:
         return {target for target in (self.local(link, url) for link in page.links) if target}
 
-    def check_root(self, answer: Answer, page: Page):
+    def check_root(self, answer: Answer, page: Page, langs: list):
+        """``langs``: the languages the sitemap has pages in."""
         text = answer.body.decode('utf-8', 'replace')
         if 'location.replace' not in text:
             self.fail('/ does not send readers to their language')
-        for lang in ('en', 'ar'):
+        for lang in langs:
             if f'/{lang}/' not in page.links:
                 self.fail(f'/ has no link to /{lang}/ for readers without JavaScript')
 

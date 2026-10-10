@@ -32,7 +32,7 @@ class Embeds(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        cls.site = build(cls.dist, quiet=True)
+        cls.site = build(cls.dist, quiet=True, published=LANGS)
         cls.html = {(key, lang): (cls.dist / lang / path / 'index.html').read_text('utf-8')
                     for key, path in PAGES.items() for lang in LANGS}
 
@@ -145,7 +145,7 @@ class ShareImages(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
-        cls.site = build(cls.tmp / 'dist', quiet=True)
+        cls.site = build(cls.tmp / 'dist', quiet=True, published=LANGS)
 
     @classmethod
     def tearDownClass(cls):

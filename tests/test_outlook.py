@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'site'))
 from djsite import data, outlook
 from djsite.build import build
+from djsite.config import LANGS
 
 
 class Calculations(unittest.TestCase):
@@ -64,7 +65,7 @@ class Pages(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
-        build(cls.tmp/'dist',quiet=True)
+        build(cls.tmp/'dist',quiet=True, published=LANGS)
         cls.dist=cls.tmp/'dist'
 
     @classmethod

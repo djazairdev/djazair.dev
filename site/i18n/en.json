@@ -68,6 +68,14 @@
     "draft": "The Arabic text is a draft until a fluent reviewer checks it.",
     "fallback": "Some text on this page isn’t translated yet, so it appears in English."
   },
+  "invite": {
+    "eyebrow": "Help translate",
+    "title": "djazair.dev isn’t available in Arabic yet",
+    "text": "The site is in English for now. The community can bring it to Arabic: people who write Arabic well translate each page and review it.",
+    "help": "Issue {issue} on GitHub lists the pages and how to start.",
+    "issue": "Translate djazair.dev into Arabic",
+    "english": "Read this page in English"
+  },
   "stub": {
     "eyebrow": "Coming soon",
     "lede": "This page is being built. Follow the work in {issue}."

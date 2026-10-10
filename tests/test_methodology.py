@@ -16,6 +16,7 @@ sys.path.insert(0, str(ROOT / 'site'))
 from pipeline import indicators  # noqa: E402
 from djsite import data  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.fmt import fdec, fint, fpct  # noqa: E402
 from djsite.markdown import Renderer, items, sections  # noqa: E402
 from djsite.markup import Markup  # noqa: E402
@@ -50,7 +51,7 @@ class MethodologyPage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=LANGS)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'data' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
         cls.about = {lang: (cls.dist / lang / 'about' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}

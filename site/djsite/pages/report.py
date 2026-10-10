@@ -408,14 +408,14 @@ def method_text(ctx, report: reports.Report, data: Derived, lang: str) -> str:
 
 
 def press_kit(ctx, report: reports.Report, data: Derived, figs: Figures) -> bytes:
-    """The charts of the report in both languages and both themes, their CSV and JSON, the
-    methodology summary in both languages and a README. Names, order and timestamps are
+    """The charts of the report in the published languages and both themes, their CSV and JSON,
+    the methodology summary in those languages and a README. Names, order and timestamps are
     fixed, so the same report always gives the same file."""
     stamp = tuple(int(x) for x in data.release_date.split('-')) + (0, 0, 0)
     root = f'djazair.dev-report-{report.slug}'
     files = []
     readme = []
-    for lang in LANGS:
+    for lang in ctx.site.published:
         other = Ctx(ctx.site, lang, ctx.route)
         front, _ = report.source(lang)
         lines = [front['title'], other.s('report.readme_kit').replace('{n}', str(report.number)),
@@ -436,7 +436,7 @@ def press_kit(ctx, report: reports.Report, data: Derived, figs: Figures) -> byte
     for key in FIGURES:
         chart = figs[key]
         files += [(f'data/{chart.id}.csv', chart.csv()), (f'data/{chart.id}.json', chart.json())]
-        for lang in LANGS:
+        for lang in ctx.site.published:
             for theme, pal in THEMES.items():
                 files.append((f'{lang}/{chart.id}-{theme}.svg', charts.download_svg(chart, lang, pal)))
     buf = io.BytesIO()

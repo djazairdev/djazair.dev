@@ -1,6 +1,6 @@
 # Launch
 
-djazair.dev launches by **30 November 2026**, with a scope checkpoint on 15 November (ticket [#35](https://github.com/djazairdev/djazair.dev/issues/35), PRD §14). This page covers:
+djazair.dev launches on **12 October 2026** (decision D30, ticket [#35](https://github.com/djazairdev/djazair.dev/issues/35), PRD §14), in English: every Arabic page invites people to help translate the site until fluent contributors have translated and reviewed it (D28). This page covers:
 
 - what has to be true before launch;
 - the launch-day steps, in order;
@@ -12,12 +12,11 @@ Ticket status lives in GitHub.
 
 | What | Ticket or guide |
 | --- | --- |
-| Every MVP page is built, in English and Arabic | [implementation plan](implementation-plan.md) |
-| The latest Innovation Graph release is live: Q2 2026 if GitHub has released it, otherwise Q1 2026 | the `Data` workflow ([deploy.md](deploy.md#data-updates)) |
+| Every MVP page is built in English, and every `/ar/` address shows the invitation to translate | [implementation plan](implementation-plan.md), [#61](https://github.com/djazairdev/djazair.dev/issues/61) |
+| The latest Innovation Graph release is live: Q1 2026 at launch, and Q2 2026 within a day of GitHub releasing it | the `Data` workflow ([deploy.md](deploy.md#data-updates)) |
 | Someone other than the founder has checked the published numbers | [below](#checking-the-numbers) |
-| A fluent reviewer has signed off the Arabic | [#33](https://github.com/djazairdev/djazair.dev/issues/33), [arabic-review.md](arabic-review.md) |
-| Report #1 is ready to publish | [#34](https://github.com/djazairdev/djazair.dev/issues/34), [reports.md](reports.md#publishing) |
-| At least 15 projects are listed in the Hub | [#28](https://github.com/djazairdev/djazair.dev/issues/28) |
+| Report #1 is ready to publish, in English | [#34](https://github.com/djazairdev/djazair.dev/issues/34), [reports.md](reports.md#publishing) |
+| The seed projects that pass every check are listed in the Hub: five of six at launch, and ksarjs once it passes (D25, D30) | [#28](https://github.com/djazairdev/djazair.dev/issues/28), the [health report](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md) |
 | The corrections log is live on the Data page | `/en/data/#corrections` |
 | The Cloudflare API token, its two secrets and the `main` ruleset exist, and CI has deployed `main` | [deploy.md](deploy.md#one-time-setup-founder) |
 | A second admin is on the registrar, Cloudflare and the GitHub organisation, with two-factor authentication; djazair.dev and founders.coffee have auto-renewal and the registrar lock | PRD §11, R2 |
@@ -58,7 +57,7 @@ Note who checked and when in a comment on #35.
    It should end with *All good.*
 3. **Date the launch** in one pull request:
    - set the date of the *Index v1* entry in [content/changelog.json](../content/changelog.json);
-   - publish report #1 (see [reports.md](reports.md#publishing)): `status`, `published`, and the Hub numbers from that day.
+   - publish report #1 in English (see [reports.md](reports.md#publishing)): `status`, `published`, and the Hub numbers from that day.
 
    Merging it deploys.
 4. **Move the domain** from the holding page to the site:
@@ -73,7 +72,7 @@ Note who checked and when in a comment on #35.
    python3 site/tools/smoke.py
    ```
 
-   Then open https://djazair.dev/ on a phone, in both languages.
+   Then open https://djazair.dev/ on a phone: it should go to the English site. Check that https://djazair.dev/ar/ shows the invitation to translate.
 6. **Turn on monitoring.**
    1. Set the repository variable `UPTIME_URLS` to `https://djazair.dev/ https://djazair.dev/en/ https://djazair.dev/ar/`.
    2. Run the *Uptime* workflow by hand: it should pass for all three addresses.
@@ -95,7 +94,7 @@ Note who checked and when in a comment on #35.
 
 ## Drafts
 
-Use the numbers from the published report: the drafts below take its title and standfirst, which the reviewer has already checked in both languages. Don't post Arabic that a fluent reader hasn't checked (D13).
+Use the numbers from the published report: the drafts below take its title and standfirst. At launch the site is in English (D28), so post the English drafts, and ask Arabic speakers to help translate it ([#62](https://github.com/djazairdev/djazair.dev/issues/62)). Keep the Arabic drafts for when the Arabic site is live, and don't post Arabic that a fluent reader hasn't checked (D13).
 
 ### For the Innovation Graph team
 
@@ -124,8 +123,10 @@ Use the numbers from the published report: the drafts below take its title and s
 > - a Hub of open-source projects with issues for first-time contributors.
 >
 > Report: https://djazair.dev/en/reports/&lt;quarter&gt;/ · Index: https://djazair.dev/en/index/ · Hub: https://djazair.dev/en/hub/
+>
+> Read Arabic? Help us bring djazair.dev to Arabic: https://github.com/djazairdev/djazair.dev/issues/62
 
-**LinkedIn, Arabic:**
+**LinkedIn, Arabic** (once the Arabic site is live, D28):
 
 > *[ملخّص التقرير]*
 >
@@ -135,13 +136,13 @@ Use the numbers from the published report: the drafts below take its title and s
 >
 > التقرير: https://djazair.dev/ar/reports/&lt;quarter&gt;/ · المؤشر: https://djazair.dev/ar/index/ · المركز: https://djazair.dev/ar/hub/
 
-**X:** the report's title and link, plus one chart from the press kit. Use the Arabic chart for the Arabic post.
+**X:** the report's title and link, plus one chart from the press kit, and a line asking Arabic speakers to help translate the site.
 
 **Meetups:** a ten-minute talk.
 1. What the Index measures: accounts, not people.
 2. Three numbers from the report, including the bad news.
 3. Algeria against the medians.
 4. The languages.
-5. How to help: list a project in the Hub, pick an issue, review the Arabic, or check the numbers.
+5. How to help: translate the site into Arabic, list a project in the Hub, pick an issue, or check the numbers.
 
 The press kit's charts work as slides.

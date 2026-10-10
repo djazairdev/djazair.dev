@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'site'))
 
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.pages import meetups  # noqa: E402
 from djsite.pages.meetups import MeetupsError, load  # noqa: E402
 
@@ -25,7 +26,7 @@ class MeetupsPage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=LANGS)
         cls.html = {lang: (cls.dist / lang / 'meetups' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
         cls.main = {lang: re.search(r'<main.*?</main>', html, re.S).group(0) for lang, html in cls.html.items()}
 

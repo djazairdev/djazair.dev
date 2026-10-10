@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite import data  # noqa: E402
 from djsite.build import build, csv_zip  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.fmt import date_label, fint, quarter_label, rank_text  # noqa: E402
 from htmlcheck import Doc  # noqa: E402
 
@@ -30,7 +31,7 @@ class Overview(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=LANGS)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
 

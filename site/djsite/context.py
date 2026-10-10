@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from .config import DIRS, SITE_URL
+from .config import DIRS, PUBLISHED, SITE_URL
 from .i18n import _PLACEHOLDER, Catalog, fill
 from .markup import Markup
 
@@ -33,6 +33,7 @@ class Page:
     head: Markup = Markup('')
     indexed: bool = True           # False keeps the page out of search and the sitemap (placeholders)
     css: str = ''                  # the page's own rules, generated from the data, after the stylesheet (Home's hero)
+    style: str = ''                # the styles to inline, if not its route's own (the invitation page)
 
 
 @dataclass
@@ -48,6 +49,7 @@ class Site:
     indexed: dict = field(default_factory=dict)  # route key -> languages it is indexed in (the sitemap)
     analytics: str = ''            # Cloudflare Web Analytics token; '' adds no beacon
     cache: dict = field(default_factory=dict)   # what pages read once per build, such as a report's quarter
+    published: tuple = PUBLISHED   # languages served in full; the others show the invitation to translate
 
     def add_file(self, path: str, data: bytes) -> str:
         """Register a generated file, such as a chart download, and return its URL. Pages in
@@ -63,9 +65,12 @@ class Site:
 class Ctx:
     """Everything a renderer needs for one page in one language."""
 
-    def __init__(self, site: Site, lang: str, route: Route):
+    def __init__(self, site: Site, lang: str, route: Route, links: Optional[str] = None):
+        """``links``: the language the page's links lead to, if not its own; the invitation to
+        translate sends its header and footer to the English pages (#61)."""
         self.site = site
         self.lang = lang
+        self.links = links or lang
         self.dir = DIRS[lang]
         self.route = route
         self.fallbacks: set = set()
@@ -77,7 +82,7 @@ class Ctx:
     # ---- links
     def url(self, key: str, lang: Optional[str] = None, hash: str = '') -> str:
         """Root-relative URL of a route: ``/en/index/trends/``."""
-        path = f'/{lang or self.lang}/{self.site.routes[key].path}'
+        path = f'/{lang or self.links}/{self.site.routes[key].path}'
         return path + (f'#{hash}' if hash else '')
 
     def abs_url(self, key: str, lang: Optional[str] = None) -> str:

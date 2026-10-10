@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite import data, editorial  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.fmt import MINUS, fint, fpct, ordinal, quarter_label, rank_text  # noqa: E402
 from djsite.pages import home  # noqa: E402
 from htmlcheck import Doc, stylesheet  # noqa: E402
@@ -204,7 +205,7 @@ class HomePage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=LANGS)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
         cls.text = {lang: text_of(h) for lang, h in cls.html.items()}
