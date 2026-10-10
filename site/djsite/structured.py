@@ -4,12 +4,13 @@ from __future__ import annotations
 import calendar
 import json
 
-from .config import ORG_URL, SITE_URL
+from .config import PROFILES, SITE_URL
 from .markup import Markup
 from . import outlook
 
 ORG_ID = f'{SITE_URL}/#organization'
 CATALOG_ID = f'{SITE_URL}/en/data/#catalog'
+LOGO = '/logo.png'                  # the djazairdev mark, 1024 × 1024, for search results
 
 
 def script(value: dict) -> Markup:
@@ -29,8 +30,9 @@ def page(ctx, title: str, description: str, indexed: bool = True) -> Markup:
     if ctx.route.key == 'data':
         webpage['mainEntity'] = {'@id': CATALOG_ID}
     return script({'@context': 'https://schema.org', '@graph': [
-        {'@type': 'Organization', '@id': ORG_ID, 'name': 'djazair.dev',
-         'url': SITE_URL + '/', 'sameAs': [ORG_URL]},
+        {'@type': 'Organization', '@id': ORG_ID, 'name': 'djazair.dev', 'url': SITE_URL + '/',
+         'logo': {'@type': 'ImageObject', 'url': SITE_URL + LOGO, 'width': 1024, 'height': 1024},
+         'sameAs': list(PROFILES)},
         {'@type': 'WebSite', '@id': SITE_URL + '/#website', 'name': 'djazair.dev',
          'url': SITE_URL + '/', 'inLanguage': list(ctx.site.published), 'publisher': {'@id': ORG_ID}},
         webpage]})

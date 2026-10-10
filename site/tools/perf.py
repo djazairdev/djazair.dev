@@ -18,7 +18,6 @@ import argparse
 import base64
 import gzip
 import json
-import mimetypes
 import os
 import shutil
 import socket
@@ -66,21 +65,36 @@ GZIP = ('text/', 'application/javascript', 'application/json', 'image/svg+xml')
 
 
 # ---------------------------------------------------------------- the site, gzipped
+TYPES = {'.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json',
+         '.csv': 'text/csv', '.md': 'text/markdown', '.txt': 'text/plain', '.xml': 'application/xml',
+         '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.zip': 'application/zip'}
+
+
 class Handler(SimpleHTTPRequestHandler):
     """site/dist with gzip and no caching, so every load is cold, as on a first visit."""
 
+    def files(self) -> dict:
+        """Every file in the folder by its address (/en/index.html), listed once per server. A
+        request only picks from this list, so nothing outside the folder can be read."""
+        if getattr(self.server, 'files', None) is None:
+            root = Path(self.directory)
+            self.server.files = {'/' + f.relative_to(root).as_posix(): str(f) for f in root.rglob('*') if f.is_file()}
+        return self.server.files
+
     def do_GET(self):
-        path = Path(self.directory) / unquote(urlparse(self.path).path).lstrip('/')
-        if path.is_dir():
-            path = path / 'index.html'
-        status = 200
-        if not path.is_file():
-            path, status = Path(self.directory) / '404.html', 404
-            if not path.is_file():
-                self.send_error(404)
-                return
-        body = path.read_bytes()
-        kind = mimetypes.guess_type(path.name)[0] or 'application/octet-stream'
+        files, address = self.files(), unquote(urlparse(self.path).path)
+        found = files.get(address) or files.get(address.rstrip('/') + '/index.html')
+        if found:
+            return self.send_file(found, 200)
+        return self.send_file(files.get('/404.html'), 404)
+
+    def send_file(self, path, status: int):
+        if path is None:
+            self.send_error(404)
+            return
+        with open(path, 'rb') as f:
+            body = f.read()
+        kind = TYPES.get(os.path.splitext(path)[1].lower(), 'application/octet-stream')   # from the table, never the address
         self.send_response(status)
         self.send_header('Content-Type', kind + ('; charset=utf-8' if kind.startswith('text/') else ''))
         if kind.startswith(GZIP) and 'gzip' in self.headers.get('Accept-Encoding', ''):

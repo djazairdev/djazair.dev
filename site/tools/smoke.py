@@ -10,10 +10,13 @@ It reads the sitemap the site publishes and checks that:
   from search engines;
 - every link on those pages to the site itself answers 200: other pages, downloads, the
   press kit, fonts and scripts;
-- the share images are PNG files, the press kit is a zip, the root page sends readers to
-  each language the sitemap lists (only /en/ while Arabic shows the invitation to translate,
-  which the language switch's "ع" links lead to), robots.txt names the sitemap, and a missing
-  page gets the site's 404 page;
+- the share images are PNG files, the press kit is a zip, robots.txt names the sitemap, and a
+  missing page gets the site's 404 page;
+- / sends readers to each language the sitemap lists. With one language (English, while Arabic
+  shows the invitation to translate, which the language switch's "ع" links lead to), Cloudflare
+  redirects / to it permanently (_redirects), and elsewhere the page at / does;
+- when Cloudflare answers, /<lang>/index redirects permanently to the Index at /<lang>/index/,
+  rather than to Home, whose file is /<lang>/index.html;
 - the chart embeds the Index pages link to answer, dark and light;
 - when Cloudflare answers, the headers from site/dist/_headers are there (caching, CORS for
   the data and charts, nosniff), and only the chart embeds can be framed by other sites;
@@ -34,7 +37,7 @@ from html.parser import HTMLParser
 from typing import NamedTuple
 from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlsplit, urlunsplit
-from urllib.request import Request, urlopen
+from urllib.request import HTTPRedirectHandler, Request, build_opener, urlopen
 
 CANONICAL = 'https://djazair.dev'      # the address the sitemap and share tags use
 AGENT = 'djazair.dev smoke check'
@@ -54,12 +57,19 @@ class Answer(NamedTuple):
     error: str = ''
 
 
-def fetch(url: str, timeout: float = 30, tries: int = 2) -> Answer:
-    """GET ``url``, following redirects. A request that gets no answer is tried again once."""
+class _Stay(HTTPRedirectHandler):
+    def redirect_request(self, *args):
+        return None                        # the redirect comes back as the answer
+
+
+def fetch(url: str, timeout: float = 30, tries: int = 2, follow: bool = True) -> Answer:
+    """GET ``url``, following redirects unless ``follow`` is false. A request that gets no answer
+    is tried again once."""
     request = Request(url, headers={'User-Agent': AGENT, 'Accept-Encoding': 'identity'})
+    opener = urlopen if follow else build_opener(_Stay).open
     for attempt in range(tries):
         try:
-            with urlopen(request, timeout=timeout) as r:
+            with opener(request, timeout=timeout) as r:
                 return Answer(r.geturl(), r.status, {k.lower(): v for k, v in r.headers.items()}, r.read())
         except HTTPError as e:
             with e:
@@ -195,6 +205,10 @@ class Smoke:
             else:
                 self.fail(f'{path} has no share image (og:image)')
             links |= self.links(page, url)
+        if self.base + '/' not in pages:
+            self.check_root_address(langs)
+        if self.cloudflare:
+            self.check_index_redirects(langs)
         self.check_links(links - images, seen=set(pages) | images)
         self.check_images(images)
         self.check_robots()
@@ -225,6 +239,27 @@ class Smoke:
         for lang in langs:
             if f'/{lang}/' not in page.links:
                 self.fail(f'/ has no link to /{lang}/ for readers without JavaScript')
+
+    def check_root_address(self, langs: list):
+        """/ while it isn't in the sitemap: with one language, Cloudflare redirects it there for
+        good; a server that doesn't read _redirects serves the page at /, which sends readers on."""
+        answer = fetch(self.base + '/', follow=False)
+        target = answer.headers.get('location', '')
+        if answer.status in (301, 308):
+            if len(langs) != 1 or urljoin(self.base + '/', target) != f'{self.base}/{langs[0]}/':
+                self.fail(f'/ redirects to {target}, not to /{langs[0] if len(langs) == 1 else "<lang>"}/')
+        elif answer.status == 200 and not self.cloudflare:
+            self.check_root(answer, Page(answer.body.decode('utf-8', 'replace')), langs)
+        else:
+            self.fail(f'/ answered {answer.status or "nothing"}, not a permanent redirect to /{langs[0] if langs else "en"}/ (_redirects)')
+
+    def check_index_redirects(self, langs: list):
+        for lang in langs:
+            answer = fetch(f'{self.base}/{lang}/index', follow=False)
+            location = answer.headers.get('location')
+            target = urljoin(f'{self.base}/', location) if location else ''
+            if answer.status not in (301, 308) or target != f'{self.base}/{lang}/index/':
+                self.fail(f'/{lang}/index answered {answer.status} to {target or "nowhere"}, not a permanent redirect to /{lang}/index/ (_redirects)')
 
     def check_links(self, links: set, seen: set):
         """Every link to the site answers; pages found this way (a report still in draft, which

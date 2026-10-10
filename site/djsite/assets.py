@@ -120,5 +120,6 @@ def build(out: Path, release: str = '', langs: tuple = LANGS) -> Assets:
                          for path in sorted((STATIC_DIR / 'share' / release).glob('*.png')) if path.stem in langs}
 
     shutil.copy2(STATIC_DIR / 'favicon.svg', out / 'favicon.svg')
+    shutil.copy2(STATIC_DIR / 'logo.png', out / 'logo.png')
     return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts, share=share, release_share=release_share,
                   styles=styles)
