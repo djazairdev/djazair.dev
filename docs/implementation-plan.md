@@ -20,6 +20,10 @@ This plan turns the PRD (v0.3, 6 October 2026) into ordered, estimated tickets. 
 
 **The djazairdev organisation's repositories join the Hub by their topics (decision D29, 10 October 2026).** A public djazairdev repository that carries the `djazairdev` topic, a category topic (`app`, `library`, `tool` or `dataset`) and one to five tag topics is listed at the next Hub sync, without an entry in `projects.yml`. Only the organisation's maintainers can create those repositories or set their topics, and the project template makes the maintainer pledge. Projects outside the organisation still apply by pull request or the issue form, so this extends HUB-01 rather than replacing it. The founder's reason: the Hub showed 1 project while five djazairdev projects were ready, and a new project shouldn't wait on a pull request here ([hub/README.md](../hub/README.md#registry)).
 
+**The site launches in English, and Arabic waits for contributors (decision D28, 10 October 2026).** No fluent reviewer was found before launch, and D13 rules out publishing unreviewed machine translation. Until contributors translate the Arabic ([#62](https://github.com/djazairdev/djazair.dev/issues/62)) and fluent reviewers approve it ([#33](https://github.com/djazairdev/djazair.dev/issues/33)), every `/ar/` address shows one page, in Arabic and English, that invites people to help, kept out of search ([#61](https://github.com/djazairdev/djazair.dev/issues/61)). The Arabic strings stay in `site/i18n/ar.json` for translators. Report #1 is published in English.
+
+**The launch moves to 12 October 2026 (decision D30, 10 October 2026).** The MVP tickets and the Phase 1.1 pages were built ahead of the plan, the data is current and the deployed site passes its smoke test. The launch uses the Q1 2026 data, and Q2 2026 follows when GitHub releases it. The Hub launches with the five seed projects that pass every check; ksarjs joins once it passes. The participation-first Home ([#59](https://github.com/djazairdev/djazair.dev/pull/59)) waits until after launch, and the redesign issues ([#63](https://github.com/djazairdev/djazair.dev/issues/63)–[#70](https://github.com/djazairdev/djazair.dev/issues/70)) are left to contributors. The schedule and the scope checkpoint below are kept as they were planned.
+
 **Should items are planned for Phase 1.1 from the start.** The Topics, Collaboration and External rankings pages, Hub ideas and the localisation section don't fit the capacity below. They come back into the MVP only if the work is ahead at the checkpoint. Quarterly report #1 stays in the MVP as a Should item because the launch is built around it.
 
 ## 2. How it is built
@@ -43,6 +47,8 @@ GitHub REST API ─ every 6 h ─────────►  hub/ (Python 3.12)
 | Analytics | Cloudflare Web Analytics | No cookies, no personal data (§12) |
 
 ## 3. Schedule
+
+The launch moved forward to 12 October 2026 (D30); this was the plan until then.
 
 Capacity at about 30 hours a week is roughly **3.75 developer-days a week**, or **29.5 days** between 7 October and 30 November. The Must tickets add up to **25.5 days** and report #1 to **1.5**, which leaves about **2.5 days** of slack. Estimates are rough; compare them with actual time after M1 and apply the checkpoint cuts early if the work runs more than 20% over. Non-development work (Hub recruitment, the Arabic reviewer, the second admin) runs alongside and isn't counted.
 
@@ -106,7 +112,7 @@ The Hub registry and submission checks sit in M2, before the pages, so maintaine
 | [#27](https://github.com/djazairdev/djazair.dev/issues/27) | Build the Hub page | Must | 1.25 | [#4](https://github.com/djazairdev/djazair.dev/issues/4), [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#25](https://github.com/djazairdev/djazair.dev/issues/25) | [Hub — desktop](design/hub-en-desktop.png), [Hub — phone](design/hub-en-phone.png) |
 | [#28](https://github.com/djazairdev/djazair.dev/issues/28) | Seed the Hub with at least 15 projects | Must | 0.25 | [#16](https://github.com/djazairdev/djazair.dev/issues/16) | — |
 
-### M5 · Launch (due 2026-11-30)
+### M5 · Launch (due 2026-11-30; launched on 2026-10-12, D30)
 
 | # | Ticket | Priority | Days | Depends on | Design |
 |--:|---|---|--:|---|---|
@@ -114,7 +120,7 @@ The Hub registry and submission checks sit in M2, before the pages, so maintaine
 | [#30](https://github.com/djazairdev/djazair.dev/issues/30) | Performance pass | Must | 0.5 | [#18](https://github.com/djazairdev/djazair.dev/issues/18), [#19](https://github.com/djazairdev/djazair.dev/issues/19), [#20](https://github.com/djazairdev/djazair.dev/issues/20), [#27](https://github.com/djazairdev/djazair.dev/issues/27) | — |
 | [#31](https://github.com/djazairdev/djazair.dev/issues/31) | Add search and sharing metadata | Must | 0.25 | [#2](https://github.com/djazairdev/djazair.dev/issues/2) | — |
 | [#32](https://github.com/djazairdev/djazair.dev/issues/32) | Add analytics, uptime checks and failure alerts | Must | 0.25 | [#14](https://github.com/djazairdev/djazair.dev/issues/14), [#25](https://github.com/djazairdev/djazair.dev/issues/25) | — |
-| [#33](https://github.com/djazairdev/djazair.dev/issues/33) | Review and sign off the Arabic text | Must | 0.25 | [#18](https://github.com/djazairdev/djazair.dev/issues/18), [#19](https://github.com/djazairdev/djazair.dev/issues/19), [#23](https://github.com/djazairdev/djazair.dev/issues/23), [#27](https://github.com/djazairdev/djazair.dev/issues/27) | — |
+| [#33](https://github.com/djazairdev/djazair.dev/issues/33) | Review and sign off the Arabic text (after launch, D28) | Must | 0.25 | [#18](https://github.com/djazairdev/djazair.dev/issues/18), [#19](https://github.com/djazairdev/djazair.dev/issues/19), [#23](https://github.com/djazairdev/djazair.dev/issues/23), [#27](https://github.com/djazairdev/djazair.dev/issues/27) | — |
 | [#34](https://github.com/djazairdev/djazair.dev/issues/34) | Write and publish quarterly report #1 | Should | 1.5 | [#7](https://github.com/djazairdev/djazair.dev/issues/7), [#17](https://github.com/djazairdev/djazair.dev/issues/17), [#33](https://github.com/djazairdev/djazair.dev/issues/33) | [Report — desktop](design/report-en-desktop.png), [Report — phone](design/report-en-phone.png) |
 | [#35](https://github.com/djazairdev/djazair.dev/issues/35) | Launch | Must | 1 | [#21](https://github.com/djazairdev/djazair.dev/issues/21), [#22](https://github.com/djazairdev/djazair.dev/issues/22), [#24](https://github.com/djazairdev/djazair.dev/issues/24), [#28](https://github.com/djazairdev/djazair.dev/issues/28), [#29](https://github.com/djazairdev/djazair.dev/issues/29), [#30](https://github.com/djazairdev/djazair.dev/issues/30), [#31](https://github.com/djazairdev/djazair.dev/issues/31), [#32](https://github.com/djazairdev/djazair.dev/issues/32), [#33](https://github.com/djazairdev/djazair.dev/issues/33) | — |
 
@@ -212,6 +218,8 @@ Every MVP ticket that ships a page or feature also meets these:
 
 ## 7. Scope checkpoint, 15 November
 
+Not needed since the launch moved to 12 October (D30). The plan was:
+
 M3 should be finished by the checkpoint. If it isn't, the launch keeps its date and these move out, in this order:
 
 1. Report #1 shrinks to a short note, or moves to Phase 1.1 with report #2.
@@ -226,9 +234,9 @@ If the work is ahead, Phase 1.1 Should tickets come in, in this order: Topics, E
 | Risk | Mitigation |
 |---|---|
 | Little slack (about 2.5 days) | Velocity check after M1; checkpoint cuts are agreed in advance (section 7) |
-| The Q2 2026 release slips past launch | Launch with Q1 2026 data and update when Q2 lands (PRD §1) |
-| No Arabic reviewer by November | Line one up in October (R2); unreviewed strings fall back to English with a notice |
-| The Hub launches with fewer than 15 projects | Submission checks ship in M2 so recruitment runs all of November; seed ticket tracks every invitation |
+| The Q2 2026 release slips past launch | Launch with Q1 2026 data and update when Q2 lands (PRD §1); the case since D30 |
+| No Arabic reviewer by November | None by launch: the Arabic waits for contributors and reviewers, and `/ar/` invites them (D28) |
+| The Hub launches with few projects | Five seed projects at launch (D25, D30); djazairdev's repositories join by their topics (D29); invitations follow the launch |
 | Design drift between canvas and code | Tokens come from one table; designs are re-exported here when a board changes |
 
 ## 9. Keeping this plan current
@@ -248,3 +256,4 @@ If the work is ahead, Phase 1.1 Should tickets come in, in this order: Topics, E
 | 7 October 2026 | Home's hero replays the years in a loop, with a pause button (D24): the count, the map and the three figures under the count follow the year. It was counting up from the year earlier only. |
 | 9 October 2026 | The Hub's issues check asks for a beginner label, not 3 open issues, and no open beginner issues no longer hides a project (D27). |
 | 10 October 2026 | djazairdev's repositories join the Hub by their topics, without a `projects.yml` entry (D29). |
+| 10 October 2026 | The site launches in English, with an invitation to translate on every Arabic page (D28), on 12 October 2026 instead of by 30 November (D30). [#33](https://github.com/djazairdev/djazair.dev/issues/33) moves after launch. |
