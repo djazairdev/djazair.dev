@@ -18,7 +18,6 @@ import argparse
 import base64
 import gzip
 import json
-import mimetypes
 import os
 import shutil
 import socket
@@ -66,21 +65,30 @@ GZIP = ('text/', 'application/javascript', 'application/json', 'image/svg+xml')
 
 
 # ---------------------------------------------------------------- the site, gzipped
+TYPES = {'.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json',
+         '.csv': 'text/csv', '.md': 'text/markdown', '.txt': 'text/plain', '.xml': 'application/xml',
+         '.svg': 'image/svg+xml', '.png': 'image/png', '.woff2': 'font/woff2', '.zip': 'application/zip'}
+
+
 class Handler(SimpleHTTPRequestHandler):
     """site/dist with gzip and no caching, so every load is cold, as on a first visit."""
 
     def do_GET(self):
-        path = Path(self.directory) / unquote(urlparse(self.path).path).lstrip('/')
+        # Only files under the folder: the address is resolved, and anything outside gets the 404.
+        root = os.path.realpath(self.directory)
+        found = os.path.realpath(os.path.join(root, unquote(urlparse(self.path).path).lstrip('/')))
+        inside = found == root or found.startswith(root + os.sep)
+        path = Path(found) if inside else Path(root) / '.outside'
         if path.is_dir():
             path = path / 'index.html'
         status = 200
         if not path.is_file():
-            path, status = Path(self.directory) / '404.html', 404
+            path, status = Path(root) / '404.html', 404
             if not path.is_file():
                 self.send_error(404)
                 return
         body = path.read_bytes()
-        kind = mimetypes.guess_type(path.name)[0] or 'application/octet-stream'
+        kind = TYPES.get(path.suffix.lower(), 'application/octet-stream')   # from the table, never the address
         self.send_response(status)
         self.send_header('Content-Type', kind + ('; charset=utf-8' if kind.startswith('text/') else ''))
         if kind.startswith(GZIP) and 'gzip' in self.headers.get('Accept-Encoding', ''):

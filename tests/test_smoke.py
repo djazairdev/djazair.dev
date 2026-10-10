@@ -227,6 +227,20 @@ class Smoke(unittest.TestCase):
         self.assertEqual([line for line in fails if not any(re.search(p, line) for p in expected)], [])
         self.assertTrue(report.endswith(f'{len(fails)} problems.'), report)
 
+    def test_the_local_server_stays_in_its_folder(self):
+        import http.client
+        server, base = serve(self.dist)
+        self.addCleanup(server.server_close)
+        self.addCleanup(server.shutdown)
+        for path in ('/../README.md', '/%2e%2e/README.md', '/en/../../README.md'):
+            conn = http.client.HTTPConnection(urlsplit(base).netloc, timeout=10)
+            conn.request('GET', path)
+            answer = conn.getresponse()
+            with self.subTest(path=path):
+                self.assertEqual(answer.status, 404)
+                self.assertNotIn(b'# djazair.dev', answer.read())
+            conn.close()
+
     def test_no_answer(self):
         result = smoke.Smoke('http://127.0.0.1:9').run()
         self.assertFalse(result.ok)
