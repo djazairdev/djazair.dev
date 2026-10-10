@@ -12,7 +12,7 @@ import shutil
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from .config import STATIC_DIR
+from .config import LANGS, STATIC_DIR
 from .markup import Markup
 
 # Fonts preloaded on every page: the files the first screen needs (see 05-fonts.css).
@@ -71,9 +71,10 @@ def _write_hashed(out: Path, stem: str, ext: str, data: bytes) -> str:
     return f'/assets/{name}'
 
 
-def build(out: Path, release: str = '') -> Assets:
+def build(out: Path, release: str = '', langs: tuple = LANGS) -> Assets:
     """``release``: the folder of the quarter being built (2026-q1), whose share images are used
-    when site/tools/share.py --release drew them."""
+    when site/tools/share.py --release drew them. ``langs``: the published languages, whose share
+    images are copied."""
     (out / 'assets' / 'fonts').mkdir(parents=True, exist_ok=True)
 
     css_files = sorted((STATIC_DIR / 'css').glob('*.css'))
@@ -86,7 +87,7 @@ def build(out: Path, release: str = '') -> Assets:
         'hub': ('53-hub.css',), 'localisation': ('53-hub.css',),
         'meetups': ('53-hub.css',), 'about': ('52-docs.css',),
         'data': ('52-docs.css', '55-data.css'),
-        'notfound': (), 'root': (),
+        'notfound': (), 'root': (), 'invitation': (),
     }
     for route in ('peers', 'trends', 'languages', 'topics', 'collaboration', 'rankings'):
         groups[route] = ('51-index.css',)
@@ -112,11 +113,11 @@ def build(out: Path, release: str = '') -> Assets:
         shutil.copy2(path, out / 'assets' / 'fonts' / path.name)
 
     share = {path.stem: _write_hashed(out, f'share-{path.stem}', 'png', path.read_bytes())
-             for path in sorted((STATIC_DIR / 'share').glob('*.png'))}
+             for path in sorted((STATIC_DIR / 'share').glob('*.png')) if path.stem in langs}
     release_share = {}
     if release:
         release_share = {path.stem: _write_hashed(out, f'share-{release}-{path.stem}', 'png', path.read_bytes())
-                         for path in sorted((STATIC_DIR / 'share' / release).glob('*.png'))}
+                         for path in sorted((STATIC_DIR / 'share' / release).glob('*.png')) if path.stem in langs}
 
     shutil.copy2(STATIC_DIR / 'favicon.svg', out / 'favicon.svg')
     return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts, share=share, release_share=release_share,

@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pipeline import config  # noqa: E402
 from djsite import data, scorecard  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 from djsite.fmt import fdec, fint, fpct  # noqa: E402
 from djsite.pages import peers  # noqa: E402
 from htmlcheck import Doc  # noqa: E402
@@ -32,7 +33,7 @@ class PeersPage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=LANGS)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index' / 'peers' / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
 

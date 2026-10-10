@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / 'site'))
 
 import a11y  # noqa: E402
 from djsite.build import build  # noqa: E402
-from djsite.config import LANGS  # noqa: E402
+from djsite.config import LANGS, PUBLISHED  # noqa: E402
 from djsite.markdown import Renderer  # noqa: E402
 from test_design_tokens import CSS_DIR, contrast, tokens  # noqa: E402
 
@@ -34,11 +34,14 @@ def over(colour: str, base: str) -> str:
 
 
 class Pages(unittest.TestCase):
+    """Every page as it ships, the invitations to translate at the Arabic addresses included (#61)."""
+    PUBLISHED = PUBLISHED
+
     @classmethod
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True)
+        build(cls.dist, quiet=True, published=cls.PUBLISHED)
         cls.pages = sorted(cls.dist.rglob('*.html'))
 
     @classmethod
@@ -57,7 +60,7 @@ class Pages(unittest.TestCase):
             self.assertGreaterEqual(checked[lang], 12, f'too few {lang} pages: did the build change?')
 
     def test_tables_have_names(self):
-        for lang in LANGS:
+        for lang in self.PUBLISHED:
             for page in ('about', 'data'):
                 html = (self.dist / lang / page / 'index.html').read_text('utf-8')
                 with self.subTest(lang=lang, page=page):
@@ -69,6 +72,11 @@ class Pages(unittest.TestCase):
             first = re.search(r'<a [^>]*href="#([\w-]+)"', html)
             self.assertIsNotNone(first, lang)
             self.assertRegex(html, rf'<main id="{first.group(1)}" tabindex="-1"')
+
+
+class PagesWithArabic(Pages):
+    """The same checks with the Arabic pages built, as they will be once reviewed."""
+    PUBLISHED = LANGS
 
 
 class Checker(unittest.TestCase):

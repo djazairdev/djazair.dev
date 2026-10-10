@@ -1,6 +1,6 @@
 """Search and sharing metadata (ticket #31): titles and descriptions, canonical and hreflang
 links, Open Graph and X card tags with a share image per language, sitemap.xml and robots.txt.
-Placeholder pages and report drafts stay out of search."""
+Placeholder pages, report drafts and the invitations to translate (#61) stay out of search."""
 import re
 import shutil
 import struct
@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'site'))
 
 from djsite.build import build  # noqa: E402
-from djsite.config import LANGS, SITE_URL, STATIC_DIR  # noqa: E402
+from djsite.config import LANGS, PUBLISHED, SITE_URL, STATIC_DIR  # noqa: E402
 from djsite.reports import all_reports  # noqa: E402
 from djsite.routes import ROUTES  # noqa: E402
 
@@ -39,11 +39,14 @@ def png_size(path: Path) -> tuple:
 
 
 class Metadata(unittest.TestCase):
+    """The site as it ships, in its published languages."""
+    PUBLISHED = PUBLISHED
+
     @classmethod
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        cls.site = build(cls.dist, quiet=True)
+        cls.site = build(cls.dist, quiet=True, published=cls.PUBLISHED)
 
     @classmethod
     def tearDownClass(cls):
@@ -56,7 +59,7 @@ class Metadata(unittest.TestCase):
     def indexed(self):
         """(route, lang, url, meta) for every page meant for search."""
         for route in ROUTES:
-            for lang in LANGS:
+            for lang in self.PUBLISHED:
                 url = f'{SITE_URL}/{lang}/{route.path}'
                 if route.indexed and (route.path == '' or route.path.endswith('/')):
                     m = meta(self.page(url))
@@ -64,7 +67,7 @@ class Metadata(unittest.TestCase):
                         yield route, lang, url, m
 
     def test_titles_and_descriptions(self):
-        seen = {lang: {'title': set(), 'description': set()} for lang in LANGS}
+        seen = {lang: {'title': set(), 'description': set()} for lang in self.PUBLISHED}
         count = 0
         for route, lang, url, m in self.indexed():
             count += 1
@@ -74,14 +77,14 @@ class Metadata(unittest.TestCase):
                 for kind in ('title', 'description'):
                     self.assertNotIn(m[kind], seen[lang][kind], f'{kind} used twice')
                     seen[lang][kind].add(m[kind])
-        self.assertEqual(count, 26, 'thirteen public pages in two languages; retired routes stay out')
+        self.assertEqual(count, 13 * len(self.PUBLISHED), 'thirteen public pages in each language; retired routes stay out')
 
     def test_canonical_and_language_links(self):
         for route, lang, url, m in self.indexed():
             with self.subTest(page=url):
                 self.assertEqual(m['canonical'], url)
                 for other in LANGS:
-                    self.assertEqual(m[f'alternate:{other}'], f'{SITE_URL}/{other}/{route.path}')
+                    self.assertEqual(m.get(f'alternate:{other}'), f'{SITE_URL}/{other}/{route.path}' if other in self.PUBLISHED else None)
                 self.assertEqual(m['alternate:x-default'], f'{SITE_URL}/' if route.key == 'home' else f'{SITE_URL}/en/{route.path}')
 
     def test_shared_links_show_a_card(self):
@@ -96,6 +99,7 @@ class Metadata(unittest.TestCase):
                 self.assertEqual(m['og:title'], m['title'].removesuffix(' · djazair.dev'))
                 self.assertEqual(m['og:description'], m['description'])
                 self.assertEqual(m['og:locale'], {'en': 'en_GB', 'ar': 'ar_DZ'}[lang])
+                self.assertEqual(m.get('og:locale:alternate'), {'en': 'ar_DZ', 'ar': 'en_GB'}[lang] if len(self.PUBLISHED) > 1 else None)
                 self.assertEqual(m['twitter:card'], 'summary_large_image')
                 self.assertRegex(m['og:image'], rf'^{re.escape(SITE_URL)}/assets/{card}\.[0-9a-f]{{10}}\.png$')
                 image = self.dist / m['og:image'].removeprefix(SITE_URL + '/')
@@ -117,7 +121,7 @@ class Metadata(unittest.TestCase):
         self.assertFalse((self.dist / 'reports').exists(), 'no public report press kits')
         self.assertIn('<meta name="robots" content="noindex">', (self.dist / 'en' / '404.html').read_text('utf-8'))
 
-    def test_sitemap_lists_both_languages_of_every_page(self):
+    def test_sitemap_lists_every_published_language_of_every_page(self):
         tree = ET.parse(self.dist / 'sitemap.xml')
         urls = {u.findtext('s:loc', namespaces=NS): {a.get('hreflang'): a.get('href') for a in u.findall('x:link', NS)}
                 for u in tree.getroot().findall('s:url', NS)}
@@ -125,7 +129,7 @@ class Metadata(unittest.TestCase):
         self.assertEqual(set(urls), expected)
         for loc, alts in urls.items():
             with self.subTest(url=loc):
-                self.assertEqual(set(alts), {'en', 'ar', 'x-default'})
+                self.assertEqual(set(alts), {*self.PUBLISHED, 'x-default'})
                 for href in alts.values():
                     self.assertIn(href, urls, 'every alternate is listed too')
                 if loc != f'{SITE_URL}/':
@@ -136,6 +140,11 @@ class Metadata(unittest.TestCase):
         self.assertIn('User-agent: *\nAllow: /\n', robots)
         self.assertIn(f'Sitemap: {SITE_URL}/sitemap.xml', robots)
         self.assertNotIn('Disallow: /\n', robots)
+
+
+class MetadataWithArabic(Metadata):
+    """The same checks with the Arabic pages built, as they will be once reviewed."""
+    PUBLISHED = LANGS
 
 
 if __name__ == '__main__':

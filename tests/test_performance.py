@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import perf  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import PUBLISHED  # noqa: E402
 from htmlcheck import stylesheet  # noqa: E402
 
 BUDGET = 300 * 1024
@@ -76,7 +77,7 @@ class Budgets(unittest.TestCase):
             self.assertEqual(preloads, [f'tajawal-{"latin" if lang == "en" else "arabic"}-400.woff2', 'jetbrains-mono-latin.woff2'])
 
     def test_the_unit_map_stays_light(self):
-        for lang in ('en', 'ar'):
+        for lang in PUBLISHED:          # the other languages show the invitation to translate (#61)
             svg = re.search(r'<svg class="chart um[ "].*?</svg>', self.pages[self.dist / lang / 'index.html'], re.S).group(0)
             with self.subTest(lang=lang):
                 self.assertLessEqual(len(svg.encode('utf-8')), 48 * 1024)

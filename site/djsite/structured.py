@@ -32,7 +32,7 @@ def page(ctx, title: str, description: str, indexed: bool = True) -> Markup:
         {'@type': 'Organization', '@id': ORG_ID, 'name': 'djazair.dev',
          'url': SITE_URL + '/', 'sameAs': [ORG_URL]},
         {'@type': 'WebSite', '@id': SITE_URL + '/#website', 'name': 'djazair.dev',
-         'url': SITE_URL + '/', 'inLanguage': ['en', 'ar'], 'publisher': {'@id': ORG_ID}},
+         'url': SITE_URL + '/', 'inLanguage': list(ctx.site.published), 'publisher': {'@id': ORG_ID}},
         webpage]})
 
 

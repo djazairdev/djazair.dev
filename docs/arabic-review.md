@@ -1,6 +1,8 @@
 # Arabic review
 
-The Arabic text was drafted with AI and hasn't been checked by a fluent reader yet, so every Arabic page says it is a draft. Before launch, a fluent reviewer checks all of it and signs it off (PRD D13, ticket [#33](https://github.com/djazairdev/djazair.dev/issues/33)). No unreviewed machine translation ships.
+The Arabic text was drafted with AI and hasn't been checked by a fluent reader yet. A fluent reviewer checks all of it and signs it off (PRD D13, ticket [#33](https://github.com/djazairdev/djazair.dev/issues/33)). No unreviewed machine translation ships.
+
+**Until then, Arabic isn't published** (D28): djazair.dev launches in English, and every `/ar/` address shows one page, in Arabic and English, that invites people to help translate ([#62](https://github.com/djazairdev/djazair.dev/issues/62)) and links to the same page in English. Its few strings (`invite.*` in `ar.json`) are the only Arabic on the site, with the header and footer. To see the Arabic pages, build them with `python3 site/build.py --all-languages`; they then say the text is a draft. Once every row below is signed, add `'ar'` to `PUBLISHED` in `site/djsite/config.py` in the same pull request, and the Arabic pages come back ([site/README.md](../site/README.md#routes-and-languages)).
 
 ## What to review
 
@@ -13,7 +15,7 @@ The Arabic text was drafted with AI and hasn't been checked by a fluent reader y
 | The tagline | `site.tagline` | «نُنمّي منظومة المطوّرين في الجزائر» |
 | The share images | `site/static/share/ar.png`, and the quarter's card in `site/static/share/<quarter>/ar.png` | The first takes its text from `share.*` and the tagline, the quarter's from Home's `home.*` strings; redraw them with `site/tools/share.py` after a change |
 
-Pages to read, in Arabic: Home, the Index (Overview, Peers, Trends, Languages, Topics, Collaboration, Rankings), the Hub and its localisation page, Meetups, Reports and report #1, Methodology, Data and About; and a chart embed (*تضمين* → *معاينة* under a chart). Run the site locally (see the [README](../README.md#run-it-locally)) and open `/ar/`, or use the pull request's preview link.
+Pages to read, in Arabic: Home, the Index (Overview, Peers, Trends, Languages, Topics, Collaboration, Rankings), the Hub and its localisation page, Meetups, Reports and report #1, Methodology, Data and About; and a chart embed (*تضمين* → *معاينة* under a chart). Build the site with `python3 site/build.py --all-languages`, serve it (see the [README](../README.md#run-it-locally)) and open `/ar/`; the pull request's preview link shows only the invitation to translate.
 
 ## Reviewing in a spreadsheet
 
@@ -76,4 +78,4 @@ Record each page here, in the pull request that makes the corrections:
 | About | | | |
 | Charts, numbers and dates | | | |
 
-When every row is signed, set `"reviewed": true` in the `_meta` block of `site/i18n/ar.json`, in the same pull request. The draft notice then disappears from the Arabic pages. New Arabic text added later needs the same check before it ships.
+When every row is signed, set `"reviewed": true` in the `_meta` block of `site/i18n/ar.json` and add `'ar'` to `PUBLISHED` in `site/djsite/config.py`, in the same pull request. The Arabic pages then replace the invitation to translate, without the draft notice. New Arabic text added later needs the same check before it ships.

@@ -17,6 +17,7 @@ sys.path.insert(0, str(ROOT / 'site' / 'tools'))
 
 import perf  # noqa: E402
 from djsite.build import analytics_token, build  # noqa: E402
+from djsite.config import LANGS  # noqa: E402
 
 WORKFLOWS = ROOT / '.github' / 'workflows'
 SCRIPTS = ROOT / '.github' / 'scripts'
@@ -197,7 +198,7 @@ class Analytics(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
-        build(cls.tmp / 'off', quiet=True, analytics='')
+        build(cls.tmp / 'off', quiet=True, analytics='', published=LANGS)    # with the Arabic pages (#61)
         build(cls.tmp / 'on', quiet=True, analytics=TOKEN)
 
     @classmethod

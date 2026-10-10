@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / 'site' / 'tools'))
 import perf  # noqa: E402
 import smoke  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.config import LANGS, PUBLISHED  # noqa: E402
 
 
 def header_rules(dist: Path) -> list:
@@ -93,15 +94,33 @@ class Smoke(unittest.TestCase):
         result, base = self.check(self.dist)
         self.assertTrue(result.ok, result.report())
         self.assertEqual(result.counts['sitemap'], len(self.locs))
-        self.assertGreaterEqual(result.counts['page'], 2)      # report drafts, outside the sitemap
+        # The "ع" link of every page leads to its invitation to translate (#61), outside the sitemap.
+        self.assertGreaterEqual(result.counts['page'], len(self.locs) - 1)
         # Home's trend no longer links its action footer; its four existing embeds remain available.
-        embeds = [p for p in self.dist.rglob('index.html')
+        # Nothing links to the invitations at the Arabic embeds' addresses.
+        embeds = [p for lang in PUBLISHED for p in (self.dist / lang).rglob('index.html')
                   if '/embed/' in p.as_posix() and '/embed/home-yoy/' not in p.as_posix()]
         self.assertEqual(result.counts['embed'], len(embeds))  # linked from the Embed panels, dark and light
         self.assertGreaterEqual(result.counts['file'], 100)
         self.assertEqual(result.counts['zip'], 1)              # the quarterly CSV bundle; report press kits are retired
         self.assertEqual(result.counts['image'], len(list((self.dist / 'assets').glob('share-*.png'))))   # the site's and the quarter's
         self.assertIn('response headers were not checked', result.report())
+
+    def test_the_site_with_arabic_passes(self):
+        """Once Arabic is reviewed and published again, / offers it too."""
+        dist = self.tmp / 'arabic'
+        build(dist, quiet=True, published=LANGS)
+        result, _ = self.check(dist)
+        self.assertTrue(result.ok, result.report())
+        self.assertEqual(result.counts['sitemap'], len(re.findall(r'<loc>', (dist / 'sitemap.xml').read_text())))
+
+    def test_root_must_link_to_every_language_in_the_sitemap(self):
+        s = smoke.Smoke('https://site.example.workers.dev')
+        page = smoke.Page('<a href="/en/">English</a>')
+        s.check_root(smoke.Answer('/', 200, {}, b'location.replace'), page, ['en'])
+        self.assertTrue(s.ok)
+        s.check_root(smoke.Answer('/', 200, {}, b'location.replace'), page, ['ar', 'en'])
+        self.assertEqual(s.problems, [('FAIL', '/ has no link to /ar/ for readers without JavaScript')])
 
     def test_headers_are_checked_when_cloudflare_answers(self):
         Cloudflareish.rules = header_rules(self.dist)
