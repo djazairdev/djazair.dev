@@ -232,7 +232,7 @@
 .footer-language { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--ink2); }
 .footer-language .lang-switch a { min-width: 44px; height: 44px; }
 .footer-display { display: flex; justify-content: center; overflow: hidden; padding: clamp(32px, 5vw, 80px) 16px clamp(16px, 3vw, 48px); }
-.footer-display .wordmark { font-size: clamp(54px, 22vw, 390px); letter-spacing: -.065em; line-height: .9; white-space: nowrap; opacity: .24; }
+.footer-display .wordmark { font-size: clamp(54px, calc(20vw - 8px), 390px); letter-spacing: -.02em; line-height: .9; white-space: nowrap; opacity: .24; }
 .footer-display .wordmark > span { color: var(--mint); }
 .footer-trail-head, .footer-trail-tail { stop-color: var(--mint-hi); }
 .footer-trail-head { stop-opacity: .9; }
@@ -275,7 +275,7 @@
   .footer-license-name { font-size: 10px; }
   .footer-community { padding-inline: 20px; }
   .footer-community-actions { gap: 16px; }
-  .footer-display .wordmark { font-size: clamp(54px, 20vw, 96px); }
+  .footer-display .wordmark { font-size: clamp(54px, calc(20vw - 8px), 96px); }
 }
 
 /* ---- the language chooser at / */

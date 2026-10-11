@@ -117,7 +117,7 @@
 
 /* ---- Scorecard: explanations stay beside the figures they describe. */
 #scorecard .section-head h2, #trend .section-head h2, #hub-teaser .section-head h2, #local-team .section-head h2 { font-size: calc(var(--fs-section) * 1.21); font-weight: 400; }
-#scorecard .section-head .lede, #trend .section-head .lede, #hub-teaser .section-head .lede, #local-team .section-head .lede { font-size: 20px; }
+#contribution-start .section-head .lede, #scorecard .section-head .lede, #trend .section-head .lede, #hub-teaser .section-head .lede, #local-team .section-head .lede { font-size: var(--fs-home-lede); }
 
 /* Each Home boundary gets one section-pad gap, split evenly between its neighbours.
    Keep this after the responsive hero rules so its final spacing is consistent too. */
@@ -329,12 +329,11 @@
 .participation-title { font-size: clamp(42px, 4.5vw, 64px); line-height: 1.08; font-weight: 400; letter-spacing: -.035em; text-wrap: balance; }
 .participation-title > span { display: block; color: var(--mint-hi); margin-top: 6px; }
 .participation-title:lang(ar) { letter-spacing: 0; line-height: 1.35; }
-.participation-hero .hero-lede { max-width: 46ch; font-size: 20px; }
+.participation-hero .hero-lede { max-width: 46ch; font-size: var(--fs-home-lede); }
 .hero-welcome { margin-top: -10px; font-size: 17px; color: var(--ink2); }
 .hero-benefit { margin-top: -10px; font-size: 16px; line-height: 1.6; color: var(--ink2); }
 .starter-note { margin-top: 16px; max-width: 82ch; font-size: 14px; line-height: 1.65; color: var(--ink2); }
 #contribution-start .section-head h2 { font-weight: 400; }
-#contribution-start .section-head .lede { font-size: 18px; }
 .local-meetup-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 32px; align-items: center; padding: clamp(24px, 3vw, 40px); border-radius: var(--r-card); }
 .local-meetup-copy { min-width: 0; text-align: start; }
 #local-team .local-meetup-copy .eyebrow { justify-content: flex-start; }
@@ -342,7 +341,7 @@
 .local-meetup-puzzle { width: 100%; aspect-ratio: 1; }
 .local-meetup-card h2 { margin-block: 16px; font-size: clamp(34px, 3.8vw, 50px); font-weight: 400; }
 .local-meetup-card p { max-width: 70ch; line-height: 1.65; color: var(--ink2); }
-.local-meetup-copy > p:not(.eyebrow):not(.team-platform) { font-size: clamp(20px, 1.9vw, 22px); }
+.local-meetup-copy > p:not(.eyebrow):not(.team-platform) { font-size: var(--fs-home-lede); }
 .local-meetup-card .team-platform { margin-top: 12px; text-align: start; font-size: 13px; color: var(--ink3); }
 .local-meetup-card .team-actions { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; margin-top: 0; }
 .local-meetup-card .team-actions .btn { width: 100%; }
@@ -355,7 +354,6 @@
 .hero-community .hero-stats { padding-block: 0 8px; border-block: 0; }
 @media (max-width: 760px) {
  .participation-title { font-size: clamp(36px,9vw,56px); }
- .participation-hero .hero-lede { font-size: 18px; }
  .local-meetup-card { grid-template-columns: minmax(0, 1fr); gap: 20px; }
  .local-meetup-side { width: min(100%, 280px); justify-self: center; }
  .hero-community .hero-h { flex-direction: column; align-items: flex-start; gap: 12px; }
