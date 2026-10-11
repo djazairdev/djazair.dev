@@ -83,6 +83,11 @@
   function remember(f) {
     if (!window.history || !history.replaceState) return;
     var params = new URLSearchParams();
+    var existing = new URLSearchParams(location.search);
+    ['utm_source', 'utm_medium', 'utm_campaign'].forEach(function (key) {
+      var code = existing.get(key) || '';
+      if (/^[a-z0-9_-]{1,64}$/.test(code)) params.set(key, code);
+    });
     if (search.value.trim()) params.set('q', search.value.trim());
     names.forEach(function (k) { if (f[k]) params.set(k, f[k]); });
     var query = params.toString();

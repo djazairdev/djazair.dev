@@ -210,6 +210,8 @@ def document(ctx: Ctx, page: Page) -> str:
     head_html, sub_html, foot_html = header(ctx), subnav(ctx), footer(ctx)
     title = full_title(ctx, page)
     scripts = ''.join(f'<script src="{src}" defer></script>' for src in (assets.js, *page.scripts))
+    if ctx.site.actions and page.indexed:
+        scripts += f'<script src="{assets.scripts["actions"]}" defer></script>'
     if ctx.site.analytics:      # Cloudflare Web Analytics: no cookies (docs/deploy.md#analytics)
         scripts += f'<script src="{BEACON_URL}" defer data-cf-beacon=\'{{"token": "{ctx.site.analytics}"}}\'></script>'
     return f'''<!doctype html>

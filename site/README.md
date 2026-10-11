@@ -155,3 +155,5 @@ Without JavaScript the whole list shows. `hub.js` reveals the search, the label 
 ## Holding page
 
 `holding/` is the pre-launch page. Deploy it with no build command and `site/holding` as the output directory.
+
+For a local campaign-measurement preview, build with `--actions` and run `python3 site/tools/preview_actions.py --port 4322`. See [action tracking](../docs/action-tracking.md) for event definitions, campaign propagation and later production activation. The live tracking endpoint is disabled by default.

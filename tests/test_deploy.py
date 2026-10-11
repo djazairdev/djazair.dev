@@ -38,13 +38,16 @@ def jsonc(path: Path) -> dict:
 
 
 class Configuration(unittest.TestCase):
-    def test_the_site_is_static_assets_only(self):
+    def test_pages_stay_static_and_only_events_use_the_worker(self):
         config = jsonc(ROOT / 'wrangler.jsonc')
         assets = config['assets']
         self.assertEqual(assets['directory'], './site/dist', 'where site/build.py writes the site')
         self.assertEqual(assets['not_found_handling'], '404-page', 'the nearest 404.html, with status 404')
         self.assertEqual(assets['html_handling'], 'auto-trailing-slash', '/en/hub/ is the address of /en/hub/index.html')
-        self.assertNotIn('main', config, 'no Worker code')
+        self.assertEqual(config['main'], 'worker/events.mjs')
+        self.assertEqual(assets['run_worker_first'], ['/api/events'])
+        self.assertEqual(assets['binding'], 'ASSETS')
+        self.assertEqual(config['vars']['ACTION_ANALYTICS_ENABLED'], 'false', 'deployment needs an explicit activation')
         self.assertEqual(config['routes'], [{'pattern': 'djazair.dev', 'custom_domain': True}], 'djazair.dev since launch')
         self.assertIs(config['workers_dev'], False, 'one address')
         self.assertIs(config['preview_urls'], True, 'pull requests still get a preview')

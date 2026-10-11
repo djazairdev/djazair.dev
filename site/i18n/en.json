@@ -407,7 +407,7 @@
     "bring_report_t": "The quarter’s numbers",
     "bring_report": "Discuss the latest Index figures and what they mean for Algeria’s developer community.",
     "note_t": "{platform} is a separate site",
-    "note": "It has its own accounts, {terms} and {privacy}. djazair.dev has no accounts and shares nothing with it: these are plain links.",
+    "note": "It has its own accounts, {terms} and {privacy}. djazair.dev has no accounts and shares no account information with it. Links may include anonymous campaign codes.",
     "terms": "terms of use",
     "privacy": "privacy policy"
   },
@@ -1266,7 +1266,9 @@
     "analytics_on": "We count visits with Cloudflare Web Analytics, which uses no cookies and doesn’t follow you from site to site: it keeps totals only, such as pages viewed, countries and browsers.",
     "analytics_off": "We don’t count visits.",
     "hub_ideas": "It also shows project ideas from GitHub Discussions with their number of votes, never who proposed or voted for them.",
-    "hub_counts": "It also counts new contributors and response times from the listed projects’ public pull requests and issues: usernames are read during the count and never kept."
+    "hub_counts": "It also counts new contributors and response times from the listed projects’ public pull requests and issues: usernames are read during the count and never kept.",
+    "analytics_actions": "We count page views and actions without visitor identifiers.",
+    "actions": "Action counts include opening tasks, following meetup links and using the share button. We keep only event names, page and section categories, language and campaign codes, never visitor IDs, IP addresses or full URLs. Counts respect Do Not Track and Global Privacy Control. Campaign codes may travel with links to founders.coffee. These counts do not prove a contribution, attendance or a completed share to another person."
   },
   "downloads": {
     "eyebrow": "Data",
@@ -1630,6 +1632,9 @@
     "task_label": "good first issue",
     "task_note": "Each task opens on GitHub. Check the discussion before starting; a beginner label does not mean every task needs no coding experience.",
     "meet_title": "Build with people in your city.",
-    "meet_text": "Meet developers, students and founders in your city. Share skills and develop software projects together. Join a coffee meetup or start one through founders.coffee."
+    "meet_text": "Meet developers, students and founders in your city. Share skills and develop software projects together. Join a coffee meetup or start one through founders.coffee.",
+    "share": "Share djazair.dev",
+    "link_copied": "Link copied. Send it to someone who might want to join.",
+    "copy_failed": "Could not share the link. You can copy the page address instead."
   }
 }

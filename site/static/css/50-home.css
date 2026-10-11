@@ -397,6 +397,8 @@
  .index-preview-value { margin-block: 10px; }
 }
 
+.starter-share:not([hidden]) { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.starter-share .starter-note { margin: 0; }
 
 /* Rich comparisons on desktop; a short national-data preview on phones. */
 .mobile-statistics { display: none; }

@@ -1,11 +1,16 @@
-// The site on Cloudflare Workers, as static assets with no Worker code (docs/deploy.md).
+// Static pages plus an optional, first-party action-count endpoint (docs/action-tracking.md).
 // CI deploys site/dist with `wrangler deploy` once the tests and the build pass, and each pull
 // request from this repository uploads a preview version (.github/workflows/ci.yml).
 {
   "name": "djazair-dev-site",
   "compatibility_date": "2026-10-07",
+  "main": "worker/events.mjs",
+  "vars": { "ACTION_ANALYTICS_ENABLED": "false" },
+  "analytics_engine_datasets": [{ "binding": "EVENTS", "dataset": "djazair_landing_events" }],
   "assets": {
     "directory": "./site/dist",
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/events"],
     // /en/hub and /en/hub/ both serve /en/hub/index.html, at /en/hub/
     "html_handling": "auto-trailing-slash",
     // a missing page gets the nearest 404.html, with status 404

@@ -493,6 +493,10 @@ def first_tasks(ctx) -> Markup:
                        f'<div class="empty-text"><h3>{ctx.t("home.hub_empty_title")}</h3>'
                        f'<p>{ctx.t("home.hub_empty")}</p></div></div>')
     note = Markup(f'<p class="starter-note">{ctx.t("participation.task_note")}</p>')
+    # Hidden without JavaScript; the tasks themselves always remain normal links.
+    note += Markup(f'<div class="starter-share" hidden><button type="button" class="btn btn-secondary" data-community-share'
+                   f' data-copied="{ctx.ta("participation.link_copied")}" data-failed="{ctx.ta("participation.copy_failed")}">'
+                   f'{ctx.t("participation.share")}</button><p class="starter-note" role="status"></p></div>')
     return C.section('contribution-start', ctx.t('home.hub_eyebrow'), ctx.t('participation.tasks_title'),
                      inner + note, lede=ctx.t('participation.tasks_lede', label=C.label_chip(ctx.s('participation.task_label'))),
                      head_extra=C.btn(ctx.t('participation.hero_contribute'), ctx.url('hub') + '?kind=gfi#issues', size='s'))
