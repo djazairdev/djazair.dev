@@ -327,7 +327,7 @@
 /* Contribution hero copied from the participation-first comparison. */
 .participation-hero .hero-grid { align-items: center; }
 .participation-title { font-size: clamp(42px, 4.5vw, 64px); line-height: 1.08; font-weight: 400; letter-spacing: -.035em; text-wrap: balance; }
-.participation-title > span { display: block; color: var(--mint-hi); margin-top: 6px; }
+.participation-title > span { display: block; color: var(--mint-hi); margin-top: 6px; text-shadow: 0 0 10px var(--mint-glow), 0 0 28px var(--mint-line); }
 .participation-title:lang(ar) { letter-spacing: 0; line-height: 1.35; }
 .participation-hero .hero-lede { max-width: 46ch; font-size: var(--fs-home-lede); }
 .hero-welcome { margin-top: -10px; font-size: 17px; color: var(--ink2); }
@@ -354,6 +354,10 @@
 .hero-community .hero-stats { padding-block: 0 8px; border-block: 0; }
 @media (max-width: 760px) {
  .participation-title { font-size: clamp(36px,9vw,56px); }
+ .participation-hero .hero-text { width: 100%; margin-inline: auto; align-items: center; text-align: center; }
+ .participation-hero .hero-text > .eyebrow { justify-content: center; }
+ .participation-hero .hero-ctas { width: 100%; justify-content: center; }
+ .participation-hero .hero-cta { align-items: center; }
  .local-meetup-card { grid-template-columns: minmax(0, 1fr); gap: 20px; }
  .local-meetup-side { width: min(100%, 280px); justify-self: center; }
  .hero-community .hero-h { flex-direction: column; align-items: flex-start; gap: 12px; }
