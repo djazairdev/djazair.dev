@@ -129,7 +129,7 @@
     "need": "You’ll need:",
     "eyebrow": "Project Hub",
     "title": "Your first pull request starts here",
-    "lede": "Beginner-friendly issues from open-source projects with Algerian maintainers or a clear link to Algeria. Every listed project pledges to answer newcomers within 7 days.",
+    "lede": "Beginner-friendly issues from open-source projects with Algerian maintainers or a clear link to Algeria. Listed maintainers pledge to reply to newcomer pull requests within seven days.",
     "meta_projects": "Projects",
     "meta_issues": "Open issues",
     "meta_refreshed": "Refreshed",
@@ -181,8 +181,8 @@
     "step1": "Comment on it to say you’re working on it, so nobody duplicates your work.",
     "step2_t": "Open a draft pull request early",
     "step2": "Push a first version and ask questions in the pull request. Small is fine.",
-    "step3_t": "Get a reply within 7 days",
-    "step3": "Listed maintainers pledge to review or answer newcomers within a week.",
+    "step3_t": "Ask for feedback",
+    "step3": "Listed maintainers pledge to reply to newcomer pull requests within seven days. Review or merging may take longer.",
     "ideas_eyebrow": "Ideas",
     "ideas_title": "Vote for the next project",
     "ideas_lede": "Anyone can propose an open-source project that would help people in Algeria, and anyone with a GitHub account can vote. Every quarter, djazair.dev adopts the idea with the most votes and builds it in the open.",
@@ -320,7 +320,22 @@
     "check_note": "A failing check names what to fix. A code of conduct is recommended, not required.",
     "open_pr": "Open a pull request",
     "issue_form": "Use the issue form",
-    "list_note": "Submissions are reviewed in public within 7 days. Language, licence and activity are read from GitHub, so the entry stays short."
+    "list_note": "Submissions are reviewed in public within 7 days. Language, licence and activity are read from GitHub, so the entry stays short.",
+    "entry": {
+      "title": "Your first contribution starts here.",
+      "text": "Practice your skills on real projects: code, documentation, translation and testing all count.",
+      "next": "Open a task on GitHub. Read the requirements and ask the maintainer before you start.",
+      "english_tasks": "Task titles and GitHub discussions may be in English. This guide and the filters are available in Arabic.",
+      "help": "New to contributing? Start here",
+      "step1_title": "1. Find a fit",
+      "step1": "Read the task and project’s contribution guide. Check that nobody is already working on it.",
+      "step2_title": "2. Ask a question",
+      "step2": "Leave a comment explaining what you want to try. Ask for clarification if the scope is unclear.",
+      "step3_title": "3. Share your work",
+      "step3": "Follow the project’s instructions and send a pull request for feedback.",
+      "account": "You can browse without signing in. You need a GitHub account to comment or submit a pull request.",
+      "pledge": "Listed maintainers pledge to reply to newcomer pull requests within seven days. A reply is not an acceptance guarantee; review or merging may take longer."
+    }
   },
   "localisation": {
     "eyebrow": "Project Hub · Localisation",
@@ -1596,11 +1611,19 @@
     }
   },
   "participation": {
-    "hero_title": "Contribute to open source in Algeria.",
-    "hero_highlight": "Build it together.",
-    "hero_lede": "Find your next open-source contribution, meet local teammates, or turn an idea into something useful for Algeria.",
-    "hero_contribute": "Find a contribution",
-    "hero_meet": "Meet local developers",
-    "hero_context": "The community behind the momentum"
+    "hero_title": "Start small.",
+    "hero_highlight": "Build something useful.",
+    "hero_lede": "Practice your skills on real open-source projects from Algeria. Help with code, documentation, translation or testing.",
+    "hero_contribute": "Find a beginner task",
+    "hero_meet": "Meet developers in my city",
+    "hero_context": "The community behind the momentum",
+    "eyebrow": "Open source · Algeria",
+    "welcome": "Developers and IT students are welcome.",
+    "benefit": "Choose a task, ask questions, and learn from feedback.",
+    "tasks_title": "Your first contribution can start here.",
+    "tasks_lede": "These live GitHub tasks are marked “good first issue” by their maintainers. Read the requirements and choose one that fits your skills.",
+    "task_note": "Each task opens on GitHub. Check the discussion before starting; a beginner label does not mean every task needs no coding experience.",
+    "meet_title": "Build with people in your city.",
+    "meet_text": "Meet developers, students and founders through founders.coffee. Share a problem, exchange skills, or find people to develop software projects together. Join a meetup or start one in your city."
   }
 }

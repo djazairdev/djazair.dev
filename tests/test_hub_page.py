@@ -134,8 +134,38 @@ class HubPage(unittest.TestCase):
         self.assertIn('6 أكتوبر 2026، <span dir="ltr">18:41 UTC</span>', self.html['ar'])
 
     def test_home_reads_the_same_feed(self):
-        teaser = re.search(r'id="hub-teaser".*?</section>', self.home, re.S).group(0)
-        self.assertEqual(re.findall(r'<a class="issue" href="([^"]+)"', teaser), [i['url'] for i in ISSUES[:3]])
+        teaser = re.search(r'id="contribution-start".*?</section>', self.home, re.S).group(0)
+        beginner = [i['url'] for i in ISSUES if 'good first issue' in i['labels']][:3]
+        self.assertEqual(re.findall(r'<a class="issue" href="([^"]+)"', teaser), beginner)
+
+    def test_participation_precedes_statistics_in_both_languages(self):
+        for lang in LANGS:
+            page = (self.tmp / 'dist' / lang / 'index.html').read_text('utf-8')
+            with self.subTest(lang=lang):
+                anchors = [page.index(f'id="{anchor}"') for anchor in
+                           ('contribution-start', 'local-team', 'scorecard', 'trend', 'hub-teaser')]
+                self.assertEqual(anchors, sorted(anchors))
+                self.assertEqual(page.count('class="issue"'), 3, 'show the beginner preview once')
+                self.assertIn(f'href="/{lang}/hub/?kind=gfi#issues"', page)
+                self.assertIn('class="hero-welcome enter d1"', page)
+                self.assertIn('class="hero-benefit enter d2"', page)
+                self.assertNotIn('class="untranslated"', page)
+                meetup = re.search(r'id="local-team".*?</section>', page, re.S).group(0)
+                self.assertIn('founders.coffee', meetup)
+                self.assertNotIn('Algiers', meetup)
+
+    def test_ad_anchor_includes_guidance_before_filters(self):
+        for lang, page in self.html.items():
+            feed = re.search(r'id="issues".*?</section>', page, re.S).group(0)
+            with self.subTest(lang=lang):
+                self.assertLess(feed.index('class="contribution-intro"'), feed.index('class="hub-grid"'))
+                self.assertIn('id="issues-h"', feed)
+                self.assertIn('<details class="contribution-help"><summary>', feed)
+                self.assertIn('GitHub', feed)
+                self.assertEqual('class="contribution-language-note"' in feed, lang == 'ar')
+        self.assertIn('need a GitHub account', self.html['en'])
+        self.assertIn('pledge to reply to newcomer pull requests', self.html['en'])
+        self.assertIn('review or merging may take longer', self.html['en'])
 
 
 class EmptyHub(unittest.TestCase):
@@ -147,6 +177,7 @@ class EmptyHub(unittest.TestCase):
         self.assertIn('The first projects are being listed.', page)
         self.assertNotIn('class="hub-tools"', page)
         self.assertNotRegex(page, r'/assets/hub\.[0-9a-f]+\.js')
+        self.assertIn('class="contribution-intro"', page, 'the entry guide survives an empty feed')
         self.assertEqual(page.count('class="pj pj-wanted"'), 3, 'the open slots still show')
         for anchor in ('issues', 'projects', 'list'):
             self.assertIn(f'id="{anchor}"', page)

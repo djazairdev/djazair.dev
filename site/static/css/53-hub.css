@@ -8,6 +8,23 @@
 
 /* ---- feed */
 .hub-feed { padding-bottom: var(--section-pad); }
+.contribution-intro { display: flex; flex-direction: column; gap: 16px; max-width: 900px; margin-bottom: 32px; }
+.contribution-intro h2 { font-size: clamp(30px, 3.4vw, 42px); font-weight: 400; }
+.contribution-intro .lede { font-size: 18px; }
+.contribution-next { font-size: 16px; line-height: 1.65; color: var(--ink2); }
+.contribution-language-note { font-size: 14px; line-height: 1.65; color: var(--ink3); }
+.contribution-help { border: 1px solid var(--line2); border-radius: var(--r-card); background: var(--s1); }
+.contribution-help summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 48px; padding: 12px 20px; color: var(--mint-hi); cursor: pointer; list-style: none; }
+.contribution-help summary::-webkit-details-marker { display: none; }
+.contribution-help[open] summary > .icon { transform: rotate(180deg); }
+.contribution-help ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 8px 20px 20px; list-style: none; }
+.contribution-help li { display: flex; flex-direction: column; gap: 8px; font-size: 15px; line-height: 1.65; color: var(--ink2); }
+.contribution-help strong { color: var(--ink); }
+.contribution-help > p { margin: 0 20px 16px; font-size: 14px; line-height: 1.65; color: var(--ink2); }
+@media (max-width: 760px) {
+  .contribution-intro { gap: 12px; margin-bottom: 24px; }
+  .contribution-help ol { grid-template-columns: minmax(0, 1fr); }
+}
 .hub-grid { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 32px; align-items: start; }
 .hub-grid:not(:has(> .hub-tools:not([hidden]))) { grid-template-columns: minmax(0, 1fr); }
 .hub-main { min-width: 0; }

@@ -334,10 +334,11 @@ def hero(ctx) -> Markup:
 <div class="hero-bg" aria-hidden="true"></div>
 <div class="container hero-grid">
 <div class="hero-text">
-{C.eyebrow(ctx.t('home.hero_eyebrow'), cls='enter')}
-<p class="hero-kicker enter d1">{ctx.t('home.kicker')}</p>
+{C.eyebrow(ctx.t('participation.eyebrow'), cls='enter')}
+<p class="hero-welcome enter d1">{ctx.t('participation.welcome')}</p>
 <h1 id="hero-h" class="participation-title enter d1">{ctx.t('participation.hero_title')} <span>{ctx.t('participation.hero_highlight')}</span></h1>
 <p class="lede hero-lede enter d2">{ctx.t('participation.hero_lede')}</p>
+<p class="hero-benefit enter d2">{ctx.t('participation.benefit')}</p>
 <div class="hero-ctas enter d3"><div class="hero-cta">{C.btn(ctx.t('participation.hero_contribute'), ctx.url('hub') + '?kind=gfi#issues')}</div><div class="hero-cta">{C.btn(ctx.t('participation.hero_meet'), meetups.link(platform, 'find', ctx.lang), 'secondary', out=True)}</div></div>
 </div>
 {fig}
@@ -459,8 +460,23 @@ def trend(ctx) -> Markup:
 
 
 # ---------------------------------------------------------------- Hub teaser
+def first_tasks(ctx) -> Markup:
+    """Show real beginner tasks before ecosystem statistics, never fabricated examples."""
+    issues = [i for i in ctx.site.hub.issues
+              if 'good first issue' in {label.lower() for label in i.get('labels', [])}][:3]
+    if issues:
+        inner = Markup(f'<div class="issues starter-issues">{join(C.issue_card(ctx, i) for i in issues)}</div>')
+    else:
+        inner = Markup(f'<div class="empty-state"><span class="empty-icon">{icon("plus", 20)}</span>'
+                       f'<div class="empty-text"><h3>{ctx.t("home.hub_empty_title")}</h3>'
+                       f'<p>{ctx.t("home.hub_empty")}</p></div></div>')
+    note = Markup(f'<p class="starter-note">{ctx.t("participation.task_note")}</p>')
+    return C.section('contribution-start', ctx.t('home.hub_eyebrow'), ctx.t('participation.tasks_title'),
+                     inner + note, lede=ctx.t('participation.tasks_lede'),
+                     head_extra=C.btn(ctx.t('participation.hero_contribute'), ctx.url('hub') + '?kind=gfi#issues', size='s'))
+
+
 def hub_teaser(ctx) -> Markup:
-    issues = ctx.site.hub.issues[:3]
     paths = []
     for key, glyph, href in (
             ('contribute', 'branch', ctx.url('hub') + '?kind=gfi#issues'),
@@ -480,21 +496,12 @@ def hub_teaser(ctx) -> Markup:
                             f'<h3 id="hub-{key}-h">{ctx.t(f"home.hub_{key}_title")}</h3>'
                             f'<p>{ctx.t(f"home.hub_{key}_text")}</p><div class="hub-path-action">{action}</div></article>'))
     routes = Markup(f'<div class="hub-paths">{join(paths)}</div>')
-    feed_head = Markup(f'<div class="hub-preview-head"><div><h3 id="hub-preview-h">{ctx.t("home.hub_preview_title")}</h3>'
-                       f'<p>{ctx.t("home.hub_preview_text")}</p></div>'
-                       f'{C.btn(ctx.t("home.hub_browse"), ctx.url("hub", hash="issues"), "secondary", size="s")}</div>')
-    if issues:
-        inner = Markup(f'<div class="issues">{join(C.issue_card(ctx, i) for i in issues)}</div>')
-    else:
-        inner = Markup(f'<div class="empty-state"><span class="empty-icon">{icon("plus", 20)}</span>'
-                       f'<div class="empty-text"><h3>{ctx.t("home.hub_empty_title")}</h3><p>{ctx.t("home.hub_empty")}</p></div></div>')
     listing = Markup(f'<div class="hub-listing layered-card" role="group" aria-labelledby="hub-listing-h">'
                      f'<div class="hub-listing-surface layered-card-surface"><span class="layered-card-texture" aria-hidden="true"></span>'
                      f'<h3 id="hub-listing-h">{ctx.t("home.hub_listing_title")}</h3>'
                      f'<p>{ctx.t("home.hub_listing_text")}</p>'
                      f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "primary")}</div></div>')
-    preview = Markup(f'<div class="hub-preview" role="group" aria-labelledby="hub-preview-h">{feed_head}{inner}</div>')
-    return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), routes + preview + listing,
+    return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), routes + listing,
                      lede=ctx.t('home.hub_lede'))
 
 
@@ -544,7 +551,7 @@ def local_team(ctx) -> Markup:
 
 
 def render(ctx: Ctx) -> Page:
-    body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + local_team(ctx)
+    body = hero(ctx) + first_tasks(ctx) + local_team(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx)
     years = history(ctx.site.data)
     scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub', 'home-team') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),

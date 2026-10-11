@@ -326,10 +326,15 @@
 
 /* Contribution hero copied from the participation-first comparison. */
 .participation-hero .hero-grid { align-items: center; }
-.participation-title { font-size: clamp(44px, 5vw, 74px); line-height: 1.08; font-weight: 400; letter-spacing: -.035em; text-wrap: balance; }
+.participation-title { font-size: clamp(42px, 4.5vw, 64px); line-height: 1.08; font-weight: 400; letter-spacing: -.035em; text-wrap: balance; }
 .participation-title > span { display: block; color: var(--mint-hi); margin-top: 6px; }
 .participation-title:lang(ar) { letter-spacing: 0; line-height: 1.35; }
-.participation-hero .hero-lede { max-width: 46ch; font-size: 22px; }
+.participation-hero .hero-lede { max-width: 46ch; font-size: 20px; }
+.hero-welcome { margin-top: -10px; font-size: 17px; color: var(--ink2); }
+.hero-benefit { margin-top: -10px; font-size: 16px; line-height: 1.6; color: var(--ink2); }
+.starter-note { margin-top: 16px; max-width: 82ch; font-size: 14px; line-height: 1.65; color: var(--ink2); }
+#contribution-start .section-head h2 { font-weight: 400; }
+#contribution-start .section-head .lede { font-size: 18px; }
 .hero-community { display: flex; flex-direction: column; gap: 16px; }
 .hero-community-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .hero-community-head > p { font-size: 14px; color: var(--ink2); }
@@ -338,14 +343,16 @@
 .hero-community .hero-tail { color: var(--ink); font-size: 24px; line-height: 1.3; max-width: 15ch; min-width: 0; }
 .hero-community .hero-stats { padding-block: 0 8px; border-block: 0; }
 @media (max-width: 760px) {
- .participation-title { font-size: clamp(40px,10vw,64px); }
- .participation-hero .hero-lede { font-size: 20px; }
+ .participation-title { font-size: clamp(36px,9vw,56px); }
+ .participation-hero .hero-lede { font-size: 18px; }
  .hero-community .hero-h { flex-direction: column; align-items: flex-start; gap: 12px; }
  .hero-community .hero-tail { max-width: none; }
  .hero-community-head .hero-when { gap: 12px; }
 }
 
 @media (max-width: 480px) {
+ .participation-hero .hero-text { gap: 18px; }
+ .hero-welcome, .hero-benefit { margin-top: 0; font-size: 15px; }
  .participation-hero .hero-cta { flex-basis: 100%; }
  .hero-community .hero-stats { grid-template-columns: minmax(0,1fr); gap: 12px; }
  .hero-community .hs { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: start; }
