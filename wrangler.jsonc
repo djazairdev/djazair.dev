@@ -5,7 +5,7 @@
   "name": "djazair-dev-site",
   "compatibility_date": "2026-10-07",
   "main": "worker/events.mjs",
-  "vars": { "ACTION_ANALYTICS_ENABLED": "false" },
+  "vars": { "ACTION_ANALYTICS_ENABLED": "true" },
   "analytics_engine_datasets": [{ "binding": "EVENTS", "dataset": "djazair_landing_events" }],
   "assets": {
     "directory": "./site/dist",

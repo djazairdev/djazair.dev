@@ -47,10 +47,16 @@ class Configuration(unittest.TestCase):
         self.assertEqual(config['main'], 'worker/events.mjs')
         self.assertEqual(assets['run_worker_first'], ['/api/events'])
         self.assertEqual(assets['binding'], 'ASSETS')
-        self.assertEqual(config['vars']['ACTION_ANALYTICS_ENABLED'], 'false', 'deployment needs an explicit activation')
         self.assertEqual(config['routes'], [{'pattern': 'djazair.dev', 'custom_domain': True}], 'djazair.dev since launch')
         self.assertIs(config['workers_dev'], False, 'one address')
         self.assertIs(config['preview_urls'], True, 'pull requests still get a preview')
+
+    def test_production_tracking_build_and_endpoint_are_enabled_together(self):
+        config = jsonc(ROOT / 'wrangler.jsonc')
+        self.assertEqual(config['vars']['ACTION_ANALYTICS_ENABLED'], 'true')
+        build_job = CI[CI.index('\n  build:\n'):CI.index('\n  performance:\n')]
+        self.assertIn('run: python site/build.py --actions\n', build_job,
+                      'an enabled endpoint needs the tracking script and About disclosure in the deployed artifact')
 
     def test_the_holding_page_can_take_the_domain_back(self):
         """Kept for a week after launch, in case the site has to move back (docs/launch.md)."""

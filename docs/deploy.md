@@ -38,7 +38,7 @@ Secrets are only read by the deploy step, are passed to Wrangler through its inp
 CI does this on every push to `main`. To do it yourself, from a computer logged in to Cloudflare (`npx wrangler login`), in the repository folder:
 
 ```sh
-.github/scripts/hub-snapshot.sh && python3 site/build.py && npx wrangler deploy   # the site, as CI builds it
+.github/scripts/hub-snapshot.sh && python3 site/build.py --actions && npx wrangler deploy   # the site, as CI builds it
 npx wrangler deploy --config wrangler.holding.jsonc                               # the holding page on djazair.dev
 ```
 

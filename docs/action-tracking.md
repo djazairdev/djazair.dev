@@ -1,6 +1,6 @@
 # Landing action counts
 
-The landing page’s campaign measurements use a first-party `/api/events` endpoint on the existing Cloudflare Worker. No package or external tracking script is added. The production build and endpoint are **off by default**; the local review explicitly enables them. No deployment or account change is part of this change.
+The landing page’s campaign measurements use a first-party `/api/events` endpoint on the existing Cloudflare Worker. No package or external tracking script is added. The production CI build enables counts with `--actions`, and the Worker configuration sets `ACTION_ANALYTICS_ENABLED` to `"true"`. The standalone build still defaults to counts off unless `--actions` is supplied. Counts start after the enabled version is deployed; previous visits cannot be recovered.
 
 ## Local review
 
@@ -35,10 +35,10 @@ The stored dimensions are event, page category, language, section category, sour
 
 The endpoint requires same-origin POST JSON, validates an allowlist, limits bodies to 1 KB and sends no data when disabled. It sets no cookies, has no public read endpoint and uses no personal identifiers for deduplication. The browser caps counts at 50 events per page and suppresses rapid duplicate link clicks. This limits accidental repeats, not forged traffic. Check anomalous campaigns before spending more.
 
-## Activation on a later approved deployment
+## Production configuration and report access
 
 1. Review the event names, privacy text and campaign convention.
-2. Build the production artifact with `python3 site/build.py --actions` (without `--all-languages`). Add `--actions` to the CI build only when activating.
+2. Build the production artifact with `python3 site/build.py --actions` (without `--all-languages`). The production CI build includes this flag.
 3. Set `vars.ACTION_ANALYTICS_ENABLED` to `"true"` in `wrangler.jsonc`; keep the `EVENTS` Analytics Engine binding and selective `/api/events` routing.
 4. Deploy through the existing workflow, verify actual campaign events, and keep the default static asset routes and security headers. A missing binding or disabled endpoint returns 503 and leaves navigation working.
 5. Export weekly aggregates with an Account Analytics Read token; keep it in the environment, never the repository:
@@ -54,3 +54,9 @@ Analytics Engine creates its dataset on the first write, uses sampling at scale 
 Record spend and qualified engagement by campaign alongside these counts. Compare task opens and meetup clicks per landing-page load within the same source/campaign; call these **actions per view**, since neither side counts unique people. Review shared-link arrivals and share actions together; copied links and cancelled share dialogs are weak signals alone. Native social-platform shares are a separate metric and are not observed by this website.
 
 Verify actual accepted contributions from GitHub, and completed meetups, repeat hosts and returning attendees from the meetup records. Keep outcome evidence separate from this anonymous dataset. HEART measures meaningful activity and returning participation; the North Star remains completed, recurring community activity, not views or clicks. Continue the approved small ad pilot from day one, but only expand spending after qualified engagement, sharing and verified participation improve. This change does not start ads.
+
+## Rollback and verification
+
+To stop collection, set `vars.ACTION_ANALYTICS_ENABLED` to `"false"` and remove `--actions` from the CI build, then deploy. The endpoint returns 503 while disabled, and the untracked build removes the action-count disclosure. Navigation continues to work.
+
+For activation verification, use a clearly labeled campaign such as `activation-check-20261011`, with `utm_source=review` and `utm_medium=test`. Confirm page and click requests receive 204, then verify the corresponding event rows in `djazair_landing_events` using Cloudflare account access. A 204 response alone is not proof the data is queryable. Exclude the test campaign from growth and paid-pilot results. Do not disable visitors’ privacy settings to obtain a count. Weekly report-token setup is separate from enabling collection.
