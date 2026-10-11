@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"8deb6bd0019d9dd5d534000dc009588c6c4ef1c5cfa35402136e61f1a03047df\"",
+   "etag": "\"d23e65003bd0a3120ac2e2445fbb60262e4784b37bd0a2a44d755ac81c6d88df\"",
    "data": {
     "n": 7,
     "repos": [
@@ -16,7 +16,9 @@
      {
       "full_name": "djazairdev/detent",
       "topics": [
-       "djazairdev"
+       "algerian-maintainers",
+       "djazairdev",
+       "tool"
       ],
       "fork": false,
       "archived": false,
@@ -81,7 +83,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"9dcbc3b37d83e9f8afd5870e4200efe87480310c0e19152efffe3324a3821621\"",
+   "etag": "\"4210e3fb70567584827f63696d7c16647ea236bb979fbc86b537126ef982e33a\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -96,11 +98,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"8ce64c8e51bf23f844abd1dd7ed3912f460fa74b738c82c1d16eb9470cc74321\"",
-   "data": "2026-10-10T17:07:55Z"
+   "etag": "\"07c023e38c8ae9ab789f6aff90c7358efa90324fe71c6a785e5c9a0f300d9ab0\"",
+   "data": "2026-10-11T09:58:34Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"66a32a5a1fee8478736f05fc0608fd85446ca2fd207f4ebdaa9cf008ab1480e0\"",
+   "etag": "\"35cd0e04dae493c04b924cba9eb506e9e918af4c136dfa023cc073ac570e6a28\"",
    "data": {
     "n": 3,
     "issues": [
@@ -142,7 +144,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"2ffa26f6ce34a9a8ec2ed2a8afe53ed07dc97321b8315ac2c9ec6de2eb332be8\"",
+   "etag": "\"93d0ed1c482fba5b28902ba20947f00546ea5808075ecc216bb3926d27b8bbae\"",
    "data": {
     "n": 7,
     "issues": [
@@ -232,7 +234,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"79047ea689498fdbac52027c086e9f02a0789ee87b1b42ddcd55bc44291726ad\"",
+   "etag": "\"0602803fd87f2039636ded3926f4a553df8a7e3df4fc21e045cdcadb38dca0ef\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -247,11 +249,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"a27ad9be41da31c2840d2a388003fd803f7cef4dd52e608e4b69ecdae135f265\"",
-   "data": "2026-10-10T10:58:05Z"
+   "etag": "\"478e9bc455de8c3b079916844d750879e7e1a465a9231326d108fbb90e5d5346\"",
+   "data": "2026-10-11T10:03:44Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"d6bf608028ed19826716953d3e9963c0c4422d6413e5776c25d96b74bd4528f7\"",
+   "etag": "\"3a44ea2ce753a6ff9b7f8acf88554991e9aeb53dd21104d2eed91eb347ab19c3\"",
    "data": {
     "n": 2,
     "issues": [
@@ -280,7 +282,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"21eb303f2dca2fa3ecf50a822fc0eec4d8c2dd2ac86798dcc7ce638f83ecda07\"",
+   "etag": "\"6f5f257fdbd7c97a3ac30bb7f3736fb96f9ff7c3da3b242c046173b7b8fa5364\"",
    "data": {
     "n": 2,
     "issues": [
@@ -310,7 +312,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"5675d0a61b64c146f00635ad16f272bb18c790633d638550af05e7fe58074be8\"",
+   "etag": "\"2366bcf943dca43095e5f1ba0991ca844941a56dc6145e556079661b43bd953b\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -325,14 +327,26 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"02219bba848b0d1f27406199c8f5df55d30cecb182ce6d3aeee482c0a467f96a\"",
-   "data": "2026-10-10T17:27:17Z"
+   "etag": "\"c55fbe7e17e6965aaf01b9b9793569257554509d85cadf84effac0b60363ef86\"",
+   "data": "2026-10-11T10:06:45Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"93a979c572814b99a04c44ad2671cca2ef99b0bb1cbf2a6ada6de9228ccf5123\"",
+   "etag": "\"9caf35884127cb20157f90be828a906b94e320b0335d8981b3a8defc582d4f2d\"",
    "data": {
-    "n": 2,
+    "n": 3,
     "issues": [
+     {
+      "number": 36,
+      "url": "https://github.com/djazairdev/detent/issues/36",
+      "title": "The spec writer's prompt doesn't state two rules the pack checker enforces",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "good first issue"
+      ],
+      "created_at": "2026-10-11T12:22:13Z",
+      "needs": "Markdown, TypeScript, vitest"
+     },
      {
       "number": 14,
       "url": "https://github.com/djazairdev/detent/issues/14",
@@ -359,10 +373,88 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"50e0efdab3d3040588d0801fd42f26163066631ae21a0994ef139478185d26bf\"",
+   "etag": "\"7bd995bac0028c8d50416b04a9977f19ab3c8623ef3bb1bc1c658d363e0998f1\"",
    "data": {
-    "n": 1,
+    "n": 8,
     "issues": [
+     {
+      "number": 36,
+      "url": "https://github.com/djazairdev/detent/issues/36",
+      "title": "The spec writer's prompt doesn't state two rules the pack checker enforces",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "good first issue"
+      ],
+      "created_at": "2026-10-11T12:22:13Z",
+      "needs": "Markdown, TypeScript, vitest"
+     },
+     {
+      "number": 35,
+      "url": "https://github.com/djazairdev/detent/issues/35",
+      "title": "tests/init/scoped-replan.test.ts sometimes fails to remove its scratch folder (ENOTEMPTY)",
+      "labels": [
+       "bug",
+       "help wanted"
+      ],
+      "created_at": "2026-10-11T10:10:51Z",
+      "needs": "TypeScript, vitest, some Node.js file-system knowledge"
+     },
+     {
+      "number": 33,
+      "url": "https://github.com/djazairdev/detent/issues/33",
+      "title": "Record when a session hits the model's output-token limit",
+      "labels": [
+       "enhancement",
+       "help wanted"
+      ],
+      "created_at": "2026-10-11T09:14:12Z",
+      "needs": "TypeScript, vitest, the Claude Agent SDK's message types"
+     },
+     {
+      "number": 32,
+      "url": "https://github.com/djazairdev/detent/issues/32",
+      "title": "A review quote cited in the wrong file is refused even when it stands in one place in the pack",
+      "labels": [
+       "enhancement",
+       "help wanted"
+      ],
+      "created_at": "2026-10-11T09:14:11Z",
+      "needs": "TypeScript, vitest"
+     },
+     {
+      "number": 31,
+      "url": "https://github.com/djazairdev/detent/issues/31",
+      "title": "AUDIT's triage refuses a claim hash shortened to a unique prefix",
+      "labels": [
+       "enhancement",
+       "help wanted"
+      ],
+      "created_at": "2026-10-11T09:14:09Z",
+      "needs": "TypeScript, zod, vitest"
+     },
+     {
+      "number": 30,
+      "url": "https://github.com/djazairdev/detent/issues/30",
+      "title": "Claude Code shows the referee as failed in projects that don't use Detent",
+      "labels": [
+       "enhancement",
+       "help wanted"
+      ],
+      "created_at": "2026-10-11T08:07:35Z",
+      "needs": "Markdown for option 1; TypeScript and the MCP SDK for option 2"
+     },
+     {
+      "number": 29,
+      "url": "https://github.com/djazairdev/detent/issues/29",
+      "title": "The referee keeps its run lock after a clean exit",
+      "labels": [
+       "bug",
+       "help wanted"
+      ],
+      "created_at": "2026-10-11T08:07:33Z",
+      "needs": "TypeScript, vitest"
+     },
      {
       "number": 15,
       "url": "https://github.com/djazairdev/detent/issues/15",
@@ -377,7 +469,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"ad5cde769fd95c7af6f73f88b5546c098f54480d88143f2694430646c8e5a43b\"",
+   "etag": "\"b29ad7cc72dc571c266b12dd9f802825c1dca965aaa3514b367ed891622ce47f\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -392,11 +484,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"e45c2fffb32da176b39dbb0c0643f1410b27b471ca8f30ac2b5e35fdbc7bfedc\"",
+   "etag": "\"6c12bb25bd2296b891d83aec2ab0846927d0c060ba176febd4f330f7b1220a7d\"",
    "data": "2026-10-10T11:10:48Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"bd0ce09b06b24799377c1e2c58a71c132ac75881957a116fe88c05ca4a60c15f\"",
+   "etag": "\"df26886fdc824de220a2444494414911ad6ba00fcaab91ada55e88a7783591c0\"",
    "data": {
     "n": 3,
     "issues": [
@@ -437,18 +529,18 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"0749bf85219d5b65c293b250f512a89033bc166c4cecc7ab30595d515a15c1ce\"",
+   "etag": "\"90016b13c1caa78b3f6ba5270488d5560c0c37dd2a26bf28fa8568b516c47c70\"",
    "data": {
     "n": 0,
     "issues": []
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"6761247d5434ca803c9e8d1bff8676740ef1d714a7afb6a14245549737160a6e\"",
+   "etag": "\"e043c384cc3aceb1734cd597d8eec731e8577e40317873dbe0bc2324c828c44d\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
-    "description": "",
+    "description": "A free, open-source app for Algeria's teachers: from the yearly plan to every lesson. In planning.",
     "language": "TypeScript",
     "licence": "AGPL-3.0",
     "topic": true,
@@ -459,11 +551,11 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"70d8bf65baa62b080efdd7d06792d7fdeafc13b0878328617b7e9b0c8f7b380e\"",
+   "etag": "\"40c938bfa6b431570c5346523e7168f243977d7f01490cd3d26fc4123418ff1d\"",
    "data": "2026-10-10T13:12:06Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"a450026f96bc146fed496b17949ce58feb41a1c4cfc924ab96738c406b9f19db\"",
+   "etag": "\"7bdddb2ae9427b256d13ddd927468d88d574ff04d4aa8281141a2958850c2e12\"",
    "data": {
     "n": 3,
     "issues": [
@@ -504,7 +596,7 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"0749bf85219d5b65c293b250f512a89033bc166c4cecc7ab30595d515a15c1ce\"",
+   "etag": "\"90016b13c1caa78b3f6ba5270488d5560c0c37dd2a26bf28fa8568b516c47c70\"",
    "data": {
     "n": 0,
     "issues": []

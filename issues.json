@@ -1,6 +1,98 @@
 {
- "generated_at": "2026-10-11T06:24:39Z",
+ "generated_at": "2026-10-11T13:29:32Z",
  "issues": [
+  {
+   "number": 36,
+   "url": "https://github.com/djazairdev/detent/issues/36",
+   "title": "The spec writer's prompt doesn't state two rules the pack checker enforces",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "good first issue"
+   ],
+   "created_at": "2026-10-11T12:22:13Z",
+   "needs": "Markdown, TypeScript, vitest",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 35,
+   "url": "https://github.com/djazairdev/detent/issues/35",
+   "title": "tests/init/scoped-replan.test.ts sometimes fails to remove its scratch folder (ENOTEMPTY)",
+   "labels": [
+    "bug",
+    "help wanted"
+   ],
+   "created_at": "2026-10-11T10:10:51Z",
+   "needs": "TypeScript, vitest, some Node.js file-system knowledge",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 33,
+   "url": "https://github.com/djazairdev/detent/issues/33",
+   "title": "Record when a session hits the model's output-token limit",
+   "labels": [
+    "enhancement",
+    "help wanted"
+   ],
+   "created_at": "2026-10-11T09:14:12Z",
+   "needs": "TypeScript, vitest, the Claude Agent SDK's message types",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 32,
+   "url": "https://github.com/djazairdev/detent/issues/32",
+   "title": "A review quote cited in the wrong file is refused even when it stands in one place in the pack",
+   "labels": [
+    "enhancement",
+    "help wanted"
+   ],
+   "created_at": "2026-10-11T09:14:11Z",
+   "needs": "TypeScript, vitest",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 31,
+   "url": "https://github.com/djazairdev/detent/issues/31",
+   "title": "AUDIT's triage refuses a claim hash shortened to a unique prefix",
+   "labels": [
+    "enhancement",
+    "help wanted"
+   ],
+   "created_at": "2026-10-11T09:14:09Z",
+   "needs": "TypeScript, zod, vitest",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 30,
+   "url": "https://github.com/djazairdev/detent/issues/30",
+   "title": "Claude Code shows the referee as failed in projects that don't use Detent",
+   "labels": [
+    "enhancement",
+    "help wanted"
+   ],
+   "created_at": "2026-10-11T08:07:35Z",
+   "needs": "Markdown for option 1; TypeScript and the MCP SDK for option 2",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 29,
+   "url": "https://github.com/djazairdev/detent/issues/29",
+   "title": "The referee keeps its run lock after a clean exit",
+   "labels": [
+    "bug",
+    "help wanted"
+   ],
+   "created_at": "2026-10-11T08:07:33Z",
+   "needs": "TypeScript, vitest",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
   {
    "number": 69,
    "url": "https://github.com/djazairdev/djazair.dev/issues/69",
