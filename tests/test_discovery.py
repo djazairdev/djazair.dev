@@ -157,8 +157,21 @@ class Discovery(unittest.TestCase):
         self.assertIn(f"'sha256-{digest}'", policy)
         self.assertIn("script-src 'self' https://static.cloudflareinsights.com", policy)
         self.assertIn("script-src-attr 'none'", policy)
-        self.assertNotIn("'unsafe-inline'", policy)
+        directives = {d.split()[0]: d.split()[1:] for d in policy.split('; ')}
+        self.assertNotIn("'unsafe-inline'", directives['script-src'])
         self.assertNotIn("'unsafe-eval'", policy)
+
+    def test_everything_else_comes_from_this_origin(self):
+        headers = (self.dist / '_headers').read_text('utf-8')
+        policy = re.search(r'Content-Security-Policy: (.+)', headers)[1]
+        directives = {d.split()[0]: d.split()[1:] for d in policy.split('; ')}
+        self.assertEqual(directives['default-src'], ["'self'"])
+        self.assertEqual(directives['font-src'], ["'self'"])
+        self.assertEqual(directives['connect-src'], ["'self'", 'https://cloudflareinsights.com'])
+        self.assertEqual(directives['frame-ancestors'], ["'none'"])
+        self.assertIn('Strict-Transport-Security: max-age=31536000; includeSubDomains', headers)
+        for feature in ('camera', 'microphone', 'geolocation', 'payment', 'usb'):
+            self.assertIn(f'{feature}=()', re.search(r'Permissions-Policy: (.+)', headers)[1])
 
     def test_founders_coffee_has_followable_editorial_links(self):
         for lang in self.PUBLISHED:

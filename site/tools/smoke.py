@@ -306,8 +306,9 @@ class Smoke:
             if framing or any(sources != ['*'] for sources in ancestors):
                 self.fail(f'{path} cannot be embedded on other sites (X-Frame-Options: {framing or "none"}; '
                           f'frame-ancestors: {" / ".join(" ".join(s) for s in ancestors) or "none"})')
-        elif framing.upper() not in ('SAMEORIGIN', 'DENY'):
-            self.fail(f'{path} can be framed by any site (no X-Frame-Options: SAMEORIGIN)')
+        elif framing.upper() != 'DENY' or any(sources != ["'none'"] for sources in ancestors):
+            self.fail(f'{path} can be framed (X-Frame-Options: {framing or "none"}; '
+                      f'frame-ancestors: {" / ".join(" ".join(s) for s in ancestors) or "none"})')
 
     def check_images(self, images):
         answers = self.fetch_all(images)

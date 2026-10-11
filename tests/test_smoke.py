@@ -160,7 +160,7 @@ class Smoke(unittest.TestCase):
         self.assertRegex(report, r'/data/\S+ cannot be read by other sites')
         self.assertRegex(report, r'/charts/\S+ cannot be read by other sites')
         self.assertIn('/en/ lacks X-Content-Type-Options: nosniff', report)
-        self.assertIn('/en/index/trends/ can be framed by any site (no X-Frame-Options: SAMEORIGIN)', report)
+        self.assertIn('/en/index/trends/ can be framed (X-Frame-Options: none; frame-ancestors: none)', report)
         self.assertNotIn('cannot be embedded', report)    # with no headers at all, anyone can frame them
 
     def test_redirects_are_checked_when_cloudflare_answers(self):
@@ -181,8 +181,8 @@ class Smoke(unittest.TestCase):
     def test_only_chart_embeds_can_be_framed(self):
         rules = header_rules(self.dist)
         page, embed = headers_for(rules, '/en/index/trends/'), headers_for(rules, '/ar/embed/trends-accounts-actual/light/')
-        self.assertEqual(page['X-Frame-Options'], 'SAMEORIGIN')
-        self.assertEqual(smoke.frame_ancestors(page['Content-Security-Policy']), [["'self'"]])
+        self.assertEqual(page['X-Frame-Options'], 'DENY')
+        self.assertEqual(smoke.frame_ancestors(page['Content-Security-Policy']), [["'none'"]])
         self.assertNotIn('X-Frame-Options', embed)
         self.assertEqual(smoke.frame_ancestors(embed['Content-Security-Policy']), [['*']])
         self.assertEqual(embed['X-Content-Type-Options'], 'nosniff')
@@ -192,7 +192,7 @@ class Smoke(unittest.TestCase):
         fails = [line for line in result.report().splitlines() if line.startswith('FAIL')]
         self.assertTrue(fails)
         for line in fails:
-            self.assertRegex(line, r'^FAIL  /(en|ar)/embed/\S+ cannot be embedded on other sites \(X-Frame-Options: SAMEORIGIN;')
+            self.assertRegex(line, r'^FAIL  /(en|ar)/embed/\S+ cannot be embedded on other sites \(X-Frame-Options: DENY;')
         self.assertEqual(smoke.frame_ancestors("default-src 'self'; frame-ancestors 'self', frame-ancestors *"), [["'self'"], ['*']])
 
     def test_problems_are_found(self):
