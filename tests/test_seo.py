@@ -167,9 +167,16 @@ class Metadata(unittest.TestCase):
 
     def test_robots_point_to_the_sitemap(self):
         robots = (self.dist / 'robots.txt').read_text('utf-8')
-        self.assertIn('User-agent: *\nAllow: /\n', robots)
         self.assertIn(f'Sitemap: {SITE_URL}/sitemap.xml', robots)
-        self.assertNotIn('Disallow: /\n', robots)
+        groups = [block.strip().splitlines() for block in robots.split('\n\n') if 'User-agent:' in block]
+        everyone = next(g for g in groups if 'User-agent: *' in g)
+        self.assertIn('Allow: /', everyone)
+        self.assertFalse([line for line in everyone if line.startswith('Disallow')], 'every crawler is welcome')
+
+    def test_robots_refuse_awario(self):
+        robots = (self.dist / 'robots.txt').read_text('utf-8')
+        group = next(block.strip().splitlines() for block in robots.split('\n\n') if 'User-agent: AwarioBot' in block)
+        self.assertEqual(group, ['User-agent: AwarioBot', 'User-agent: AwarioSmartBot', 'User-agent: AwarioRssBot', 'Disallow: /'])
 
 
 class MetadataWithArabic(Metadata):
