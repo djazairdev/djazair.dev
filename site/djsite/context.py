@@ -50,6 +50,7 @@ class Site:
     analytics: str = ''            # Cloudflare Web Analytics token; '' adds no beacon
     cache: dict = field(default_factory=dict)   # what pages read once per build, such as a report's quarter
     published: tuple = PUBLISHED   # languages served in full; the others show the invitation to translate
+    actions: bool = False          # first-party action counts; explicitly enabled for a build
 
     def add_file(self, path: str, data: bytes) -> str:
         """Register a generated file, such as a chart download, and return its URL. Pages in

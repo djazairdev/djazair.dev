@@ -129,7 +129,7 @@
     "need": "You’ll need:",
     "eyebrow": "Project Hub",
     "title": "Your first pull request starts here",
-    "lede": "Beginner-friendly issues from open-source projects with Algerian maintainers or a clear link to Algeria. Every listed project pledges to answer newcomers within 7 days.",
+    "lede": "Beginner-friendly issues from open-source projects with Algerian maintainers or a clear link to Algeria. Listed maintainers pledge to reply to newcomer pull requests within seven days.",
     "meta_projects": "Projects",
     "meta_issues": "Open issues",
     "meta_refreshed": "Refreshed",
@@ -181,8 +181,8 @@
     "step1": "Comment on it to say you’re working on it, so nobody duplicates your work.",
     "step2_t": "Open a draft pull request early",
     "step2": "Push a first version and ask questions in the pull request. Small is fine.",
-    "step3_t": "Get a reply within 7 days",
-    "step3": "Listed maintainers pledge to review or answer newcomers within a week.",
+    "step3_t": "Ask for feedback",
+    "step3": "Listed maintainers pledge to reply to newcomer pull requests within seven days. Review or merging may take longer.",
     "ideas_eyebrow": "Ideas",
     "ideas_title": "Vote for the next project",
     "ideas_lede": "Anyone can propose an open-source project that would help people in Algeria, and anyone with a GitHub account can vote. Every quarter, djazair.dev adopts the idea with the most votes and builds it in the open.",
@@ -320,7 +320,22 @@
     "check_note": "A failing check names what to fix. A code of conduct is recommended, not required.",
     "open_pr": "Open a pull request",
     "issue_form": "Use the issue form",
-    "list_note": "Submissions are reviewed in public within 7 days. Language, licence and activity are read from GitHub, so the entry stays short."
+    "list_note": "Submissions are reviewed in public within 7 days. Language, licence and activity are read from GitHub, so the entry stays short.",
+    "entry": {
+      "title": "Your first contribution starts here.",
+      "text": "Practice your skills on real projects: code, documentation, translation and testing all count.",
+      "next": "Open a task on GitHub. Read the requirements and ask the maintainer before you start.",
+      "english_tasks": "Task titles and GitHub discussions may be in English. This guide and the filters are available in Arabic.",
+      "help": "New to contributing? Start here",
+      "step1_title": "1. Find a fit",
+      "step1": "Read the task and project’s contribution guide. Check that nobody is already working on it.",
+      "step2_title": "2. Ask a question",
+      "step2": "Leave a comment explaining what you want to try. Ask for clarification if the scope is unclear.",
+      "step3_title": "3. Share your work",
+      "step3": "Follow the project’s instructions and send a pull request for feedback.",
+      "account": "You can browse without signing in. You need a GitHub account to comment or submit a pull request.",
+      "pledge": "Listed maintainers pledge to reply to newcomer pull requests within seven days. A reply is not an acceptance guarantee; review or merging may take longer."
+    }
   },
   "localisation": {
     "eyebrow": "Project Hub · Localisation",
@@ -392,7 +407,7 @@
     "bring_report_t": "The quarter’s numbers",
     "bring_report": "Discuss the latest Index figures and what they mean for Algeria’s developer community.",
     "note_t": "{platform} is a separate site",
-    "note": "It has its own accounts, {terms} and {privacy}. djazair.dev has no accounts and shares nothing with it: these are plain links.",
+    "note": "It has its own accounts, {terms} and {privacy}. djazair.dev has no accounts and shares no account information with it. Links may include anonymous campaign codes.",
     "terms": "terms of use",
     "privacy": "privacy policy"
   },
@@ -778,6 +793,7 @@
     "hub_vote_title": "Vote for an idea",
     "hub_vote_text": "Help the community choose what to build next. Explore the ideas and upvote those you support on GitHub. One vote per account, per idea.",
     "hub_vote_action": "Explore and vote",
+    "hub_discuss_action": "Join the conversation",
     "hub_soon": "Coming soon",
     "hub_preview_title": "Open tasks you can help with",
     "hub_preview_text": "Each task links to GitHub and shows the skills you’ll need. Listed maintainers pledge to reply to newcomers within 7 days.",
@@ -864,7 +880,11 @@
         "topics": "Topics GitHub reports when at least 100 developers in Algeria use them. Smaller topics are hidden.",
         "permillion": "GitHub accounts for every 1 million residents. Adjusts community size for population."
       }
-    }
+    },
+    "replay_start": "Replay growth",
+    "replay_latest": "Show latest figures",
+    "preview_title": "A snapshot of Algeria on GitHub.",
+    "preview_lede": "National figures from GitHub’s Innovation Graph. Explore the Developer Index for the full data and comparisons."
   },
   "overview": {
     "eyebrow": "Algeria Developer Index",
@@ -1246,7 +1266,9 @@
     "analytics_on": "We count visits with Cloudflare Web Analytics, which uses no cookies and doesn’t follow you from site to site: it keeps totals only, such as pages viewed, countries and browsers.",
     "analytics_off": "We don’t count visits.",
     "hub_ideas": "It also shows project ideas from GitHub Discussions with their number of votes, never who proposed or voted for them.",
-    "hub_counts": "It also counts new contributors and response times from the listed projects’ public pull requests and issues: usernames are read during the count and never kept."
+    "hub_counts": "It also counts new contributors and response times from the listed projects’ public pull requests and issues: usernames are read during the count and never kept.",
+    "analytics_actions": "We count page views and actions without visitor identifiers.",
+    "actions": "Action counts include opening tasks, following meetup links and using the share button. We keep only event names, page and section categories, language and campaign codes, never visitor IDs, IP addresses or full URLs. Counts respect Do Not Track and Global Privacy Control. Campaign codes may travel with links to founders.coffee. These counts do not prove a contribution, attendance or a completed share to another person."
   },
   "downloads": {
     "eyebrow": "Data",
@@ -1596,11 +1618,23 @@
     }
   },
   "participation": {
-    "hero_title": "Contribute to open source in Algeria.",
-    "hero_highlight": "Build it together.",
-    "hero_lede": "Find your next open-source contribution, meet local teammates, or turn an idea into something useful for Algeria.",
-    "hero_contribute": "Find a contribution",
-    "hero_meet": "Meet local developers",
-    "hero_context": "The community behind the momentum"
+    "hero_title": "Start small.",
+    "hero_highlight": "Build something useful.",
+    "hero_lede": "Practice your skills on real open-source projects from Algeria. Help with code, documentation, translation or testing.",
+    "hero_contribute": "Find a beginner task",
+    "hero_meet": "Meet developers in my city",
+    "hero_context": "Algeria on GitHub · National data",
+    "eyebrow": "Open source · Algeria",
+    "welcome": "Developers and IT students are welcome.",
+    "benefit": "Choose a task, ask questions, and learn from feedback.",
+    "tasks_title": "Your first contribution can start here.",
+    "tasks_lede": "These live GitHub tasks are marked {label} by their maintainers. Read the requirements and choose one that fits your skills.",
+    "task_label": "good first issue",
+    "task_note": "Each task opens on GitHub. Check the discussion before starting; a beginner label does not mean every task needs no coding experience.",
+    "meet_title": "Build with people in your city.",
+    "meet_text": "Meet developers, students and founders in your city. Share skills and develop software projects together. Join a coffee meetup or start one through founders.coffee.",
+    "share": "Share djazair.dev",
+    "link_copied": "Link copied. Send it to someone who might want to join.",
+    "copy_failed": "Could not share the link. You can copy the page address instead."
   }
 }

@@ -202,7 +202,7 @@ def analytics_token(value: Optional[str] = None) -> str:
 
 def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool = False, i18n_dir: Path = I18N_DIR,
           derived_dir: Path = DERIVED_DIR, hub_dir: Optional[Path] = None, analytics: Optional[str] = None,
-          published: tuple = PUBLISHED) -> Site:
+          published: tuple = PUBLISHED, actions: bool = False) -> Site:
     """``analytics``: the Cloudflare Web Analytics token; by default read from the environment.
     ``published``: the languages served in full; every address in another shows the invitation to
     translate (pages/invitation.py)."""
@@ -213,7 +213,7 @@ def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool =
         all_routes.append(Route('dev-components', '_dev/components/', dev_page.render, indexed=False))
     site = Site(catalog=catalog, routes={r.key: r for r in all_routes}, dev=dev, data=load_data(derived_dir),
                 hub=Hub(hub_dir or Path(derived_dir) / 'hub'), analytics=analytics_token(analytics),
-                published=tuple(lang for lang in LANGS if lang in published))
+                published=tuple(lang for lang in LANGS if lang in published), actions=actions)
     _prepare(out)
     site.assets = assets.build(out, release=site.data.folder.name, langs=site.published)
     add_data_files(site, derived_dir)
@@ -273,10 +273,11 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, default=DEFAULT_OUT, help='output folder (default: site/dist)')
     parser.add_argument('--dev', action='store_true', help='also build the /_dev/ component pages')
+    parser.add_argument('--actions', action='store_true', help='enable first-party action counts (requires the events Worker)')
     parser.add_argument('--all-languages', action='store_true',
                         help='build the pages of every language, published or not, to translate or review them (never deploy this)')
     args = parser.parse_args(argv)
-    build(args.out.resolve(), dev=args.dev, published=LANGS if args.all_languages else PUBLISHED)
+    build(args.out.resolve(), dev=args.dev, published=LANGS if args.all_languages else PUBLISHED, actions=args.actions)
     return 0
 
 

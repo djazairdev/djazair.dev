@@ -89,6 +89,9 @@
 .lang-switch a[lang=ar] { font-family: var(--sans); font-size: 15px; }
 .lang-switch a:hover { color: var(--ink); }
 .lang-switch a[aria-current] { color: var(--ink); background: var(--s2); }
+.header-end .lang-switch a { min-width: 40px; height: 38px; }
+.menu-panel .lang-switch { width: fit-content; margin-block: 12px; }
+.menu-panel .lang-switch a { min-width: 44px; height: 44px; border: 0; }
 
 .github-link {
   display: inline-flex;
@@ -159,6 +162,7 @@
 }
 @media (max-width: 760px) {
   .header-end > [data-header-contribute] { display: none; }
+  .header-end > .lang-switch { display: none; }
 }
 @media (max-width: 380px) {
   .header-row { gap: 12px; }
@@ -228,7 +232,7 @@
 .footer-language { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font-size: 13px; color: var(--ink2); }
 .footer-language .lang-switch a { min-width: 44px; height: 44px; }
 .footer-display { display: flex; justify-content: center; overflow: hidden; padding: clamp(32px, 5vw, 80px) 16px clamp(16px, 3vw, 48px); }
-.footer-display .wordmark { font-size: clamp(54px, 22vw, 390px); letter-spacing: -.065em; line-height: .9; white-space: nowrap; opacity: .24; }
+.footer-display .wordmark { font-size: clamp(54px, calc(20vw - 8px), 390px); letter-spacing: -.02em; line-height: .9; white-space: nowrap; opacity: .24; }
 .footer-display .wordmark > span { color: var(--mint); }
 .footer-trail-head, .footer-trail-tail { stop-color: var(--mint-hi); }
 .footer-trail-head { stop-opacity: .9; }
@@ -271,7 +275,7 @@
   .footer-license-name { font-size: 10px; }
   .footer-community { padding-inline: 20px; }
   .footer-community-actions { gap: 16px; }
-  .footer-display .wordmark { font-size: clamp(54px, 20vw, 96px); }
+  .footer-display .wordmark { font-size: clamp(54px, calc(20vw - 8px), 96px); }
 }
 
 /* ---- the language chooser at / */

@@ -1,13 +1,13 @@
 /* Home (ticket #18; Home boards in docs/design). The hero's replay of the years depends on the
    data, so site/djsite/pages/home.py generates its rules into Home's own <style> at build time. */
 
-/* ---- hero: an editorial snapshot with an automatic growth replay */
+/* ---- hero: an editorial snapshot with an optional growth replay */
 .hero { position: relative; overflow: hidden; padding-block: 35px clamp(40px, 5vw, 72px); background: radial-gradient(ellipse at 80% 40%, var(--mint-tint), transparent 62%); }
 .hero-bg { --hx: 72%; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(var(--hero-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(ellipse 60% 80% at var(--hx) 50%, black, transparent 80%); mask-image: radial-gradient(ellipse 60% 80% at var(--hx) 50%, black, transparent 80%); }
 [dir=rtl] .hero-bg { --hx: 28%; }
 .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
 .hero-text { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
-.hero-text > .eyebrow { color: var(--ink2); font-size: 11px; letter-spacing: .1em; }
+.hero-text > .eyebrow { color: var(--ink2); font-size: 12px; letter-spacing: .12em; }
 .hero-text > .eyebrow:lang(ar) { font-size: 14px; letter-spacing: 0; }
 .hero-kicker { margin-top: -10px; font-size: clamp(24px, 2.6vw, 36px); font-weight: 500; line-height: 1.2; letter-spacing: -.025em; color: var(--ink2); text-wrap: balance; }
 .hero-kicker:lang(ar) { letter-spacing: 0; line-height: 1.4; }
@@ -117,7 +117,7 @@
 
 /* ---- Scorecard: explanations stay beside the figures they describe. */
 #scorecard .section-head h2, #trend .section-head h2, #hub-teaser .section-head h2, #local-team .section-head h2 { font-size: calc(var(--fs-section) * 1.21); font-weight: 400; }
-#scorecard .section-head .lede, #trend .section-head .lede, #hub-teaser .section-head .lede, #local-team .section-head .lede { font-size: 20px; }
+#contribution-start .section-head .lede, #scorecard .section-head .lede, #trend .section-head .lede, #hub-teaser .section-head .lede, #local-team .section-head .lede { font-size: var(--fs-home-lede); }
 
 /* Each Home boundary gets one section-pad gap, split evenly between its neighbours.
    Keep this after the responsive hero rules so its final spacing is consistent too. */
@@ -238,7 +238,8 @@
 .layered-card-texture::after { background-image: linear-gradient(var(--mint-tint) 1px, transparent 1px), linear-gradient(90deg, var(--mint-tint) 1px, transparent 1px); background-size: 40px 40px; mask-image: linear-gradient(90deg, var(--ink), transparent 35%, transparent 65%, var(--ink)); }
 .hub-listing h3 { max-width: 28ch; font-size: clamp(30px, 3.3vw, 42px); line-height: 1.25; font-weight: 400; text-wrap: balance; }
 .hub-listing p { max-width: 56ch; margin-top: 16px; font-size: 20px; line-height: 1.65; color: var(--ink2); text-wrap: pretty; }
-.hub-listing .btn { flex: none; height: auto; min-height: 56px; max-width: 100%; margin-top: 28px; padding: 14px 28px; font-size: 18px; white-space: normal; }
+.hub-listing-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; max-width: 100%; margin-top: 28px; }
+.hub-listing .btn { flex: none; height: auto; min-height: 56px; max-width: 100%; padding: 14px 28px; font-size: 18px; white-space: normal; }
 @media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
   .layered-card::before, .layered-card::after, .layered-card-surface { transition: transform .5s var(--ease), border-color .3s var(--ease); }
   .layered-card:hover::before, .layered-card:focus-within::before { transform: translateY(16px) rotate(-1.8deg); }
@@ -268,6 +269,8 @@
   .layered-card::before { transform: translateY(10px) rotate(-.8deg); }
   .layered-card::after { transform: translateY(5px) rotate(.7deg); }
   .hub-listing-surface { min-height: 340px; padding: 48px 24px; }
+  .hub-listing-actions { flex-direction: column; width: 100%; }
+  .hub-listing-actions .btn { width: 100%; }
   .hub-listing p { font-size: 18px; }
 }
 
@@ -326,10 +329,26 @@
 
 /* Contribution hero copied from the participation-first comparison. */
 .participation-hero .hero-grid { align-items: center; }
-.participation-title { font-size: clamp(44px, 5vw, 74px); line-height: 1.08; font-weight: 400; letter-spacing: -.035em; text-wrap: balance; }
-.participation-title > span { display: block; color: var(--mint-hi); margin-top: 6px; }
+.participation-title { font-size: clamp(42px, 4.5vw, 64px); line-height: 1.08; font-weight: 400; letter-spacing: -.035em; text-wrap: balance; }
+.participation-title > span { display: block; color: var(--mint-hi); margin-top: 6px; text-shadow: 0 0 10px var(--mint-glow), 0 0 28px var(--mint-line); }
 .participation-title:lang(ar) { letter-spacing: 0; line-height: 1.35; }
-.participation-hero .hero-lede { max-width: 46ch; font-size: 22px; }
+.participation-hero .hero-lede { max-width: 46ch; font-size: var(--fs-home-lede); }
+.hero-welcome { margin-top: -10px; font-size: 17px; color: var(--ink2); }
+.hero-benefit { margin-top: -10px; font-size: 16px; line-height: 1.6; color: var(--ink2); }
+.starter-note { margin-top: 16px; max-width: 82ch; font-size: 14px; line-height: 1.65; color: var(--ink2); }
+#contribution-start .section-head h2 { font-weight: 400; }
+#contribution-start .lede .lbl { height: auto; padding: .12em .45em; font-size: .85em; line-height: 1.35; vertical-align: baseline; }
+.local-meetup-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 32px; align-items: center; padding: clamp(24px, 3vw, 40px); border-radius: var(--r-card); }
+.local-meetup-copy { min-width: 0; text-align: start; }
+#local-team .local-meetup-copy .eyebrow { justify-content: flex-start; }
+.local-meetup-side { display: flex; flex-direction: column; gap: 20px; width: clamp(220px, 24vw, 280px); max-width: 100%; }
+.local-meetup-puzzle { width: 100%; aspect-ratio: 1; }
+.local-meetup-card h2 { margin-block: 16px; font-size: clamp(34px, 3.8vw, 50px); font-weight: 400; }
+.local-meetup-card p { max-width: 70ch; line-height: 1.65; color: var(--ink2); }
+.local-meetup-copy > p:not(.eyebrow):not(.team-platform) { font-size: var(--fs-home-lede); }
+.local-meetup-card .team-platform { margin-top: 12px; text-align: start; font-size: 13px; color: var(--ink3); }
+.local-meetup-card .team-actions { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; margin-top: 0; }
+.local-meetup-card .team-actions .btn { width: 100%; }
 .hero-community { display: flex; flex-direction: column; gap: 16px; }
 .hero-community-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .hero-community-head > p { font-size: 14px; color: var(--ink2); }
@@ -338,16 +357,52 @@
 .hero-community .hero-tail { color: var(--ink); font-size: 24px; line-height: 1.3; max-width: 15ch; min-width: 0; }
 .hero-community .hero-stats { padding-block: 0 8px; border-block: 0; }
 @media (max-width: 760px) {
- .participation-title { font-size: clamp(40px,10vw,64px); }
- .participation-hero .hero-lede { font-size: 20px; }
+ .participation-title { font-size: clamp(36px,9vw,56px); }
+ .participation-hero .hero-text { width: 100%; margin-inline: auto; align-items: center; text-align: center; }
+ .participation-hero .hero-text > .eyebrow { justify-content: center; }
+ .participation-hero .hero-ctas { width: 100%; justify-content: center; }
+ .participation-hero .hero-cta { align-items: center; }
+ .local-meetup-card { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+ .local-meetup-side { width: min(100%, 280px); justify-self: center; }
  .hero-community .hero-h { flex-direction: column; align-items: flex-start; gap: 12px; }
  .hero-community .hero-tail { max-width: none; }
  .hero-community-head .hero-when { gap: 12px; }
 }
 
 @media (max-width: 480px) {
+ .participation-hero .hero-text { gap: 18px; }
+ .hero-welcome, .hero-benefit { margin-top: 0; font-size: 15px; }
  .participation-hero .hero-cta { flex-basis: 100%; }
  .hero-community .hero-stats { grid-template-columns: minmax(0,1fr); gap: 12px; }
  .hero-community .hs { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: start; }
  .hero-community .hs + .hs { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid var(--line); padding-top: 12px; }
+}
+
+/* One hierarchy for all homepage sections, including the hero and city card. */
+.participation-hero { --fs-home-section: clamp(36px, 4.0625vw, 52px); }
+#contribution-start, #local-team, #scorecard, #trend, #hub-teaser { --fs-home-section: clamp(36px, 4.0625vw, 52px); }
+.participation-title, #contribution-start .section-head h2, #scorecard .section-head h2,
+#trend .section-head h2, #hub-teaser .section-head h2, .local-meetup-card h2 { font-size: var(--fs-home-section); line-height: 1.15; font-weight: 400; }
+:is(.participation-title, .local-meetup-card h2, .section-head h2):lang(ar) { line-height: 1.4; }
+.index-preview { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+.index-preview-card { padding: 24px; color: var(--ink); text-decoration: none; }
+.index-preview-card h3 { font-size: 17px; font-weight: 500; color: var(--ink2); }
+.index-preview-value { margin-block: 14px; font-size: clamp(32px,3vw,40px); line-height: 1.1; letter-spacing: -.025em; }
+.index-preview-card > p:last-child { font-size: 14px; line-height: 1.55; color: var(--ink2); }
+.index-preview-card:hover { border-color: var(--mint-line); }
+.index-preview-card:focus-visible { outline: 2px solid var(--mint); outline-offset: 4px; }
+@media (max-width: 640px) {
+ .index-preview { grid-template-columns: minmax(0,1fr); }
+ .index-preview-card { padding: 20px; }
+ .index-preview-value { margin-block: 10px; }
+}
+
+.starter-share:not([hidden]) { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
+.starter-share .starter-note { margin: 0; }
+
+/* Rich comparisons on desktop; a short national-data preview on phones. */
+.mobile-statistics { display: none; }
+@media (max-width: 760px) {
+ .desktop-statistics { display: none; }
+ .mobile-statistics { display: block; }
 }

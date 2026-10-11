@@ -1,5 +1,5 @@
 """Home (ticket #18; Home boards in docs/design): the hero with the unit map, the scorecard of
-six indicators, the growth trend, the Hub teaser and local developer meetups.
+national-data preview, beginner tasks, the Hub teaser and local developer meetups.
 
 Every number comes from the derived data. Sentences that state a fact are computed from it
 (``editorial``); the trend headline comes from ``content/editorial/<quarter>.json`` when one
@@ -27,8 +27,8 @@ GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
 POINT = {'en': '.', 'ar': ','}  # decimal points, likewise
 # The rank as rank_text writes it ('3rd of 7', '3 من 7'), printed with counters; 0 prints '0 of 7'
 RANK ={'en': 'counter(tkr,tick-ord) " of " counter(tkn)', 'ar': 'counter(tkr) " من " counter(tkn)'}
-# The automatic replay holds the first year, counts to each next year, and rests on the latest.
-# The replay loops until paused, then resumes from the same point.
+# The optional replay holds the first year, counts to each next year, and rests on the latest.
+# The replay loops until the reader returns to the latest snapshot.
 HOLD, FLIP, COUNT, REST, REWIND = 2.0, 1.2, 0.9, 4.0, 0.6
 
 
@@ -143,7 +143,7 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
                      f'animation-delay:calc(var(--b,0) * 24ms)}}\n')
     year += [f'{at(rewind)}{{--yr:{yr[-1]}}}', f'100%{{--yr:{yr[0]}}}']
 
-    # The figures under the count: the first year has none, so they wait at 0, muted, and light
+    # The figures under the count: missing first-year comparisons show an em dash, and light
     # up as it turns over. Then each figure counts to the next year's with the count, and back
     # to 0 in the rewind.
     counts, turns = '', ''
@@ -152,11 +152,12 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
         rows = ([{'tick': 0}] + [{'tick': g} for g, _, _, _ in later],
                 [{'tick': 0, 'tn': later[0][2]}] + [{'tick': r, 'tn': n} for _, r, n, _ in later],
                 [{'tick': 0}] + [{'tick': a} for _, _, _, a in later])
-        lit = (f'0%,{at(flips[0])}{{opacity:.4}}{at(flips[0] + .25)}{{opacity:1}}'
-               f'{at(length - .25)}{{opacity:1}}100%{{opacity:.4}}')
+        lit = (f'0%,{at(flips[0] + COUNT - .001)}{{opacity:0}}{at(flips[0] + COUNT)}{{opacity:1}}'
+               f'{at(rewind)}{{opacity:1}}{at(rewind + .001)},100%{{opacity:0}}')
         ordinals = ' '.join(text(ordinal(n)) for n in range(1, max(n for _, _, n, _ in later) + 1))
         counts = (''.join(f'@keyframes hero-f{i}{{{counting(r)}}}\n' for i, r in enumerate(rows))
                   + f'@keyframes hero-on{{{lit}}}\n'
+                  + f'@keyframes hero-missing{{0%,{at(flips[0] + COUNT - .001)}{{opacity:1}}{at(flips[0] + COUNT)},{at(rewind)}{{opacity:0}}{at(rewind + .001)},100%{{opacity:1}}}}\n'
                   '@counter-style tick-arrow{system:fixed 0;symbols:"▼ " "▲ " "▲ "}\n'
                   f'@counter-style tick-sign{{system:fixed 0;symbols:"{MINUS}" "" "+"}}\n'
                   + (f'@counter-style tick-ord{{system:fixed 1;symbols:{ordinals}}}\n' if 'tick-ord' in RANK[lang] else ''))
@@ -165,6 +166,7 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
         turns = ('.hero-stats .hs-v{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n'
                  # each figure counts over its widest value, which keeps the width
                  '.hero-stats .hs-a{display:inline-grid}.hs-a::before,.hs-a>span{display:block;grid-area:1/1}.hs-a::before{visibility:hidden}\n'
+                 + f'.hs-a::after{{content:"—";grid-area:1/1;animation:hero-missing {length:g}s linear infinite both}}\n'
                  + ''.join(f'.hv{i}::before{{content:{text(w)}}}' for i, w in enumerate(widest)) + '\n'
                  '.hs-c{--ts:calc(clamp(-1,var(--tick),1) + 1)}\n'                # the sign: 0 below zero, 1 at zero, 2 above
                  # growth, in tenths of a per cent: the arrow, the whole per cents and the tenths
@@ -213,11 +215,18 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
             # the first year's squares grow in as the page loads (90-motion.css); the later years' are this loop's
             + f'.um.um-years :is({squares}) rect{{animation:none}}\n'
             + ''.join(rules)
+            + '.hero.hero-idle .hs-a::after{animation-play-state:paused}\n'
             + '.hero.hero-idle :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span)'
             '{animation-play-state:paused}\n'
-            # Pause holds the current year, count, figures and SVG cells; resume continues them.
+            # Returning to the snapshot resets replay, so the next replay starts in sync.
             '.hero:not(:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span)'
-            '{animation-play-state:paused}\n}}\n')
+            '{animation-play-state:paused}\n'
+            '.hero:not(:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.hs-a){display:none;animation:none}\n'
+            '.hero:not(:has(.hero-pause input:checked)) .hs-a span,.hero:not(:has(.hero-pause input:checked)) .hs-a::after{animation:none}\n'
+            '.hero:not(:has(.hero-pause input:checked)) :is(.tick-static,.hs-v){position:static;width:auto;height:auto;overflow:visible;clip-path:none;white-space:normal}\n'
+            '.hero:not(:has(.hero-pause input:checked)) .yr-static{display:inline}\n'
+            '.hero:not(:has(.hero-pause input:checked)) .um-years g{animation:none;opacity:1;filter:none}\n'
+            '.hero:not(:has(.hero-pause input:checked)) .um-years rect{animation:none}\n}}\n')
 
 
 # ---------------------------------------------------------------- the account ticker
@@ -234,14 +243,14 @@ def ticker(ctx, value: int, years: list) -> Markup:
 
 def when(ctx, years: list) -> Markup:
     """Above the count, the quarter it is for: the latest, or the year the replay has reached,
-    beside a control to pause or resume the replay (WCAG 2.2.2)."""
+    beside a control to start replay or return to the snapshot (WCAG 2.2.2)."""
     if len(years) < 2:
         anim = pause = ''
     else:
         anim = '<span class="yr-anim"></span>'
-        pause = (f'<label class="hero-pause"><input class="sr-only" type="checkbox" checked>{icon("pause", 16, 2, "icon i-pause")}'
-                 f'{icon("play", 16, 2, "icon i-play")}<span class="replay-start" aria-hidden="true">{ctx.t("home.resume")}</span>'
-                 f'<span class="replay-stop" aria-hidden="true">{ctx.t("home.pause")}</span>'
+        pause = (f'<label class="hero-pause"><input class="sr-only" type="checkbox">{icon("pause", 16, 2, "icon i-pause")}'
+                 f'{icon("play", 16, 2, "icon i-play")}<span class="replay-start" aria-hidden="true">{ctx.t("home.replay_start")}</span>'
+                 f'<span class="replay-stop" aria-hidden="true">{ctx.t("home.replay_latest")}</span>'
                  f'<span class="sr-only">{ctx.t("home.replay_label")}</span></label>')
     return Markup(f'<div class="hero-when"><span class="hero-yr" aria-hidden="true"><span class="yr-static">'
                   f'{quarter_label(ctx.site.data.quarter, ctx.lang)}</span>{anim}</span>{pause}'
@@ -334,10 +343,11 @@ def hero(ctx) -> Markup:
 <div class="hero-bg" aria-hidden="true"></div>
 <div class="container hero-grid">
 <div class="hero-text">
-{C.eyebrow(ctx.t('home.hero_eyebrow'), cls='enter')}
-<p class="hero-kicker enter d1">{ctx.t('home.kicker')}</p>
+{C.eyebrow(ctx.t('participation.eyebrow'), cls='enter')}
+<p class="hero-welcome enter d1">{ctx.t('participation.welcome')}</p>
 <h1 id="hero-h" class="participation-title enter d1">{ctx.t('participation.hero_title')} <span>{ctx.t('participation.hero_highlight')}</span></h1>
 <p class="lede hero-lede enter d2">{ctx.t('participation.hero_lede')}</p>
+<p class="hero-benefit enter d2">{ctx.t('participation.benefit')}</p>
 <div class="hero-ctas enter d3"><div class="hero-cta">{C.btn(ctx.t('participation.hero_contribute'), ctx.url('hub') + '?kind=gfi#issues')}</div><div class="hero-cta">{C.btn(ctx.t('participation.hero_meet'), meetups.link(platform, 'find', ctx.lang), 'secondary', out=True)}</div></div>
 </div>
 {fig}
@@ -346,6 +356,18 @@ def hero(ctx) -> Markup:
 
 
 # ---------------------------------------------------------------- scorecard
+def compact_scorecard(ctx) -> Markup:
+    """A small national-data preview; the Index keeps the full comparisons and charts."""
+    cards = []
+    for ind in indicators(ctx):
+        if ind.key not in ('accounts', 'pushes', 'permillion'):
+            continue
+        cards.append(Markup(f'<a class="index-preview-card card" href="{ctx.url("overview", hash=f"ind-{ind.key}")}">'
+                            f'<h3>{ind.title}</h3><p class="index-preview-value num" dir="ltr">{esc(ind.value)}</p>'
+                            f'<p>{ctx.t(f"home.score.definitions.{ind.key}")}</p></a>'))
+    return Markup(f'<div class="index-preview">{join(cards)}</div>')
+
+
 def scorecard(ctx) -> Markup:
     data = ctx.site.data
     overview, lang = data.overview(), ctx.lang
@@ -387,9 +409,9 @@ def scorecard(ctx) -> Markup:
     acts = C.action_link('CSV', f'/data/{folder}/overview.csv') + C.action_link('JSON', f'/data/{folder}/overview.json')
     source = C.source_line(ctx.t('home.score_source', quarter=_q(ctx, data.quarter),
                                  year=data.peers()['DZ']['population_year']), acts)
-    return C.section('scorecard', ctx.t('home.score_eyebrow', quarter=_q(ctx, data.quarter)), ctx.t('home.score_title'),
-                     Markup(f'<div class="tiles">{join(tiles)}</div>{source}'),
-                     lede=ctx.t('home.score_lede'),
+    return C.section('scorecard', ctx.t('home.score_eyebrow', quarter=_q(ctx, data.quarter)), Markup(f'<span class="desktop-statistics">{ctx.t("home.score_title")}</span><span class="mobile-statistics">{ctx.t("home.preview_title")}</span>'),
+                     Markup(f'<div class="desktop-statistics"><div class="tiles">{join(tiles)}</div></div><div class="mobile-statistics">{compact_scorecard(ctx)}</div>{source}'),
+                     lede=Markup(f'<span class="desktop-statistics">{ctx.t("home.score_lede")}</span><span class="mobile-statistics">{ctx.t("home.preview_lede")}</span>'),
                      head_extra=C.btn(ctx.t('home.score_more'), ctx.url('overview'), 'secondary', size='s'))
 
 
@@ -418,6 +440,7 @@ def trend_chart(ctx) -> LineChart:
         chart.notes = [Note(qs[start], 'DZ', ctx.both('home.trend_note', count=lambda lang: editorial.count_phrase(ctx, n, True, lang),
                                                       low=pct(dz[start]), high=pct(dz[-1])), dy=110)]
     return chart
+
 
 
 def trend(ctx) -> Markup:
@@ -455,12 +478,31 @@ def trend(ctx) -> Markup:
         lede = ctx.t('home.trend_lede', dz=pct('DZ'), na=pct('median_north_africa'), af=pct('median_africa'),
                      quarter=_q(ctx, data.quarter))
     fig = figure(ctx, trend_chart(ctx), 2, source=ctx.t('home.trend_source'), footer=False)
-    return C.section('trend', ctx.t('home.trend_eyebrow'), title, fig, lede=lede)
+    return Markup(str(C.section('trend', ctx.t('home.trend_eyebrow'), title, fig, lede=lede)).replace('class="section', 'class="section desktop-statistics', 1))
 
 
 # ---------------------------------------------------------------- Hub teaser
+def first_tasks(ctx) -> Markup:
+    """Show real beginner tasks before ecosystem statistics, never fabricated examples."""
+    issues = [i for i in ctx.site.hub.issues
+              if 'good first issue' in {label.lower() for label in i.get('labels', [])}][:3]
+    if issues:
+        inner = Markup(f'<div class="issues starter-issues">{join(C.issue_card(ctx, i) for i in issues)}</div>')
+    else:
+        inner = Markup(f'<div class="empty-state"><span class="empty-icon">{icon("plus", 20)}</span>'
+                       f'<div class="empty-text"><h3>{ctx.t("home.hub_empty_title")}</h3>'
+                       f'<p>{ctx.t("home.hub_empty")}</p></div></div>')
+    note = Markup(f'<p class="starter-note">{ctx.t("participation.task_note")}</p>')
+    # Hidden without JavaScript; the tasks themselves always remain normal links.
+    note += Markup(f'<div class="starter-share" hidden><button type="button" class="btn btn-secondary" data-community-share'
+                   f' data-copied="{ctx.ta("participation.link_copied")}" data-failed="{ctx.ta("participation.copy_failed")}">'
+                   f'{ctx.t("participation.share")}</button><p class="starter-note" role="status"></p></div>')
+    return C.section('contribution-start', ctx.t('home.hub_eyebrow'), ctx.t('participation.tasks_title'),
+                     inner + note, lede=ctx.t('participation.tasks_lede', label=C.label_chip(ctx.s('participation.task_label'))),
+                     head_extra=C.btn(ctx.t('participation.hero_contribute'), ctx.url('hub') + '?kind=gfi#issues', size='s'))
+
+
 def hub_teaser(ctx) -> Markup:
-    issues = ctx.site.hub.issues[:3]
     paths = []
     for key, glyph, href in (
             ('contribute', 'branch', ctx.url('hub') + '?kind=gfi#issues'),
@@ -480,26 +522,20 @@ def hub_teaser(ctx) -> Markup:
                             f'<h3 id="hub-{key}-h">{ctx.t(f"home.hub_{key}_title")}</h3>'
                             f'<p>{ctx.t(f"home.hub_{key}_text")}</p><div class="hub-path-action">{action}</div></article>'))
     routes = Markup(f'<div class="hub-paths">{join(paths)}</div>')
-    feed_head = Markup(f'<div class="hub-preview-head"><div><h3 id="hub-preview-h">{ctx.t("home.hub_preview_title")}</h3>'
-                       f'<p>{ctx.t("home.hub_preview_text")}</p></div>'
-                       f'{C.btn(ctx.t("home.hub_browse"), ctx.url("hub", hash="issues"), "secondary", size="s")}</div>')
-    if issues:
-        inner = Markup(f'<div class="issues">{join(C.issue_card(ctx, i) for i in issues)}</div>')
-    else:
-        inner = Markup(f'<div class="empty-state"><span class="empty-icon">{icon("plus", 20)}</span>'
-                       f'<div class="empty-text"><h3>{ctx.t("home.hub_empty_title")}</h3><p>{ctx.t("home.hub_empty")}</p></div></div>')
+    conversation = (C.btn(ctx.t('home.hub_discuss_action'), config.DISCUSSIONS_URL, 'secondary', out=True)
+                    if config.HUB_IDEAS else Markup(''))
     listing = Markup(f'<div class="hub-listing layered-card" role="group" aria-labelledby="hub-listing-h">'
                      f'<div class="hub-listing-surface layered-card-surface"><span class="layered-card-texture" aria-hidden="true"></span>'
                      f'<h3 id="hub-listing-h">{ctx.t("home.hub_listing_title")}</h3>'
                      f'<p>{ctx.t("home.hub_listing_text")}</p>'
-                     f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "primary")}</div></div>')
-    preview = Markup(f'<div class="hub-preview" role="group" aria-labelledby="hub-preview-h">{feed_head}{inner}</div>')
-    return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), routes + preview + listing,
+                     f'<div class="hub-listing-actions">'
+                     f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "primary")}{conversation}</div></div></div>')
+    return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), routes + listing,
                      lede=ctx.t('home.hub_lede'))
 
 
 # ---------------------------------------------------------------- local teammates
-def team_puzzle(ctx) -> Markup:
+def team_puzzle(ctx, *, compact: bool = False) -> Markup:
     """Original interlocking pieces, each representing a skill rather than a real member."""
     pieces = (
         ('code', 168, 168, -130, -80, -22,
@@ -519,32 +555,27 @@ def team_puzzle(ctx) -> Markup:
                       f'<g class="team-avatar"><circle class="team-avatar-head" cx="{x}" cy="{y - 35}" r="18"/>'
                       f'<path class="team-avatar-body" d="M{x - 31} {y + 11}C{x - 31} {y - 24} {x + 31} {y - 24} {x + 31} {y + 11}Z"/></g>'
                       f'<text x="{x}" y="{y + 62}" text-anchor="middle">{ctx.t(f"home.team_skill_{key}")}</text></g>')
-    return Markup(f'<svg class="team-puzzle" viewBox="0 0 560 560" aria-hidden="true" focusable="false">'
+    view = '62 62 436 436' if compact else '0 0 560 560'
+    return Markup(f'<svg class="team-puzzle" viewBox="{view}" aria-hidden="true" focusable="false">'
                   f'{join(groups)}</svg>')
 
 
 def local_team(ctx) -> Markup:
     platform = meetups.load()
-    steps = []
-    for i in (1, 2, 3):
-        issue_link = (Markup(f'<a class="lnk team-issue-link" href="{ctx.url("hub")}?kind=gfi#issues">'
-                             f'{ctx.t("home.team_issue")}{icon("arrow", 16)}</a>') if i == 2 else '')
-        steps.append(f'<li><span class="team-step-n num" aria-hidden="true">0{i}</span><div>'
-                     f'<h3>{ctx.t(f"home.team_step{i}_title")}</h3><p>{ctx.t(f"home.team_step{i}_text")}</p>'
-                     f'{issue_link}</div></li>')
-    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), out=True)
+    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), 'secondary', out=True)
     actions += C.btn(ctx.t('home.team_host'), meetups.link(platform, 'host', ctx.lang), 'secondary', out=True)
-    body = Markup(f'<div class="team-grid"><div class="team-visual">'
-                  f'<div class="team-assembly">{team_puzzle(ctx)}</div></div>'
-                  f'<div class="team-invitation"><ol class="team-steps" role="list">{join(steps)}</ol>'
-                  f'<div class="team-actions">{actions}</div><p class="team-host-note">{ctx.t("home.team_host_note")}</p>'
-                  f'<p class="team-platform">{ctx.t("home.team_platform", platform=Markup(f"<bdi>{esc(platform['platform'])}</bdi>"))}</p></div></div>')
-    return C.section('local-team', ctx.t('home.team_eyebrow'), ctx.t('home.team_title'), body,
-                     lede=ctx.t('home.team_lede'))
+    body = Markup(f'<div class="local-meetup-card card"><div class="local-meetup-copy">{C.eyebrow(ctx.t("home.team_eyebrow"))}'
+                  f'<h2 id="local-team-h">{ctx.t("participation.meet_title")}</h2>'
+                  f'<p>{ctx.t("participation.meet_text")}</p>'
+                  f'<p class="team-platform">{ctx.t("home.team_platform", platform=Markup(f"<bdi>{esc(platform['platform'])}</bdi>"))}</p>'
+                  f'</div><div class="local-meetup-side"><div class="local-meetup-puzzle team-assembly">{team_puzzle(ctx, compact=True)}</div>'
+                  f'<div class="team-actions">{actions}</div></div></div>')
+    return Markup(f'<section class="section section-s" id="local-team" aria-labelledby="local-team-h">'
+                  f'<div class="container">{body}</div></section>')
 
 
 def render(ctx: Ctx) -> Page:
-    body = hero(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx) + local_team(ctx)
+    body = hero(ctx) + first_tasks(ctx) + local_team(ctx) + scorecard(ctx) + trend(ctx) + hub_teaser(ctx)
     years = history(ctx.site.data)
     scripts = tuple(ctx.site.assets.scripts[key] for key in ('home-map', 'home-scorecard', 'home-trend', 'home-hub', 'home-team') if key in ctx.site.assets.scripts)
     return Page(title=ctx.s('pages.home.title'), description=ctx.s('pages.home.description'), body=Markup(body),

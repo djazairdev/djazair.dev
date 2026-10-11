@@ -79,6 +79,7 @@
   --fs-section: clamp(30px, 3.4vw, 46px);
   --fs-title: 18px;
   --fs-lede: clamp(17px, 1.4vw, 19px);
+  --fs-home-lede: clamp(20px, 1.875vw, 24px);
   --fs-body: 16px;
   --fs-caption: 13px;
   --fs-eyebrow: 12px;

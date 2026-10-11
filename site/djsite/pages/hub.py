@@ -123,6 +123,21 @@ def filters(ctx, issues: list) -> Markup:
 </div>''')
 
 
+def contribution_intro(ctx) -> Markup:
+    """The ad's #issues destination includes its value and next step before the filters."""
+    steps = join(f'<li><strong>{ctx.t(f"hub.entry.step{i}_title")}</strong>'
+                 f'<span>{ctx.t(f"hub.entry.step{i}")}</span></li>' for i in (1, 2, 3))
+    language_note = (f'<p class="contribution-language-note">{ctx.t("hub.entry.english_tasks")}</p>'
+                     if not ctx.en else '')
+    return Markup(f'<div class="contribution-intro">{C.eyebrow(ctx.t("hub.steps_eyebrow"))}'
+                  f'<h2 id="issues-h">{ctx.t("hub.entry.title")}</h2>'
+                  f'<p class="lede">{ctx.t("hub.entry.text")}</p>'
+                  f'<p class="contribution-next">{ctx.t("hub.entry.next")}</p>{language_note}'
+                  f'<details class="contribution-help"><summary>{ctx.t("hub.entry.help")}{icon("chev", 16)}</summary>'
+                  f'<ol>{steps}</ol><p>{ctx.t("hub.entry.account")}</p>'
+                  f'<p>{ctx.t("hub.entry.pledge")}</p></details></div>')
+
+
 def feed(ctx, hub) -> Markup:
     issues = hub.issues
     note = ctx.t('hub.note', gfi=Markup('<code dir="ltr">good first issue</code>'), hw=Markup('<code dir="ltr">help wanted</code>'),
@@ -138,14 +153,14 @@ def feed(ctx, hub) -> Markup:
                        f'<div class="empty-text"><h3>{ctx.t("hub.empty_title")}</h3><p>{ctx.t("hub.empty")}</p>'
                        f'<div class="page-actions">{C.btn(ctx.t("hub.list"), "#list", size="s")}</div></div></div>')
         return Markup(f'<section class="hub-feed" id="issues" aria-labelledby="issues-h"><div class="container">'
-                      f'<h2 class="sr-only" id="issues-h">{ctx.t("hub.feed_title")}</h2>{empty}'
+                      f'{contribution_intro(ctx)}{empty}'
                       f'<p class="hub-note">{note}</p></div></section>')
     tabs = ''.join(f'<label class="{"mono" if value else ""}"><input class="sr-only" type="radio" name="kind" value="{value}"'
                    f'{" checked" if not value else ""}><span{' dir="ltr"' if value else ""}>{text}</span></label>'
                    for value, text in (('', ctx.t('hub.kind_all')), ('gfi', 'good first issue'), ('hw', 'help wanted')))
     cards = join(card(ctx, i) for i in issues)
     return Markup(f'''<section class="hub-feed" id="issues" aria-labelledby="issues-h"><div class="container">
-<h2 class="sr-only" id="issues-h">{ctx.t('hub.feed_title')}</h2>
+{contribution_intro(ctx)}
 <div class="hub-grid">
 {filters(ctx, issues)}
 <div class="hub-main">

@@ -1,6 +1,6 @@
 # Deploying djazair.dev
 
-The site is a Cloudflare Worker made only of static assets: no Worker code runs, and Cloudflare serves the files in `site/dist` as [`wrangler.jsonc`](../wrangler.jsonc) describes. The `CI` workflow (`.github/workflows/ci.yml`) runs on every pull request and every push to `main`:
+Cloudflare serves the site’s pages as static files from `site/dist`. Only `/api/events` runs the optional action-count Worker, disabled until explicitly activated ([action tracking](action-tracking.md)). Routing is defined in [`wrangler.jsonc`](../wrangler.jsonc) describes. The `CI` workflow (`.github/workflows/ci.yml`) runs on every pull request and every push to `main`:
 
 1. **Test**: a syntax check and the unit tests, on Python 3.12 and 3.13.
 2. **Build**: `python site/build.py`, uploaded as the `site` artifact.
