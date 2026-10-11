@@ -494,7 +494,7 @@ def first_tasks(ctx) -> Markup:
                        f'<p>{ctx.t("home.hub_empty")}</p></div></div>')
     note = Markup(f'<p class="starter-note">{ctx.t("participation.task_note")}</p>')
     return C.section('contribution-start', ctx.t('home.hub_eyebrow'), ctx.t('participation.tasks_title'),
-                     inner + note, lede=ctx.t('participation.tasks_lede'),
+                     inner + note, lede=ctx.t('participation.tasks_lede', label=C.label_chip(ctx.s('participation.task_label'))),
                      head_extra=C.btn(ctx.t('participation.hero_contribute'), ctx.url('hub') + '?kind=gfi#issues', size='s'))
 
 
@@ -518,11 +518,14 @@ def hub_teaser(ctx) -> Markup:
                             f'<h3 id="hub-{key}-h">{ctx.t(f"home.hub_{key}_title")}</h3>'
                             f'<p>{ctx.t(f"home.hub_{key}_text")}</p><div class="hub-path-action">{action}</div></article>'))
     routes = Markup(f'<div class="hub-paths">{join(paths)}</div>')
+    conversation = (C.btn(ctx.t('home.hub_discuss_action'), config.DISCUSSIONS_URL, 'secondary', out=True)
+                    if config.HUB_IDEAS else Markup(''))
     listing = Markup(f'<div class="hub-listing layered-card" role="group" aria-labelledby="hub-listing-h">'
                      f'<div class="hub-listing-surface layered-card-surface"><span class="layered-card-texture" aria-hidden="true"></span>'
                      f'<h3 id="hub-listing-h">{ctx.t("home.hub_listing_title")}</h3>'
                      f'<p>{ctx.t("home.hub_listing_text")}</p>'
-                     f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "primary")}</div></div>')
+                     f'<div class="hub-listing-actions">'
+                     f'{C.btn(ctx.t("home.hub_list"), ctx.url("hub", hash="list"), "primary")}{conversation}</div></div></div>')
     return C.section('hub-teaser', ctx.t('home.hub_eyebrow'), ctx.t('home.hub_title'), routes + listing,
                      lede=ctx.t('home.hub_lede'))
 

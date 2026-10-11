@@ -167,6 +167,20 @@ class HubPage(unittest.TestCase):
         self.assertIn('pledge to reply to newcomer pull requests', self.html['en'])
         self.assertIn('review or merging may take longer', self.html['en'])
 
+    def test_home_invites_general_discussion_in_both_languages(self):
+        for lang, label in (('en', 'Join the conversation'), ('ar', 'شارك في النقاش')):
+            page = (self.tmp / 'dist' / lang / 'index.html').read_text('utf-8')
+            teaser = re.search(r'id="hub-teaser".*?</section>', page, re.S).group(0)
+            actions = re.search(r'<div class="hub-listing-actions">.*?</div>', teaser, re.S).group(0)
+            with self.subTest(lang=lang):
+                self.assertEqual(page.count(f'href="https://github.com/{DZ}/discussions"'), 1)
+                self.assertIn(label, actions)
+                self.assertIn('class="btn btn-secondary btn-out"', actions)
+                self.assertIn(f'href="/{lang}/hub/#list"', actions)
+                self.assertNotIn('class="hub-conversation"', teaser)
+                self.assertNotIn('Ask a question, share what', teaser)
+                self.assertEqual(teaser.count('class="card hub-path"'), 3)
+                self.assertLess(teaser.index('class="hub-listing-surface'), teaser.index('class="hub-listing-actions"'))
 
 
 class EmptyHub(unittest.TestCase):

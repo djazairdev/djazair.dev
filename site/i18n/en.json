@@ -793,6 +793,7 @@
     "hub_vote_title": "Vote for an idea",
     "hub_vote_text": "Help the community choose what to build next. Explore the ideas and upvote those you support on GitHub. One vote per account, per idea.",
     "hub_vote_action": "Explore and vote",
+    "hub_discuss_action": "Join the conversation",
     "hub_soon": "Coming soon",
     "hub_preview_title": "Open tasks you can help with",
     "hub_preview_text": "Each task links to GitHub and shows the skills you’ll need. Listed maintainers pledge to reply to newcomers within 7 days.",
@@ -1625,7 +1626,8 @@
     "welcome": "Developers and IT students are welcome.",
     "benefit": "Choose a task, ask questions, and learn from feedback.",
     "tasks_title": "Your first contribution can start here.",
-    "tasks_lede": "These live GitHub tasks are marked “good first issue” by their maintainers. Read the requirements and choose one that fits your skills.",
+    "tasks_lede": "These live GitHub tasks are marked {label} by their maintainers. Read the requirements and choose one that fits your skills.",
+    "task_label": "good first issue",
     "task_note": "Each task opens on GitHub. Check the discussion before starting; a beginner label does not mean every task needs no coding experience.",
     "meet_title": "Build with people in your city.",
     "meet_text": "Meet developers, students and founders in your city. Share skills and develop software projects together. Join a coffee meetup or start one through founders.coffee."
