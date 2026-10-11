@@ -52,7 +52,7 @@ jobs:
         env:
           # Cloudflare Web Analytics: no cookies; empty adds no beacon (docs/deploy.md#analytics)
           CLOUDFLARE_WEB_ANALYTICS_TOKEN: ${{ vars.CLOUDFLARE_WEB_ANALYTICS_TOKEN }}
-        run: python site/build.py
+        run: python site/build.py --actions
       - uses: actions/upload-artifact@v7
         with:
           name: site
