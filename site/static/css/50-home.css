@@ -1,13 +1,13 @@
 /* Home (ticket #18; Home boards in docs/design). The hero's replay of the years depends on the
    data, so site/djsite/pages/home.py generates its rules into Home's own <style> at build time. */
 
-/* ---- hero: an editorial snapshot with an automatic growth replay */
+/* ---- hero: an editorial snapshot with an optional growth replay */
 .hero { position: relative; overflow: hidden; padding-block: 35px clamp(40px, 5vw, 72px); background: radial-gradient(ellipse at 80% 40%, var(--mint-tint), transparent 62%); }
 .hero-bg { --hx: 72%; position: absolute; inset: 0; pointer-events: none; background-image: linear-gradient(var(--hero-grid) 1px, transparent 1px), linear-gradient(90deg, var(--hero-grid) 1px, transparent 1px); background-size: 40px 40px; -webkit-mask-image: radial-gradient(ellipse 60% 80% at var(--hx) 50%, black, transparent 80%); mask-image: radial-gradient(ellipse 60% 80% at var(--hx) 50%, black, transparent 80%); }
 [dir=rtl] .hero-bg { --hx: 28%; }
 .hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
 .hero-text { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
-.hero-text > .eyebrow { color: var(--ink2); font-size: 11px; letter-spacing: .1em; }
+.hero-text > .eyebrow { color: var(--ink2); font-size: 12px; letter-spacing: .12em; }
 .hero-text > .eyebrow:lang(ar) { font-size: 14px; letter-spacing: 0; }
 .hero-kicker { margin-top: -10px; font-size: clamp(24px, 2.6vw, 36px); font-weight: 500; line-height: 1.2; letter-spacing: -.025em; color: var(--ink2); text-wrap: balance; }
 .hero-kicker:lang(ar) { letter-spacing: 0; line-height: 1.4; }
@@ -372,4 +372,31 @@
  .hero-community .hero-stats { grid-template-columns: minmax(0,1fr); gap: 12px; }
  .hero-community .hs { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: start; }
  .hero-community .hs + .hs { border-inline-start: 0; padding-inline-start: 0; border-top: 1px solid var(--line); padding-top: 12px; }
+}
+
+/* One hierarchy for all homepage sections, including the hero and city card. */
+.participation-hero { --fs-home-section: clamp(36px, 4.0625vw, 52px); }
+#contribution-start, #local-team, #scorecard, #trend, #hub-teaser { --fs-home-section: clamp(36px, 4.0625vw, 52px); }
+.participation-title, #contribution-start .section-head h2, #scorecard .section-head h2,
+#trend .section-head h2, #hub-teaser .section-head h2, .local-meetup-card h2 { font-size: var(--fs-home-section); line-height: 1.15; font-weight: 400; }
+:is(.participation-title, .local-meetup-card h2, .section-head h2):lang(ar) { line-height: 1.4; }
+.index-preview { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+.index-preview-card { padding: 24px; color: var(--ink); text-decoration: none; }
+.index-preview-card h3 { font-size: 17px; font-weight: 500; color: var(--ink2); }
+.index-preview-value { margin-block: 14px; font-size: clamp(32px,3vw,40px); line-height: 1.1; letter-spacing: -.025em; }
+.index-preview-card > p:last-child { font-size: 14px; line-height: 1.55; color: var(--ink2); }
+.index-preview-card:hover { border-color: var(--mint-line); }
+.index-preview-card:focus-visible { outline: 2px solid var(--mint); outline-offset: 4px; }
+@media (max-width: 640px) {
+ .index-preview { grid-template-columns: minmax(0,1fr); }
+ .index-preview-card { padding: 20px; }
+ .index-preview-value { margin-block: 10px; }
+}
+
+
+/* Rich comparisons on desktop; a short national-data preview on phones. */
+.mobile-statistics { display: none; }
+@media (max-width: 760px) {
+ .desktop-statistics { display: none; }
+ .mobile-statistics { display: block; }
 }

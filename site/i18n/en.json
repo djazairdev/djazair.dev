@@ -879,7 +879,11 @@
         "topics": "Topics GitHub reports when at least 100 developers in Algeria use them. Smaller topics are hidden.",
         "permillion": "GitHub accounts for every 1 million residents. Adjusts community size for population."
       }
-    }
+    },
+    "replay_start": "Replay growth",
+    "replay_latest": "Show latest figures",
+    "preview_title": "A snapshot of Algeria on GitHub.",
+    "preview_lede": "National figures from GitHub’s Innovation Graph. Explore the Developer Index for the full data and comparisons."
   },
   "overview": {
     "eyebrow": "Algeria Developer Index",
@@ -1616,7 +1620,7 @@
     "hero_lede": "Practice your skills on real open-source projects from Algeria. Help with code, documentation, translation or testing.",
     "hero_contribute": "Find a beginner task",
     "hero_meet": "Meet developers in my city",
-    "hero_context": "The community behind the momentum",
+    "hero_context": "Algeria on GitHub · National data",
     "eyebrow": "Open source · Algeria",
     "welcome": "Developers and IT students are welcome.",
     "benefit": "Choose a task, ask questions, and learn from feedback.",
@@ -1624,6 +1628,6 @@
     "tasks_lede": "These live GitHub tasks are marked “good first issue” by their maintainers. Read the requirements and choose one that fits your skills.",
     "task_note": "Each task opens on GitHub. Check the discussion before starting; a beginner label does not mean every task needs no coding experience.",
     "meet_title": "Build with people in your city.",
-    "meet_text": "Meet developers, students and founders through founders.coffee. Share a problem, exchange skills, or find people to develop software projects together. Join a meetup or start one in your city."
+    "meet_text": "Meet developers, students and founders in your city. Share skills and develop software projects together. Join a coffee meetup or start one through founders.coffee."
   }
 }

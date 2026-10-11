@@ -143,7 +143,7 @@ class HubPage(unittest.TestCase):
             page = (self.tmp / 'dist' / lang / 'index.html').read_text('utf-8')
             with self.subTest(lang=lang):
                 anchors = [page.index(f'id="{anchor}"') for anchor in
-                           ('contribution-start', 'local-team', 'scorecard', 'trend', 'hub-teaser')]
+                           ('contribution-start', 'local-team', 'scorecard', 'hub-teaser')]
                 self.assertEqual(anchors, sorted(anchors))
                 self.assertEqual(page.count('class="issue"'), 3, 'show the beginner preview once')
                 self.assertIn(f'href="/{lang}/hub/?kind=gfi#issues"', page)
@@ -166,6 +166,7 @@ class HubPage(unittest.TestCase):
         self.assertIn('need a GitHub account', self.html['en'])
         self.assertIn('pledge to reply to newcomer pull requests', self.html['en'])
         self.assertIn('review or merging may take longer', self.html['en'])
+
 
 
 class EmptyHub(unittest.TestCase):

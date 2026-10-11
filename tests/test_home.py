@@ -16,6 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from djsite import data, editorial  # noqa: E402
 from djsite.build import build  # noqa: E402
+from djsite.context import Ctx
 from djsite.config import LANGS  # noqa: E402
 from djsite.fmt import MINUS, fint, fpct, ordinal, quarter_label, rank_text  # noqa: E402
 from djsite.pages import home  # noqa: E402
@@ -180,7 +181,9 @@ class TickerMaths(unittest.TestCase):
         self.assertEqual(frames('hero-f1', 'tick'), ['0', '0', '6', '6', '4', '4', '0'])
         self.assertEqual(frames('hero-f1', 'tn'), ['7'] * 7)
         self.assertEqual(frames('hero-f2', 'tick'), ['0', '0', '40925', '40925', '49137', '49137', '0'])
-        self.assertRegex(css, r'@keyframes hero-on\{0%,[\d.]+%\{opacity:\.4\}[\d.]+%\{opacity:1\}', 'muted while the first year waits at 0')
+        self.assertRegex(css, r'@keyframes hero-on\{0%,[\d.]+%\{opacity:0\}[\d.]+%\{opacity:1\}', 'missing comparisons are hidden until the first valid year')
+        self.assertIn('content:"—"', css)
+        self.assertIn('@keyframes hero-missing', css)
         self.assertIn('.hv0::before{content:"▲ 44.6%"}.hv1::before{content:"6th of 7"}.hv2::before{content:"+40,925"}', css)
         self.assertIn('@counter-style tick-ord{system:fixed 1;symbols:"1st" "2nd" "3rd" "4th" "5th" "6th" "7th"}', css)
         self.assertIn('@counter-style tick-arrow{system:fixed 0;symbols:"▼ " "▲ " "▲ "}', css)
@@ -205,7 +208,7 @@ class HomePage(unittest.TestCase):
     def setUpClass(cls):
         cls.tmp = Path(tempfile.mkdtemp())
         cls.dist = cls.tmp / 'dist'
-        build(cls.dist, quiet=True, published=LANGS)
+        cls.site = build(cls.dist, quiet=True, published=LANGS)
         cls.data = data.load()
         cls.html = {lang: (cls.dist / lang / 'index.html').read_text('utf-8') for lang in ('en', 'ar')}
         cls.text = {lang: text_of(h) for lang, h in cls.html.items()}
@@ -241,7 +244,7 @@ class HomePage(unittest.TestCase):
                 self.assertEqual(re.findall(r'--tick:(\d+)', tick)[1::2], [str(v) for _, v in years])
                 self.assertIn('<span class="tick-anim" aria-hidden="true">', html)
                 self.assertIn('<span class="yr-anim"></span>', html)
-                self.assertIn('<label class="hero-pause"><input class="sr-only" type="checkbox" checked>', html)
+                self.assertIn('<label class="hero-pause"><input class="sr-only" type="checkbox">', html)
                 self.assertIn('<svg class="chart um um-years"', html)
                 self.assertEqual(len(re.findall(r'<g class="s\d', html)), len(years))
         hub = (self.dist / 'en' / 'hub' / 'index.html').read_text('utf-8')
@@ -292,17 +295,24 @@ class HomePage(unittest.TestCase):
                               ('▲ 30.9%', '6th of 7', '+56,276'), ('▲ 31.5%', '3rd of 7', '+75,137'),
                               ('▲ 25.6%', '4th of 7', '+80,271')])
 
-    def test_baseline_sentences(self):
-        if self.data.quarter != BASELINE:
-            self.skipTest(f'the expectations describe {BASELINE}')
-        self.assertIn('Four quarters of acceleration', self.html['en'])
-        self.assertIn('from 25.6% to 49.1% a year', self.html['en'])
-        self.assertIn('Everyone sped up in 2025. Algeria kept pace with North Africa.', self.text['en'])
-
-    def test_the_scorecard_links_each_indicator_to_the_overview(self):
-        doc = Doc(self.html['en'])
-        hrefs = [a['href'] for a in doc.find('a', class_='tile')]
-        self.assertEqual(hrefs, [f'/en/index/#ind-{k}' for k in ('accounts', 'pushes', 'repos', 'orgs', 'topics', 'permillion')])
+    def test_statistics_include_full_desktop_and_compact_mobile_views(self):
+        for lang, html in self.html.items():
+            doc = Doc(html)
+            hrefs = [a['href'] for a in doc.find('a', class_='index-preview-card')]
+            self.assertEqual(hrefs, [f'/{lang}/index/#ind-{k}' for k in ('accounts', 'pushes', 'permillion')])
+            self.assertIn('class="section desktop-statistics section-m" id="trend"', html)
+            self.assertIn('home-yoy-table', html)
+            self.assertIn('id="fig-home-yoy"', html, 'existing embed backlinks still resolve')
+            self.assertTrue((self.dist / lang / 'embed/home-yoy/index.html').is_file())
+            self.assertTrue((self.dist / 'charts' / self.data.folder.name / 'home-yoy.csv').is_file())
+            self.assertIn('home-scorecard.', html)
+            self.assertIn('home-trend.', html)
+            self.assertIn(f'/{lang}/index/', html)
+            self.assertEqual([a['href'] for a in doc.find('a', class_='tile')],
+                             [f'/{lang}/index/#ind-{k}' for k in ('accounts','pushes','repos','orgs','topics','permillion')])
+            values = re.findall(r'<p class="index-preview-value num"[^>]*>(.*?)</p>', html)
+            ctx = Ctx(self.site, lang, self.site.routes['home'])
+            self.assertEqual(values, [ind.value for ind in home.indicators(ctx) if ind.key in ('accounts', 'pushes', 'permillion')])
 
     def test_scorecard_ranks_describe_the_displayed_measure(self):
         overview = self.data.overview()
@@ -322,13 +332,19 @@ class HomePage(unittest.TestCase):
             if overview['accounts']['africa_rank'] != overview['yoy']['africa_rank']:
                 self.assertNotIn(rank_text(overview['yoy']['africa_rank'], overview['yoy']['africa_ranked'], lang), text_of(cards[0]))
 
-    def test_the_trend_chart_has_its_data(self):
-        rows = (self.dist / 'charts' / self.data.folder.name / 'home-yoy.csv').read_text('utf-8').splitlines()
-        self.assertEqual(rows[0], 'quarter,DZ,median_africa,median_north_africa')
-        last = rows[-1].split(',')
-        self.assertEqual(last[0], self.data.quarter)
-        self.assertAlmostEqual(float(last[1]), self.data.series('yoy', 'DZ')[-1], places=6)
-        self.assertIn('id="home-yoy-table"', self.html['en'])
+    def test_statistics_switch_at_the_mobile_breakpoint(self):
+        css = (ROOT / 'site/static/css/50-home.css').read_text()
+        self.assertIn('.mobile-statistics { display: none; }', css)
+        self.assertRegex(css, r'@media \(max-width: 760px\)\s*\{\s*\.desktop-statistics \{ display: none; \}\s*\.mobile-statistics \{ display: block; \}')
+
+    def test_the_latest_snapshot_is_the_default(self):
+        for html in self.html.values():
+            self.assertNotIn('type="checkbox" checked', html)
+            self.assertIn('.hero:not(:has(.hero-pause input:checked)) .yr-static{display:inline}', html)
+            self.assertIn('.hero:not(:has(.hero-pause input:checked)) .um-years g{animation:none;opacity:1;filter:none}', html)
+        js = (ROOT / 'site/static/js/home-map.js').read_text()
+        self.assertIn('assemblyElapsed = replay.checked ? 0 : assemblyDuration', js)
+        self.assertIn('renderer(0,assemblyElapsed/assemblyDuration)', js)
 
     def test_the_derived_data_is_published(self):
         folder = self.data.folder
