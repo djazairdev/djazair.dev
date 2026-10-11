@@ -506,7 +506,7 @@ def hub_teaser(ctx) -> Markup:
 
 
 # ---------------------------------------------------------------- local teammates
-def team_puzzle(ctx) -> Markup:
+def team_puzzle(ctx, *, compact: bool = False) -> Markup:
     """Original interlocking pieces, each representing a skill rather than a real member."""
     pieces = (
         ('code', 168, 168, -130, -80, -22,
@@ -526,28 +526,23 @@ def team_puzzle(ctx) -> Markup:
                       f'<g class="team-avatar"><circle class="team-avatar-head" cx="{x}" cy="{y - 35}" r="18"/>'
                       f'<path class="team-avatar-body" d="M{x - 31} {y + 11}C{x - 31} {y - 24} {x + 31} {y - 24} {x + 31} {y + 11}Z"/></g>'
                       f'<text x="{x}" y="{y + 62}" text-anchor="middle">{ctx.t(f"home.team_skill_{key}")}</text></g>')
-    return Markup(f'<svg class="team-puzzle" viewBox="0 0 560 560" aria-hidden="true" focusable="false">'
+    view = '62 62 436 436' if compact else '0 0 560 560'
+    return Markup(f'<svg class="team-puzzle" viewBox="{view}" aria-hidden="true" focusable="false">'
                   f'{join(groups)}</svg>')
 
 
 def local_team(ctx) -> Markup:
     platform = meetups.load()
-    steps = []
-    for i in (1, 2, 3):
-        issue_link = (Markup(f'<a class="lnk team-issue-link" href="{ctx.url("hub")}?kind=gfi#issues">'
-                             f'{ctx.t("home.team_issue")}{icon("arrow", 16)}</a>') if i == 2 else '')
-        steps.append(f'<li><span class="team-step-n num" aria-hidden="true">0{i}</span><div>'
-                     f'<h3>{ctx.t(f"home.team_step{i}_title")}</h3><p>{ctx.t(f"home.team_step{i}_text")}</p>'
-                     f'{issue_link}</div></li>')
-    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), out=True)
+    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), 'secondary', out=True)
     actions += C.btn(ctx.t('home.team_host'), meetups.link(platform, 'host', ctx.lang), 'secondary', out=True)
-    body = Markup(f'<div class="team-grid"><div class="team-visual">'
-                  f'<div class="team-assembly">{team_puzzle(ctx)}</div></div>'
-                  f'<div class="team-invitation"><ol class="team-steps" role="list">{join(steps)}</ol>'
-                  f'<div class="team-actions">{actions}</div><p class="team-host-note">{ctx.t("home.team_host_note")}</p>'
-                  f'<p class="team-platform">{ctx.t("home.team_platform", platform=Markup(f"<bdi>{esc(platform['platform'])}</bdi>"))}</p></div></div>')
-    return C.section('local-team', ctx.t('home.team_eyebrow'), ctx.t('home.team_title'), body,
-                     lede=ctx.t('home.team_lede'))
+    body = Markup(f'<div class="local-meetup-card card"><div class="local-meetup-copy">{C.eyebrow(ctx.t("home.team_eyebrow"))}'
+                  f'<h2 id="local-team-h">{ctx.t("participation.meet_title")}</h2>'
+                  f'<p>{ctx.t("participation.meet_text")}</p>'
+                  f'<p class="team-platform">{ctx.t("home.team_platform", platform=Markup(f"<bdi>{esc(platform['platform'])}</bdi>"))}</p>'
+                  f'</div><div class="local-meetup-side"><div class="local-meetup-puzzle team-assembly">{team_puzzle(ctx, compact=True)}</div>'
+                  f'<div class="team-actions">{actions}</div></div></div>')
+    return Markup(f'<section class="section section-s" id="local-team" aria-labelledby="local-team-h">'
+                  f'<div class="container">{body}</div></section>')
 
 
 def render(ctx: Ctx) -> Page:

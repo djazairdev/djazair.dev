@@ -335,6 +335,17 @@
 .starter-note { margin-top: 16px; max-width: 82ch; font-size: 14px; line-height: 1.65; color: var(--ink2); }
 #contribution-start .section-head h2 { font-weight: 400; }
 #contribution-start .section-head .lede { font-size: 18px; }
+.local-meetup-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 20px 32px; align-items: center; padding: clamp(24px, 3vw, 40px); border-radius: var(--r-card); }
+.local-meetup-copy { min-width: 0; text-align: start; }
+#local-team .local-meetup-copy .eyebrow { justify-content: flex-start; }
+.local-meetup-side { display: flex; flex-direction: column; gap: 20px; width: clamp(220px, 24vw, 280px); max-width: 100%; }
+.local-meetup-puzzle { width: 100%; aspect-ratio: 1; }
+.local-meetup-card h2 { margin-block: 16px; font-size: clamp(34px, 3.8vw, 50px); font-weight: 400; }
+.local-meetup-card p { max-width: 70ch; line-height: 1.65; color: var(--ink2); }
+.local-meetup-copy > p:not(.eyebrow):not(.team-platform) { font-size: clamp(20px, 1.9vw, 22px); }
+.local-meetup-card .team-platform { margin-top: 12px; text-align: start; font-size: 13px; color: var(--ink3); }
+.local-meetup-card .team-actions { display: grid; grid-template-columns: minmax(0, 1fr); width: 100%; margin-top: 0; }
+.local-meetup-card .team-actions .btn { width: 100%; }
 .hero-community { display: flex; flex-direction: column; gap: 16px; }
 .hero-community-head { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
 .hero-community-head > p { font-size: 14px; color: var(--ink2); }
@@ -345,6 +356,8 @@
 @media (max-width: 760px) {
  .participation-title { font-size: clamp(36px,9vw,56px); }
  .participation-hero .hero-lede { font-size: 18px; }
+ .local-meetup-card { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+ .local-meetup-side { width: min(100%, 280px); justify-self: center; }
  .hero-community .hero-h { flex-direction: column; align-items: flex-start; gap: 12px; }
  .hero-community .hero-tail { max-width: none; }
  .hero-community-head .hero-when { gap: 12px; }
