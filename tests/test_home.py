@@ -4,6 +4,7 @@ import json
 import math
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -350,6 +351,19 @@ class HomePage(unittest.TestCase):
         self.assertIn('renderer(0,0)', js)
         site_js = (ROOT / 'site/static/js/site.js').read_text()
         self.assertIn('if (motionPreference.matches) replay.checked = false;', site_js)
+
+    @unittest.skipUnless(shutil.which('node'), 'Node is needed to exercise scroll animation')
+    def test_puzzle_scroll_reverses_and_respects_reduced_motion(self):
+        result = subprocess.run(['node', str(ROOT / 'tests/home_team.mjs')], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_puzzle_has_four_decorative_layers_and_one_available_action(self):
+        for lang, html in self.html.items():
+            section = re.search(r'<section[^>]*id="local-team".*?</section>', html, re.S).group()
+            self.assertEqual(section.count('<div class="team-piece team-piece-'), 4)
+            self.assertIn('<div class="team-puzzle" aria-hidden="true">', section)
+            self.assertEqual(section.count('class="btn btn-primary btn-out"'), 1)
+            self.assertIn(f'href="https://founders.coffee/{lang}/algeria"', section)
 
     def test_the_derived_data_is_published(self):
         folder = self.data.folder

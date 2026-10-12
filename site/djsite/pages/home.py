@@ -538,17 +538,24 @@ def team_puzzle(ctx, *, compact: bool = False) -> Markup:
         ('testing', 392, 392, 120, 90, -20,
          'M280 280H364C372 280 370 256 392 256C414 256 412 280 420 280H496V496H280V420C280 412 256 414 256 392C256 370 280 372 280 364Z'),
     )
-    groups = []
+    layers = []
+    view = '62 62 436 436' if compact else '0 0 560 560'
+    offset, span = (62, 436) if compact else (0, 560)
     for key, x, y, sx, sy, angle, path in pieces:
-        groups.append(f'<g class="team-piece team-piece-{key}" style="--team-x:{sx}px;--team-y:{sy}px;--team-angle:{angle}deg">'
+        depth = join(f'<path class="team-piece-depth" d="{path}" transform="translate(0 {n})"/>'
+                     for n in range(7, 0, -1))
+        layers.append(f'<div class="team-piece team-piece-{key}" style="--team-x:{sx / 8:g}%;--team-y:{sy / 8:g}%;'
+                      f'--team-angle:{angle}deg;--team-rx:{32 if y < 280 else -32}deg;'
+                      f'--team-ry:{-28 if x < 280 else 28}deg;--team-z:{48 if x < 280 else 72}px;'
+                      f'transform-origin:{(x - offset) / span * 100:.2f}% {(y - offset) / span * 100:.2f}%">'
+                      f'<svg viewBox="{view}" aria-hidden="true" focusable="false">{depth}'
                       f'<path class="team-piece-shape" d="{path}"/>'
+                      f'<path class="team-piece-bevel" d="{path}" transform="translate(0 -1)"/>'
                       f'<circle class="team-avatar-halo" cx="{x}" cy="{y - 20}" r="48"/>'
                       f'<g class="team-avatar"><circle class="team-avatar-head" cx="{x}" cy="{y - 35}" r="18"/>'
                       f'<path class="team-avatar-body" d="M{x - 31} {y + 11}C{x - 31} {y - 24} {x + 31} {y - 24} {x + 31} {y + 11}Z"/></g>'
-                      f'<text x="{x}" y="{y + 62}" text-anchor="middle">{ctx.t(f"home.team_skill_{key}")}</text></g>')
-    view = '62 62 436 436' if compact else '0 0 560 560'
-    return Markup(f'<svg class="team-puzzle" viewBox="{view}" aria-hidden="true" focusable="false">'
-                  f'{join(groups)}</svg>')
+                      f'<text x="{x}" y="{y + 62}" text-anchor="middle">{ctx.t(f"home.team_skill_{key}")}</text></svg></div>')
+    return Markup(f'<div class="team-puzzle" aria-hidden="true">{join(layers)}</div>')
 
 
 def local_team(ctx) -> Markup:
