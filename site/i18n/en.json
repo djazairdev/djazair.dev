@@ -1481,7 +1481,7 @@
   "pages": {
     "home": {
       "title": "djazair.dev",
-      "description": "Algeria’s developer accounts compared with similar countries every quarter, and open-source projects with beginner-friendly issues."
+      "description": "Grow your skills by contributing to real open-source projects from Algeria. Help with code, documentation, translation, or testing."
     },
     "overview": {
       "title": "Algeria Developer Index",
@@ -1620,7 +1620,7 @@
   "participation": {
     "hero_title": "Start small.",
     "hero_highlight": "Build something useful.",
-    "hero_lede": "Practice your skills on real open-source projects from Algeria. Help with code, documentation, translation or testing.",
+    "hero_lede": "Grow your skills by contributing to real open-source projects from Algeria. Help with code, documentation, translation, or testing.",
     "hero_contribute": "Find a beginner task",
     "hero_meet": "Meet developers in my city",
     "hero_context": "Algeria on GitHub · National data",
