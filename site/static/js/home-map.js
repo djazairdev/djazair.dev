@@ -54,7 +54,7 @@
   var width = 0, height = 0, scale = 1, pitch = .48, yaw = -.14;
   var pointerX = 0, pointerY = 0, ripples = [], lastPointerTime = 0;
   var motionTime = 0;
-  var assemblyDuration = 1600, assemblyElapsed = replay.checked ? 0 : assemblyDuration;
+  var assemblyElapsed = 0, assemblyDuration = 1600;
   var boundsDirty = true, stageTop = 0;
   // The decorative map does not need the display's full refresh rate or a 2x pixel buffer.
   // Adapt to actual rendering cost as well, for phones and software graphics renderers.
@@ -338,8 +338,8 @@
     if (renderer || lost || motion.matches) return;
     try {
       renderer=gl ? createRenderer() : createCanvasRenderer(); resize();
-      // The latest snapshot starts fully assembled; replay is an explicit choice.
-      renderer(0,assemblyElapsed/assemblyDuration); stage.classList.add('map-ready');
+      // Start empty when first visible; preserve the one-time formation and growth loop.
+      renderer(0,0); stage.classList.add('map-ready');
     } catch (err) { lost=true; canvas.remove(); }
   }
   if (stage.getBoundingClientRect().top < innerHeight) initialise();
