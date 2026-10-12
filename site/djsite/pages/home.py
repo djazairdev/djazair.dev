@@ -553,8 +553,7 @@ def team_puzzle(ctx, *, compact: bool = False) -> Markup:
 
 def local_team(ctx) -> Markup:
     platform = meetups.load()
-    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), 'secondary', out=True)
-    actions += C.btn(ctx.t('home.team_host'), meetups.link(platform, 'host', ctx.lang), 'secondary', out=True)
+    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), 'primary', out=True)
     body = Markup(f'<div class="local-meetup-card card"><div class="local-meetup-copy">{C.eyebrow(ctx.t("home.team_eyebrow"))}'
                   f'<h2 id="local-team-h">{ctx.t("participation.meet_title")}</h2>'
                   f'<p>{ctx.t("participation.meet_text")}</p>'
