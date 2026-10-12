@@ -11,6 +11,13 @@ from . import outlook
 ORG_ID = f'{SITE_URL}/#organization'
 CATALOG_ID = f'{SITE_URL}/en/data/#catalog'
 LOGO = '/logo.png'                  # the djazairdev mark, 1024 × 1024, for search results
+# The World Bank series the population figures come from. Google reads every Dataset in the
+# graph, nested ones included, as a dataset that needs a description and should name its creator.
+WORLD_BANK = {'@type': 'Organization', 'name': 'World Bank', 'url': 'https://www.worldbank.org/'}
+POPULATION_SOURCES = {
+    'SP.POP.TOTL': 'Total population of every economy, by year, from the World Bank’s World Development Indicators.',
+    'SP.POP.1564.TO': 'Population aged 15 to 64 of every economy, by year, from the World Bank’s World Development Indicators.',
+}
 
 
 def script(value: dict) -> Markup:
@@ -85,6 +92,7 @@ def datasets(ctx) -> list:
                 or any(r.get('indicator') == 'accounts_per_million' for r in source['rows'])):
             indicator = 'SP.POP.1564.TO' if table == 'gdc26' else 'SP.POP.TOTL'
             node['isBasedOn'].append({'@type': 'Dataset', 'name': f'World Bank, World Development Indicators ({indicator})',
+                                     'description': POPULATION_SOURCES[indicator], 'creator': WORLD_BANK,
                                      'url': f'https://data.worldbank.org/indicator/{indicator}',
                                      'license': 'https://creativecommons.org/licenses/by/4.0/'})
         result.append(node)
