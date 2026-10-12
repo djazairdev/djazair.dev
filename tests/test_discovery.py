@@ -86,6 +86,25 @@ class Discovery(unittest.TestCase):
                         self.assertEqual(download['contentSize'], f'{path.stat().st_size} bytes')
                         self.assertEqual(download['encodingFormat'], {'csv': 'text/csv', 'json': 'application/json'}[path.suffix[1:]])
 
+    def test_every_dataset_google_reads_has_a_description(self):
+        """Search Console flags a Dataset without a description wherever it sits, as a source
+        in isBasedOn too; Google wants 50 to 5,000 characters."""
+        def datasets(node):
+            if isinstance(node, dict):
+                if node.get('@type') == 'Dataset':
+                    yield node
+                for value in node.values():
+                    yield from datasets(value)
+            elif isinstance(node, list):
+                for value in node:
+                    yield from datasets(value)
+        for lang in self.PUBLISHED:
+            found = [d for graph in self.graphs(lang) for d in datasets(graph)]
+            self.assertGreater(len(found), 14, 'the World Bank sources are nested datasets too')
+            for dataset in found:
+                with self.subTest(lang=lang, dataset=dataset['name']):
+                    self.assertTrue(50 <= len(dataset.get('description', '')) <= 5000)
+
     def test_forecast_and_measured_data_keep_their_provenance(self):
         nodes = [n for g in self.graphs('en') for n in g['@graph'] if n['@type'] == 'Dataset']
         forecast = next(n for n in nodes if 'country-outlook.json' in n['@id'])
