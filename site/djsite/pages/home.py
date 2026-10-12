@@ -27,8 +27,8 @@ GROUP = {'en': ',', 'ar': '.'}  # digit-group separators, as fmt writes them
 POINT = {'en': '.', 'ar': ','}  # decimal points, likewise
 # The rank as rank_text writes it ('3rd of 7', '3 من 7'), printed with counters; 0 prints '0 of 7'
 RANK ={'en': 'counter(tkr,tick-ord) " of " counter(tkn)', 'ar': 'counter(tkr) " من " counter(tkn)'}
-# The optional replay holds the first year, counts to each next year, and rests on the latest.
-# The replay loops until the reader returns to the latest snapshot.
+# The automatic replay holds the first year, counts to each next year, and rests on the latest.
+# The replay loops until paused, then resumes from the same point.
 HOLD, FLIP, COUNT, REST, REWIND = 2.0, 1.2, 0.9, 4.0, 0.6
 
 
@@ -143,7 +143,7 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
                      f'animation-delay:calc(var(--b,0) * 24ms)}}\n')
     year += [f'{at(rewind)}{{--yr:{yr[-1]}}}', f'100%{{--yr:{yr[0]}}}']
 
-    # The figures under the count: missing first-year comparisons show an em dash, and light
+    # The figures under the count: the first year has none, so they wait at 0, muted, and light
     # up as it turns over. Then each figure counts to the next year's with the count, and back
     # to 0 in the rewind.
     counts, turns = '', ''
@@ -152,12 +152,11 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
         rows = ([{'tick': 0}] + [{'tick': g} for g, _, _, _ in later],
                 [{'tick': 0, 'tn': later[0][2]}] + [{'tick': r, 'tn': n} for _, r, n, _ in later],
                 [{'tick': 0}] + [{'tick': a} for _, _, _, a in later])
-        lit = (f'0%,{at(flips[0] + COUNT - .001)}{{opacity:0}}{at(flips[0] + COUNT)}{{opacity:1}}'
-               f'{at(rewind)}{{opacity:1}}{at(rewind + .001)},100%{{opacity:0}}')
+        lit = (f'0%,{at(flips[0])}{{opacity:.4}}{at(flips[0] + .25)}{{opacity:1}}'
+               f'{at(length - .25)}{{opacity:1}}100%{{opacity:.4}}')
         ordinals = ' '.join(text(ordinal(n)) for n in range(1, max(n for _, _, n, _ in later) + 1))
         counts = (''.join(f'@keyframes hero-f{i}{{{counting(r)}}}\n' for i, r in enumerate(rows))
                   + f'@keyframes hero-on{{{lit}}}\n'
-                  + f'@keyframes hero-missing{{0%,{at(flips[0] + COUNT - .001)}{{opacity:1}}{at(flips[0] + COUNT)},{at(rewind)}{{opacity:0}}{at(rewind + .001)},100%{{opacity:1}}}}\n'
                   '@counter-style tick-arrow{system:fixed 0;symbols:"▼ " "▲ " "▲ "}\n'
                   f'@counter-style tick-sign{{system:fixed 0;symbols:"{MINUS}" "" "+"}}\n'
                   + (f'@counter-style tick-ord{{system:fixed 1;symbols:{ordinals}}}\n' if 'tick-ord' in RANK[lang] else ''))
@@ -166,7 +165,6 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
         turns = ('.hero-stats .hs-v{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n'
                  # each figure counts over its widest value, which keeps the width
                  '.hero-stats .hs-a{display:inline-grid}.hs-a::before,.hs-a>span{display:block;grid-area:1/1}.hs-a::before{visibility:hidden}\n'
-                 + f'.hs-a::after{{content:"—";grid-area:1/1;animation:hero-missing {length:g}s linear infinite both}}\n'
                  + ''.join(f'.hv{i}::before{{content:{text(w)}}}' for i, w in enumerate(widest)) + '\n'
                  '.hs-c{--ts:calc(clamp(-1,var(--tick),1) + 1)}\n'                # the sign: 0 below zero, 1 at zero, 2 above
                  # growth, in tenths of a per cent: the arrow, the whole per cents and the tenths
@@ -215,18 +213,11 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
             # the first year's squares grow in as the page loads (90-motion.css); the later years' are this loop's
             + f'.um.um-years :is({squares}) rect{{animation:none}}\n'
             + ''.join(rules)
-            + '.hero.hero-idle .hs-a::after{animation-play-state:paused}\n'
             + '.hero.hero-idle :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span)'
             '{animation-play-state:paused}\n'
-            # Returning to the snapshot resets replay, so the next replay starts in sync.
+            # Pause holds the current year, count, figures and SVG cells; resume continues them.
             '.hero:not(:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span)'
-            '{animation-play-state:paused}\n'
-            '.hero:not(:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.hs-a){display:none;animation:none}\n'
-            '.hero:not(:has(.hero-pause input:checked)) .hs-a span,.hero:not(:has(.hero-pause input:checked)) .hs-a::after{animation:none}\n'
-            '.hero:not(:has(.hero-pause input:checked)) :is(.tick-static,.hs-v){position:static;width:auto;height:auto;overflow:visible;clip-path:none;white-space:normal}\n'
-            '.hero:not(:has(.hero-pause input:checked)) .yr-static{display:inline}\n'
-            '.hero:not(:has(.hero-pause input:checked)) .um-years g{animation:none;opacity:1;filter:none}\n'
-            '.hero:not(:has(.hero-pause input:checked)) .um-years rect{animation:none}\n}}\n')
+            '{animation-play-state:paused}\n}}\n')
 
 
 # ---------------------------------------------------------------- the account ticker
@@ -243,14 +234,14 @@ def ticker(ctx, value: int, years: list) -> Markup:
 
 def when(ctx, years: list) -> Markup:
     """Above the count, the quarter it is for: the latest, or the year the replay has reached,
-    beside a control to start replay or return to the snapshot (WCAG 2.2.2)."""
+    beside a control to pause or resume the replay (WCAG 2.2.2)."""
     if len(years) < 2:
         anim = pause = ''
     else:
         anim = '<span class="yr-anim"></span>'
-        pause = (f'<label class="hero-pause"><input class="sr-only" type="checkbox">{icon("pause", 16, 2, "icon i-pause")}'
-                 f'{icon("play", 16, 2, "icon i-play")}<span class="replay-start" aria-hidden="true">{ctx.t("home.replay_start")}</span>'
-                 f'<span class="replay-stop" aria-hidden="true">{ctx.t("home.replay_latest")}</span>'
+        pause = (f'<label class="hero-pause"><input class="sr-only" type="checkbox" checked>{icon("pause", 16, 2, "icon i-pause")}'
+                 f'{icon("play", 16, 2, "icon i-play")}<span class="replay-start" aria-hidden="true">{ctx.t("home.resume")}</span>'
+                 f'<span class="replay-stop" aria-hidden="true">{ctx.t("home.pause")}</span>'
                  f'<span class="sr-only">{ctx.t("home.replay_label")}</span></label>')
     return Markup(f'<div class="hero-when"><span class="hero-yr" aria-hidden="true"><span class="yr-static">'
                   f'{quarter_label(ctx.site.data.quarter, ctx.lang)}</span>{anim}</span>{pause}'
@@ -547,23 +538,29 @@ def team_puzzle(ctx, *, compact: bool = False) -> Markup:
         ('testing', 392, 392, 120, 90, -20,
          'M280 280H364C372 280 370 256 392 256C414 256 412 280 420 280H496V496H280V420C280 412 256 414 256 392C256 370 280 372 280 364Z'),
     )
-    groups = []
+    layers = []
+    view = '62 62 436 436' if compact else '0 0 560 560'
+    offset, span = (62, 436) if compact else (0, 560)
     for key, x, y, sx, sy, angle, path in pieces:
-        groups.append(f'<g class="team-piece team-piece-{key}" style="--team-x:{sx}px;--team-y:{sy}px;--team-angle:{angle}deg">'
+        depth = join(f'<path class="team-piece-depth" d="{path}" transform="translate(0 {n})"/>'
+                     for n in range(7, 0, -1))
+        layers.append(f'<div class="team-piece team-piece-{key}" style="--team-x:{sx / 8:g}%;--team-y:{sy / 8:g}%;'
+                      f'--team-angle:{angle}deg;--team-rx:{32 if y < 280 else -32}deg;'
+                      f'--team-ry:{-28 if x < 280 else 28}deg;--team-z:{48 if x < 280 else 72}px;'
+                      f'transform-origin:{(x - offset) / span * 100:.2f}% {(y - offset) / span * 100:.2f}%">'
+                      f'<svg viewBox="{view}" aria-hidden="true" focusable="false">{depth}'
                       f'<path class="team-piece-shape" d="{path}"/>'
+                      f'<path class="team-piece-bevel" d="{path}" transform="translate(0 -1)"/>'
                       f'<circle class="team-avatar-halo" cx="{x}" cy="{y - 20}" r="48"/>'
                       f'<g class="team-avatar"><circle class="team-avatar-head" cx="{x}" cy="{y - 35}" r="18"/>'
                       f'<path class="team-avatar-body" d="M{x - 31} {y + 11}C{x - 31} {y - 24} {x + 31} {y - 24} {x + 31} {y + 11}Z"/></g>'
-                      f'<text x="{x}" y="{y + 62}" text-anchor="middle">{ctx.t(f"home.team_skill_{key}")}</text></g>')
-    view = '62 62 436 436' if compact else '0 0 560 560'
-    return Markup(f'<svg class="team-puzzle" viewBox="{view}" aria-hidden="true" focusable="false">'
-                  f'{join(groups)}</svg>')
+                      f'<text x="{x}" y="{y + 62}" text-anchor="middle">{ctx.t(f"home.team_skill_{key}")}</text></svg></div>')
+    return Markup(f'<div class="team-puzzle" aria-hidden="true">{join(layers)}</div>')
 
 
 def local_team(ctx) -> Markup:
     platform = meetups.load()
-    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), 'secondary', out=True)
-    actions += C.btn(ctx.t('home.team_host'), meetups.link(platform, 'host', ctx.lang), 'secondary', out=True)
+    actions = C.btn(ctx.t('home.team_find'), meetups.link(platform, 'find', ctx.lang), 'primary', out=True)
     body = Markup(f'<div class="local-meetup-card card"><div class="local-meetup-copy">{C.eyebrow(ctx.t("home.team_eyebrow"))}'
                   f'<h2 id="local-team-h">{ctx.t("participation.meet_title")}</h2>'
                   f'<p>{ctx.t("participation.meet_text")}</p>'

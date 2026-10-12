@@ -1481,7 +1481,7 @@
   "pages": {
     "home": {
       "title": "djazair.dev",
-      "description": "Algeria’s developer accounts compared with similar countries every quarter, and open-source projects with beginner-friendly issues."
+      "description": "Grow your skills by contributing to real open-source projects from Algeria. Help with code, documentation, translation, or testing."
     },
     "overview": {
       "title": "Algeria Developer Index",
@@ -1620,7 +1620,7 @@
   "participation": {
     "hero_title": "Start small.",
     "hero_highlight": "Build something useful.",
-    "hero_lede": "Practice your skills on real open-source projects from Algeria. Help with code, documentation, translation or testing.",
+    "hero_lede": "Grow your skills by contributing to real open-source projects from Algeria. Help with code, documentation, translation, or testing.",
     "hero_contribute": "Find a beginner task",
     "hero_meet": "Meet developers in my city",
     "hero_context": "Algeria on GitHub · National data",
@@ -1632,7 +1632,7 @@
     "task_label": "good first issue",
     "task_note": "Each task opens on GitHub. Check the discussion before starting; a beginner label does not mean every task needs no coding experience.",
     "meet_title": "Build with people in your city.",
-    "meet_text": "Meet developers, students and founders in your city. Share skills and develop software projects together. Join a coffee meetup or start one through founders.coffee.",
+    "meet_text": "Connect with developers, students, and founders in your city. Share skills, build projects together, and join or host a coffee meetup through founders.coffee.",
     "share": "Share djazair.dev",
     "link_copied": "Link copied. Send it to someone who might want to join.",
     "copy_failed": "Could not share the link. You can copy the page address instead."

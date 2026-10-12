@@ -4,6 +4,7 @@ import json
 import math
 import re
 import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -181,9 +182,9 @@ class TickerMaths(unittest.TestCase):
         self.assertEqual(frames('hero-f1', 'tick'), ['0', '0', '6', '6', '4', '4', '0'])
         self.assertEqual(frames('hero-f1', 'tn'), ['7'] * 7)
         self.assertEqual(frames('hero-f2', 'tick'), ['0', '0', '40925', '40925', '49137', '49137', '0'])
-        self.assertRegex(css, r'@keyframes hero-on\{0%,[\d.]+%\{opacity:0\}[\d.]+%\{opacity:1\}', 'missing comparisons are hidden until the first valid year')
-        self.assertIn('content:"—"', css)
-        self.assertIn('@keyframes hero-missing', css)
+        self.assertRegex(css, r'@keyframes hero-on\{0%,[\d.]+%\{opacity:\.4\}[\d.]+%\{opacity:1\}', 'muted while the first year waits at 0')
+        self.assertNotIn('content:"—"', css)
+        self.assertNotIn('@keyframes hero-missing', css)
         self.assertIn('.hv0::before{content:"▲ 44.6%"}.hv1::before{content:"6th of 7"}.hv2::before{content:"+40,925"}', css)
         self.assertIn('@counter-style tick-ord{system:fixed 1;symbols:"1st" "2nd" "3rd" "4th" "5th" "6th" "7th"}', css)
         self.assertIn('@counter-style tick-arrow{system:fixed 0;symbols:"▼ " "▲ " "▲ "}', css)
@@ -244,7 +245,7 @@ class HomePage(unittest.TestCase):
                 self.assertEqual(re.findall(r'--tick:(\d+)', tick)[1::2], [str(v) for _, v in years])
                 self.assertIn('<span class="tick-anim" aria-hidden="true">', html)
                 self.assertIn('<span class="yr-anim"></span>', html)
-                self.assertIn('<label class="hero-pause"><input class="sr-only" type="checkbox">', html)
+                self.assertIn('<label class="hero-pause"><input class="sr-only" type="checkbox" checked>', html)
                 self.assertIn('<svg class="chart um um-years"', html)
                 self.assertEqual(len(re.findall(r'<g class="s\d', html)), len(years))
         hub = (self.dist / 'en' / 'hub' / 'index.html').read_text('utf-8')
@@ -337,14 +338,32 @@ class HomePage(unittest.TestCase):
         self.assertIn('.mobile-statistics { display: none; }', css)
         self.assertRegex(css, r'@media \(max-width: 760px\)\s*\{\s*\.desktop-statistics \{ display: none; \}\s*\.mobile-statistics \{ display: block; \}')
 
-    def test_the_latest_snapshot_is_the_default(self):
-        for html in self.html.values():
-            self.assertNotIn('type="checkbox" checked', html)
-            self.assertIn('.hero:not(:has(.hero-pause input:checked)) .yr-static{display:inline}', html)
-            self.assertIn('.hero:not(:has(.hero-pause input:checked)) .um-years g{animation:none;opacity:1;filter:none}', html)
+    def test_the_hero_autoplays_and_pause_keeps_the_current_frame(self):
+        for lang, html in self.html.items():
+            with self.subTest(lang=lang):
+                self.assertIn('<label class="hero-pause"><input class="sr-only" type="checkbox" checked>', html)
+                self.assertIn(Ctx(self.site, lang, self.site.routes['home']).t('home.pause'), html)
+                self.assertIn('.hero:not(:has(.hero-pause input:checked)) :is(.tick-anim,.yr-anim,.um-years g,.um-years rect,.hs-a span){animation-play-state:paused}', html)
+                self.assertNotIn('.hero:not(:has(.hero-pause input:checked)) .yr-static{display:inline}', html)
+                self.assertNotIn('.hero:not(:has(.hero-pause input:checked)) .um-years g{animation:none;opacity:1;filter:none}', html)
         js = (ROOT / 'site/static/js/home-map.js').read_text()
-        self.assertIn('assemblyElapsed = replay.checked ? 0 : assemblyDuration', js)
-        self.assertIn('renderer(0,assemblyElapsed/assemblyDuration)', js)
+        self.assertIn('var assemblyElapsed = 0, assemblyDuration = 1600;', js)
+        self.assertIn('renderer(0,0)', js)
+        site_js = (ROOT / 'site/static/js/site.js').read_text()
+        self.assertIn('if (motionPreference.matches) replay.checked = false;', site_js)
+
+    @unittest.skipUnless(shutil.which('node'), 'Node is needed to exercise scroll animation')
+    def test_puzzle_scroll_reverses_and_respects_reduced_motion(self):
+        result = subprocess.run(['node', str(ROOT / 'tests/home_team.mjs')], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_puzzle_has_four_decorative_layers_and_one_available_action(self):
+        for lang, html in self.html.items():
+            section = re.search(r'<section[^>]*id="local-team".*?</section>', html, re.S).group()
+            self.assertEqual(section.count('<div class="team-piece team-piece-'), 4)
+            self.assertIn('<div class="team-puzzle" aria-hidden="true">', section)
+            self.assertEqual(section.count('class="btn btn-primary btn-out"'), 1)
+            self.assertIn(f'href="https://founders.coffee/{lang}/algeria"', section)
 
     def test_the_derived_data_is_published(self):
         folder = self.data.folder

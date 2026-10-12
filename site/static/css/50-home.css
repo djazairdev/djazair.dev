@@ -289,10 +289,13 @@
 #local-team .lede { max-width: 68ch; }
 .team-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
 .team-visual { min-width: 0; }
-.team-assembly { --team-progress: 1; position: relative; aspect-ratio: 1; overflow: hidden; }
-.team-puzzle { position: relative; display: block; width: 100%; height: 100%; pointer-events: none; }
-.team-piece { transform-box: fill-box; transform-origin: center; }
+.team-assembly { --team-progress: 1; --team-piece-progress: 1; position: relative; aspect-ratio: 1; overflow: hidden; perspective: 900px; }
+.team-puzzle { position: relative; display: block; width: 100%; height: 100%; pointer-events: none; transform-style: preserve-3d; }
+.team-piece { position: absolute; inset: 0; }
+.team-piece > svg { display: block; width: 100%; height: 100%; overflow: visible; }
+.team-piece-depth { fill: color-mix(in srgb, var(--s2) 65%, var(--bg)); stroke: var(--mint-line); stroke-width: 1; stroke-linejoin: round; }
 .team-piece-shape { fill: var(--s2); stroke: var(--mint-line); stroke-width: 2; stroke-linejoin: round; }
+.team-piece-bevel { fill: none; stroke: var(--mint-hi); stroke-opacity: .22; stroke-width: 1; stroke-linejoin: round; }
 .team-piece-design .team-piece-shape, .team-piece-docs .team-piece-shape { fill: var(--s1); }
 .team-avatar-halo { fill: var(--mint-bg); stroke: var(--mint-line); stroke-width: 1; }
 .team-avatar { filter: drop-shadow(0 0 2px var(--mint-glow)) drop-shadow(0 0 8px var(--mint-glow)); }
@@ -313,7 +316,9 @@
 .team-host-note { margin-top: 16px; font-size: 15px; line-height: 1.6; text-align: center; color: var(--ink2); text-wrap: pretty; }
 .team-platform { margin-top: 8px; text-align: center; font-size: 13px; color: var(--ink3); }
 @media (prefers-reduced-motion: no-preference) {
-  .team-assembling .team-piece { --team-distance: calc(1 - var(--team-progress)); transform: translate(calc(var(--team-x) * var(--team-distance)), calc(var(--team-y) * var(--team-distance))) rotate(calc(var(--team-angle) * var(--team-distance))); }
+  .team-assembling .team-puzzle { transform: rotateX(calc(10deg * var(--team-progress))) rotateY(calc(-8deg * var(--team-progress))) scale(.92); }
+  .team-assembling .team-piece { --team-distance: calc(1 - var(--team-piece-progress)); opacity: var(--team-piece-progress); transform: translate3d(calc(var(--team-x) * var(--team-distance)), calc(var(--team-y) * var(--team-distance)), calc(var(--team-z) * var(--team-distance))) rotateX(calc(var(--team-rx) * var(--team-distance))) rotateY(calc(var(--team-ry) * var(--team-distance))) rotateZ(calc(var(--team-angle) * var(--team-distance))) scale(calc(.88 + .12 * var(--team-piece-progress))); transition: transform .1s linear, opacity .1s linear; }
+  .team-in-view .team-piece { will-change: transform, opacity; }
 }
 @media (max-width: 860px) {
   .team-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; }

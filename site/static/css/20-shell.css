@@ -90,8 +90,6 @@
 .lang-switch a:hover { color: var(--ink); }
 .lang-switch a[aria-current] { color: var(--ink); background: var(--s2); }
 .header-end .lang-switch a { min-width: 40px; height: 38px; }
-.menu-panel .lang-switch { width: fit-content; margin-block: 12px; }
-.menu-panel .lang-switch a { min-width: 44px; height: 44px; border: 0; }
 
 .github-link {
   display: inline-flex;
