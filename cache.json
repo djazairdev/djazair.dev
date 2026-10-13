@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"6dcc73cc1f1c2f707e6db9cabc2330c3622df07cff8c8d176b9f2b3baf4828f9\"",
+   "etag": "\"a6fa7e65483494c561e937443ee181bbb976863f4ee6cc3d37282c81855f7c31\"",
    "data": {
     "n": 7,
     "repos": [
@@ -60,7 +60,17 @@
      {
       "full_name": "djazairdev/minhajna",
       "topics": [
-       "djazairdev"
+       "algeria",
+       "android",
+       "arabic",
+       "djazairdev",
+       "education",
+       "offline-first",
+       "open-source",
+       "react-native",
+       "rtl",
+       "teachers",
+       "typescript"
       ],
       "fork": false,
       "archived": false,
@@ -76,7 +86,13 @@
      {
       "full_name": "djazairdev/wilayas",
       "topics": [
-       "djazairdev"
+       "algeria",
+       "api",
+       "dataset",
+       "djazairdev",
+       "maps",
+       "open-data",
+       "public-services"
       ],
       "fork": false,
       "archived": false,
@@ -86,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"86d37a0384ea449fecf3d77121c54facbbe291443f29146b5905b31c5c1c8cf4\"",
+   "etag": "\"152b13f3ef49d942c2c821c44b9d8ad33f3184e202398985ea8188c48c4a68c7\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -101,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"b18e64a42ebae3bcb0b99e9964146f95b3fe5874ec4626f0da1e3d1b727fcc87\"",
+   "etag": "\"01e693a8f3ad6726583d79757867d1472a8a256f430cf1f901d2e22ab235bda7\"",
    "data": "2026-10-12T10:02:49Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"6286c8eca1f8dc5c82f698b22c539e7f34b313c51a06b34f61d7d0ab232398da\"",
+   "etag": "\"ead007283488eabcfdcab225a3c1ccdc3a960354bbd38d3ec874ebbbb018ccfa\"",
    "data": {
     "n": 3,
     "issues": [
@@ -147,7 +163,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"04ef804579eeb032479fe005c76da0882c894805c5db01bd97beb574b2e9ffec\"",
+   "etag": "\"2d89a09b9b0bd9753bc07ccb3d5d3614d582a47ec84e8d55b9d8664b7470430a\"",
    "data": {
     "n": 7,
     "issues": [
@@ -237,7 +253,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"88e35f501d88afc47f7639ce6dde1c237a76be3562a381d62958f7a148f4bb96\"",
+   "etag": "\"3531dd897c58d59ef16f020a1940a8ad211d6d5e0fdff2ee50f514dd470e7331\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -252,14 +268,68 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"c877a4478f21c3017f18a41a814ef2ef9345b5c2fa883095322a6e07d7a301f1\"",
-   "data": "2026-10-13T14:22:30Z"
+   "etag": "\"e82346ee365665f716f7227c7677712fd467703c3bd9997bef5891653f20c9f1\"",
+   "data": "2026-10-13T15:45:34Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"0f5f5ff6daf180a659c0faee70ec43408d39d7c5beb5850107b573049450cb05\"",
+   "etag": "\"6ed0646e1b3fb05b7d2b950ee6a7516b573ecfe2c8e32da86bd126586c07a7e4\"",
    "data": {
-    "n": 1,
+    "n": 6,
     "issues": [
+     {
+      "number": 26,
+      "url": "https://github.com/djazairdev/wilayas/issues/26",
+      "title": "Check wilaya 06's names in Decree 91-306 against the printed page",
+      "labels": [
+       "good first issue"
+      ],
+      "created_at": "2026-10-13T15:39:15Z",
+      "needs": "reading Arabic or French, patience. No code"
+     },
+     {
+      "number": 25,
+      "url": "https://github.com/djazairdev/wilayas/issues/25",
+      "title": "docs: load the API's CSV into a spreadsheet",
+      "labels": [
+       "documentation",
+       "good first issue"
+      ],
+      "created_at": "2026-10-13T15:39:13Z",
+      "needs": "a spreadsheet (Google Sheets or Excel), Markdown. No code"
+     },
+     {
+      "number": 24,
+      "url": "https://github.com/djazairdev/wilayas/issues/24",
+      "title": "docs: add a Go example to docs/api.md",
+      "labels": [
+       "documentation",
+       "good first issue"
+      ],
+      "created_at": "2026-10-13T15:39:11Z",
+      "needs": "Go"
+     },
+     {
+      "number": 23,
+      "url": "https://github.com/djazairdev/wilayas/issues/23",
+      "title": "docs: add a Kotlin example to docs/api.md",
+      "labels": [
+       "documentation",
+       "good first issue"
+      ],
+      "created_at": "2026-10-13T15:39:10Z",
+      "needs": "Kotlin"
+     },
+     {
+      "number": 22,
+      "url": "https://github.com/djazairdev/wilayas/issues/22",
+      "title": "docs: add a Dart example to docs/api.md",
+      "labels": [
+       "documentation",
+       "good first issue"
+      ],
+      "created_at": "2026-10-13T15:39:08Z",
+      "needs": "Dart (a Flutter app isn't needed: dart run is enough)"
+     },
      {
       "number": 14,
       "url": "https://github.com/djazairdev/wilayas/issues/14",
@@ -274,7 +344,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"2bf4e251405601d4da77b27c1f2dbe59d3fb46324fdcb514aeff08cdab6abf2a\"",
+   "etag": "\"bd592eb29eb104fcf50fe06123b8ec1d35b9aa38d0d2fea934aa342815c3d30a\"",
    "data": {
     "n": 2,
     "issues": [
@@ -304,7 +374,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"ea32a8b73b7eae371c5b554265b39394f9a6a42bc520be77f7c7bb8e06a158ca\"",
+   "etag": "\"7457e1f13892065012c91a6432c1babea1691a7c3d7e12269caa6a69ee6b2e62\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -319,11 +389,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"fb62100dbf1d581c819252a3b26ba398a4d65a02e269d5a111d312d6cb223513\"",
-   "data": "2026-10-13T14:11:56Z"
+   "etag": "\"c5a964fb0959b7536da250817805159f3e877c659a73280b1ef0c03d3206b580\"",
+   "data": "2026-10-13T15:49:18Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"f24cbb4c843ad2ab0fb56b72af14b09e627ccc7999e04b7300238a15e09c8103\"",
+   "etag": "\"a550513e73b398ce14e2102235d5402464d18a2ee9457eee97a1d9b7b39607b9\"",
    "data": {
     "n": 6,
     "issues": [
@@ -398,7 +468,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"1eddf73156b82f41df3363d3ed30a63c90693f9e080aeda2b8123bc996736f63\"",
+   "etag": "\"53ea71db4c44c398628bafb2589f9af485ad7372c8a93536c95fd26831a8ab88\"",
    "data": {
     "n": 8,
     "issues": [
@@ -494,7 +564,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"e87bfd2e4f288990b8de1383cb7602abadc16e02b0917df8e95133d7a1ffb711\"",
+   "etag": "\"044b795d58746b964c9f4113d6beb092f3123302c1478fbae957a014e17530d8\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -509,11 +579,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"384c55f7e748b49837f6b87b98c01252d2901262eea0ebc0cc1ee10e2de89236\"",
+   "etag": "\"b93656455420f01a65db6ebe825e0a21fa5f8f6391f2e29d0448fa567b8079ff\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"c049f4b9fb1a9885ce8e5b6cdb20cec2df52a4ff3065481759e33e3273387b14\"",
+   "etag": "\"2d67e11b218248e9a9bcc10b836fb5e2d75acdfbf99cdcd60df2fb5c2e676939\"",
    "data": {
     "n": 3,
     "issues": [
@@ -554,18 +624,18 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"750350ec09013189a1f4e16fd8c2a8054d1ed7bf4f4e398326d2b59ad8aa7957\"",
+   "etag": "\"560832c86f4467cde822ce14f3adc1db22f67117b9fc25982dbc1aa960d48fb0\"",
    "data": {
     "n": 0,
     "issues": []
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"274a4b9b0a593182df26fb9e5dbfb2a94015deb6ef9e851e373fc985ec51fb4e\"",
+   "etag": "\"286ef66eecf9322761349f423f31548c9d12d44fd1fd306deede521c79e103e7\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
-    "description": "A free, open-source app for Algeria's teachers: from the yearly plan to every lesson. In planning.",
+    "description": "A free, open-source app for Algeria's teachers: from the yearly plan to every lesson. In development: the core and an Android preview are on main.",
     "language": "TypeScript",
     "licence": "AGPL-3.0",
     "topic": true,
@@ -576,14 +646,37 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"3644891e9cd7adc6d8e48baef1047111a1a4acf05d0987c9f5cc15ed04d6912b\"",
-   "data": "2026-10-10T13:12:06Z"
+   "etag": "\"e2dd7821bca123471e676a9858a270869e07cc4204712a528e553559118f734c\"",
+   "data": "2026-10-13T17:14:53Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"a05ee81a8cb14ed8d1f3cbbecb01591aef800ad1724eedb668630b6f337bf228\"",
+   "etag": "\"0290f135a205e0c1c0f3418002053d935e6b8a3ebc767e8c1e0324b7bfbfd16c\"",
    "data": {
-    "n": 3,
+    "n": 5,
     "issues": [
+     {
+      "number": 73,
+      "url": "https://github.com/djazairdev/minhajna/issues/73",
+      "title": "Format dates and numbers in the core: Western digits and the Algerian month names",
+      "labels": [
+       "good first issue",
+       "area: core"
+      ],
+      "created_at": "2026-10-13T16:46:23Z",
+      "needs": "TypeScript. Arabic helps, but is not required"
+     },
+     {
+      "number": 69,
+      "url": "https://github.com/djazairdev/minhajna/issues/69",
+      "title": "Write the Android app's README: how to build and run it",
+      "labels": [
+       "documentation",
+       "good first issue",
+       "area: android"
+      ],
+      "created_at": "2026-10-13T16:46:19Z",
+      "needs": "Android Studio or the command-line SDK, and some patience with Gradle"
+     },
      {
       "number": 64,
       "url": "https://github.com/djazairdev/minhajna/issues/64",
@@ -621,10 +714,122 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"750350ec09013189a1f4e16fd8c2a8054d1ed7bf4f4e398326d2b59ad8aa7957\"",
+   "etag": "\"146d7da90905059b8b4c0b74f1e77dca8613aa0b681553c9ce1cb687e870bc2c\"",
    "data": {
-    "n": 0,
-    "issues": []
+    "n": 10,
+    "issues": [
+     {
+      "number": 80,
+      "url": "https://github.com/djazairdev/minhajna/issues/80",
+      "title": "Make a connection slow and drop, for the sync check",
+      "labels": [
+       "help wanted",
+       "area: sync"
+      ],
+      "created_at": "2026-10-13T16:46:30Z",
+      "needs": "Node.js and some networking"
+     },
+     {
+      "number": 79,
+      "url": "https://github.com/djazairdev/minhajna/issues/79",
+      "title": "Write the page that checks the web app's storage in a browser",
+      "labels": [
+       "help wanted",
+       "area: web"
+      ],
+      "created_at": "2026-10-13T16:46:29Z",
+      "needs": "JavaScript, IndexedDB and Web Crypto"
+     },
+     {
+      "number": 78,
+      "url": "https://github.com/djazairdev/minhajna/issues/78",
+      "title": "Use the core in the app from its source",
+      "labels": [
+       "help wanted",
+       "area: android"
+      ],
+      "created_at": "2026-10-13T16:46:28Z",
+      "needs": "React Native, Metro and TypeScript"
+     },
+     {
+      "number": 77,
+      "url": "https://github.com/djazairdev/minhajna/issues/77",
+      "title": "Make a full year of demo-class records for the load tests",
+      "labels": [
+       "help wanted",
+       "area: core"
+      ],
+      "created_at": "2026-10-13T16:46:27Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 76,
+      "url": "https://github.com/djazairdev/minhajna/issues/76",
+      "title": "Turn the history tests into a suite that any store must pass",
+      "labels": [
+       "help wanted",
+       "area: core"
+      ],
+      "created_at": "2026-10-13T16:46:26Z",
+      "needs": "TypeScript and node:test"
+     },
+     {
+      "number": 75,
+      "url": "https://github.com/djazairdev/minhajna/issues/75",
+      "title": "Compare the libraries for an encrypted database and hashing in React Native",
+      "labels": [
+       "help wanted",
+       "area: android",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-13T16:46:25Z",
+      "needs": "React Native on Android. Knowing SQLCipher or the Keystore helps"
+     },
+     {
+      "number": 74,
+      "url": "https://github.com/djazairdev/minhajna/issues/74",
+      "title": "Propose the message catalogue and the translation platform",
+      "labels": [
+       "help wanted",
+       "area: i18n"
+      ],
+      "created_at": "2026-10-13T16:46:24Z",
+      "needs": "experience with app translation. No code to start"
+     },
+     {
+      "number": 72,
+      "url": "https://github.com/djazairdev/minhajna/issues/72",
+      "title": "Propose the navigation library: bottom tabs and stacked screens",
+      "labels": [
+       "help wanted",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-13T16:46:22Z",
+      "needs": "React Native experience. No code to start"
+     },
+     {
+      "number": 71,
+      "url": "https://github.com/djazairdev/minhajna/issues/71",
+      "title": "Bundle the three fonts in the app, with their licence",
+      "labels": [
+       "help wanted",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-13T16:46:21Z",
+      "needs": "React Native on Android, and the REUSE tool (reuse lint)"
+     },
+     {
+      "number": 70,
+      "url": "https://github.com/djazairdev/minhajna/issues/70",
+      "title": "Make the design tokens a typed module that every screen imports",
+      "labels": [
+       "help wanted",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-13T16:46:20Z",
+      "needs": "TypeScript"
+     }
+    ]
    }
   }
  }
