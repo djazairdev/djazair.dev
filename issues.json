@@ -1,6 +1,45 @@
 {
- "generated_at": "2026-10-13T00:57:31Z",
+ "generated_at": "2026-10-13T14:33:25Z",
  "issues": [
+  {
+   "number": 40,
+   "url": "https://github.com/djazairdev/detent/issues/40",
+   "title": "Add a dev container so contributors can start in a Codespace",
+   "labels": [
+    "enhancement",
+    "good first issue"
+   ],
+   "created_at": "2026-10-13T13:00:18Z",
+   "needs": "JSON; a GitHub account (Codespaces has a free monthly allowance) or Docker",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 39,
+   "url": "https://github.com/djazairdev/detent/issues/39",
+   "title": "Add an .nvmrc so version managers pick Node 22",
+   "labels": [
+    "enhancement",
+    "good first issue"
+   ],
+   "created_at": "2026-10-13T13:00:17Z",
+   "needs": "no code, just a text file and Markdown",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
+  {
+   "number": 38,
+   "url": "https://github.com/djazairdev/detent/issues/38",
+   "title": "detent --help: describe each command in plain words, without PRD marks",
+   "labels": [
+    "enhancement",
+    "good first issue"
+   ],
+   "created_at": "2026-10-13T13:00:15Z",
+   "needs": "TypeScript, vitest",
+   "repo": "djazairdev/detent",
+   "language": "TypeScript"
+  },
   {
    "number": 36,
    "url": "https://github.com/djazairdev/detent/issues/36",
@@ -300,19 +339,6 @@
    ],
    "created_at": "2026-10-10T09:11:08Z",
    "needs": "Python, unittest (standard library only)",
-   "repo": "djazairdev/wilayas",
-   "language": "Python"
-  },
-  {
-   "number": 12,
-   "url": "https://github.com/djazairdev/wilayas/issues/12",
-   "title": "docs: add Python and PHP examples to docs/api.md",
-   "labels": [
-    "documentation",
-    "good first issue"
-   ],
-   "created_at": "2026-10-10T09:11:05Z",
-   "needs": "basic Python or PHP",
    "repo": "djazairdev/wilayas",
    "language": "Python"
   },
