@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"d8953d40099ba50a121fe048e3c12b88f56607e667aee5603789528233bd38b0\"",
+   "etag": "\"616168f51a42f636d4fdb817712e3c2754db39660c132a70e576e6b9fc4477a8\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"85c641e9367b4a83b4ff95c49adae18481678da4adf072b2eac7cbf8b4cbe604\"",
+   "etag": "\"e76e2d04423bd6d2f4283a38728aa23fcbd9cf61721c5c159b56fd0a7749daf3\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,25 +117,46 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"7ae3e22f60bc44fcfe788a549b85a014adf50943f4283a118e2d9bbe50b22c5c\"",
-   "data": "2026-10-12T10:02:49Z"
+   "etag": "\"2d0bdd8a49abe067c2576b2526b0a6074657de6426e913bce41badc0550180ef\"",
+   "data": "2026-10-14T08:21:08Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"3e820b97d08bc0d6d3298043f75988078a4124367ee99876684743079c7f4ec1\"",
+   "etag": "\"02e30d212855392e056bed8958f2a637ab99dfc0808ddd426b0dc920ba11b47f\"",
    "data": {
-    "n": 3,
+    "n": 5,
     "issues": [
      {
-      "number": 63,
-      "url": "https://github.com/djazairdev/djazair.dev/issues/63",
-      "title": "Put the language switch in the header and the phone menu",
+      "number": 89,
+      "url": "https://github.com/djazairdev/djazair.dev/issues/89",
+      "title": "Take the data guide's three English headings from the strings",
       "labels": [
-       "accessibility",
        "good first issue",
        "area: site"
       ],
-      "created_at": "2026-10-10T13:42:09Z",
-      "needs": "Python, HTML, CSS"
+      "created_at": "2026-10-14T07:58:53Z",
+      "needs": "Python, JSON, unittest"
+     },
+     {
+      "number": 88,
+      "url": "https://github.com/djazairdev/djazair.dev/issues/88",
+      "title": "Round file sizes and axis numbers before choosing the unit (1000 KB → 1.0 MB)",
+      "labels": [
+       "good first issue",
+       "area: site"
+      ],
+      "created_at": "2026-10-14T07:58:51Z",
+      "needs": "Python, unittest"
+     },
+     {
+      "number": 87,
+      "url": "https://github.com/djazairdev/djazair.dev/issues/87",
+      "title": "Print a clear message, not a traceback, when check-registry's file doesn't exist",
+      "labels": [
+       "good first issue",
+       "area: hub"
+      ],
+      "created_at": "2026-10-14T07:58:49Z",
+      "needs": "Python, unittest"
      },
      {
       "number": 46,
@@ -163,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"4476b3dc5a1088aed7941119b263e780e00dd5736f349e33bdf323e6c170d247\"",
+   "etag": "\"f84d893eb674c1f6536a6bb5c11ee52e31c120a35bac12685daeda13cb6390a1\"",
    "data": {
     "n": 7,
     "issues": [
@@ -172,6 +193,7 @@
       "url": "https://github.com/djazairdev/djazair.dev/issues/69",
       "title": "Show organisations per 1,000 accounts",
       "labels": [
+       "enhancement",
        "help wanted",
        "area: site",
        "area: content"
@@ -184,6 +206,7 @@
       "url": "https://github.com/djazairdev/djazair.dev/issues/67",
       "title": "Shorten the scorecard on Home for phones",
       "labels": [
+       "enhancement",
        "help wanted",
        "area: site",
        "area: design"
@@ -196,6 +219,7 @@
       "url": "https://github.com/djazairdev/djazair.dev/issues/65",
       "title": "Draw the hero map sharply on phones",
       "labels": [
+       "enhancement",
        "help wanted",
        "area: site"
       ],
@@ -207,6 +231,7 @@
       "url": "https://github.com/djazairdev/djazair.dev/issues/64",
       "title": "Show the hero map from the first paint",
       "labels": [
+       "enhancement",
        "help wanted",
        "area: site",
        "area: design"
@@ -253,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"97220c41e91b65cfa28eeeb605d379d58637453adb69a0e28da2b02f95fb8c24\"",
+   "etag": "\"9ab2fca1545dde73499334f622bc34d6f41cf17f89813388162fb0da38b8492c\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -268,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"5a712bbefa0d9d20c7ef167ddc06000a988fab9908c824f84b9ab4d8c277940d\"",
-   "data": "2026-10-13T15:45:34Z"
+   "etag": "\"e6bc295cf271afa24ba492950f5c96182a6c045dc0748d75b77bee7ec539ce47\"",
+   "data": "2026-10-14T08:21:13Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"c95ed1d0a9b04249fa127ca2cae479a8fdb87c1a3b0f457ad1d6d19bd2f72130\"",
+   "etag": "\"3716e94729e16fd5f416006bc9f1223def2243ffdedfcfdd6dd004311b5ac986\"",
    "data": {
     "n": 6,
     "issues": [
@@ -344,7 +369,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"4e55eab7901eeee75f5cf465e878a9450bef2da80b35cc4e4731f2e707b2db7f\"",
+   "etag": "\"171dc8b698e7c9b790e8a214a6af34ed79aa9d3f717466577ec1f17fdc50121f\"",
    "data": {
     "n": 2,
     "issues": [
@@ -374,7 +399,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"6da2bec164ebe757efe71a51259bb78015fe7fe27dbe20a09b77fa0c4dea95f7\"",
+   "etag": "\"f6a4b539893b4e942f6d1ec938a6eb1851ee6a3505a15540119e8e4b989520ab\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -389,11 +414,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"cf5b6c09019ed6cbb8ea54eb63cc89fcc77641582ceadaf03fe623aa494e5d1e\"",
-   "data": "2026-10-13T15:49:18Z"
+   "etag": "\"4c6ffdf71c4489cd356b1a0e1e9287b6e0e1fe5cce256580c5edc174b982b6e0\"",
+   "data": "2026-10-14T08:21:18Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"59b873ef86e61efd0ad7c29487ee941211219bdb32b63b2b89ecc87b31374b15\"",
+   "etag": "\"6776c70e29946e6d1e43bf8c811f915ce3d2adcef1688b0a4ebe416f8bed7224\"",
    "data": {
     "n": 6,
     "issues": [
@@ -468,7 +493,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"3f16c415dbcd286c3b6f0bfcce08f344105a1292014c3ee6f5f318532d5ab6d6\"",
+   "etag": "\"c5c6678fcff20ebf11a6b720d980f969c7b4ee436d2a126d505a1540a6abd83e\"",
    "data": {
     "n": 8,
     "issues": [
@@ -564,7 +589,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"ea396138cb2645c70d877e3e5fede0bb51cf790696d0e0994b38460fb97e3e86\"",
+   "etag": "\"cc9e83f83b68b1a6e0babe2a8d24c0e30ecf355efe75e4b12ce9622f5c4f2975\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -579,14 +604,63 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"f178a4acfe1f17f1d5195a051ff5fad1a9a86b2826bf43c4187634e0c00755e0\"",
+   "etag": "\"dfd740ffef34db01d519452bf951ea1a3dbcc6fa5e78ed935351221daaa30d55\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"ae369c284ccdcd7096ff762541647a49489642c10793bd38cab5e3ff0f183aa1\"",
+   "etag": "\"5dffba1dff5a8e7b9928fad4ad3bdb1cd133ea8198bdddfe6a9506aea4afd002\"",
    "data": {
-    "n": 3,
+    "n": 7,
     "issues": [
+     {
+      "number": 169,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/169",
+      "title": "Test the live meetup badges, and remove a leftover comment",
+      "labels": [
+       "good first issue",
+       "accepted",
+       "area: events"
+      ],
+      "created_at": "2026-10-14T06:51:38Z",
+      "needs": "TypeScript, Vitest"
+     },
+     {
+      "number": 168,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/168",
+      "title": "Test the chat's time and day labels",
+      "labels": [
+       "good first issue",
+       "accepted",
+       "area: chat"
+      ],
+      "created_at": "2026-10-14T06:51:37Z",
+      "needs": "TypeScript, Vitest, some Intl date formatting"
+     },
+     {
+      "number": 167,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/167",
+      "title": "Give toggleChip its own tests, with the edge cases",
+      "labels": [
+       "good first issue",
+       "accepted",
+       "area: ui"
+      ],
+      "created_at": "2026-10-14T06:51:35Z",
+      "needs": "TypeScript, Vitest"
+     },
+     {
+      "number": 166,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/166",
+      "title": "Translate the footer language switcher's screen-reader label",
+      "labels": [
+       "good first issue",
+       "a11y",
+       "accepted",
+       "area: i18n"
+      ],
+      "created_at": "2026-10-14T06:51:33Z",
+      "needs": "React, a little TypeScript"
+     },
      {
       "number": 144,
       "url": "https://github.com/djazairdev/founders.coffee/issues/144",
@@ -624,14 +698,27 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"1c91d40107f4b6716b0c29fcb03e126d3522104f83387616323773034d939d6f\"",
+   "etag": "\"22036a3ca0a69bd4b42d6327f003064d7a5b5d3561bee46761c32ad012167957\"",
    "data": {
-    "n": 0,
-    "issues": []
+    "n": 1,
+    "issues": [
+     {
+      "number": 99,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/99",
+      "title": "founders.coffee does not load on Algérie Télécom lines whose DNS returns 188.114.96/97 .5 or .7",
+      "labels": [
+       "bug",
+       "help wanted",
+       "P0"
+      ],
+      "created_at": "2026-09-26T10:18:06Z",
+      "needs": ""
+     }
+    ]
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"b6a10cb16bc4e24744f78bb80505db209fe7928567808265c98800ac80a91bcb\"",
+   "etag": "\"ac57893faab8446304faf3034244c2efbcdccb2bdfcc4460830ecc3e4846b0b5\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -646,11 +733,11 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"a1f0355692ed3a2f5742ab348ab236ad2884cb1ecd625b64d0cfb0594757350c\"",
-   "data": "2026-10-13T17:14:53Z"
+   "etag": "\"7cecdeb802394a62462a7aabecd060c53bab7930567e0fe62fc6b09f1ed1a198\"",
+   "data": "2026-10-14T08:21:23Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"159383b162fff7c600d5631e8f02741b0a97436b1a46df33df5a4dda6f0a37cb\"",
+   "etag": "\"24f4aa14667e559bc7ca0dccbe23427a7a7b8d5708b7bd6723d0d6f5f25bb520\"",
    "data": {
     "n": 5,
     "issues": [
@@ -714,7 +801,7 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"f7674c4c487ebd8b4e300c30cbff974605a7ea66916d1bf2c2c50de1f6015f14\"",
+   "etag": "\"af892abbeb1b1efccb3e4f6b76357817fa233fbbb25decf5ec7b62cbdeebbd5f\"",
    "data": {
     "n": 10,
     "issues": [
