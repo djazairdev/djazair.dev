@@ -1,5 +1,6 @@
-# The form for the "Ideas" category of GitHub Discussions (ticket #39, PRD HUB-07). GitHub
-# uses it once Discussions is on and the category's slug is "ideas": docs/hub-ideas.md.
+# The form for the "Ideas" category of djazairdev's Discussions (ticket #39). GitHub uses the copy
+# in the djazairdev/.github repository, which holds the organisation's Discussions; this one is
+# tested with the Hub. Keep the two the same: docs/hub-ideas.md.
 title: "Idea: "
 body:
   - type: markdown

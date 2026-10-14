@@ -4,7 +4,7 @@ from __future__ import annotations
 from xml.etree import ElementTree as ET
 import re
 
-from .config import CONTENT_DIR, REPO_URL, SITE_URL
+from .config import CONTENT_DIR, IDEAS_URL, REPO_URL, SITE_URL
 from .context import Ctx
 from .markdown import sections
 
@@ -64,7 +64,7 @@ Quarterly derived data is CC0; population inputs are World Bank CC BY 4.0. Do no
 ## Participation
 
 - [Open source]({SITE_URL}/en/hub/): find contribution opportunities and list projects.
-- [Propose and vote on ideas]({REPO_URL}/discussions/categories/ideas): GitHub Discussions.
+- [Propose and vote on ideas]({IDEAS_URL}): djazairdev's GitHub Discussions.
 - [Meet local collaborators](https://founders.coffee/ar/algeria): founders.coffee's Algeria community; event registration is on that separate service.
 - [Organisation](https://github.com/djazairdev): public projects and contributions.
 

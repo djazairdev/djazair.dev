@@ -1,7 +1,7 @@
-"""Project ideas and their votes (ticket #39, PRD HUB-07).
+"""Project ideas and their votes (ticket #39).
 
-``python -m hub ideas`` reads the Ideas category of GitHub Discussions on djazairdev/djazair.dev
-through GitHub's GraphQL API, and writes ``data/derived/hub/ideas.json``: every idea that is open
+``python -m hub ideas`` reads the Ideas category of djazairdev's GitHub Discussions, which GitHub
+keeps in the djazairdev/.github repository, through GitHub's GraphQL API, and writes ``data/derived/hub/ideas.json``: every idea that is open
 or adopted, ranked by votes. Votes are GitHub upvotes, one per account. For each idea it keeps
 the title, the number of votes and comments, whether the idea has a champion, the skills its
 form asks for, and whether it was adopted (the ``adopted`` label). Closed ideas that weren't
@@ -29,7 +29,7 @@ from .github import GitHub
 from .metrics import Reader, quarter, when
 from .sync import MENTION, OUT, clean
 
-REPO = 'djazairdev/djazair.dev'
+REPO = 'djazairdev/.github'        # the organisation's Discussions, shared by all its repositories
 CATEGORY = 'ideas'                  # the category's slug, and the name of its form in .github/DISCUSSION_TEMPLATE/
 ADOPTED = 'adopted'                 # the label a maintainer adds to the idea the organisation takes on
 PAGES = 10                          # up to 1,000 ideas
@@ -162,6 +162,14 @@ def load(out: Path = OUT) -> Optional[dict]:
     return doc if isinstance(doc, dict) else None
 
 
+def category_url(repo: str) -> str:
+    """The Ideas category's address. An organisation's Discussions live in its ``.github``
+    repository, but GitHub shows them under ``/orgs/<owner>/discussions``."""
+    owner, name = repo.split('/', 1)
+    base = f'https://github.com/orgs/{owner}' if name == '.github' else f'https://github.com/{repo}'
+    return f'{base}/discussions/categories/{CATEGORY}'
+
+
 def run(out: Path = OUT, github: Optional[GitHub] = None, now: Optional[datetime] = None, repo: str = REPO) -> str:
     """Read the ideas and write ``ideas.json``; returns the log line, which names no one.
     Raises GitHubError (nothing written) if GitHub fails or its quota runs low."""
@@ -180,7 +188,7 @@ def run(out: Path = OUT, github: Optional[GitHub] = None, now: Optional[datetime
     doc = {'about': 'Project ideas from the Ideas category of GitHub Discussions, ranked by votes (hub/ideas.py, '
                     'docs/hub-ideas.md). Titles and counts only: no usernames.',
            'generated_at': now.strftime('%Y-%m-%dT%H:%M:%SZ'),
-           'category': f'https://github.com/{repo}/discussions/categories/{CATEGORY}' if ideas is not None else None,
+           'category': category_url(repo) if ideas is not None else None,
            'ideas': ideas or [], 'rounds': rounds}
     path = Path(out) / 'ideas.json'
     path.parent.mkdir(parents=True, exist_ok=True)

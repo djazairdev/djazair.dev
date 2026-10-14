@@ -22,7 +22,7 @@ from hub.github import GitHub, GitHubError  # noqa: E402
 
 NOW = datetime(2026, 10, 7, 6, 41, tzinfo=timezone.utc)
 PEOPLE = ('amina-dz', 'yacine', 'karim-b', 'sara', 'Amina Benali', 'amina@example.com')
-URL = 'https://github.com/djazairdev/djazair.dev/discussions/'
+URL = 'https://github.com/orgs/djazairdev/discussions/'
 
 
 def body(champion='@amina-dz', skills='Web front end, Data and open data', problem='Bus times are only on paper.'):
@@ -64,7 +64,7 @@ class FakeGraphQL:
             return self.status, {}, json.dumps({'message': 'Bad credentials'}).encode()
         q = json.loads(body)
         text, v = q['query'], q['variables']
-        assert (v['owner'], v['name']) == ('djazairdev', 'djazair.dev')
+        assert (v['owner'], v['name']) == ('djazairdev', '.github')
         data = {'rateLimit': {'remaining': 4000}}
         if 'discussionCategory' in text:
             self.queries.append('category')
@@ -225,8 +225,12 @@ class Form(unittest.TestCase):
 
     def test_the_category_and_its_addresses(self):
         from djsite import config
-        self.assertEqual(f'{config.REPO}', ideas.REPO)
-        self.assertTrue(config.IDEAS_URL.endswith(f'/discussions/categories/{ideas.CATEGORY}'))
+        self.assertEqual(config.DISCUSSIONS_REPO, ideas.REPO)
+        self.assertEqual(config.IDEAS_URL, ideas.category_url(ideas.REPO))
+        self.assertEqual(ideas.category_url('djazairdev/.github'),
+                         'https://github.com/orgs/djazairdev/discussions/categories/ideas')
+        self.assertEqual(ideas.category_url('someone/project'),
+                         'https://github.com/someone/project/discussions/categories/ideas')
         self.assertTrue(config.IDEAS_BY_VOTES_URL.startswith(config.IDEAS_URL + '?'))
         self.assertIn('sort%3Atop', config.IDEAS_BY_VOTES_URL)
         self.assertTrue(config.IDEAS_RESULTS_URL.endswith('/blob/hub-data/ideas.json'))
