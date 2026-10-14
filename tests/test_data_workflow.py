@@ -55,7 +55,7 @@ class Scripts(unittest.TestCase):
         self.env = {**os.environ, 'PATH': f'{bin_}:{os.environ["PATH"]}', 'SIM': str(self.tmp), 'GH_TOKEN': 'x',
                     'GITHUB_SERVER_URL': 'https://github.com', 'GITHUB_REPOSITORY': 'o/r', 'GITHUB_RUN_ID': '42',
                     'RUNNER_TEMP': str(self.runner), 'QUARTER': '2026-Q2', 'COMMIT': '0123456789abcdef' * 2 + '01234567',
-                    'REVISIONS': 'false'}
+                    'REVISIONS': 'false', 'HUB_UPSTREAM': ''}
 
     def run_script(self, name, **env):
         return subprocess.run(['bash', str(SCRIPTS / name)], cwd=self.work, env={**self.env, **env}, capture_output=True,
@@ -161,6 +161,21 @@ class Scripts(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertIn('No hub-data branch yet', result.stdout)
         self.assertFalse((self.work / 'data' / 'derived' / 'hub').exists())
+
+    def test_hub_snapshot_in_a_fork_comes_from_the_main_repository(self):
+        snap = self.tmp / 'snap'
+        git('init', '-q', '-b', 'hub-data', str(snap), cwd=self.tmp)
+        (snap / 'issues.json').write_text('{"issues": [{"number": 7}]}\n')
+        git('add', '.', cwd=snap)
+        git('-c', 'user.name=t', '-c', 'user.email=t@example.com', 'commit', '-q', '-m', 'snapshot', cwd=snap)
+        git('push', '-q', str(self.remote), 'hub-data', cwd=snap)
+        fork = self.tmp / 'fork.git'
+        git('init', '-q', '--bare', '-b', 'main', str(fork), cwd=self.tmp)
+        git('push', '-q', str(fork), 'main', cwd=self.work)
+        git('remote', 'set-url', 'origin', str(fork), cwd=self.work)
+        result = self.run_script('hub-snapshot.sh', HUB_UPSTREAM=str(self.remote))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn('"number": 7', (self.work / 'data' / 'derived' / 'hub' / 'issues.json').read_text())
 
     def test_hub_snapshot_fails_when_the_remote_is_unreachable(self):
         git('remote', 'set-url', 'origin', str(self.tmp / 'gone.git'), cwd=self.work)

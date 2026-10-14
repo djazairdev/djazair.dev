@@ -55,7 +55,7 @@ def entry(repo: dict, tags: list, added: str):
     if len(categories) > 1:
         return f'Several categories ({", ".join(f"`{c}`" for c in categories)}): keep one of these topics.'
     if not found:
-        return 'No tag: add at least one of the topics listed in CONTRIBUTING.md (`arabic`, `open-data`, `education`…).'
+        return 'No tag: add at least one of the topics listed in docs/hub-listing.md (`arabic`, `open-data`, `education`…).'
     if len(found) > MAX_TAGS:
         return f'{len(found)} tags ({", ".join(f"`{t}`" for t in found)}): keep at most {MAX_TAGS} of these topics.'
     return registry.Project(repo['full_name'], categories[0], found, True, added, source='topic')

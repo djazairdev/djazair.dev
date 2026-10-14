@@ -1,6 +1,6 @@
 # Instructions for coding agents
 
-<!-- djazairdev-template: 1.5.2 -->
+<!-- djazairdev-template: 1.6.0 -->
 
 This file tells coding agents (Claude Code, Codex, Cursor, Copilot and others) how to work in this repository. People may find it useful too.
 
@@ -25,7 +25,7 @@ There is nothing to install, no linter and no formatter.
 - Add a test when you change behaviour.
 - **The standard library only.** Don't add a Python package, a JavaScript library or a build tool.
 - **Real numbers only.** Every figure comes from the published data in `data/derived/`, or from a source the page names. Never make up or round off a statistic for a design or an example.
-- **Both languages.** A string a page shows goes in `site/i18n/en.json` and `site/i18n/ar.json` under the same key. Arabic is right to left, but charts keep a left-to-right time axis and maps are never mirrored.
+- **Both languages.** A string a page shows goes in `site/i18n/en.json`, and in `site/i18n/ar.json` under the same key if you can write it: a missing Arabic string falls back to English, and Arabic is published only once a fluent speaker has reviewed it. Arabic is right to left, but charts keep a left-to-right time axis and maps are never mirrored.
 - **Accessible and light.** Pages work with a keyboard, a screen reader and 200% zoom, and without JavaScript; motion respects reduced motion ([docs/accessibility.md](docs/accessibility.md)). Stay within the budgets in [docs/performance.md](docs/performance.md).
 - **The design system.** New pages and components follow the tokens and components in [docs/design/](docs/design/).
 - Never commit secrets, tokens, `.env` files or personal data, including personal deploy addresses.

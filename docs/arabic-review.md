@@ -1,8 +1,8 @@
 # Arabic review
 
-The Arabic text was drafted with AI and hasn't been checked by a fluent reader yet. A fluent reviewer checks all of it and signs it off (PRD D13, ticket [#33](https://github.com/djazairdev/djazair.dev/issues/33)). No unreviewed machine translation ships.
+The Arabic text was drafted with AI and hasn't been checked by a fluent reader yet. A fluent reviewer checks all of it and signs it off (ticket [#33](https://github.com/djazairdev/djazair.dev/issues/33)). No unreviewed machine translation ships.
 
-**Until then, Arabic isn't published** (D28): djazair.dev launches in English, and every `/ar/` address shows one page, in Arabic and English, that invites people to help translate ([#62](https://github.com/djazairdev/djazair.dev/issues/62)) and links to the same page in English. Its few strings (`invite.*` in `ar.json`) are the only Arabic on the site, with the header and footer. To see the Arabic pages, build them with `python3 site/build.py --all-languages`; they then say the text is a draft. Once every row below is signed, add `'ar'` to `PUBLISHED` in `site/djsite/config.py` in the same pull request, and the Arabic pages come back ([site/README.md](../site/README.md#routes-and-languages)).
+**Until then, Arabic isn't published**: djazair.dev is in English, and every `/ar/` address shows one page, in Arabic and English, that invites people to help translate ([#62](https://github.com/djazairdev/djazair.dev/issues/62)) and links to the same page in English. Its few strings (`invite.*` in `ar.json`) are the only Arabic on the site, with the header and footer. To see the Arabic pages, build them with `python3 site/build.py --all-languages`; they then say the text is a draft. Once every row below is signed, add `'ar'` to `PUBLISHED` in `site/djsite/config.py` in the same pull request, and the Arabic pages come back ([site/README.md](../site/README.md#routes-and-languages)).
 
 ## What to review
 

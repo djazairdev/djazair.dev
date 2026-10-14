@@ -1,6 +1,6 @@
 # Accessibility
 
-djazair.dev aims for [WCAG 2.1](https://www.w3.org/TR/WCAG21/) level AA on every page, in English and in Arabic (PRD §11, ticket [#29](https://github.com/djazairdev/djazair.dev/issues/29)). This page says what is tested automatically, what was checked by hand and when, and what still needs people.
+djazair.dev aims for [WCAG 2.1](https://www.w3.org/TR/WCAG21/) level AA on every page, in English and in Arabic (ticket [#29](https://github.com/djazairdev/djazair.dev/issues/29)). This page says what is tested automatically, what was checked by hand and when, and what still needs people.
 
 ## How the site is built for it
 

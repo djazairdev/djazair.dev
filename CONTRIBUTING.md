@@ -1,6 +1,6 @@
 # Contributing
 
-<!-- djazairdev-template: 1.5.2 -->
+<!-- djazairdev-template: 1.6.0 -->
 
 Thanks for helping. Newcomers are welcome: you don't need to be an expert, and no question is too small. You can help with the site's code and data, with Arabic, or by listing a project in the Hub.
 
@@ -12,14 +12,18 @@ Thanks for helping. Newcomers are welcome: you don't need to be an expert, and n
 
 ## Set up
 
-Everything is Python 3.12+ with the standard library only, so there's nothing to install.
+Everything is Python 3.12+ with the standard library only, so there's nothing to install. First [fork the repository](https://github.com/djazairdev/djazair.dev/fork) on GitHub, then clone your fork:
 
 ```sh
-git clone https://github.com/djazairdev/djazair.dev
+git clone https://github.com/<your-user>/djazair.dev.git
 cd djazair.dev
+git remote add upstream https://github.com/djazairdev/djazair.dev.git
+.github/scripts/hub-snapshot.sh                                      # the Hub's projects and issues
 python3 site/build.py                                                # build the site into site/dist
 python3 -m http.server 4322 --bind 127.0.0.1 --directory site/dist   # preview at http://localhost:4322/
 ```
+
+`hub-snapshot.sh` fetches the Hub's latest projects and issues from the `hub-data` branch, from this repository even in a fork, which doesn't copy that branch. Without it the site still builds, but the Hub and Home show no issues. It needs bash: on Windows, use Git Bash or WSL.
 
 ## Run the checks
 
@@ -43,16 +47,22 @@ python3 -m hub check-registry           # projects.yml, if you changed it
 
 ## Send a pull request
 
-1. Fork the repository and create a branch from `main`.
+1. Start a branch from the latest `main`:
+
+   ```sh
+   git fetch upstream
+   git switch -c fix/hub-empty-labels upstream/main
+   ```
+
 2. Make one change per pull request, with a test when you change behaviour.
 3. Run the checks above.
-4. Open the pull request, say what it changes and why, and link the issue (`Closes #12`).
+4. Push the branch to your fork with `git push -u origin fix/hub-empty-labels`, and open the pull request from the link git prints. Fill in the template: say what it changes and why, how you tested it, and link the issue (`Closes #12`).
 5. Give it a short title in the [Conventional Commits](https://www.conventionalcommits.org) form, such as `fix(hub): show issues with no labels` or `feat(site): add the Topics page`.
 
 ## Review
 
 - A maintainer reviews every pull request; we may ask for changes, which is normal.
-- **CI on a pull request from a fork waits until a maintainer approves the run.** That's a safety setting, not a judgement on your change.
+- **On your first pull request, CI waits until a maintainer approves the run.** That's a safety setting, not a judgement on your change. Once a pull request of yours has been merged, CI runs on your next ones straight away.
 - Answer review comments with new commits rather than a force-push, so the conversation stays readable. The squash merge tidies the history.
 - A maintainer merges once CI passes and every conversation is resolved.
 - Nothing is closed automatically. If a pull request goes quiet for a long time, we ask before we close it.
@@ -95,55 +105,11 @@ You can apply in two ways:
 
 Either way, a bot runs checks 1 to 6 on GitHub within a minute and comments with the result (`listing-check · 6 of 7 passed, 1 waits for a reviewer`): what it found, and how to fix anything that fails. After fixing something, edit the issue or the pull request description to run the checks again. A person checks 7 and reviews the request within 7 days. You can run the same checks yourself with `python3 -m hub check-project owner/name --pledge`.
 
-An entry looks like this:
-
-```yaml
-  - repository: owner/name       # the GitHub repository
-    category: library            # app, library, tool or dataset
-    tags: [arabic, payments]     # one to five tags from the table below
-    maintainer_pledge: true      # you reply to newcomer pull requests within 7 days
-    added: 2026-10-06            # today's date
-```
-
-Don't add the language, licence or activity: they're read from GitHub. CI checks the entry against [`hub/projects.schema.json`](hub/projects.schema.json) and names any field to fix; you can run the same check with `python3 -m hub check-registry`. Editors that read the `yaml-language-server` comment at the top of the file check it as you type.
-
-**Projects in the djazairdev organisation need no entry** (decision D29). A [djazairdev](https://github.com/djazairdev) repository joins the Hub at the next refresh once its topics, under *About → Topics*, give all three:
-
-- `djazairdev`;
-- its category: one of `app`, `library`, `tool` or `dataset`;
-- one to five tags from the table below, such as `arabic` or `open-data`.
-
-Forks and archived repositories are left out. An entry in `projects.yml` wins over the topics. If a repository carries `djazairdev` but its category or tags are missing, the [health report](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md) says what to add. djazairdev's repositories follow its [project template](https://github.com/djazairdev/project-template), whose CONTRIBUTING file makes the maintainer pledge, and only the organisation's maintainers can create them or set their topics.
-
-**Staying listed.** Every 6 hours the Hub refreshes each project's beginner issues and checks its health. A project with no commit in 90 days is flagged, and hidden after 14 days if nothing changes; it comes back as soon as it's fixed. A project with no open beginner issues stays listed, with nothing in the issue feed until it labels one. Removing the `djazairdev` topic takes a project off the Hub at the next refresh. The [health report](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md) lists every flagged project, why, and since when. To help newcomers, add a line such as `You'll need: Python, pytest` to an issue; the Hub shows it on the issue's card.
-
-**Categories:** `app` (something people use), `library` (code other programs use), `tool` (something developers use) or `dataset`.
-
-**Tags** say how the project relates to Algeria:
-
-| Tag | Use it when the project… |
-|---|---|
-| `algerian-maintainers` | is maintained by developers in or from Algeria |
-| `arabic` | supports Arabic: right-to-left interfaces, Arabic text or speech |
-| `darija` | works with Algerian Arabic (Darija) |
-| `tamazight` | works with Tamazight languages or the Tifinagh script |
-| `localisation` | translates or adapts software for people in Algeria |
-| `open-data` | publishes or uses open data about Algeria |
-| `public-services` | helps people use Algerian public services |
-| `payments` | works with Algerian payment systems, such as CIB and Edahabia cards |
-| `education` | serves Algerian schools, universities or learners |
-| `maps` | covers Algeria's geography: wilayas, communes, addresses |
-| `health` | serves health and healthcare in Algeria |
-| `transport` | serves transport and mobility in Algeria |
-| `agriculture` | serves farming and food in Algeria |
-| `accessibility` | makes software usable by people with disabilities |
-| `community` | supports Algeria's developer community: events, learning, this site |
-
-If no tag fits, propose a new one in your pull request (add it to the schema and to this table).
+[docs/hub-listing.md](docs/hub-listing.md) has the rest: the `projects.yml` entry and its fields, how djazairdev's own repositories join by their topics, how a project stays listed, and the categories and tags.
 
 ## Propose a project idea
 
-Have an idea for an open-source project that would help people in Algeria, but no repository yet? Propose it in the [Ideas board](https://github.com/djazairdev/djazair.dev/discussions/categories/ideas), with its short form: the problem, who benefits, a champion who will lead it, and the skills it needs. Anyone with a GitHub account can upvote an idea. Every quarter, djazair.dev adopts the idea with the most votes among those with a champion and at least 10 votes, and gives it a repository in the djazairdev organisation. [docs/hub-ideas.md](docs/hub-ideas.md) explains the vote.
+Have an idea for an open-source project that would help people in Algeria, but no repository yet? Propose it in the [Ideas board](https://github.com/orgs/djazairdev/discussions/categories/ideas) of djazairdev's discussions, with its short form: the problem, who benefits, a champion who will lead it, and the skills it needs. Anyone with a GitHub account can upvote an idea. Every quarter, djazair.dev adopts the idea with the most votes among those with a champion and at least 10 votes, and gives it a repository in the djazairdev organisation. [docs/hub-ideas.md](docs/hub-ideas.md) explains the vote.
 
 ## Add a translation team
 

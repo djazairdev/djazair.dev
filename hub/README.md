@@ -1,6 +1,6 @@
 # hub
 
-The Project Hub (PRD §8). Python 3.12+, standard library only.
+The Project Hub. Python 3.12+, standard library only.
 
 ```sh
 python3 -m hub check-registry                    # validate projects.yml against hub/projects.schema.json
@@ -16,9 +16,9 @@ Set `GITHUB_TOKEN` for the higher API rate limit; public data needs no token, ex
 
 ## Registry
 
-[`projects.yml`](../projects.yml) lists the projects, one entry each: `repository`, `category`, `tags`, `maintainer_pledge` and `added` (PRD HUB-01). Language, licence and activity are read from GitHub, so they aren't stored. [CONTRIBUTING.md](../CONTRIBUTING.md#list-a-project-in-the-hub) explains each field and lists the tags.
+[`projects.yml`](../projects.yml) lists the projects, one entry each: `repository`, `category`, `tags`, `maintainer_pledge` and `added`. Language, licence and activity are read from GitHub, so they aren't stored. [CONTRIBUTING.md](../CONTRIBUTING.md#list-a-project-in-the-hub) explains each field and lists the tags.
 
-The djazairdev organisation's own repositories need no entry (decision D29, `discover.py`). Every sync lists the organisation's public repositories. One that carries the `djazairdev` topic, and isn't a fork, archived or already in `projects.yml`, joins with the entry its topics give:
+The djazairdev organisation's own repositories need no entry (`discover.py`). Every sync lists the organisation's public repositories. One that carries the `djazairdev` topic, and isn't a fork, archived or already in `projects.yml`, joins with the entry its topics give:
 
 - the category: the one topic among `app`, `library`, `tool` and `dataset`;
 - the tags: the topics in the tag list, in the schema's order, one to five;
@@ -39,16 +39,16 @@ CI runs `python -m hub check-registry` on every pull request. In GitHub Actions 
 
 ## Submissions and inclusion checks
 
-A project applies with a pull request that adds its entry, or with the *List a project in the Hub* issue form (`.github/ISSUE_TEMPLATE/hub-listing.yml`), which applies the `hub listing` label (PRD HUB-02). Neither needs a djazair.dev account (AC-HUB-2).
+A project applies with a pull request that adds its entry, or with the *List a project in the Hub* issue form (`.github/ISSUE_TEMPLATE/hub-listing.yml`), which applies the `hub listing` label. Neither needs a djazair.dev account.
 
-The `Hub listing check` workflow (`.github/workflows/hub-listing.yml`) then runs the seven inclusion checks and comments with the result, and updates that comment each time it runs again (HUB-03):
+The `Hub listing check` workflow (`.github/workflows/hub-listing.yml`) then runs the seven inclusion checks and comments with the result, and updates that comment each time it runs again:
 
 | Check | How |
 |---|---|
 | `licence` | GitHub's licence detection: an OSI-approved SPDX licence (or an open data licence for a dataset) |
 | `activity` | The last commit on the default branch is at most 90 days old, and the repository isn't archived |
 | `docs` | GitHub's community profile finds a README and a CONTRIBUTING file (a code of conduct is noted, not required) |
-| `issues` | Issues are turned on, and the label `good first issue` or `help wanted` exists. How many open issues carry it is reported, not required (decision D27) |
+| `issues` | Issues are turned on, and the label `good first issue` or `help wanted` exists. How many open issues carry it is reported, not required |
 | `pledge` | `maintainer_pledge: true`, or the pledge ticked in the issue form |
 | `topic` | The repository carries the topic `djazairdev` |
 | `relevance` | A person checks this; a listed project counts as checked |
@@ -63,7 +63,7 @@ Pull requests are checked with `pull_request_target`, so the bot can comment on 
 
 ## Sync (issues feed)
 
-`python -m hub sync` builds the Hub's data (PRD HUB-04, HUB-05). For each project in `projects.yml`, and each djazairdev repository found by its topic, it asks GitHub for the repository (description, primary language, licence, topics, archived), its last commit on the default branch, and its open issues labelled `good first issue` or `help wanted`, pull requests left out. It writes a snapshot to `data/derived/hub/`:
+`python -m hub sync` builds the Hub's data. For each project in `projects.yml`, and each djazairdev repository found by its topic, it asks GitHub for the repository (description, primary language, licence, topics, archived), its last commit on the default branch, and its open issues labelled `good first issue` or `help wanted`, pull requests left out. It writes a snapshot to `data/derived/hub/`:
 
 | File | What it holds |
 |---|---|
@@ -74,9 +74,9 @@ Pull requests are checked with `pull_request_target`, so the bot can comment on 
 
 Which projects show is decided by the health checks below.
 
-**No personal data** (AC-HUB-5). Nothing about who opened, commented on or was assigned an issue is kept: no usernames, avatars or assignees, and no issue text but the title and its *You'll need* line (`needs`). That line is read from an issue that says, for example, `You'll need: Python, pytest`, or from an issue form field called *You'll need*; an aside that names someone is taken out, and a line that still names someone is left out. Commits give only their date.
+**No personal data.** Nothing about who opened, commented on or was assigned an issue is kept: no usernames, avatars or assignees, and no issue text but the title and its *You'll need* line (`needs`). That line is read from an issue that says, for example, `You'll need: Python, pytest`, or from an issue form field called *You'll need*; an aside that names someone is taken out, and a line that still names someone is left out. Commits give only their date.
 
-**Rate limits** (AC-HUB-4). A run makes about 4 requests per project (the repository, its last commit and one page of issues per label), so about 100 for 25 projects, far below the workflow token's hourly limit (GitHub reported 5,000 on the first run). Every request carries the ETag of the last answer; when nothing changed GitHub answers *304 Not Modified*, which doesn't count against the limit. Before it starts, the sync checks the quota left covers a whole run, and otherwise stops without writing anything. It logs the requests made, how many were unchanged, and the quota left:
+**Rate limits.** A run makes about 4 requests per project (the repository, its last commit and one page of issues per label), so about 100 for 25 projects, far below the workflow token's hourly limit (GitHub reported 5,000 on the first run). Every request carries the ETag of the last answer; when nothing changed GitHub answers *304 Not Modified*, which doesn't count against the limit. Before it starts, the sync checks the quota left covers a whole run, and otherwise stops without writing anything. It logs the requests made, how many were unchanged, and the quota left:
 
 ```
 Hub: 25 projects (23 healthy, 1 flagged, 1 hidden), 131 open issues. GitHub API: 102 requests, 87 unchanged (304, free); 4,912 of 5,000 left, resets at 13:04 UTC.
@@ -102,7 +102,7 @@ To see the Hub locally, get the snapshot (or run `python3 -m hub sync` with a to
 
 ## Contributor metrics
 
-`python -m hub metrics` counts, for the projects the Hub shows (PRD HUB-10, ticket #41), from their pull requests and issues on GitHub (`metrics.py`, GraphQL API):
+`python -m hub metrics` counts, for the projects the Hub shows (ticket #41), from their pull requests and issues on GitHub (`metrics.py`, GraphQL API):
 
 | Count, per quarter from 2026 Q1 | What it is |
 |---|---|
@@ -114,7 +114,7 @@ To see the Hub locally, get the snapshot (or run `python3 -m hub sync` with a to
 
 Maintainers are the people GitHub marks `OWNER`, `MEMBER` or `COLLABORATOR` on the repository; bots and deleted accounts don't count as anyone. It writes `metrics.json` next to the snapshot, and the Hub page shows it as a table, newest quarter first.
 
-**Counts only.** Usernames are read in memory, to tell people apart and to see who answered, and are never written, logged or published. A run starts from GitHub each time, so no list of people is kept between runs either. PRD §12 asks for a review with counsel before this runs on real data, so the Hub sync runs it only when the repository variable `HUB_METRICS` is `true`, at most once a day (`--daily`), and a failure there doesn't stop the sync ([docs/deploy.md](../docs/deploy.md#hub-sync)). The About page's privacy section mentions the counts once there are any.
+**Counts only.** Usernames are read in memory, to tell people apart and to see who answered, and are never written, logged or published. A run starts from GitHub each time, so no list of people is kept between runs either. It needs a review with counsel before it runs on real data, so the Hub sync runs it only when the repository variable `HUB_METRICS` is `true`, at most once a day (`--daily`), and a failure there doesn't stop the sync ([docs/deploy.md](../docs/deploy.md#hub-sync)). The About page's privacy section mentions the counts once there are any.
 
 **Cost.** GraphQL queries cost about one point per page of 50 to 100 items: a few points per project a day, against the workflow token's 1,000 points an hour. A run stops without writing anything if fewer than 100 points are left.
 
@@ -122,25 +122,25 @@ The counts follow the projects the Hub shows on the day: when a project joins or
 
 ## Ideas
 
-`python -m hub ideas` reads the project ideas in the *Ideas* category of GitHub Discussions, with their votes (PRD HUB-07, ticket #39; `ideas.py`, GraphQL API). A vote is the discussion's upvote, one per GitHub account. It writes `ideas.json` next to the snapshot: the open ideas by votes, then the adopted ones (the `adopted` label), each with its title, votes, comments, whether it has a champion, and the skills its form asks for. Closed ideas that weren't adopted are left out.
+`python -m hub ideas` reads the project ideas in the *Ideas* category of the djazairdev organisation's [GitHub Discussions](https://github.com/orgs/djazairdev/discussions/categories/ideas), with their votes (ticket #39; `ideas.py`, GraphQL API). GitHub keeps the organisation's Discussions in the `djazairdev/.github` repository, which `REPO` in `ideas.py` names; djazair.dev's own Discussions are off. A vote is the discussion's upvote, one per GitHub account. It writes `ideas.json` next to the snapshot: the open ideas by votes, then the adopted ones (the `adopted` label), each with its title, votes, comments, whether it has a champion, and the skills its form asks for. Closed ideas that weren't adopted are left out.
 
 Every quarter is a round. The first run after a round closes saves that round's count in `rounds`, once: the ten open ideas with the most votes. The maintainers adopt an idea from it; the rules are in [docs/hub-ideas.md](../docs/hub-ideas.md).
 
-**Titles and counts only.** Nothing says who proposed, voted or commented, and for the champion it keeps only whether there is one. The idea's text is read in memory, for the champion and the skills, and never written. While Discussions is off, or the repository has no *ideas* category, it writes an empty list.
+**Titles and counts only.** Nothing says who proposed, voted or commented, and for the champion it keeps only whether there is one. The idea's text is read in memory, for the champion and the skills, and never written. While `djazairdev/.github` has Discussions off or no *ideas* category, it writes an empty list.
 
 **Cost.** One query for the category, then one per 100 ideas: a few points against the workflow token's 1,000 points an hour. If GitHub fails or the quota runs low, it stops without writing anything.
 
 ## Health checks
 
-Every sync, so four times a day, checks each listed project with what it has just fetched, at no extra cost (`health.py`; PRD HUB-06):
+Every sync, so four times a day, checks each listed project with what it has just fetched, at no extra cost (`health.py`):
 
 | Flag | When | Hidden |
 |---|---|---|
 | `inactive` | No commit on the default branch in the last 90 days | After 14 days flagged |
-| `topic` | The repository no longer carries the `djazairdev` topic | At once (AC-HUB-3): only maintainers set topics, so removing it withdraws consent |
+| `topic` | The repository no longer carries the `djazairdev` topic | At once: only maintainers set topics, so removing it withdraws consent |
 | `archived` | The repository is archived | At once |
 | `missing` | The repository is gone or private | At once |
 
-A project with no open beginner issues is not flagged (decision D27): it stays listed, and `HEALTH.md` names it under *No open beginner issues*. A project shows again as soon as the problem is fixed. `projects.json` gives each project its `flags` (reason, the date it was first flagged, what was found), `status` (`healthy`, `flagged` or `hidden`), `hide_on` and `shown`; the next sync reads the dates from it, so a flag keeps its first date. The Hub only shows projects with `shown`, and the feed only their issues.
+A project with no open beginner issues is not flagged: it stays listed, and `HEALTH.md` names it under *No open beginner issues*. A project shows again as soon as the problem is fixed. `projects.json` gives each project its `flags` (reason, the date it was first flagged, what was found), `status` (`healthy`, `flagged` or `hidden`), `hide_on` and `shown`; the next sync reads the dates from it, so a flag keeps its first date. The Hub only shows projects with `shown`, and the feed only their issues.
 
 The health report, [`HEALTH.md` on the `hub-data` branch](https://github.com/djazairdev/djazair.dev/blob/hub-data/HEALTH.md), lists every flagged and hidden project with the reason, what was found, the date it was flagged and the date it is or was hidden. A project stays in `projects.yml` while it is hidden; remove its entry by pull request if it won't come back. A djazairdev repository found by its topic leaves the Hub at the next sync after the topic is removed or the repository is archived.

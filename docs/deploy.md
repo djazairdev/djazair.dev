@@ -11,17 +11,17 @@ Cloudflare serves the site’s pages as static files from `site/dist`. Only `/ap
 
 Until the settings below exist, the deploy step is skipped with a notice and everything else still runs.
 
-Before launch, the site has only its own address, `djazair-dev-site.<subdomain>.workers.dev`, where `<subdomain>` is the Cloudflare account's workers.dev subdomain. djazair.dev shows the holding page (`site/holding`), a second Worker described by [`wrangler.holding.jsonc`](../wrangler.holding.jsonc). At launch the domain moves to the site ([launch.md](launch.md)).
+The site is served at djazair.dev, the custom domain in [`wrangler.jsonc`](../wrangler.jsonc), and has no workers.dev address of its own; `<subdomain>` in the preview addresses is the Cloudflare account's workers.dev subdomain. Before the site went live, djazair.dev showed the holding page (`site/holding`), a second Worker described by [`wrangler.holding.jsonc`](../wrangler.holding.jsonc), and the domain then moved to the site ([launch.md](launch.md)).
 
 ## One-time setup (founder)
 
 These need account access, so they aren't automated. The two Workers need no setup: a deploy creates its Worker the first time. Both were first deployed by hand on 7 October 2026.
 
-1. **Create an API token.** In Cloudflare, *Manage Account → Account API Tokens → Create Token*, then under *Permission policies → Custom*, choose the **Edit Cloudflare Workers** template. Scope it to the djazair.dev account and, under zones, to `djazair.dev` only: deploys need the zone to attach the domain at launch. Give it an expiry date and note it in your password manager. An account token belongs to the account rather than to a person, so it keeps working when admins change.
+1. **Create an API token.** In Cloudflare, *Manage Account → Account API Tokens → Create Token*, then under *Permission policies → Custom*, choose the **Edit Cloudflare Workers** template. Scope it to the djazair.dev account and, under zones, to `djazair.dev` only: deploys need the zone, because the site's Worker carries the `djazair.dev` custom domain. Give it an expiry date and note it in your password manager. An account token belongs to the account rather than to a person, so it keeps working when admins change.
 2. **Add the secrets to GitHub.** In the repository, *Settings → Secrets and variables → Actions → New repository secret*:
    - `CLOUDFLARE_API_TOKEN`: the token;
    - `CLOUDFLARE_ACCOUNT_ID`: the account ID, the 32-character code in the dashboard's address (or run `npx wrangler whoami`).
-3. **Check the workers.dev subdomain.** Preview addresses and the site's pre-launch address include it, and they show on the repository's public *Deployments* page. If it names a person, change it to a neutral one in *Workers & Pages → Account details → Subdomain*.
+3. **Check the workers.dev subdomain.** Preview addresses include it, and they show on the repository's public *Deployments* page. If it names a person, change it to a neutral one in *Workers & Pages → Account details → Subdomain*.
 4. **Protect `main`.** *Settings → Rules → Rulesets → New branch ruleset* targeting `main`:
    - require a pull request before merging, with no required approvals. Untick *Require an additional approval for unattributed Copilot pull requests*: GitHub turns this preview setting on by default, and the data job's pull requests are opened by GitHub Actions, so it could hold them for an approval;
    - require the status checks `Test (Python 3.12)`, `Test (Python 3.13)` and `Build the site`, from GitHub Actions (add `Measure load times` once it has run reliably for a few weeks);
@@ -29,7 +29,7 @@ These need account access, so they aren't automated. The two Workers need no set
    - restrict deletions.
 
    The ruleset was set up this way on 7 October 2026.
-5. **Add the second admin** (PRD R2) to the GitHub organisation and the Cloudflare account, with two-factor authentication.
+5. **Add the second admin** to the GitHub organisation and the Cloudflare account, with two-factor authentication.
 
 Secrets are only read by the deploy step, are passed to Wrangler through its inputs and are never printed. The built site contains no secrets.
 
@@ -39,8 +39,9 @@ CI does this on every push to `main`. To do it yourself, from a computer logged 
 
 ```sh
 .github/scripts/hub-snapshot.sh && python3 site/build.py --actions && npx wrangler deploy   # the site, as CI builds it
-npx wrangler deploy --config wrangler.holding.jsonc                               # the holding page on djazair.dev
 ```
+
+Don't deploy the holding page (`npx wrangler deploy --config wrangler.holding.jsonc`) except to move djazair.dev back from the site: its config routes the domain to it ([launch.md](launch.md) explains how).
 
 The build writes `site/dist/.assetsignore`, which keeps its own marker file off the site.
 
@@ -52,7 +53,7 @@ Scheduled workflows (the Innovation Graph check, the Hub sync, the uptime check 
 
 The `Hub sync` workflow (`.github/workflows/hub.yml`) runs every 6 hours, at 00:41, 06:41, 12:41 and 18:41 UTC. It fetches the listed projects and their beginner issues with `python -m hub sync`, runs the health checks (a project without the `djazairdev` topic leaves the Hub at once; one flagged for 14 days is hidden), reads the project ideas and their votes with `python -m hub ideas` ([hub-ideas.md](hub-ideas.md)), checks the site builds with them, saves the snapshot on the `hub-data` branch, and runs CI on `main`, which deploys (details in [hub/README.md](../hub/README.md#sync-issues-feed)). `main` never changes, so it needs no pull request.
 
-**Contributor counts (PRD HUB-10):** the sync can also count new contributors and response times for the Hub page (`python -m hub metrics`, once a day; [hub/README.md](../hub/README.md#contributor-metrics)). It reads usernames in memory and keeps counts only, but PRD §12 asks for a review with counsel first, so it is off. Once counsel agrees, set the repository variable `HUB_METRICS` to `true`; delete the variable to stop it. The last counts stay on the `hub-data` branch until you delete `metrics.json` there.
+**Contributor counts:** the sync can also count new contributors and response times for the Hub page (`python -m hub metrics`, once a day; [hub/README.md](../hub/README.md#contributor-metrics)). It reads usernames in memory and keeps counts only, but it needs a review with counsel first, so it is off. Once counsel agrees, set the repository variable `HUB_METRICS` to `true`; delete the variable to stop it. The last counts stay on the `hub-data` branch until you delete `metrics.json` there.
 
 **Setup (founder):** nothing beyond `SCHEDULES_ENABLED`. Keep the `hub-data` branch out of the `main` ruleset: the workflow pushes to it. Don't delete it either: it holds the snapshot every build uses. If it is deleted, the next sync starts it again.
 
@@ -96,7 +97,7 @@ Each scheduled workflow opens a GitHub issue when it fails, or comments on the o
 
 **Testing an alert:** on the *Actions* tab, run the workflow by hand with **Fail on purpose** ticked. It stops at its first step and opens (or comments on) its issue. Running it again without the box closes the issue. For `Data`, only do that when no new Innovation Graph release is waiting, or the run publishes it.
 
-**Uptime addresses:** the variable `UPTIME_URLS` (space-separated) replaces the default `https://djazair.dev/`. At launch, add `https://djazair.dev/en/` and `https://djazair.dev/ar/`. Like the other schedules, uptime checks run only when `SCHEDULES_ENABLED` is `true`.
+**Uptime addresses:** the variable `UPTIME_URLS` (space-separated) replaces the default `https://djazair.dev/`. Set it to `https://djazair.dev/ https://djazair.dev/en/ https://djazair.dev/ar/` so the check covers `/en/` and `/ar/` too. Like the other schedules, uptime checks run only when `SCHEDULES_ENABLED` is `true`.
 
 ## Analytics
 
@@ -104,6 +105,6 @@ The site can count visits with [Cloudflare Web Analytics](https://www.cloudflare
 
 **Setup (founder):** in Cloudflare, *Analytics & Logs → Web Analytics → Add a site*, enter `djazair.dev` and copy the token from the snippet it shows (32 characters). Save it as the repository variable `CLOUDFLARE_WEB_ANALYTICS_TOKEN` (a variable, not a secret: it is public in every page). The next deploy adds the beacon to every page, and the Privacy section of the About page then says that visits are counted. Don't also turn on Web Analytics' automatic setup for djazair.dev, which adds the beacon at Cloudflare's edge, or visits count twice.
 
-## Launch
+## Checking the live site
 
-At launch, move the `djazair.dev` custom domain from the holding-page project to the site project (*Custom domains* tab). Before and after the move, `python3 site/tools/smoke.py <address>` checks the deployed site from the outside: every page in the sitemap, every link to the site, the downloads, the 404 page and the response headers. [launch.md](launch.md) has the full launch-day list.
+The `djazair.dev` custom domain moved from the holding page's Worker to the site's when the site went live ([launch.md](launch.md) lists the steps). `python3 site/tools/smoke.py` checks the deployed site from the outside, at https://djazair.dev unless you give it another address: every page in the sitemap, every link to the site, the downloads, the 404 page and the response headers.

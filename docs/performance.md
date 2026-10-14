@@ -1,6 +1,6 @@
 # Performance
 
-Many readers in Algeria are on phones and mobile data, so pages stay small and show fast on a slow connection (PRD §11, ticket [#30](https://github.com/djazairdev/djazair.dev/issues/30)).
+Many readers in Algeria are on phones and mobile data, so pages stay small and show fast on a slow connection (ticket [#30](https://github.com/djazairdev/djazair.dev/issues/30)).
 
 ## Budgets
 
@@ -19,7 +19,7 @@ python3 site/tools/perf.py
 
 `site/tools/perf.py` serves `site/dist` gzipped, as the live site is, and loads each page cold in Chrome the way Lighthouse's mobile preset does: a 412 px phone screen, a CPU four times slower and slow 4G (562 ms per request, 1.5 Mbit/s). It reports the median LCP and First Contentful Paint (FCP) of three loads, the bytes transferred and the element that was the LCP. It uses the installed Chrome and the Python standard library only; set `CHROME` to Chrome's path if it isn't found. `--cpu 8` simulates a slower phone.
 
-CI runs it on every pull request and push in the *Measure load times* job, and prints the table in the job summary. Lab numbers are an estimate: real phones and networks vary. Lighthouse itself isn't used because it needs Node, which the project doesn't (decision D21).
+CI runs it on every pull request and push in the *Measure load times* job, and prints the table in the job summary. Lab numbers are an estimate: real phones and networks vary. Lighthouse itself isn't used because it needs Node, which the project doesn't.
 
 ## Results
 

@@ -1,6 +1,6 @@
 # Quarterly reports
 
-After each Innovation Graph release, djazair.dev publishes a short report in Arabic and English (in English only until the Arabic site is reviewed, D28): what the new quarter says about Algeria's developer accounts, and what we did. This page explains how a report is written, checked and published (PRD §13, IDX-17, ticket [#34](https://github.com/djazairdev/djazair.dev/issues/34)).
+After each Innovation Graph release, djazair.dev publishes a short report in Arabic and English (in English only until the Arabic site is reviewed): what the new quarter says about Algeria's developer accounts, and what we did. This page explains how a report is written, checked and published (ticket [#34](https://github.com/djazairdev/djazair.dev/issues/34)).
 
 Reports are at `/en/reports/` and `/ar/reports/`. Home shows the latest one.
 
@@ -21,8 +21,6 @@ Every report has the same seven sections, in this order, in both languages:
 `tests/test_reports.py` fails if a language is missing a section, or if the two languages differ.
 
 ## The rules
-
-From PRD §13:
 
 - Headlines say **"developer accounts"**, not "developers".
 - Report bad news as clearly as good news.
@@ -168,7 +166,7 @@ Indicator checks take `indicator` and a span: `from` defaults to the first quart
 A report is published when all of these are done:
 
 - [ ] Someone other than the author has checked every number on the page against the published data in `data/derived/<folder>/` (the CSV files open in any spreadsheet).
-- [ ] A fluent reader has checked the Arabic, once the Arabic site is live (D28).
+- [ ] A fluent reader has checked the Arabic, once the Arabic site is live.
 - [ ] The Hub numbers in `report.json` are from the day of publication.
 - [ ] `status` is `published` and `published` is today's date.
 

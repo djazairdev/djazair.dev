@@ -77,7 +77,7 @@
       }
     },
     "tag": {
-      "description": "Pick tags from the list in CONTRIBUTING.md; if none fits, propose a new one in your pull request.",
+      "description": "Pick tags from the list in docs/hub-listing.md; if none fits, propose a new one in your pull request.",
       "type": "string",
       "enum": [
         "algerian-maintainers",
