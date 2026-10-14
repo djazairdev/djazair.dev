@@ -3,7 +3,7 @@
 `python3 site/build.py` generates these files from the public route catalogue and current release:
 
 - `sitemap.xml` and `sitemap.txt`: the same canonical, indexed English and Arabic pages. Embeds, removed routes and error pages are excluded.
-- `robots.txt`: allows crawling, refuses Awario's brand-monitoring crawlers, and points to the XML sitemap. Cloudflare preview URLs retain their `X-Robots-Tag: noindex`; launch checks must use the production custom domain.
+- `robots.txt`: allows crawling, refuses Awario's brand-monitoring crawlers, and points to the XML sitemap. Cloudflare preview URLs retain their `X-Robots-Tag: noindex`; checks of the live site must use the production custom domain.
 - `llms.txt`: project purpose, canonical links, source files, participation paths and data limitations. `/en/data/index.md` and `/ar/data/index.md` provide the existing definitions and download descriptions in native Markdown. This follows the [llms.txt proposal](https://llmstxt.org/); it does not guarantee AI indexing or ranking.
 - `/.well-known/security.txt`, with a root copy for older clients: the private disclosure channels already documented in `SECURITY.md`, following [RFC 9116](https://www.rfc-editor.org/rfc/rfc9116.html). **Verify the contacts and renew `SECURITY_EXPIRES` in `site/djsite/discovery.py` before 1 October 2027.** The regression test fails once it expires.
 

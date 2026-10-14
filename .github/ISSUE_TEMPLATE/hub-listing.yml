@@ -26,7 +26,7 @@ body:
     id: tags
     attributes:
       label: Tags
-      description: "How the project relates to Algeria: pick one to five. CONTRIBUTING.md explains each."
+      description: "How the project relates to Algeria: pick one to five. docs/hub-listing.md explains each."
       multiple: true
       options: [algerian-maintainers, arabic, darija, tamazight, localisation, open-data, public-services, payments, education, maps, health, transport, agriculture, accessibility, community]
     validations:

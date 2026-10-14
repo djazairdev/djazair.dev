@@ -37,7 +37,7 @@ def cmd_check_registry(args) -> int:
             message = str(p).replace('%', '%25').replace('\r', '%0D').replace('\n', '%0A')
             print(f'::error file={shown},line={p.line or 1},title=projects.yml::{message}')
     print(f'{len(result.problems)} problem{"s" if len(result.problems) != 1 else ""} in {shown}. '
-          'See CONTRIBUTING.md for the format.')
+          'See docs/hub-listing.md for the format.')
     return 1
 
 

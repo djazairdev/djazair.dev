@@ -1,6 +1,6 @@
 # Meetups
 
-The meetups section, [`/en/meetups/`](https://djazair.dev/en/meetups/) and [`/ar/meetups/`](https://djazair.dev/ar/meetups/) (ticket [#43](https://github.com/djazairdev/djazair.dev/issues/43), PRD D11).
+The meetups section, [`/en/meetups/`](https://djazair.dev/en/meetups/) and [`/ar/meetups/`](https://djazair.dev/ar/meetups/) (ticket [#43](https://github.com/djazairdev/djazair.dev/issues/43)).
 
 ## What the page does
 
@@ -17,7 +17,7 @@ Where it links lives in [`content/meetups/meetups.json`](../content/meetups/meet
 
 ## The move from founders.coffee: a decision for the founder
 
-The PRD (D11) plans that founders.coffee becomes this section and its domain redirects to `djazair.dev/{lang}/meetups`.
+The first plan was that founders.coffee would become this section and its domain would redirect to `djazair.dev/{lang}/meetups`.
 
 founders.coffee has since grown into an app of its own. As of October 2026 it has:
 
@@ -31,7 +31,7 @@ Redirecting the whole domain would switch all of that off, Egypt and Saudi Arabi
 So the redirect isn't set up, and #43 stays open until you choose:
 
 1. **Link, and keep both** (what is built). founders.coffee stays the meetups app, and djazair.dev has this page and links there. founders.coffee could link back to djazair.dev from its Algeria pages; that change belongs in its own repository.
-2. **The full move, as the PRD says.** First decide what happens to members' accounts and RSVPs and to the Egypt and Saudi Arabia markets. Then tell members, as founders.coffee's terms and privacy policy require. Only then add the redirect below.
+2. **The full move, as first planned.** First decide what happens to members' accounts and RSVPs and to the Egypt and Saudi Arabia markets. Then tell members, as founders.coffee's terms and privacy policy require. Only then add the redirect below.
 
 ### The redirect, for option 2
 
@@ -42,7 +42,7 @@ In Cloudflare, open the founders.coffee zone, then *Rules → Redirect Rules*. A
 | 1 | Hostname equals `founders.coffee` and URI Path starts with `/en` | `https://djazair.dev/en/meetups/` |
 | 2 | Hostname equals `founders.coffee` | `https://djazair.dev/ar/meetups/` |
 
-The second rule catches the rest: founders.coffee's default is Arabic. It also takes the French pages, since djazair.dev has no French (D20). Add the same rules for `www.founders.coffee` if that name is in use.
+The second rule catches the rest: founders.coffee's default is Arabic. It also takes the French pages, since djazair.dev has no French. Add the same rules for `www.founders.coffee` if that name is in use.
 
 After the change:
 

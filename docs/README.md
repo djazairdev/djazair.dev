@@ -25,7 +25,9 @@
 | [performance.md](performance.md) | The performance budgets |
 | [arabic-review.md](arabic-review.md) | How the Arabic text is reviewed |
 | [reports.md](reports.md) | How quarterly reports are written and checked |
+| [hub-listing.md](hub-listing.md) | Listing a project in the Hub: the entry, topics, categories and tags |
 | [hub-ideas.md](hub-ideas.md) | How project ideas are proposed and voted on |
 | [discovery.md](discovery.md) | Structured data, sitemaps and `llms.txt` |
 | [meetups.md](meetups.md) | The meetups section and founders.coffee |
-| [launch.md](launch.md) | The launch checklist |
+| [action-tracking.md](action-tracking.md) | Anonymous counts of the main actions on the site |
+| [launch.md](launch.md) | The checklist followed when the site went live, October 2026 |

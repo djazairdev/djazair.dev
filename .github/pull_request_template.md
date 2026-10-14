@@ -2,7 +2,27 @@
 
 ## What and why
 
+Closes #
 
+## How it was tested
+
+<!-- The commands you ran and what they showed: python3 -m unittest discover -s tests, python3 site/build.py. -->
+
+## Screens
+
+<!-- Before and after, at 360 px wide and on a desktop. Delete this section if nothing visible changed. -->
+
+## Checklist
+
+- [ ] The title is a Conventional Commit, such as `fix(hub): show issues with no labels`
+- [ ] It's one change, and new behaviour has a test
+- [ ] No new dependency: Python's standard library, and plain HTML, CSS and JavaScript
+- [ ] No secrets, tokens or personal data
+
+## AI assistance
+
+- [ ] I used no AI tools for this change.
+- [ ] I used AI tools (name them, and say what they did). I understand every line, and I ran the checks myself.
 
 ## Listing a project in the Hub?
 
