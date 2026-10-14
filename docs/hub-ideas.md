@@ -1,14 +1,14 @@
 # Hub ideas
 
-Anyone can propose an open-source project that would help people in Algeria, and anyone with a GitHub account can vote for it. Every quarter, djazair.dev adopts the idea with the most votes and builds it in the open, in the djazairdev organisation on GitHub (PRD HUB-07, ticket [#39](https://github.com/djazairdev/djazair.dev/issues/39)).
+Anyone can propose an open-source project that would help people in Algeria, and anyone with a GitHub account can vote for it. Every quarter, djazair.dev adopts the idea with the most votes and builds it in the open, in the djazairdev organisation on GitHub (ticket [#39](https://github.com/djazairdev/djazair.dev/issues/39)).
 
-Ideas and votes live in GitHub Discussions, in an **Ideas** category, so there is no database and no djazair.dev account. Every 6 hours the Hub sync reads the votes, and the Hub shows the round and the five ideas with the most votes.
+Ideas and votes live in the **Ideas** category of [djazairdev's GitHub Discussions](https://github.com/orgs/djazairdev/discussions/categories/ideas), so there is no database and no djazair.dev account. Every 6 hours the Hub sync reads the votes, and the Hub shows the round and the five ideas with the most votes.
 
-Discussions and its Ideas category are enabled. The Home participation cards link to the proposal form and the ideas sorted by votes; the Hub explains how proposals, voting and quarterly adoption work. Set `config.HUB_IDEAS` to `False` if Discussions is disabled later: Home shows the idea and voting paths as coming soon, and the Hub hides its Ideas section.
+The Home participation cards link to the proposal form and the ideas sorted by votes; the Hub explains how proposals, voting and quarterly adoption work. [Where it lives](#where-it-lives) says where the category, its form and its label are.
 
 ## How the vote works
 
-- **Proposing.** The [form](../.github/DISCUSSION_TEMPLATE/ideas.yml) asks for the problem, who benefits, a champion who will lead the project, and the skills it needs. Anyone with a GitHub account can post one.
+- **Proposing.** The [form](https://github.com/orgs/djazairdev/discussions/new?category=ideas) asks for the problem, who benefits, a champion who will lead the project, and the skills it needs. Anyone with a GitHub account can post one.
 - **Voting.** A vote is the discussion's upvote: one per GitHub account, and it can be taken back. GitHub does the counting, so nobody can vote twice.
 - **Rounds.** Each calendar quarter, in UTC, is a round. Votes carry over from one round to the next until an idea is adopted or closed.
 - **The count.** The first Hub sync after a round closes saves its count: the ten open ideas with the most votes, as GitHub counted them then. The sync runs every 6 hours, so votes cast in the first hours of the new quarter still count. The count is saved once and never changed, on the `hub-data` branch ([`ideas.json`](https://github.com/djazairdev/djazair.dev/blob/hub-data/ideas.json)), and the Hub links to it.
@@ -39,15 +39,15 @@ Then:
 {
  "about": "Project ideas from the Ideas category of GitHub Discussions, ranked by votes (…)",
  "generated_at": "2027-01-01T00:41:00Z",
- "category": "https://github.com/djazairdev/djazair.dev/discussions/categories/ideas",
+ "category": "https://github.com/orgs/djazairdev/discussions/categories/ideas",
  "ideas": [
-  {"number": 12, "url": "https://github.com/djazairdev/djazair.dev/discussions/12",
+  {"number": 12, "url": "https://github.com/orgs/djazairdev/discussions/12",
    "title": "Open bus timetables for Algiers", "created_at": "2026-10-20T09:14:00Z",
    "votes": 34, "comments": 6, "champion": true, "skills": ["data", "web"], "status": "open"}
  ],
  "rounds": [
   {"quarter": "2026-Q4", "counted_at": "2027-01-01T00:41:00Z",
-   "ranking": [{"number": 12, "url": "https://github.com/djazairdev/djazair.dev/discussions/12",
+   "ranking": [{"number": 12, "url": "https://github.com/orgs/djazairdev/discussions/12",
                 "title": "Open bus timetables for Algiers", "votes": 34, "champion": true}]}
  ]
 }
@@ -56,25 +56,23 @@ Then:
 - `ideas` lists the open ideas by votes, then the adopted ones. A closed idea that wasn't adopted is left out.
 - `rounds` holds each round's count, the ten open ideas with the most votes.
 - **No personal data.** Nothing says who proposed, voted or commented. For the champion it keeps only whether there is one, and the only text kept is the title, with "Idea:" and @mentions taken out. The idea's text is read in memory, for the champion and the skills, and never written.
-- While Discussions is off, `category` is `null` and both lists are empty.
+- If the category can't be found, `category` is `null` and both lists are empty.
 
-GitHub's GraphQL API needs a token, so run it locally with one. `--repo owner/name` reads another repository's *ideas* category instead, to try it before Discussions is on here:
+GitHub's GraphQL API needs a token, so run it locally with one. It reads `djazairdev/.github`; `--repo owner/name` reads another repository's *ideas* category instead:
 
 ```sh
 GITHUB_TOKEN=… python3 -m hub ideas    # writes data/derived/hub/ideas.json
 ```
 
-## Turn it on
+## Where it lives
 
-Repository settings need an admin; each step takes a minute.
+djazairdev's Discussions are shared by all its repositories, and GitHub keeps them in the [`djazairdev/.github`](https://github.com/djazairdev/.github) repository. So that repository holds what the vote needs:
 
-1. **Turn on Discussions:** Settings → General → Features → Discussions.
-2. **Check the category:** GitHub usually creates an *Ideas* category with Discussions. Open it and check that its address ends in `/discussions/categories/ideas`: the slug must be `ideas`, because GitHub picks the form by file name ([`.github/DISCUSSION_TEMPLATE/ideas.yml`](../.github/DISCUSSION_TEMPLATE/ideas.yml)) and the Hub sync reads that category. If there is no such category, create it (Discussions → Categories → New category, name `Ideas`, format *Open-ended discussion*). Set its description to *Ideas for open-source projects that would help people in Algeria. Upvote the ones you want built.*
-3. **Create the label:** Issues → Labels → New label: `adopted`, with the description *Adopted by the djazairdev organisation.* Discussions use the repository's labels.
-4. **Optional:** remove the other default categories you don't want (General, Q&A, Show and tell, Polls). Keep *Announcements* if you plan to post release notes there.
-5. **Show it on the Hub:** in [`site/djsite/config.py`](../site/djsite/config.py), set `HUB_IDEAS = True`, run the tests and open a pull request. After the deploy, the Hub shows the vote between the projects and "Get listed": the round, the five ideas with the most votes, the rules, *Propose an idea* and *See all ideas*. The About page's privacy section then says the Hub shows ideas and their votes, never who proposed or voted for them.
-6. **Fill the list:** run the Hub sync by hand (Actions → *Hub sync* → *Run workflow*). It needs nothing more: the workflow already has `discussions: read`.
-7. Open a new idea to check the form, then delete it.
+- **The category:** *Ideas*, with the slug `ideas` (its address ends in `/discussions/categories/ideas`). GitHub picks the form by that slug, and the Hub sync reads that category.
+- **The form:** `.github/DISCUSSION_TEMPLATE/ideas.yml` in `djazairdev/.github`. This repository keeps a [copy](../.github/DISCUSSION_TEMPLATE/ideas.yml) that the tests check against the Hub (the fields, the skills and the vote threshold), so a change to the form is made in both.
+- **The label:** `adopted`, *Adopted by the djazairdev organisation.* Discussions use the labels of the repository that holds them.
+
+`config.HUB_IDEAS` in [`site/djsite/config.py`](../site/djsite/config.py) turns the Hub's Ideas section and Home's propose and vote links on or off. The Hub sync reads the board with the workflow's token, and its run summary says how many ideas it read, or that it found no category. To refresh the list by hand, run the Hub sync (Actions → *Hub sync* → *Run workflow*).
 
 The first round is what is left of that quarter. If little is left, the maintainers can skip adopting from its count: the votes carry over.
 

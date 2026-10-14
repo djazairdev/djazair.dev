@@ -17,16 +17,19 @@ REPO_URL = f'https://github.com/{REPO}'
 ORG_URL = f'https://github.com/{REPO.split("/")[0]}'
 PROFILES = (ORG_URL, 'https://x.com/djazairdev', 'https://www.facebook.com/djazairdev')   # the organisation's sameAs
 ISSUES_URL = f'{REPO_URL}/issues'
-DISCUSSIONS_URL = f'{REPO_URL}/discussions'
+# Discussions are the organisation's, shared by every djazairdev repository. GitHub keeps them in
+# the djazairdev/.github repository, which is where the Hub sync reads the ideas (hub/ideas.py).
+DISCUSSIONS_REPO = f'{REPO.split("/")[0]}/.github'
+DISCUSSIONS_URL = f'https://github.com/orgs/{REPO.split("/")[0]}/discussions'
 
-# Hub ideas (ticket #39, PRD HUB-07) live in the "Ideas" category of GitHub Discussions, with the
-# form in .github/DISCUSSION_TEMPLATE/ideas.yml. Anyone with a GitHub account votes by upvoting,
-# and every quarter the organisation adopts the idea with the most votes (docs/hub-ideas.md).
-# Discussions and the Ideas category are enabled; the Hub shows its Ideas section,
-# with the round's top ideas from the Hub sync (hub/ideas.py).
+# Hub ideas (ticket #39) live in the "Ideas" category of the organisation's Discussions, with the
+# form in .github/DISCUSSION_TEMPLATE/ideas.yml (tested here; GitHub uses its copy in
+# djazairdev/.github). Anyone with a GitHub account votes by upvoting, and every quarter the
+# organisation adopts the idea with the most votes (docs/hub-ideas.md). The Hub shows its Ideas
+# section, with the round's top ideas from the Hub sync (hub/ideas.py).
 HUB_IDEAS = True
-IDEAS_URL = f'{REPO_URL}/discussions/categories/ideas'
-NEW_IDEA_URL = f'{REPO_URL}/discussions/new?category=ideas'
+IDEAS_URL = f'{DISCUSSIONS_URL}/categories/ideas'
+NEW_IDEA_URL = f'{DISCUSSIONS_URL}/new?category=ideas'
 IDEAS_BY_VOTES_URL = f'{IDEAS_URL}?discussions_q=is%3Aopen+category%3AIdeas+sort%3Atop'
 IDEAS_RESULTS_URL = f'{REPO_URL}/blob/hub-data/ideas.json'      # each round's count, saved by the Hub sync
 IDEAS_MIN_VOTES = 10                # the votes an idea needs before it can be adopted

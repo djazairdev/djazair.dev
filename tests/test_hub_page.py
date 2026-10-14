@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / 'site'))
 
 from djsite.build import build  # noqa: E402
+from djsite import config  # noqa: E402
 from djsite.config import LANGS  # noqa: E402
 from djsite.fmt import plural  # noqa: E402
 
@@ -173,7 +174,7 @@ class HubPage(unittest.TestCase):
             teaser = re.search(r'id="hub-teaser".*?</section>', page, re.S).group(0)
             actions = re.search(r'<div class="hub-listing-actions">.*?</div>', teaser, re.S).group(0)
             with self.subTest(lang=lang):
-                self.assertEqual(page.count(f'href="https://github.com/{DZ}/discussions"'), 1)
+                self.assertEqual(page.count(f'href="{config.DISCUSSIONS_URL}"'), 1)
                 self.assertIn(label, actions)
                 self.assertIn('class="btn btn-secondary btn-out"', actions)
                 self.assertIn(f'href="/{lang}/hub/#list"', actions)
@@ -239,7 +240,7 @@ class Numbers(unittest.TestCase):
         self.assertNotIn('during the count', about)
 
 
-DISCUSSIONS = 'https://github.com/djazairdev/djazair.dev/discussions/'
+DISCUSSIONS = 'https://github.com/orgs/djazairdev/discussions/'
 
 
 def idea(n, title, votes, created, champion=True, skills=('data',), status='open', comments=3):
