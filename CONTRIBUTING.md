@@ -7,7 +7,8 @@ Thanks for helping. Newcomers are welcome: you don't need to be an expert, and n
 ## Find something to work on
 
 - Issues labelled [good first issue](https://github.com/djazairdev/djazair.dev/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) are small and well described. [help wanted](https://github.com/djazairdev/djazair.dev/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22) issues need more context but are ready for anyone.
-- Comment on the issue to say you're working on it, so no one else starts the same thing. If you stop, say so.
+- **Comment `/take` on the issue** to have it assigned to you, and start straight away: you don't need to wait for a maintainer. If someone already has it, the bot says who, so pick another one. The first `/take` wins.
+- If you stop, comment `/drop` so someone else can take it. A maintainer may free an issue that has had no pull request or update for 7 days.
 - For anything bigger than a small fix, open an issue first and agree on the approach.
 
 ## Set up
