@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"6ac463b42cbdf431ea1ac9b9b4dd36c3233cfcee13ab6ff7d7875515ab4742b8\"",
+   "etag": "\"803836c400959c3512087bfc5ada8665561fef840c8ddd4e482053900cd9bb38\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"949052291ef6b863639b5e44c5e35bb08a4b9f95a5c164df2c3a32b18afdd613\"",
+   "etag": "\"1d82aaa80ad0879ded220d9c349f7641c6c9291b05e3f52666af6ab3ca86f38c\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"ded46d64a2c524f2fc19d31820cce4b573a4efdcad758615abddcd84538da62e\"",
+   "etag": "\"20676f16e3f1faee7780302188c634a03394ca3af0e2bccfe3a955f560b4477d\"",
    "data": "2026-10-15T10:20:26Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"c26fbabb25044327c4b02af94bdc0bc76942f08329f866be8973b9814eaadebc\"",
+   "etag": "\"577a12f44281ef8bda78755b545ccd3d30cefee69b3a237c776d232907ab4c0c\"",
    "data": {
     "n": 5,
     "issues": [
@@ -184,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"f31f39de29e3ab649d7e2fa86225e46a8f5ab3b8b83dc7389598790fa8d2f189\"",
+   "etag": "\"52aa44e6a551b6f26c92ca2a3cc89f5f77e29e0a927191cfa478bb5cf679fec6\"",
    "data": {
     "n": 7,
     "issues": [
@@ -278,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"a4c9297b803838167c630c67b275d0c335a460a5a504a1da13cda398010e3a3a\"",
+   "etag": "\"4cd2aea88df7ee838d4dc4ca7756b44d7b322314dae4610649fe96e6d78090c5\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -293,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"b350c06073bcd4f5c9b0f28ab1a3799d27569c3f33db30d284b4fe1ef81f0294\"",
+   "etag": "\"208ae61b7ffe162e9c02ec36df13a963564d2b92b3a14ee1671be34e6c3c071f\"",
    "data": "2026-10-15T10:20:34Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"824ed4e8866265cdf0c20c712af842434033309db87702904b88ab027eec6577\"",
+   "etag": "\"fdcf3057bfd03400505d77d7e332146e243fed78f6a89c1ea7703f054abcace8\"",
    "data": {
     "n": 6,
     "issues": [
@@ -369,7 +369,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"99d5a96ad883861a49b2668607618e81cac6cb132112616e982b45375a27b07d\"",
+   "etag": "\"f85570217ad3e286b912d933b4230c5b726a50d069094ff0912131537f1e0fc6\"",
    "data": {
     "n": 2,
     "issues": [
@@ -399,7 +399,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"a7f92b8ae8dfbbd0e98bf6b5e29c9796e9f3591ec8084ca3effec7d289a76ac0\"",
+   "etag": "\"9dc2fbe744fe3e9d1dcccaeab8126c155745d864624dca53df3b90008657c905\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -414,11 +414,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"297e986533b4e0f96b305d00c9e1dc6df00510f6fc45447a821a308a51d6cac9\"",
+   "etag": "\"98e554f1caddbb509703ea374075ed503f92b92c7f5fd225b1d55e59bbe474c2\"",
    "data": "2026-10-15T10:20:41Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"507ec7ddbf1a62fdfa0fe1733fd2d72e8152bde13914d304d66234b90d06c1e7\"",
+   "etag": "\"f8d0806ac2e0f5b045c6823421511ce573271d42221161135fe10566e05ea04c\"",
    "data": {
     "n": 6,
     "issues": [
@@ -493,7 +493,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"c026c37c544624f09d8ef6f24b1be2bdd766e8b0d2438f011f72711fbf89ca18\"",
+   "etag": "\"f78772c0512c6b7ac34a4a5d50da9a9116b5e578bd2f69eef7c69aadbeafd5fe\"",
    "data": {
     "n": 8,
     "issues": [
@@ -589,7 +589,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"5ae45075db15989690caf7f306848a9b7b70d040c41b48239f8823f56aa5b9b5\"",
+   "etag": "\"8cc588d561fbd3531c8d73c0611e7556e64d811f3ba4f56443db293070ae128b\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -604,11 +604,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"bda2700d89de52e416b0255435feda58f2c79d77a1be8f0cc5b71a853bff251a\"",
+   "etag": "\"f1b3a9ac2aab1b31a98ecf493e4d280f75212ea9c40160f27555674173d7ff49\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"114b5d4b10ff26996df46471357e337acb5d41ec73c48ce23fd1dac92a735c2c\"",
+   "etag": "\"49522f934cb19ed0bfd48fd1186797cb30befae2e388e2b140bc7b0440456be2\"",
    "data": {
     "n": 37,
     "issues": [
@@ -1181,7 +1181,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"3125e3b67dfbeea7272343c42088d26db914f77b9f986b8de0b6c4a1a90c92c3\"",
+   "etag": "\"1ff6371c0b602631aa69943e873bdf71ca18f932207a41caa8ea295e786a164d\"",
    "data": {
     "n": 84,
     "issues": [
@@ -2550,7 +2550,7 @@
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"fd9cae211326327c8799ad58ab7ca7050c4de035edda616887caec92f4399b2b\"",
+   "etag": "\"dca6973363f13a9a88181f7ef3fec0302312361455055afb63910322b87d03cd\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -2565,14 +2565,36 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"d00c759440f5a2b9316c0e51bf98ec91c33cb01ebb016fe36ead3c5df02d7942\"",
-   "data": "2026-10-16T08:52:53Z"
+   "etag": "\"6b185bc573eb33cc18879b8f44160c3c775a787e2defbefbf8c1dfbdd56e9be6\"",
+   "data": "2026-10-16T14:48:55Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"e8b68e375b1344cda4adba4e9602dca4cbedd91954492d4ff686abb229311e19\"",
+   "etag": "\"d2856d5a0d13f519ae234ec1a270a07d98a1a3f7a550aee01e71b2ff58f60d48\"",
    "data": {
-    "n": 4,
+    "n": 6,
     "issues": [
+     {
+      "number": 115,
+      "url": "https://github.com/djazairdev/minhajna/issues/115",
+      "title": "Build PageHeading and SectionHeader",
+      "labels": [
+       "good first issue",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-16T14:37:41Z",
+      "needs": "React Native and TypeScript. A good first issue: no state, just layout and type"
+     },
+     {
+      "number": 112,
+      "url": "https://github.com/djazairdev/minhajna/issues/112",
+      "title": "Build Button and IconButton",
+      "labels": [
+       "good first issue",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-16T14:37:26Z",
+      "needs": "React Native and TypeScript. An Android emulator helps to see the gallery (developer menu → Component gallery)"
+     },
      {
       "number": 69,
       "url": "https://github.com/djazairdev/minhajna/issues/69",
@@ -2622,10 +2644,43 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"a7b026dd3f7c14238e70a3243f2661c32ba0a3536fa8724e14db80f173c2e93c\"",
+   "etag": "\"d841ba4bf2fb3eddc90df9b4d4037cb72b662b1f14373b9937d843f55f82dc6d\"",
    "data": {
-    "n": 7,
+    "n": 8,
     "issues": [
+     {
+      "number": 116,
+      "url": "https://github.com/djazairdev/minhajna/issues/116",
+      "title": "Build CheckRow and OptionRow",
+      "labels": [
+       "help wanted",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-16T14:37:46Z",
+      "needs": "React Native and TypeScript"
+     },
+     {
+      "number": 114,
+      "url": "https://github.com/djazairdev/minhajna/issues/114",
+      "title": "Build Notice and Snackbar",
+      "labels": [
+       "help wanted",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-16T14:37:36Z",
+      "needs": "React Native and TypeScript. Experience with TalkBack helps"
+     },
+     {
+      "number": 113,
+      "url": "https://github.com/djazairdev/minhajna/issues/113",
+      "title": "Build TextField",
+      "labels": [
+       "help wanted",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-16T14:37:31Z",
+      "needs": "React Native and TypeScript, and some experience with right-to-left text input"
+     },
      {
       "number": 96,
       "url": "https://github.com/djazairdev/minhajna/issues/96",
@@ -2682,28 +2737,6 @@
       ],
       "created_at": "2026-10-13T16:46:27Z",
       "needs": "TypeScript"
-     },
-     {
-      "number": 76,
-      "url": "https://github.com/djazairdev/minhajna/issues/76",
-      "title": "Turn the history tests into a suite that any store must pass",
-      "labels": [
-       "help wanted",
-       "area: core"
-      ],
-      "created_at": "2026-10-13T16:46:26Z",
-      "needs": "TypeScript and node:test"
-     },
-     {
-      "number": 72,
-      "url": "https://github.com/djazairdev/minhajna/issues/72",
-      "title": "Propose the navigation library: bottom tabs and stacked screens",
-      "labels": [
-       "help wanted",
-       "area: a11y"
-      ],
-      "created_at": "2026-10-13T16:46:22Z",
-      "needs": "React Native experience. No code to start"
      }
     ]
    }

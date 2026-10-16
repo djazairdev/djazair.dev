@@ -1,6 +1,71 @@
 {
- "generated_at": "2026-10-16T11:52:42Z",
+ "generated_at": "2026-10-16T16:55:51Z",
  "issues": [
+  {
+   "number": 116,
+   "url": "https://github.com/djazairdev/minhajna/issues/116",
+   "title": "Build CheckRow and OptionRow",
+   "labels": [
+    "help wanted",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-16T14:37:46Z",
+   "needs": "React Native and TypeScript",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 115,
+   "url": "https://github.com/djazairdev/minhajna/issues/115",
+   "title": "Build PageHeading and SectionHeader",
+   "labels": [
+    "good first issue",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-16T14:37:41Z",
+   "needs": "React Native and TypeScript. A good first issue: no state, just layout and type",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 114,
+   "url": "https://github.com/djazairdev/minhajna/issues/114",
+   "title": "Build Notice and Snackbar",
+   "labels": [
+    "help wanted",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-16T14:37:36Z",
+   "needs": "React Native and TypeScript. Experience with TalkBack helps",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 113,
+   "url": "https://github.com/djazairdev/minhajna/issues/113",
+   "title": "Build TextField",
+   "labels": [
+    "help wanted",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-16T14:37:31Z",
+   "needs": "React Native and TypeScript, and some experience with right-to-left text input",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 112,
+   "url": "https://github.com/djazairdev/minhajna/issues/112",
+   "title": "Build Button and IconButton",
+   "labels": [
+    "good first issue",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-16T14:37:26Z",
+   "needs": "React Native and TypeScript. An Android emulator helps to see the gallery (developer menu → Component gallery)",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
   {
    "number": 289,
    "url": "https://github.com/djazairdev/founders.coffee/issues/289",
@@ -2219,32 +2284,6 @@
    ],
    "created_at": "2026-10-13T16:46:27Z",
    "needs": "TypeScript",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 76,
-   "url": "https://github.com/djazairdev/minhajna/issues/76",
-   "title": "Turn the history tests into a suite that any store must pass",
-   "labels": [
-    "help wanted",
-    "area: core"
-   ],
-   "created_at": "2026-10-13T16:46:26Z",
-   "needs": "TypeScript and node:test",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 72,
-   "url": "https://github.com/djazairdev/minhajna/issues/72",
-   "title": "Propose the navigation library: bottom tabs and stacked screens",
-   "labels": [
-    "help wanted",
-    "area: a11y"
-   ],
-   "created_at": "2026-10-13T16:46:22Z",
-   "needs": "React Native experience. No code to start",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
   },
