@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"0958d2099c761ed2d60eee63c05b1108f9d2c55245b48921212e592f97792ca2\"",
+   "etag": "\"6ac463b42cbdf431ea1ac9b9b4dd36c3233cfcee13ab6ff7d7875515ab4742b8\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"b31faed9518982628362816ed5a0c04c35450f37cc114a2be3825d77fc8637ab\"",
+   "etag": "\"949052291ef6b863639b5e44c5e35bb08a4b9f95a5c164df2c3a32b18afdd613\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"4bfa8585d4968134e18847eda67d32e1ab1817141644c8242cbfe79e7ddfaa13\"",
+   "etag": "\"ded46d64a2c524f2fc19d31820cce4b573a4efdcad758615abddcd84538da62e\"",
    "data": "2026-10-15T10:20:26Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"e80d813959a7cc3c1fd8616f9f0e6449e50d1778249d285377ba1817c6ec6acc\"",
+   "etag": "\"c26fbabb25044327c4b02af94bdc0bc76942f08329f866be8973b9814eaadebc\"",
    "data": {
     "n": 5,
     "issues": [
@@ -184,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"cdc9f406ba0fc10ee919c0f0c2401b70cdeec5b34a8e6cf4837d050b7951cb41\"",
+   "etag": "\"f31f39de29e3ab649d7e2fa86225e46a8f5ab3b8b83dc7389598790fa8d2f189\"",
    "data": {
     "n": 7,
     "issues": [
@@ -278,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"3cecc65bd4827091c29b3f6ea3e3828a68931884a50afe8c7dae54a1e8bafdaf\"",
+   "etag": "\"a4c9297b803838167c630c67b275d0c335a460a5a504a1da13cda398010e3a3a\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -293,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"28bcfca0876075f6bb44caf357f6a630f98de3bc60f9a695ba21917185eebd60\"",
+   "etag": "\"b350c06073bcd4f5c9b0f28ab1a3799d27569c3f33db30d284b4fe1ef81f0294\"",
    "data": "2026-10-15T10:20:34Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"e703845e24f41aefd7bc2cc314a6ac743025e3e9c1784953ffc2c5a170a44768\"",
+   "etag": "\"824ed4e8866265cdf0c20c712af842434033309db87702904b88ab027eec6577\"",
    "data": {
     "n": 6,
     "issues": [
@@ -369,7 +369,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"59779f7bd7f608facf5b05ac00e24d93c2987cae608ad4c7afee3606e2b0daf4\"",
+   "etag": "\"99d5a96ad883861a49b2668607618e81cac6cb132112616e982b45375a27b07d\"",
    "data": {
     "n": 2,
     "issues": [
@@ -399,7 +399,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"19398a005e04dbf0485ec725c88de395a45c6d4947be172648302d55d3f7aa4a\"",
+   "etag": "\"a7f92b8ae8dfbbd0e98bf6b5e29c9796e9f3591ec8084ca3effec7d289a76ac0\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -414,11 +414,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"830ec87dea8749f13fc1f5544b6f362578f28b414f84af41488884c0c6dab26a\"",
+   "etag": "\"297e986533b4e0f96b305d00c9e1dc6df00510f6fc45447a821a308a51d6cac9\"",
    "data": "2026-10-15T10:20:41Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"08f6d8f6c901acc6170538b24d8f9fd67f0c824fd2874888b1782c3415f3b338\"",
+   "etag": "\"507ec7ddbf1a62fdfa0fe1733fd2d72e8152bde13914d304d66234b90d06c1e7\"",
    "data": {
     "n": 6,
     "issues": [
@@ -493,7 +493,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"d156d9f75548b635b355302e17235368c9450080962cd27715322795bd7257f6\"",
+   "etag": "\"c026c37c544624f09d8ef6f24b1be2bdd766e8b0d2438f011f72711fbf89ca18\"",
    "data": {
     "n": 8,
     "issues": [
@@ -589,7 +589,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"75122a6ed030cc5ffe79f29548c8666afeaa232a3ae69b93e7408ea6f61fc320\"",
+   "etag": "\"5ae45075db15989690caf7f306848a9b7b70d040c41b48239f8823f56aa5b9b5\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -604,14 +604,497 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"b6bfc55b3cfa64711df486607d43ad1f3cfaa4bcc466ba8385da4a9fc1a23c81\"",
+   "etag": "\"bda2700d89de52e416b0255435feda58f2c79d77a1be8f0cc5b71a853bff251a\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"fcfb1897903b49001138a6b450799aa6c6af6c3f84fc1ee8acdfe879909fe1ff\"",
+   "etag": "\"114b5d4b10ff26996df46471357e337acb5d41ec73c48ce23fd1dac92a735c2c\"",
    "data": {
-    "n": 7,
+    "n": 37,
     "issues": [
+     {
+      "number": 289,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/289",
+      "title": "B-LCH-05: Accessibility check of the hackathon pages in Arabic",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "a11y",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:16:46Z",
+      "needs": "A screen reader, Arabic"
+     },
+     {
+      "number": 285,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/285",
+      "title": "B-LCH-01: Dev seed: an organisation and a hackathon in every phase",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: infra",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:16:16Z",
+      "needs": "Node, SQL"
+     },
+     {
+      "number": 284,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/284",
+      "title": "B-I18N-01: Glossary for hackathon words in Arabic and French",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: i18n",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:16:08Z",
+      "needs": "Arabic or French, JSON"
+     },
+     {
+      "number": 273,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/273",
+      "title": "B-JDG-11: Judging and results notifications",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: notifications",
+       "area: i18n",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:14:31Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 265,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/265",
+      "title": "B-JDG-02: Score aggregation, ranking and tie-breaks",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:13:49Z",
+      "needs": "TypeScript, Vitest"
+     },
+     {
+      "number": 257,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/257",
+      "title": "B-SUB-02: Submission rules",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:13:04Z",
+      "needs": "TypeScript, Zod"
+     },
+     {
+      "number": 256,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/256",
+      "title": "B-TEAM-09: Team notifications",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: notifications",
+       "area: i18n",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:12:58Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 249,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/249",
+      "title": "B-TEAM-02: Team rules",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:12:21Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 246,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/246",
+      "title": "B-REG-07: Registration notifications",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: notifications",
+       "area: i18n",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:12:05Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 244,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/244",
+      "title": "B-REG-05: Hackathon events use registration, not RSVP",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:11:54Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 241,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/241",
+      "title": "B-HKN-23: Register the private hackathon routes",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "area: seo",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:11:37Z",
+      "needs": "TanStack Router"
+     },
+     {
+      "number": 238,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/238",
+      "title": "B-REG-02: Registration rules",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:11:21Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 229,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/229",
+      "title": "B-HKN-18: Hackathon page: tracks and confirmed prizes",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:29Z",
+      "needs": "React"
+     },
+     {
+      "number": 228,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/228",
+      "title": "B-HKN-17: Hackathon page: schedule and current phase",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:23Z",
+      "needs": "React, date formatting"
+     },
+     {
+      "number": 226,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/226",
+      "title": "B-HKN-15: Organiser flow, step 5: the judging rubric",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:11Z",
+      "needs": "React"
+     },
+     {
+      "number": 221,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/221",
+      "title": "B-HKN-10: Record a prize confirmation",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:09:43Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 216,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/216",
+      "title": "B-HKN-05: Judging criteria",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:09:16Z",
+      "needs": "Drizzle, Zod"
+     },
+     {
+      "number": 213,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/213",
+      "title": "B-HKN-02: Hackathon timeline rules and the current phase",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:08:59Z",
+      "needs": "TypeScript, Zod, Vitest"
+     },
+     {
+      "number": 209,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/209",
+      "title": "B-EVT-19: Show who runs each event",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: events",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:08:37Z",
+      "needs": "TypeScript, React"
+     },
+     {
+      "number": 205,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/205",
+      "title": "B-EVT-15: A draft status for events",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:08:16Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 204,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/204",
+      "title": "B-EVT-14: Duration rules by event type",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:08:10Z",
+      "needs": "TypeScript, Zod"
+     },
+     {
+      "number": 199,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/199",
+      "title": "B-EVT-09: Format rules: venue for in-person, link for online, both for hybrid",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:07:43Z",
+      "needs": "TypeScript, Zod"
+     },
+     {
+      "number": 197,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/197",
+      "title": "B-EVT-07: Pick tags in the wizard and show them on events",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: events",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:07:32Z",
+      "needs": "React"
+     },
+     {
+      "number": 194,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/194",
+      "title": "B-EVT-04: Show the event type on cards and the event page",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: events",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:07:16Z",
+      "needs": "React, DaisyUI"
+     },
+     {
+      "number": 193,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/193",
+      "title": "B-EVT-03: Choose meetup or workshop in the host wizard",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: events",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:07:11Z",
+      "needs": "React"
+     },
+     {
+      "number": 188,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/188",
+      "title": "B-ORG-10: Page: accept or decline an organisation invitation",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: organisations",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:06:44Z",
+      "needs": "React"
+     },
+     {
+      "number": 185,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/185",
+      "title": "B-ORG-07: Seed the founders.coffee organisation",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: organisations",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:06:26Z",
+      "needs": "SQL, Node"
+     },
+     {
+      "number": 181,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/181",
+      "title": "B-ORG-03: Organisation schemas and status rules in the domain",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: organisations",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:06:05Z",
+      "needs": "TypeScript, Zod, Vitest"
+     },
+     {
+      "number": 178,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/178",
+      "title": "B-FND-07: Fail a test when a table with a user reference is missing from account closure",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:05:47Z",
+      "needs": "TypeScript, Drizzle, Vitest"
+     },
+     {
+      "number": 175,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/175",
+      "title": "B-FND-04: Extend the audit log for Stage B decisions",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "stage: B",
+       "area: admin",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:05:30Z",
+      "needs": "TypeScript"
+     },
      {
       "number": 169,
       "url": "https://github.com/djazairdev/founders.coffee/issues/169",
@@ -698,10 +1181,1359 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"71f582ca84068dc494a0e0df658cf580fba806785800438507348582a26c1e81\"",
+   "etag": "\"3125e3b67dfbeea7272343c42088d26db914f77b9f986b8de0b6c4a1a90c92c3\"",
    "data": {
-    "n": 1,
+    "n": 84,
     "issues": [
+     {
+      "number": 288,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/288",
+      "title": "B-LCH-04: Playwright: judge and publish results",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: infra",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:16:38Z",
+      "needs": "Playwright"
+     },
+     {
+      "number": 287,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/287",
+      "title": "B-LCH-03: Playwright: register, form a team, submit",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: infra",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:16:31Z",
+      "needs": "Playwright"
+     },
+     {
+      "number": 286,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/286",
+      "title": "B-LCH-02: Playwright: an organiser creates a hackathon and an admin approves it",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: infra",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:16:24Z",
+      "needs": "Playwright"
+     },
+     {
+      "number": 282,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/282",
+      "title": "B-SAFE-05: Retention for Stage B data",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:15:53Z",
+      "needs": "TypeScript, Drizzle"
+     },
+     {
+      "number": 281,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/281",
+      "title": "B-SAFE-04: Permission matrix for every hackathon action",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:15:45Z",
+      "needs": "TypeScript, Vitest"
+     },
+     {
+      "number": 280,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/280",
+      "title": "B-SAFE-03: What disqualification changes",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:15:38Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 279,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/279",
+      "title": "B-SAFE-02: Admin: reports queue and disqualification",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "area: admin",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:15:31Z",
+      "needs": "React, TypeScript"
+     },
+     {
+      "number": 278,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/278",
+      "title": "B-SAFE-01: Report a submission or a team",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:15:24Z",
+      "needs": "TypeScript, Drizzle"
+     },
+     {
+      "number": 277,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/277",
+      "title": "B-OPS-03: Follow-ups one week and one month after a hackathon",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: notifications",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:14:54Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 276,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/276",
+      "title": "B-OPS-02: Organiser: teams and submissions list",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:14:49Z",
+      "needs": "React, TanStack Table"
+     },
+     {
+      "number": 275,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/275",
+      "title": "B-PRZ-02: Organiser: award prizes and mark them delivered; winners see their status",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:14:43Z",
+      "needs": "React"
+     },
+     {
+      "number": 274,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/274",
+      "title": "B-PRZ-01: Prize awards and delivery tracking",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:14:37Z",
+      "needs": "Drizzle"
+     },
+     {
+      "number": 272,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/272",
+      "title": "B-JDG-10: Results on the hackathon page",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:14:26Z",
+      "needs": "React"
+     },
+     {
+      "number": 271,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/271",
+      "title": "B-JDG-09: Publish the results",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:14:21Z",
+      "needs": "TypeScript, D1 batch"
+     },
+     {
+      "number": 270,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/270",
+      "title": "B-JDG-08: Organiser: judging progress and reminders",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: notifications",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:14:15Z",
+      "needs": "React, TypeScript"
+     },
+     {
+      "number": 269,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/269",
+      "title": "B-JDG-07: Judge page: score an entry or recuse",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:14:10Z",
+      "needs": "React"
+     },
+     {
+      "number": 268,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/268",
+      "title": "B-JDG-06: Judge page: entries and progress",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:14:05Z",
+      "needs": "React"
+     },
+     {
+      "number": 267,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/267",
+      "title": "B-JDG-05: Save scores",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:14:00Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 266,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/266",
+      "title": "B-JDG-04: Judges read submissions and recuse themselves",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:13:55Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 263,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/263",
+      "title": "B-SUB-08: Open-source track: record what maintainers reviewed and merged",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:13:37Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 262,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/262",
+      "title": "B-SUB-07: Deadline reminders and submission receipts",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: notifications",
+       "area: i18n",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:13:32Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 261,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/261",
+      "title": "B-SUB-06: Submission form: AI use, statements and states",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:13:26Z",
+      "needs": "React"
+     },
+     {
+      "number": 260,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/260",
+      "title": "B-SUB-05: Submission form: the project",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:13:20Z",
+      "needs": "React"
+     },
+     {
+      "number": 259,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/259",
+      "title": "B-SUB-04: Submit before the deadline",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:13:15Z",
+      "needs": "TypeScript, D1 atomic SQL"
+     },
+     {
+      "number": 258,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/258",
+      "title": "B-SUB-03: Save a submission draft",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:13:09Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 255,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/255",
+      "title": "B-TEAM-08: Page: looking for a team",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:12:53Z",
+      "needs": "React"
+     },
+     {
+      "number": 254,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/254",
+      "title": "B-TEAM-07: Page: my team",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:12:48Z",
+      "needs": "React"
+     },
+     {
+      "number": 253,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/253",
+      "title": "B-TEAM-06: Leave a team, remove a member, pass on the captaincy",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:12:42Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 252,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/252",
+      "title": "B-TEAM-05: Ask to join a team; the captain decides",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:12:37Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 251,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/251",
+      "title": "B-TEAM-04: Invite links and joining a team",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:12:32Z",
+      "needs": "TypeScript, D1 atomic SQL"
+     },
+     {
+      "number": 250,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/250",
+      "title": "B-TEAM-03: Create a team",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:12:26Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 248,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/248",
+      "title": "B-REG-08: Organiser: registrations list",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:12:16Z",
+      "needs": "React, TanStack Table"
+     },
+     {
+      "number": 247,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/247",
+      "title": "B-OPS-01: Organiser dashboard for a hackathon",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:12:10Z",
+      "needs": "React"
+     },
+     {
+      "number": 245,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/245",
+      "title": "B-REG-06: Registration card on the hackathon page",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:11:59Z",
+      "needs": "React"
+     },
+     {
+      "number": 243,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/243",
+      "title": "B-REG-04: Withdraw, and promote the first on the waitlist",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:11:48Z",
+      "needs": "TypeScript, D1 atomic SQL"
+     },
+     {
+      "number": 242,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/242",
+      "title": "B-HKN-24: Hackathons in JSON-LD and the sitemap",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: seo",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:11:43Z",
+      "needs": "SEO, schema.org"
+     },
+     {
+      "number": 240,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/240",
+      "title": "B-HKN-22: Participants, organisers and judges can use the hackathon chat",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: chat",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:11:32Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 239,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/239",
+      "title": "B-REG-03: Register for a hackathon",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:11:26Z",
+      "needs": "TypeScript, D1 atomic SQL"
+     },
+     {
+      "number": 237,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/237",
+      "title": "B-HKN-21: Schedule hackathon reminders",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: notifications",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:11:16Z",
+      "needs": "TypeScript, Durable Objects"
+     },
+     {
+      "number": 236,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/236",
+      "title": "B-HKN-20: Hackathons on the market page",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:11:11Z",
+      "needs": "React"
+     },
+     {
+      "number": 235,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/235",
+      "title": "B-HKN-19: Hackathon page: rules, eligibility, AI policy and judges",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:11:04Z",
+      "needs": "React"
+     },
+     {
+      "number": 234,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/234",
+      "title": "B-JDG-03: Invite judges; judges accept or decline",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:58Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 233,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/233",
+      "title": "B-JDG-01: Judging tables",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:52Z",
+      "needs": "Drizzle, SQL"
+     },
+     {
+      "number": 232,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/232",
+      "title": "B-SUB-01: Submissions tables",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:46Z",
+      "needs": "Drizzle, SQL"
+     },
+     {
+      "number": 231,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/231",
+      "title": "B-TEAM-01: Teams tables",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:10:41Z",
+      "needs": "Drizzle, SQL"
+     },
+     {
+      "number": 230,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/230",
+      "title": "B-REG-01: Registrations table",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:35Z",
+      "needs": "Drizzle, SQL"
+     },
+     {
+      "number": 227,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/227",
+      "title": "B-HKN-16: Organiser flow, step 6: review and submit",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:17Z",
+      "needs": "React"
+     },
+     {
+      "number": 225,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/225",
+      "title": "B-HKN-14: Organiser flow, step 4: prizes",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:06Z",
+      "needs": "React"
+     },
+     {
+      "number": 224,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/224",
+      "title": "B-HKN-13: Organiser flow, step 3: tracks",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:10:01Z",
+      "needs": "React"
+     },
+     {
+      "number": 223,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/223",
+      "title": "B-HKN-12: Organiser flow, step 2: rules, eligibility, AI policy, licence",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:09:55Z",
+      "needs": "React"
+     },
+     {
+      "number": 222,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/222",
+      "title": "B-HKN-11: Organiser flow, step 1: the basics",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:09:48Z",
+      "needs": "React, Tailwind, DaisyUI"
+     },
+     {
+      "number": 220,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/220",
+      "title": "B-HKN-09: Admin: hackathon review queue",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: admin",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:09:37Z",
+      "needs": "React, TanStack Table"
+     },
+     {
+      "number": 219,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/219",
+      "title": "B-HKN-08: Submit for review; an admin approves or rejects",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: admin",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:09:32Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 218,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/218",
+      "title": "B-HKN-07: Edit a hackathon, with fields locked once it moves on",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:09:26Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 217,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/217",
+      "title": "B-HKN-06: Create a hackathon draft as an approved organisation",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: organisations",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:09:21Z",
+      "needs": "TypeScript, TanStack Start"
+     },
+     {
+      "number": 215,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/215",
+      "title": "B-HKN-04: Prizes, public only once confirmed",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:09:10Z",
+      "needs": "Drizzle, Zod"
+     },
+     {
+      "number": 214,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/214",
+      "title": "B-HKN-03: Tracks, including the open-source track",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:09:05Z",
+      "needs": "Drizzle, Zod"
+     },
+     {
+      "number": 212,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/212",
+      "title": "B-HKN-01: Hackathon details table",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:08:54Z",
+      "needs": "Drizzle, SQL"
+     },
+     {
+      "number": 211,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/211",
+      "title": "B-EVT-21: Repeat an event keeps its type, format, tags and organisation",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:08:48Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 210,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/210",
+      "title": "B-EVT-20: Admin: add a co-host organisation to an event",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "area: admin",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:08:42Z",
+      "needs": "React, TypeScript"
+     },
+     {
+      "number": 208,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/208",
+      "title": "B-EVT-18: Host an event as your organisation",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: organisations"
+      ],
+      "created_at": "2026-10-16T10:08:32Z",
+      "needs": "React"
+     },
+     {
+      "number": 207,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/207",
+      "title": "B-EVT-17: Link events to organisations",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "area: organisations",
+       "area: data",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:08:27Z",
+      "needs": "TypeScript, Drizzle"
+     },
+     {
+      "number": 206,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/206",
+      "title": "B-EVT-16: Keep drafts out of every public read",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "area: security",
+       "stage: B",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:08:21Z",
+      "needs": "TypeScript, Drizzle"
+     },
+     {
+      "number": 203,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/203",
+      "title": "B-EVT-13: Notifications for online events",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "area: notifications",
+       "area: i18n",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:08:04Z",
+      "needs": "TypeScript"
+     },
+     {
+      "number": 202,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/202",
+      "title": "B-EVT-12: Online and hybrid on the event page, cards, calendar file and JSON-LD",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: seo"
+      ],
+      "created_at": "2026-10-16T10:07:59Z",
+      "needs": "React, schema.org"
+     },
+     {
+      "number": 201,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/201",
+      "title": "B-EVT-11: Show the meeting link only to the host and members going",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "area: security",
+       "stage: B",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:07:54Z",
+      "needs": "TypeScript, security testing"
+     },
+     {
+      "number": 200,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/200",
+      "title": "B-EVT-10: Choose the format in the wizard; online skips the map",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "area: maps",
+       "area: i18n",
+       "area: ui",
+       "stage: B"
+      ],
+      "created_at": "2026-10-16T10:07:48Z",
+      "needs": "React, Mapbox GL"
+     },
+     {
+      "number": 196,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/196",
+      "title": "B-EVT-06: Topic tags for events",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:07:27Z",
+      "needs": "TypeScript, Drizzle"
+     },
+     {
+      "number": 195,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/195",
+      "title": "B-EVT-05: Filter market and city pages by event type",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "area: ui",
+       "stage: B",
+       "area: seo",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:07:21Z",
+      "needs": "React, TanStack Router"
+     },
+     {
+      "number": 192,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/192",
+      "title": "B-EVT-02: Add the event type: meetup, workshop, hackathon",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "stage: B",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:07:05Z",
+      "needs": "TypeScript, Drizzle, SQL"
+     },
+     {
+      "number": 191,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/191",
+      "title": "B-EVT-01: Split HostCreatePage before adding fields",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: events",
+       "area: ui",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:07:00Z",
+      "needs": "React"
+     },
+     {
+      "number": 190,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/190",
+      "title": "B-ORG-12: Account closure removes memberships and flags organisations left without an owner",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: organisations",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:06:55Z",
+      "needs": "TypeScript, Drizzle"
+     },
+     {
+      "number": 189,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/189",
+      "title": "B-ORG-11: Public organisation page, with its SEO route type",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: ui",
+       "stage: B",
+       "area: organisations",
+       "area: seo",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:06:49Z",
+      "needs": "React, SEO"
+     },
+     {
+      "number": 187,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/187",
+      "title": "B-ORG-09: Page: my organisation (status, members, invitations)",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: organisations",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:06:38Z",
+      "needs": "React, Tailwind, DaisyUI"
+     },
+     {
+      "number": 186,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/186",
+      "title": "B-ORG-08: Page: apply for an organisation",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: organisations",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:06:32Z",
+      "needs": "React, Tailwind, DaisyUI"
+     },
+     {
+      "number": 184,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/184",
+      "title": "B-ORG-06: Admin: review organisation applications",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: organisations",
+       "area: admin",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:06:20Z",
+      "needs": "TypeScript, React, TanStack Table"
+     },
+     {
+      "number": 183,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/183",
+      "title": "B-ORG-05: Invite members to an organisation by email",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: notifications",
+       "stage: B",
+       "area: organisations",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:06:15Z",
+      "needs": "TypeScript, Better Auth, React Email"
+     },
+     {
+      "number": 182,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/182",
+      "title": "B-ORG-04: Server functions: apply for an organisation, list mine, edit its profile",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: organisations",
+       "size: M"
+      ],
+      "created_at": "2026-10-16T10:06:10Z",
+      "needs": "TypeScript, TanStack Start server functions"
+     },
+     {
+      "number": 180,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/180",
+      "title": "B-ORG-02: Check organisation permissions in one middleware",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: auth",
+       "area: security",
+       "stage: B",
+       "area: organisations",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:05:59Z",
+      "needs": "TypeScript, Better Auth access control"
+     },
+     {
+      "number": 177,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/177",
+      "title": "B-FND-06: Add a Hackathons notification category with its own preference",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: notifications",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:05:41Z",
+      "needs": "TypeScript, React"
+     },
+     {
+      "number": 176,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/176",
+      "title": "B-FND-05: Define the Stage B metrics in Analytics Engine",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: infra",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:05:35Z",
+      "needs": "TypeScript, Analytics Engine"
+     },
+     {
+      "number": 174,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/174",
+      "title": "B-FND-03: Add the hackathon resources to RBAC",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: auth",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:05:25Z",
+      "needs": "TypeScript, Better Auth access control"
+     },
+     {
+      "number": 173,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/173",
+      "title": "B-FND-02: Read the `hackathons` market flag on the server, and show a clear state when it is off",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-16T10:05:20Z",
+      "needs": "TypeScript, Drizzle, Vitest"
+     },
      {
       "number": 99,
       "url": "https://github.com/djazairdev/founders.coffee/issues/99",
@@ -718,7 +2550,7 @@
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"8f2302ce2070c27b6f3d53c4d0325f060b3570657302dd395ea4036260ca1fbe\"",
+   "etag": "\"fd9cae211326327c8799ad58ab7ca7050c4de035edda616887caec92f4399b2b\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -733,36 +2565,14 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"12137e7ef02e45f05e693bd0dd9ebb1af9d5738218bdf277aea86513284b01de\"",
-   "data": "2026-10-15T15:53:09Z"
+   "etag": "\"d00c759440f5a2b9316c0e51bf98ec91c33cb01ebb016fe36ead3c5df02d7942\"",
+   "data": "2026-10-16T08:52:53Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"29bb95adeb2bff09c31e56021f1ae6a4bf3c41572732a089fb8832a473912c16\"",
+   "etag": "\"e8b68e375b1344cda4adba4e9602dca4cbedd91954492d4ff686abb229311e19\"",
    "data": {
-    "n": 6,
+    "n": 4,
     "issues": [
-     {
-      "number": 98,
-      "url": "https://github.com/djazairdev/minhajna/issues/98",
-      "title": "Hash the same bytes on every engine: escape lone surrogates, and share SHA-256 test vectors",
-      "labels": [
-       "good first issue",
-       "area: core"
-      ],
-      "created_at": "2026-10-15T16:31:55Z",
-      "needs": "TypeScript, and some Unicode"
-     },
-     {
-      "number": 94,
-      "url": "https://github.com/djazairdev/minhajna/issues/94",
-      "title": "Move the month names into the country's profile",
-      "labels": [
-       "good first issue",
-       "area: core"
-      ],
-      "created_at": "2026-10-15T15:52:45Z",
-      "needs": "TypeScript"
-     },
      {
       "number": 69,
       "url": "https://github.com/djazairdev/minhajna/issues/69",
@@ -812,9 +2622,9 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"4e46346183c4752180cf92eaa679b3c3f518a195f64af8623228504b4a446765\"",
+   "etag": "\"a7b026dd3f7c14238e70a3243f2661c32ba0a3536fa8724e14db80f173c2e93c\"",
    "data": {
-    "n": 8,
+    "n": 7,
     "issues": [
      {
       "number": 96,
@@ -839,17 +2649,6 @@
       ],
       "created_at": "2026-10-15T15:50:43Z",
       "needs": "Android builds with Gradle and R8. Experience with reproducible builds helps"
-     },
-     {
-      "number": 87,
-      "url": "https://github.com/djazairdev/minhajna/issues/87",
-      "title": "Ship Algeria's data in the app, and read it at start",
-      "labels": [
-       "help wanted",
-       "area: android"
-      ],
-      "created_at": "2026-10-15T13:31:52Z",
-      "needs": "TypeScript and React Native. Metro helps"
      },
      {
       "number": 80,
