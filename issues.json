@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-17T11:09:37Z",
+ "generated_at": "2026-10-17T15:55:05Z",
  "issues": [
   {
    "number": 315,
@@ -321,19 +321,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 133,
-   "url": "https://github.com/djazairdev/minhajna/issues/133",
-   "title": "Build WeekGrid",
-   "labels": [
-    "help wanted",
-    "area: a11y"
-   ],
-   "created_at": "2026-10-17T09:58:14Z",
-   "needs": "React Native and TypeScript",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 132,
    "url": "https://github.com/djazairdev/minhajna/issues/132",
    "title": "Build PrivateNote",
@@ -369,19 +356,6 @@
    ],
    "created_at": "2026-10-17T09:58:06Z",
    "needs": "React Native and TypeScript. Experience with TalkBack and Android's Back handling helps",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 129,
-   "url": "https://github.com/djazairdev/minhajna/issues/129",
-   "title": "Build Proposal and DueStrip",
-   "labels": [
-    "help wanted",
-    "area: a11y"
-   ],
-   "created_at": "2026-10-17T09:58:04Z",
-   "needs": "React Native and TypeScript",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
   },
