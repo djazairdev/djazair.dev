@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-17T15:55:05Z",
+ "generated_at": "2026-10-17T20:55:49Z",
  "issues": [
   {
    "number": 315,
@@ -282,19 +282,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 137,
-   "url": "https://github.com/djazairdev/minhajna/issues/137",
-   "title": "Build Switch and Stepper",
-   "labels": [
-    "help wanted",
-    "area: a11y"
-   ],
-   "created_at": "2026-10-17T10:00:05Z",
-   "needs": "React Native and TypeScript",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 136,
    "url": "https://github.com/djazairdev/minhajna/issues/136",
    "title": "Build SegmentedControl and RadioCard",
@@ -330,19 +317,6 @@
    ],
    "created_at": "2026-10-17T09:58:11Z",
    "needs": "React Native and TypeScript",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 131,
-   "url": "https://github.com/djazairdev/minhajna/issues/131",
-   "title": "Build RollCallRow and Stats",
-   "labels": [
-    "help wanted",
-    "area: a11y"
-   ],
-   "created_at": "2026-10-17T09:58:09Z",
-   "needs": "React Native and TypeScript. Experience with long lists helps",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
   },
