@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"829b3dd44d6fda3e0bf85d36cfcc02b95b6a820739c1d987eca12ccaadc36206\"",
+   "etag": "\"9c3ab01313f43bf2a677528783318460b760977bc17da4cc86c043612ccf189d\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"5b96402b39734e259e4075d42b2e4a728ca55929288aa8633ffdd3bf59311329\"",
+   "etag": "\"229a02eaaa4d35c1f31103a2857e54668fadba1a74cca87d0b8be303bf4679bc\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"a6cf462e65c62a29b0cd74637abe6b994c1e782eb6d1fdfe4284629b6277bf52\"",
+   "etag": "\"27580ccf6fee4beec31b5fdb626bd9decbeb8887fffe249c2abd130d3134f8cc\"",
    "data": "2026-10-15T10:20:26Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"4c854c01b816b97e4561d9b3a34bbc58809381cf53d3519fc6a86721c55936db\"",
+   "etag": "\"9c9269fd16089880e02e3ef996ad5c60c61ba4791bd9b2c0c30d2e13939ce3ac\"",
    "data": {
     "n": 5,
     "issues": [
@@ -184,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"9428a8638349c4438d2b7d6fcadb0aa75112208a67cccbddc4f2622d9487ff1f\"",
+   "etag": "\"a0d2d602728133cb7715b041daa57091d1365ff6e5db90409912127fdf5195c5\"",
    "data": {
     "n": 7,
     "issues": [
@@ -278,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"74065f73a7f8467dd0bc7f203e110e832dee11d7ee18645e91e299fda6618013\"",
+   "etag": "\"097d438ef1ea8b44f3c6f1b30ff468b326c8c55a62e9f9066aaed7865a7beb71\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -293,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"2b6160eab805e2a888b054e23cea6a693557ae4445d838917812587f52e444fd\"",
+   "etag": "\"6a4e4f3a0755d1f55de9df1c70bbe456026611b8613781192663de55bf4c84ed\"",
    "data": "2026-10-15T10:20:34Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"9a1e9a8bfdf44882eb53e389b2c2bfdbfa5a8ffcb014910dc29c6db8876424c0\"",
+   "etag": "\"6306da0812962d73f97d68b22f98da68b7466e1d4dca3406688e30886c68270c\"",
    "data": {
     "n": 6,
     "issues": [
@@ -369,7 +369,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"be606d4d13d9099426a2cedd33ab407b08047aa4197d7b118315bc5ddc4a867e\"",
+   "etag": "\"c338ce48188091506e9f007ca98a7089712415a172d75a1c6e3c84bc4b96aca4\"",
    "data": {
     "n": 2,
     "issues": [
@@ -399,7 +399,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"32a8622b5ed7ff387a5b191f03944c81ff44841c9722de8341f96236c05a5a9c\"",
+   "etag": "\"451a209c38c3113bb3b7dbb7c1921627cca5d87fe6094ad57f48235062308bb5\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -414,11 +414,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"8358d0a0287d60ded2150994673036a6dd4608bdde963aba45505562d6bed956\"",
+   "etag": "\"1bb85374cf9a66f56400335697a31e09dff851bf8b08e54cd4a366f750edb405\"",
    "data": "2026-10-15T10:20:41Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"91dd2502183016760469147022afd213d6e63442a5070ee10c01be84d9a67b69\"",
+   "etag": "\"1924abab89833267fa9802c922a9791137a9ff38991dfbd44c3ac2fbf52ab0bd\"",
    "data": {
     "n": 6,
     "issues": [
@@ -493,7 +493,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"287071ca3f0fb2be3d8b9e5aab5206fd63583ec57521b36639aa81bfa284c1ea\"",
+   "etag": "\"a4773237a08ad0ec1c2286c7371611a2fd16abca009bd9022018076b18a9e789\"",
    "data": {
     "n": 8,
     "issues": [
@@ -589,7 +589,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"6b6155587dc7b48bc62ffd302133846f6dfd7844caea54192ee492c9c0b1ab21\"",
+   "etag": "\"2539103d4d26fbdf0f80d15594b42117506af8053d7b1993a2ed3598ac80fa9e\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -604,14 +604,99 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"16d302a01a13f9cabcbcb7a67875f554d547e551d03c5f2aa714d7d5fa89160b\"",
+   "etag": "\"b847d37e7dad64944d2d000ba79285b06b5cabfcd742f7512596ee691611d45c\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"13328abec2b3814800b6f2aee66a07ff2bc6c7b35c0f42351a6bc70fc20e3cfd\"",
+   "etag": "\"e2ada78087bf30301ee5601c1a4fdfd53f66eab82d0a37f8265c899887cad422\"",
    "data": {
-    "n": 37,
+    "n": 42,
     "issues": [
+     {
+      "number": 315,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/315",
+      "title": "B-CRT-03: Members find and share their certificates",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: notifications",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons"
+      ],
+      "created_at": "2026-10-17T10:05:29Z",
+      "needs": "React, TypeScript"
+     },
+     {
+      "number": 313,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/313",
+      "title": "B-PRJ-05: Projects section on the public profile",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: profile",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-17T10:05:13Z",
+      "needs": "React"
+     },
+     {
+      "number": 305,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/305",
+      "title": "B-PRF-03: Show skills, links and *open to* on the public profile",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: profile",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "size: S"
+      ],
+      "created_at": "2026-10-17T10:04:16Z",
+      "needs": "React"
+     },
+     {
+      "number": 302,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/302",
+      "title": "B-HKN-26: Hackathon page: mentors and their office hours",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-17T10:03:52Z",
+      "needs": "React"
+     },
+     {
+      "number": 294,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/294",
+      "title": "B-ANN-02: Announce the first hackathon on the Algeria page and every city page",
+      "labels": [
+       "enhancement",
+       "good first issue",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-17T08:16:08Z",
+      "needs": "React, Tailwind, DaisyUI"
+     },
      {
       "number": 289,
       "url": "https://github.com/djazairdev/founders.coffee/issues/289",
@@ -1181,10 +1266,260 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"ec075003b5111ff0e09726d2ca9a2d20bc65143ec09ee6a88108028f0fcf6592\"",
+   "etag": "\"8f6b8e8686d2fbc2e1517cdfaf2ca79550fe806671bedda08495d6e9475ad02e\"",
    "data": {
-    "n": 84,
+    "n": 99,
     "issues": [
+     {
+      "number": 314,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/314",
+      "title": "B-CRT-02: Certificate page anyone can verify",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: M"
+      ],
+      "created_at": "2026-10-17T10:05:22Z",
+      "needs": "React, CSS print"
+     },
+     {
+      "number": 312,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/312",
+      "title": "B-PRJ-04: Edit a project and keep it up to date",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "size: S",
+       "area: projects"
+      ],
+      "created_at": "2026-10-17T10:05:06Z",
+      "needs": "TypeScript, React"
+     },
+     {
+      "number": 311,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/311",
+      "title": "B-PRJ-03: Public project page",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: seo",
+       "size: M"
+      ],
+      "created_at": "2026-10-17T10:04:59Z",
+      "needs": "React, SEO"
+     },
+     {
+      "number": 310,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/310",
+      "title": "B-PRJ-02: Turn a hackathon entry into a project",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "size: M",
+       "area: projects"
+      ],
+      "created_at": "2026-10-17T10:04:52Z",
+      "needs": "TypeScript, TanStack Start"
+     },
+     {
+      "number": 309,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/309",
+      "title": "B-PRJ-01: Projects tables",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: data",
+       "size: M",
+       "area: projects"
+      ],
+      "created_at": "2026-10-17T10:04:45Z",
+      "needs": "Drizzle, SQL, Zod"
+     },
+     {
+      "number": 308,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/308",
+      "title": "B-PRF-05: Hackathon record on the profile",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: profile",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons"
+      ],
+      "created_at": "2026-10-17T10:04:38Z",
+      "needs": "React, TypeScript"
+     },
+     {
+      "number": 307,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/307",
+      "title": "B-CRT-01: Issue certificates from the frozen results",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: M"
+      ],
+      "created_at": "2026-10-17T10:04:31Z",
+      "needs": "Drizzle, TypeScript"
+     },
+     {
+      "number": 306,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/306",
+      "title": "B-PRF-04: Let each member choose to appear in search engines",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: profile",
+       "area: security",
+       "stage: B",
+       "area: seo",
+       "size: M"
+      ],
+      "created_at": "2026-10-17T10:04:24Z",
+      "needs": "TypeScript, SEO, security testing"
+     },
+     {
+      "number": 304,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/304",
+      "title": "B-PRF-02: Edit skills, links and *open to* in the profile form",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: profile",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "size: M"
+      ],
+      "created_at": "2026-10-17T10:04:07Z",
+      "needs": "React, DaisyUI"
+     },
+     {
+      "number": 303,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/303",
+      "title": "B-PRF-01: Portfolio fields on the profile: skills, links and *open to*",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: profile",
+       "stage: B",
+       "area: data",
+       "size: M"
+      ],
+      "created_at": "2026-10-17T10:04:00Z",
+      "needs": "TypeScript, Drizzle, D1 migrations"
+     },
+     {
+      "number": 301,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/301",
+      "title": "B-HKN-25: Mentors for a hackathon",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: S"
+      ],
+      "created_at": "2026-10-17T10:03:45Z",
+      "needs": "Drizzle, TypeScript"
+     },
+     {
+      "number": 299,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/299",
+      "title": "B-JDG-12: Show each team the judges' feedback",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-17T09:50:32Z",
+      "needs": "TypeScript, React"
+     },
+     {
+      "number": 297,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/297",
+      "title": "B-ANN-05: Email the interest list when registration opens",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: notifications",
+       "area: i18n",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-17T08:16:30Z",
+      "needs": "TypeScript, Queues"
+     },
+     {
+      "number": 295,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/295",
+      "title": "B-ANN-03: The form on the announcement: tell me when registration opens",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: i18n",
+       "area: ui",
+       "stage: B",
+       "area: hackathons",
+       "size: S"
+      ],
+      "created_at": "2026-10-17T08:16:16Z",
+      "needs": "React"
+     },
+     {
+      "number": 293,
+      "url": "https://github.com/djazairdev/founders.coffee/issues/293",
+      "title": "B-ANN-01: A \"tell me when registration opens\" list for the first hackathon",
+      "labels": [
+       "enhancement",
+       "help wanted",
+       "accepted",
+       "area: security",
+       "stage: B",
+       "area: hackathons",
+       "area: data",
+       "size: M"
+      ],
+      "created_at": "2026-10-17T08:16:01Z",
+      "needs": "TypeScript, Drizzle, D1 migrations"
+     },
      {
       "number": 288,
       "url": "https://github.com/djazairdev/founders.coffee/issues/288",
@@ -1771,7 +2106,7 @@
      {
       "number": 240,
       "url": "https://github.com/djazairdev/founders.coffee/issues/240",
-      "title": "B-HKN-22: Participants, organisers and judges can use the hackathon chat",
+      "title": "B-HKN-22: Participants, organisers, judges and mentors use the hackathon chat, open until 30 days after results",
       "labels": [
        "enhancement",
        "help wanted",
@@ -2550,7 +2885,7 @@
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"a6145e0f810b80dddf8d50084fee3c2a4013688292e64fa97c9b3f9a2cb9bb42\"",
+   "etag": "\"3d67d6b03843e056a1082f0fecfcbde38b74cd568a21931a8e789ae8e10ca1f2\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -2565,35 +2900,35 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"1064c185f3352db9f182af8ad336a15a53dc78d94b1abd62ef580ae99d3fb24d\"",
-   "data": "2026-10-16T14:48:55Z"
+   "etag": "\"dc03beb3699613635ad345248b7f3b689ba02a6e0cc522dede17cd2cabe01c38\"",
+   "data": "2026-10-17T11:02:40Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"02e6f5ce96082ee119bc6eb1858ec63d5e2a6d4e6f8d23b7df4cf0f9f2bfd130\"",
+   "etag": "\"63b1b432863792368b5d3006f2814467e49fde23b66653705abfdaa2d6f7f007\"",
    "data": {
     "n": 6,
     "issues": [
      {
-      "number": 115,
-      "url": "https://github.com/djazairdev/minhajna/issues/115",
-      "title": "Build PageHeading and SectionHeader",
+      "number": 135,
+      "url": "https://github.com/djazairdev/minhajna/issues/135",
+      "title": "Build Badge and RowLink, and the kept list of Facts",
       "labels": [
        "good first issue",
        "area: a11y"
       ],
-      "created_at": "2026-10-16T14:37:41Z",
-      "needs": "React Native and TypeScript. A good first issue: no state, just layout and type"
+      "created_at": "2026-10-17T10:00:00Z",
+      "needs": "React Native and TypeScript"
      },
      {
-      "number": 112,
-      "url": "https://github.com/djazairdev/minhajna/issues/112",
-      "title": "Build Button and IconButton",
+      "number": 132,
+      "url": "https://github.com/djazairdev/minhajna/issues/132",
+      "title": "Build PrivateNote",
       "labels": [
        "good first issue",
        "area: a11y"
       ],
-      "created_at": "2026-10-16T14:37:26Z",
-      "needs": "React Native and TypeScript. An Android emulator helps to see the gallery (developer menu → Component gallery)"
+      "created_at": "2026-10-17T09:58:11Z",
+      "needs": "React Native and TypeScript"
      },
      {
       "number": 69,
@@ -2644,54 +2979,75 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"0eb33a8bdb1f6038d96bcce0440d8cd03ec6519b149d1f6ccf8d85b6819797ae\"",
+   "etag": "\"ad7497d374df7bf2e8625ce11482fd9ae245536a622ae275c98e0a4bb3428330\"",
    "data": {
-    "n": 8,
+    "n": 9,
     "issues": [
      {
-      "number": 116,
-      "url": "https://github.com/djazairdev/minhajna/issues/116",
-      "title": "Build CheckRow and OptionRow",
+      "number": 137,
+      "url": "https://github.com/djazairdev/minhajna/issues/137",
+      "title": "Build Switch and Stepper",
       "labels": [
        "help wanted",
        "area: a11y"
       ],
-      "created_at": "2026-10-16T14:37:46Z",
+      "created_at": "2026-10-17T10:00:05Z",
       "needs": "React Native and TypeScript"
      },
      {
-      "number": 114,
-      "url": "https://github.com/djazairdev/minhajna/issues/114",
-      "title": "Build Notice and Snackbar",
+      "number": 136,
+      "url": "https://github.com/djazairdev/minhajna/issues/136",
+      "title": "Build SegmentedControl and RadioCard",
       "labels": [
        "help wanted",
        "area: a11y"
       ],
-      "created_at": "2026-10-16T14:37:36Z",
-      "needs": "React Native and TypeScript. Experience with TalkBack helps"
+      "created_at": "2026-10-17T10:00:02Z",
+      "needs": "React Native and TypeScript"
      },
      {
-      "number": 113,
-      "url": "https://github.com/djazairdev/minhajna/issues/113",
-      "title": "Build TextField",
+      "number": 133,
+      "url": "https://github.com/djazairdev/minhajna/issues/133",
+      "title": "Build WeekGrid",
       "labels": [
        "help wanted",
        "area: a11y"
       ],
-      "created_at": "2026-10-16T14:37:31Z",
-      "needs": "React Native and TypeScript, and some experience with right-to-left text input"
+      "created_at": "2026-10-17T09:58:14Z",
+      "needs": "React Native and TypeScript"
      },
      {
-      "number": 96,
-      "url": "https://github.com/djazairdev/minhajna/issues/96",
-      "title": "Show the licence notices for the fonts and the data in Help",
+      "number": 131,
+      "url": "https://github.com/djazairdev/minhajna/issues/131",
+      "title": "Build RollCallRow and Stats",
       "labels": [
        "help wanted",
-       "area: android",
-       "area: release"
+       "area: a11y"
       ],
-      "created_at": "2026-10-15T16:10:46Z",
-      "needs": "React Native, and a little Android (reading assets)"
+      "created_at": "2026-10-17T09:58:09Z",
+      "needs": "React Native and TypeScript. Experience with long lists helps"
+     },
+     {
+      "number": 130,
+      "url": "https://github.com/djazairdev/minhajna/issues/130",
+      "title": "Build BottomSheet",
+      "labels": [
+       "help wanted",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-17T09:58:06Z",
+      "needs": "React Native and TypeScript. Experience with TalkBack and Android's Back handling helps"
+     },
+     {
+      "number": 129,
+      "url": "https://github.com/djazairdev/minhajna/issues/129",
+      "title": "Build Proposal and DueStrip",
+      "labels": [
+       "help wanted",
+       "area: a11y"
+      ],
+      "created_at": "2026-10-17T09:58:04Z",
+      "needs": "React Native and TypeScript"
      },
      {
       "number": 93,
@@ -2726,17 +3082,6 @@
       ],
       "created_at": "2026-10-13T16:46:29Z",
       "needs": "JavaScript, IndexedDB and Web Crypto"
-     },
-     {
-      "number": 77,
-      "url": "https://github.com/djazairdev/minhajna/issues/77",
-      "title": "Make a full year of demo-class records for the load tests",
-      "labels": [
-       "help wanted",
-       "area: core"
-      ],
-      "created_at": "2026-10-13T16:46:27Z",
-      "needs": "TypeScript"
      }
     ]
    }

@@ -1,69 +1,483 @@
 {
- "generated_at": "2026-10-17T04:57:34Z",
+ "generated_at": "2026-10-17T11:09:37Z",
  "issues": [
   {
-   "number": 116,
-   "url": "https://github.com/djazairdev/minhajna/issues/116",
-   "title": "Build CheckRow and OptionRow",
+   "number": 315,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/315",
+   "title": "B-CRT-03: Members find and share their certificates",
+   "labels": [
+    "enhancement",
+    "good first issue",
+    "accepted",
+    "area: notifications",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "area: hackathons"
+   ],
+   "created_at": "2026-10-17T10:05:29Z",
+   "needs": "React, TypeScript",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 314,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/314",
+   "title": "B-CRT-02: Certificate page anyone can verify",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "area: hackathons",
+    "size: M"
+   ],
+   "created_at": "2026-10-17T10:05:22Z",
+   "needs": "React, CSS print",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 313,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/313",
+   "title": "B-PRJ-05: Projects section on the public profile",
+   "labels": [
+    "enhancement",
+    "good first issue",
+    "accepted",
+    "area: profile",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "size: S"
+   ],
+   "created_at": "2026-10-17T10:05:13Z",
+   "needs": "React",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 312,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/312",
+   "title": "B-PRJ-04: Edit a project and keep it up to date",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "size: S",
+    "area: projects"
+   ],
+   "created_at": "2026-10-17T10:05:06Z",
+   "needs": "TypeScript, React",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 311,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/311",
+   "title": "B-PRJ-03: Public project page",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "area: seo",
+    "size: M"
+   ],
+   "created_at": "2026-10-17T10:04:59Z",
+   "needs": "React, SEO",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 310,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/310",
+   "title": "B-PRJ-02: Turn a hackathon entry into a project",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "stage: B",
+    "area: hackathons",
+    "size: M",
+    "area: projects"
+   ],
+   "created_at": "2026-10-17T10:04:52Z",
+   "needs": "TypeScript, TanStack Start",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 309,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/309",
+   "title": "B-PRJ-01: Projects tables",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "stage: B",
+    "area: data",
+    "size: M",
+    "area: projects"
+   ],
+   "created_at": "2026-10-17T10:04:45Z",
+   "needs": "Drizzle, SQL, Zod",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 308,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/308",
+   "title": "B-PRF-05: Hackathon record on the profile",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: profile",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "area: hackathons"
+   ],
+   "created_at": "2026-10-17T10:04:38Z",
+   "needs": "React, TypeScript",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 307,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/307",
+   "title": "B-CRT-01: Issue certificates from the frozen results",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "stage: B",
+    "area: hackathons",
+    "area: data",
+    "size: M"
+   ],
+   "created_at": "2026-10-17T10:04:31Z",
+   "needs": "Drizzle, TypeScript",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 306,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/306",
+   "title": "B-PRF-04: Let each member choose to appear in search engines",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: profile",
+    "area: security",
+    "stage: B",
+    "area: seo",
+    "size: M"
+   ],
+   "created_at": "2026-10-17T10:04:24Z",
+   "needs": "TypeScript, SEO, security testing",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 305,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/305",
+   "title": "B-PRF-03: Show skills, links and *open to* on the public profile",
+   "labels": [
+    "enhancement",
+    "good first issue",
+    "accepted",
+    "area: profile",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "size: S"
+   ],
+   "created_at": "2026-10-17T10:04:16Z",
+   "needs": "React",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 304,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/304",
+   "title": "B-PRF-02: Edit skills, links and *open to* in the profile form",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: profile",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "size: M"
+   ],
+   "created_at": "2026-10-17T10:04:07Z",
+   "needs": "React, DaisyUI",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 303,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/303",
+   "title": "B-PRF-01: Portfolio fields on the profile: skills, links and *open to*",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: profile",
+    "stage: B",
+    "area: data",
+    "size: M"
+   ],
+   "created_at": "2026-10-17T10:04:00Z",
+   "needs": "TypeScript, Drizzle, D1 migrations",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 302,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/302",
+   "title": "B-HKN-26: Hackathon page: mentors and their office hours",
+   "labels": [
+    "enhancement",
+    "good first issue",
+    "accepted",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "area: hackathons",
+    "size: S"
+   ],
+   "created_at": "2026-10-17T10:03:52Z",
+   "needs": "React",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 301,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/301",
+   "title": "B-HKN-25: Mentors for a hackathon",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "stage: B",
+    "area: hackathons",
+    "area: data",
+    "size: S"
+   ],
+   "created_at": "2026-10-17T10:03:45Z",
+   "needs": "Drizzle, TypeScript",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 137,
+   "url": "https://github.com/djazairdev/minhajna/issues/137",
+   "title": "Build Switch and Stepper",
    "labels": [
     "help wanted",
     "area: a11y"
    ],
-   "created_at": "2026-10-16T14:37:46Z",
+   "created_at": "2026-10-17T10:00:05Z",
    "needs": "React Native and TypeScript",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
   },
   {
-   "number": 115,
-   "url": "https://github.com/djazairdev/minhajna/issues/115",
-   "title": "Build PageHeading and SectionHeader",
-   "labels": [
-    "good first issue",
-    "area: a11y"
-   ],
-   "created_at": "2026-10-16T14:37:41Z",
-   "needs": "React Native and TypeScript. A good first issue: no state, just layout and type",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 114,
-   "url": "https://github.com/djazairdev/minhajna/issues/114",
-   "title": "Build Notice and Snackbar",
+   "number": 136,
+   "url": "https://github.com/djazairdev/minhajna/issues/136",
+   "title": "Build SegmentedControl and RadioCard",
    "labels": [
     "help wanted",
     "area: a11y"
    ],
-   "created_at": "2026-10-16T14:37:36Z",
-   "needs": "React Native and TypeScript. Experience with TalkBack helps",
+   "created_at": "2026-10-17T10:00:02Z",
+   "needs": "React Native and TypeScript",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
   },
   {
-   "number": 113,
-   "url": "https://github.com/djazairdev/minhajna/issues/113",
-   "title": "Build TextField",
-   "labels": [
-    "help wanted",
-    "area: a11y"
-   ],
-   "created_at": "2026-10-16T14:37:31Z",
-   "needs": "React Native and TypeScript, and some experience with right-to-left text input",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 112,
-   "url": "https://github.com/djazairdev/minhajna/issues/112",
-   "title": "Build Button and IconButton",
+   "number": 135,
+   "url": "https://github.com/djazairdev/minhajna/issues/135",
+   "title": "Build Badge and RowLink, and the kept list of Facts",
    "labels": [
     "good first issue",
     "area: a11y"
    ],
-   "created_at": "2026-10-16T14:37:26Z",
-   "needs": "React Native and TypeScript. An Android emulator helps to see the gallery (developer menu → Component gallery)",
+   "created_at": "2026-10-17T10:00:00Z",
+   "needs": "React Native and TypeScript",
    "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 133,
+   "url": "https://github.com/djazairdev/minhajna/issues/133",
+   "title": "Build WeekGrid",
+   "labels": [
+    "help wanted",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-17T09:58:14Z",
+   "needs": "React Native and TypeScript",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 132,
+   "url": "https://github.com/djazairdev/minhajna/issues/132",
+   "title": "Build PrivateNote",
+   "labels": [
+    "good first issue",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-17T09:58:11Z",
+   "needs": "React Native and TypeScript",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 131,
+   "url": "https://github.com/djazairdev/minhajna/issues/131",
+   "title": "Build RollCallRow and Stats",
+   "labels": [
+    "help wanted",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-17T09:58:09Z",
+   "needs": "React Native and TypeScript. Experience with long lists helps",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 130,
+   "url": "https://github.com/djazairdev/minhajna/issues/130",
+   "title": "Build BottomSheet",
+   "labels": [
+    "help wanted",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-17T09:58:06Z",
+   "needs": "React Native and TypeScript. Experience with TalkBack and Android's Back handling helps",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 129,
+   "url": "https://github.com/djazairdev/minhajna/issues/129",
+   "title": "Build Proposal and DueStrip",
+   "labels": [
+    "help wanted",
+    "area: a11y"
+   ],
+   "created_at": "2026-10-17T09:58:04Z",
+   "needs": "React Native and TypeScript",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 299,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/299",
+   "title": "B-JDG-12: Show each team the judges' feedback",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "area: hackathons",
+    "size: S"
+   ],
+   "created_at": "2026-10-17T09:50:32Z",
+   "needs": "TypeScript, React",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 297,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/297",
+   "title": "B-ANN-05: Email the interest list when registration opens",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: notifications",
+    "area: i18n",
+    "stage: B",
+    "area: hackathons",
+    "size: S"
+   ],
+   "created_at": "2026-10-17T08:16:30Z",
+   "needs": "TypeScript, Queues",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 295,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/295",
+   "title": "B-ANN-03: The form on the announcement: tell me when registration opens",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "area: hackathons",
+    "size: S"
+   ],
+   "created_at": "2026-10-17T08:16:16Z",
+   "needs": "React",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 294,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/294",
+   "title": "B-ANN-02: Announce the first hackathon on the Algeria page and every city page",
+   "labels": [
+    "enhancement",
+    "good first issue",
+    "accepted",
+    "area: i18n",
+    "area: ui",
+    "stage: B",
+    "area: hackathons",
+    "size: S"
+   ],
+   "created_at": "2026-10-17T08:16:08Z",
+   "needs": "React, Tailwind, DaisyUI",
+   "repo": "djazairdev/founders.coffee",
+   "language": "TypeScript"
+  },
+  {
+   "number": 293,
+   "url": "https://github.com/djazairdev/founders.coffee/issues/293",
+   "title": "B-ANN-01: A \"tell me when registration opens\" list for the first hackathon",
+   "labels": [
+    "enhancement",
+    "help wanted",
+    "accepted",
+    "area: security",
+    "stage: B",
+    "area: hackathons",
+    "area: data",
+    "size: M"
+   ],
+   "created_at": "2026-10-17T08:16:01Z",
+   "needs": "TypeScript, Drizzle, D1 migrations",
+   "repo": "djazairdev/founders.coffee",
    "language": "TypeScript"
   },
   {
@@ -923,7 +1337,7 @@
   {
    "number": 240,
    "url": "https://github.com/djazairdev/founders.coffee/issues/240",
-   "title": "B-HKN-22: Participants, organisers and judges can use the hackathon chat",
+   "title": "B-HKN-22: Participants, organisers, judges and mentors use the hackathon chat, open until 30 days after results",
    "labels": [
     "enhancement",
     "help wanted",
@@ -2125,20 +2539,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 96,
-   "url": "https://github.com/djazairdev/minhajna/issues/96",
-   "title": "Show the licence notices for the fonts and the data in Help",
-   "labels": [
-    "help wanted",
-    "area: android",
-    "area: release"
-   ],
-   "created_at": "2026-10-15T16:10:46Z",
-   "needs": "React Native, and a little Android (reading assets)",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 93,
    "url": "https://github.com/djazairdev/minhajna/issues/93",
    "title": "Shrink the APK: code shrinking and one APK per processor type",
@@ -2271,19 +2671,6 @@
    ],
    "created_at": "2026-10-13T16:46:29Z",
    "needs": "JavaScript, IndexedDB and Web Crypto",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 77,
-   "url": "https://github.com/djazairdev/minhajna/issues/77",
-   "title": "Make a full year of demo-class records for the load tests",
-   "labels": [
-    "help wanted",
-    "area: core"
-   ],
-   "created_at": "2026-10-13T16:46:27Z",
-   "needs": "TypeScript",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
   },
