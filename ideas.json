@@ -1,6 +1,6 @@
 {
  "about": "Project ideas from the Ideas category of GitHub Discussions, ranked by votes (hub/ideas.py, docs/hub-ideas.md). Titles and counts only: no usernames.",
- "generated_at": "2026-10-18T11:41:03Z",
+ "generated_at": "2026-10-18T16:07:10Z",
  "category": "https://github.com/orgs/djazairdev/discussions/categories/ideas",
  "ideas": [
   {
@@ -41,6 +41,17 @@
    "url": "https://github.com/orgs/djazairdev/discussions/6",
    "title": "a reproducible-release checker for React Native split APKs",
    "created_at": "2026-10-18T10:46:38Z",
+   "votes": 1,
+   "comments": 0,
+   "champion": false,
+   "skills": [],
+   "status": "open"
+  },
+  {
+   "number": 7,
+   "url": "https://github.com/orgs/djazairdev/discussions/7",
+   "title": "a fail-closed, route-aware screen guard for React Navigation",
+   "created_at": "2026-10-18T15:25:50Z",
    "votes": 1,
    "comments": 0,
    "champion": false,
