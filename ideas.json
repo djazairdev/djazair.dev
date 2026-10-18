@@ -1,6 +1,6 @@
 {
  "about": "Project ideas from the Ideas category of GitHub Discussions, ranked by votes (hub/ideas.py, docs/hub-ideas.md). Titles and counts only: no usernames.",
- "generated_at": "2026-10-18T16:07:10Z",
+ "generated_at": "2026-10-18T21:01:09Z",
  "category": "https://github.com/orgs/djazairdev/discussions/categories/ideas",
  "ideas": [
   {
@@ -52,6 +52,17 @@
    "url": "https://github.com/orgs/djazairdev/discussions/7",
    "title": "a fail-closed, route-aware screen guard for React Navigation",
    "created_at": "2026-10-18T15:25:50Z",
+   "votes": 1,
+   "comments": 0,
+   "champion": false,
+   "skills": [],
+   "status": "open"
+  },
+  {
+   "number": 8,
+   "url": "https://github.com/orgs/djazairdev/discussions/8",
+   "title": "a privacy-first PDF print and save module for React Native",
+   "created_at": "2026-10-18T16:10:07Z",
    "votes": 1,
    "comments": 0,
    "champion": false,
