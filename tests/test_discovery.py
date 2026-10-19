@@ -156,7 +156,10 @@ class Discovery(unittest.TestCase):
                 self.assertTrue(text.startswith('# '))
                 self.assertNotIn('route:', text)
                 self.assertIn('/overview.csv)', text)
-        self.assertEqual(f'{SITE_URL}/ar/' in guide, 'ar' in self.PUBLISHED, 'Arabic addresses only once published')
+        self.assertIn(f'{SITE_URL}/ar/minhajna/', guide, 'the individually reviewed translation is discoverable')
+        without_teacher_page = guide.replace(f'{SITE_URL}/ar/minhajna/', '')
+        self.assertEqual(f'{SITE_URL}/ar/' in without_teacher_page, 'ar' in self.PUBLISHED,
+                         'other Arabic addresses wait for their own review')
 
     def test_security_disclosure_is_canonical_private_and_not_expired(self):
         text = (self.dist / '.well-known/security.txt').read_text('utf-8')

@@ -43,7 +43,7 @@ class Budgets(unittest.TestCase):
     def test_every_page_transfers_under_300_kb_without_fonts(self):
         self.assertEqual(perf.BYTES_BUDGET, BUDGET)
         for path, html in self.pages.items():
-            files = {self.dist / ref.lstrip('/') for ref in re.findall(r'(?:src|href)="(/(?:assets|favicon)[^"]*)"', html)
+            files = {self.dist / ref.lstrip('/') for ref in re.findall(r'<(?:img|script|link)\b[^>]*?(?:src|href)="(/(?:assets|favicon)[^"]*)"', html)
                      if '/fonts/' not in ref}
             total = gz(html.encode('utf-8')) + sum(gz(f.read_bytes()) for f in files)
             with self.subTest(page=str(path.relative_to(self.dist))):

@@ -1479,6 +1479,10 @@
     "corrections": "Corrections log"
   },
   "pages": {
+    "minhajna": {
+      "title": "Download Minhajna for Android · Free teacher app",
+      "description": "Building an integrated digital system for education in Algeria. Try the Android teacher preview with made-up data only."
+    },
     "home": {
       "title": "djazair.dev",
       "description": "Grow your skills by contributing to real open-source projects from Algeria. Help with code, documentation, translation, or testing."
@@ -1615,6 +1619,127 @@
       "eyebrow": "04 · Look beyond size",
       "title": "Six measures. A clearer picture.",
       "lede": "Explore activity, reach and regional comparisons. Each indicator stands on its own; there is no combined score."
+    }
+  },
+  "minhajna": {
+    "brand": "Minhajna",
+    "unofficial_notice": "Minhajna is an independent project. It has not been officially adopted by the Algerian state or the Ministry of National Education.",
+    "eyebrow": "For teachers in Algeria · Preview",
+    "title": "Try Minhajna.",
+    "lede": "Minhajna is a free, open-source project building an integrated digital system for education in Algeria.",
+    "mission": "We began by digitising teachers’ daily journals, lesson logs and attendance registers, and are gradually expanding it to cover other educational and administrative work.",
+    "release": "Version {version} · {date}",
+    "demo_only": "The current preview is for invited teachers only, with made-up data. Keep using your official records.",
+    "compatibility": "Requires Android™ {android} or later.",
+    "download": "Download for Android™",
+    "ios_soon": "iOS · Coming soon",
+    "download_note": "Free download",
+    "screenshots": {
+      "title": "A look inside",
+      "note": "Version {version} · Demo class. Tap an image to enlarge it.",
+      "enlarge": "Enlarge: {screen}",
+      "today": {
+        "caption": "Today’s lessons",
+        "alt": "The Today screen in Arabic, with the demo class’s scheduled lessons."
+      },
+      "week": {
+        "caption": "Weekly timetable",
+        "alt": "The weekly timetable in Arabic, with the demo class’s periods."
+      },
+      "roll": {
+        "caption": "Roll call",
+        "alt": "The roll-call screen in Arabic, using the built-in class of invented pupils."
+      }
+    },
+    "features": {
+      "title": "Available now",
+      "items": [
+        "Entering your weekly timetable, including class subgroups and sessions held every two weeks.",
+        "Recording lessons taught and editing entries.",
+        "Roll call: attendance, absences and late arrivals.",
+        "Following the lessons taught in each class."
+      ]
+    },
+    "limits": {
+      "title": "Not ready yet",
+      "items": [
+        "Recording marks, calculating averages, printing books or saving them as files.",
+        "Complete official annual plans for every subject and grade.",
+        "Using the same records on multiple devices, or connections to school administration and the Ministry."
+      ]
+    },
+    "install": {
+      "title": "Install",
+      "link": "How do I install it?",
+      "steps": [
+        "Download the app and open the file.",
+        "If asked, allow installation from the browser or file manager you opened it with, then choose “Install”.",
+        "Turn that permission off afterwards, then open Minhajna."
+      ],
+      "safety": "Keep Play Protect on. If Android warns that the app is harmful or blocks installation, stop and ask us for help."
+    },
+    "update": {
+      "title": "Update",
+      "link": "How do I update it?",
+      "lede": "Updates are manual. We announce new releases on Facebook.",
+      "steps": [
+        "Download the new version and open the file, leaving the current app installed.",
+        "Choose “Update”. Reopen Minhajna and check your entries. Turn installation permission off again if you enabled it."
+      ],
+      "warning": "Do not uninstall or clear app data to update: that deletes your entries.",
+      "help": "If Android refuses the update, stop. Don’t install an older version.",
+      "contact": "Ask us for help."
+    },
+    "try": {
+      "title": "Start with this",
+      "link": "What should I try first?",
+      "steps": [
+        "During setup, choose the school stage and subject, enter a made-up school name and choose “Add the demo class”.",
+        "Enter your weekly timetable. To enter lesson titles yourself, choose “No pack: type the items”, add two invented lesson titles and finish setup.",
+        "On Today, open a session and try recording one of those lessons with “Confirm the session”, then edit the entry.",
+        "Record attendance, absences and late arrivals from the list or “Seating plan”, which shows where pupils sit."
+      ],
+      "plan_note": "Example lessons are for testing, not Ministry-approved plans."
+    },
+    "privacy": {
+      "title": "Your privacy",
+      "local": "The app works offline. Your entries stay on your phone.",
+      "loss": "There is no backup. Uninstalling, clearing app data or losing your phone can lose your entries. We cannot restore them."
+    },
+    "feedback": {
+      "title": "Share your feedback",
+      "link": "Ask us a question",
+      "facebook": "Message us on Facebook",
+      "email": "Email contact@djazair.dev",
+      "github": "GitHub · optional",
+      "github_note": "Reports are public.",
+      "details": "Say what you tried and what happened. Include your phone model and Android version if you know them.",
+      "safe": "Never send real pupil data or personal information. Use the demo class in screenshots.",
+      "security": "For a security problem:",
+      "private": "Email us privately."
+    },
+    "verify": {
+      "title": "Download details",
+      "devices": "For ARM phones only.",
+      "file": "File name",
+      "size": "Size in bytes",
+      "sha": "File fingerprint · SHA-256",
+      "certificate": "Signing certificate fingerprint · SHA-256",
+      "checksums": "Checksum list",
+      "release": "Release notes"
+    },
+    "footer": {
+      "note": "A community project, not a Ministry service.",
+      "links": "Project and privacy information",
+      "project": "Project source",
+      "privacy": "Privacy policy",
+      "site": "About djazair.dev",
+      "licence": "Page text · CC BY 4.0",
+      "art_credit": "Logo and app artwork: the {source} contributors · {licence}. Screenshots from version 0.1.0, with invented data. Logo unchanged; screenshots reduced for the page. The project name and logo remain subject to its trademark policy.",
+      "credits": "Credits and licences",
+      "android_credit": "The Android robot is reproduced or modified from work created and shared by Google and used according to terms described in the {licence}.",
+      "robot_licence": "Creative Commons 3.0 Attribution License",
+      "android_trademark": "Android is a trademark of Google LLC."
     }
   },
   "participation": {

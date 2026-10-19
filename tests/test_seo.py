@@ -60,7 +60,7 @@ class Metadata(unittest.TestCase):
     def indexed(self):
         """(route, lang, url, meta) for every page meant for search."""
         for route in ROUTES:
-            for lang in self.PUBLISHED:
+            for lang in self.site.languages(route.key):
                 url = f'{SITE_URL}/{lang}/{route.path}'
                 if route.indexed and (route.path == '' or route.path.endswith('/')):
                     m = meta(self.page(url))
@@ -68,7 +68,7 @@ class Metadata(unittest.TestCase):
                         yield route, lang, url, m
 
     def test_titles_and_descriptions(self):
-        seen = {lang: {'title': set(), 'description': set()} for lang in self.PUBLISHED}
+        seen = {lang: {'title': set(), 'description': set()} for lang in LANGS}
         count = 0
         for route, lang, url, m in self.indexed():
             count += 1
@@ -78,14 +78,16 @@ class Metadata(unittest.TestCase):
                 for kind in ('title', 'description'):
                     self.assertNotIn(m[kind], seen[lang][kind], f'{kind} used twice')
                     seen[lang][kind].add(m[kind])
-        self.assertEqual(count, 13 * len(self.PUBLISHED), 'thirteen public pages in each language; retired routes stay out')
+        self.assertEqual(count, 14 * len(self.PUBLISHED) + ('ar' not in self.PUBLISHED),
+                         'fourteen English pages, plus only the individually reviewed Arabic page')
 
     def test_canonical_and_language_links(self):
         for route, lang, url, m in self.indexed():
             with self.subTest(page=url):
                 self.assertEqual(m['canonical'], url)
                 for other in LANGS:
-                    self.assertEqual(m.get(f'alternate:{other}'), f'{SITE_URL}/{other}/{route.path}' if other in self.PUBLISHED else None)
+                    self.assertEqual(m.get(f'alternate:{other}'), f'{SITE_URL}/{other}/{route.path}'
+                                     if other in self.site.languages(route.key) else None)
                 chooser = route.key == 'home' and len(self.PUBLISHED) > 1     # / chooses only between several languages
                 self.assertEqual(m['alternate:x-default'], f'{SITE_URL}/' if chooser else f'{SITE_URL}/en/{route.path}')
 
@@ -96,12 +98,15 @@ class Metadata(unittest.TestCase):
         for route, lang, url, m in self.indexed():
             release = (route.key == 'home' or route.section == 'index') and (STATIC_DIR / 'share' / folder / f'{lang}.png').is_file()
             card = f'share-{folder}-{lang}' if release else f'share-{lang}'
+            if route.key == 'minhajna':
+                card = f'minhajna-share-{lang}'
             with self.subTest(page=url):
                 self.assertEqual(m['og:url'], url)
                 self.assertEqual(m['og:title'], m['title'].removesuffix(' · djazair.dev'))
                 self.assertEqual(m['og:description'], m['description'])
                 self.assertEqual(m['og:locale'], {'en': 'en_GB', 'ar': 'ar_DZ'}[lang])
-                self.assertEqual(m.get('og:locale:alternate'), {'en': 'ar_DZ', 'ar': 'en_GB'}[lang] if len(self.PUBLISHED) > 1 else None)
+                self.assertEqual(m.get('og:locale:alternate'), {'en': 'ar_DZ', 'ar': 'en_GB'}[lang]
+                                 if len(self.site.languages(route.key)) > 1 else None)
                 self.assertEqual(m['twitter:card'], 'summary_large_image')
                 self.assertRegex(m['og:image'], rf'^{re.escape(SITE_URL)}/assets/{card}\.[0-9a-f]{{10}}\.png$')
                 image = self.dist / m['og:image'].removeprefix(SITE_URL + '/')
@@ -131,7 +136,8 @@ class Metadata(unittest.TestCase):
         self.assertEqual(set(urls), expected)
         for loc, alts in urls.items():
             with self.subTest(url=loc):
-                self.assertEqual(set(alts), {*self.PUBLISHED, 'x-default'})
+                languages = LANGS if '/minhajna/' in loc else self.PUBLISHED
+                self.assertEqual(set(alts), {*languages, 'x-default'})
                 for href in alts.values():
                     self.assertIn(href, urls, 'every alternate is listed too')
                 if loc != f'{SITE_URL}/':

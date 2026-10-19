@@ -126,7 +126,9 @@ class Smoke(unittest.TestCase):
         self.assertEqual(result.counts['embed'], len(embeds))  # linked from the Embed panels, dark and light
         self.assertGreaterEqual(result.counts['file'], 100)
         self.assertEqual(result.counts['zip'], 1)              # the quarterly CSV bundle; report press kits are retired
-        self.assertEqual(result.counts['image'], len(list((self.dist / 'assets').glob('share-*.png'))))   # the site's and the quarter's
+        cards = list((self.dist / 'assets').glob('share-*.png'))
+        cards += list((self.dist / 'assets').glob('minhajna-share-*.png'))
+        self.assertEqual(result.counts['image'], len(cards))
         self.assertIn('response headers were not checked', result.report())
 
     def test_the_site_with_arabic_passes(self):
@@ -137,7 +139,7 @@ class Smoke(unittest.TestCase):
         self.assertTrue(result.ok, result.report())
         self.assertEqual(result.counts['sitemap'], len(re.findall(r'<loc>', (dist / 'sitemap.xml').read_text())))
 
-    def test_root_must_link_to_every_language_in_the_sitemap(self):
+    def test_root_must_link_to_every_published_homepage_language(self):
         s = smoke.Smoke('https://site.example.workers.dev')
         page = smoke.Page('<a href="/en/">English</a>')
         s.check_root(smoke.Answer('/', 200, {}, b'location.replace'), page, ['en'])

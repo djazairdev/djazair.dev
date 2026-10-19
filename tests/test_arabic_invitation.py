@@ -1,6 +1,5 @@
-"""Arabic waits for its review (D28, #61): every /ar/ address shows one page that invites people
-to translate the site, instead of the draft translation, and nothing else Arabic is published.
-English is unchanged, and the search and discovery files name English only."""
+"""Unreviewed Arabic stays an invitation (D28, #61). Only Minhajna's separately approved
+translation ships; the rest of the site and its chart files remain English only."""
 import contextlib
 import io
 import json
@@ -52,7 +51,8 @@ class Invitation(unittest.TestCase):
 
     def addresses(self) -> dict:
         """/ar/ file -> the English address its invitation links to: every page and chart embed."""
-        out = {output_path(self.dist, 'ar', r.path): f'/en/{r.path}' if r.switchable else '/en/' for r in ROUTES}
+        out = {output_path(self.dist, 'ar', r.path): f'/en/{r.path}' if r.switchable else '/en/'
+               for r in ROUTES if r.key != 'minhajna'}
         for page in (self.dist / 'en' / 'embed').rglob('index.html'):
             rel = page.relative_to(self.dist / 'en').as_posix()
             out[self.dist / 'ar' / rel] = f'/en/{rel.removesuffix("index.html")}'
@@ -62,8 +62,9 @@ class Invitation(unittest.TestCase):
         addresses = self.addresses()
         self.assertGreater(len(addresses), len(ROUTES), 'the chart embeds too')
         self.assertIn(self.dist / 'ar' / '404.html', addresses, 'unknown /ar/ addresses get it from the nearest 404.html')
-        self.assertEqual(sorted(p for p in (self.dist / 'ar').rglob('*') if p.is_file()), sorted(addresses),
-                         'no other file under /ar/: no draft page, no index.md')
+        expected = {*addresses, self.dist / 'ar/minhajna/index.html'}
+        self.assertEqual(sorted(p for p in (self.dist / 'ar').rglob('*') if p.is_file()), sorted(expected),
+                         'only invitations and the separately approved teacher page; no draft or index.md')
         allowed = {text for value in STRINGS['ar'].values() for text in ARABIC.findall(value)}
         home = main((self.dist / 'ar' / 'index.html').read_text('utf-8')).replace('href="/en/"', '')
         for path, english in addresses.items():
@@ -123,14 +124,22 @@ class Invitation(unittest.TestCase):
         for name in ('sitemap.xml', 'sitemap.txt', 'llms.txt', 'index.html', '_headers'):
             text = (self.dist / name).read_text('utf-8')
             with self.subTest(file=name):
-                self.assertNotIn(f'{SITE_URL}/ar/', text)
-                self.assertNotIn('hreflang="ar"', text)
+                if name in ('sitemap.xml', 'sitemap.txt', 'llms.txt'):
+                    self.assertIn(f'{SITE_URL}/ar/minhajna/', text)
+                else:
+                    self.assertNotIn(f'{SITE_URL}/ar/', text)
+                    self.assertNotIn('hreflang="ar"', text)
+                self.assertNotIn(f'{SITE_URL}/ar/', text.replace(f'{SITE_URL}/ar/minhajna/', ''))
                 self.assertNotIn('/ar/data/index.md', text)
         for page in (self.dist / 'en').rglob('*.html'):
             html = page.read_text('utf-8')
             with self.subTest(page=str(page.relative_to(self.dist))):
-                self.assertNotIn('hreflang="ar" href="https://', html)
-                self.assertNotIn('og:locale:alternate', html)
+                if page == self.dist / 'en/minhajna/index.html':
+                    self.assertIn(f'hreflang="ar" href="{SITE_URL}/ar/minhajna/"', html)
+                    self.assertIn('og:locale:alternate', html)
+                else:
+                    self.assertNotIn('hreflang="ar" href="https://', html)
+                    self.assertNotIn('og:locale:alternate', html)
                 self.assertNotIn('"inLanguage":["en","ar"]', html)
         self.assertIn('"inLanguage":["en"]', (self.dist / 'en' / 'index.html').read_text('utf-8'))
         self.assertIn('"inLanguage":["en","ar"]', (self.full / 'en' / 'index.html').read_text('utf-8'))

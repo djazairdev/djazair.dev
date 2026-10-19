@@ -11,7 +11,7 @@ python3 site/build.py                                         # writes site/dist
 python3 -m http.server 4322 --bind 127.0.0.1 --directory site/dist
 ```
 
-Then open <http://localhost:4322/>. `python3 site/build.py --all-languages` also builds the Arabic pages, which aren't published yet (below), to translate or review them; never deploy that build. `python3 site/build.py --dev` also builds `/en/_dev/components/` and `/ar/_dev/components/`, which show every shared component and the chart kit on real data; they are never deployed.
+Then open <http://localhost:4322/>. `python3 site/build.py --all-languages` also builds the unreviewed Arabic pages (below), to translate or review them; never deploy that build. `python3 site/build.py --dev` also builds `/en/_dev/components/` and `/ar/_dev/components/`, which show every shared component and the chart kit on real data; they are never deployed.
 
 For the participation landing-page review, use `--all-languages` and check `/en/`, `/ar/`, `/en/hub/?kind=gfi#issues` and `/ar/hub/?kind=gfi#issues`. The Arabic preview includes the actual homepage and contribution guide; task titles retain the language used on GitHub. Its draft notice stays visible until a fluent reviewer signs off. This preview does not change the production language configuration.
 
@@ -51,6 +51,11 @@ For the participation landing-page review, use `--all-languages` and check `/en/
 
 ## Search and sharing
 
+Minhajna's teacher page has its own English and Arabic sharing cards, drawn with
+`python3 site/tools/share.py --minhajna` into `static/minhajna/`. Its individually
+reviewed Arabic translation participates in canonical links, reciprocal `hreflang`,
+Open Graph locales and the sitemap without publishing other Arabic pages.
+
 Every page has its own title and description, a canonical link and `hreflang` links to each published language. Home's `x-default` is `/` while it chooses between several languages; with one, it is that language's Home, `/` is out of the sitemap, and `_redirects` sends `/` there with a 301. Shared links show an Open Graph and X card with the page's title and description and the share image in the page's language: on Home and the Index pages, the card of the quarter they show once `tools/share.py --release` has drawn it, and the site's card everywhere else and until then. The build writes `sitemap.xml`, with every published language of every page and, where the build knows it, the date its content last changed (`lastmod`: the quarter's release for the Index, the Hub's last sync, the latest changelog or correction for the Data page), and `robots.txt`, which points to it and refuses Awario's brand-monitoring crawlers. `_redirects` also sends `/<lang>/index` to the Index at `/<lang>/index/`: without it Cloudflare reads the address as Home's `index.html`. The structured data names the organisation's logo (`/logo.png`, the djazairdev mark, 1024 × 1024) and its GitHub, X and Facebook profiles. A placeholder page (`pages/stub.py`), a report still in draft, the 404 page and the invitation to translate carry `noindex` and stay out of the sitemap. `tests/test_seo.py` checks all of it.
 
 ## Design tokens
@@ -61,7 +66,17 @@ Every page has its own title and description, a canonical link and `hreflang` li
 
 Pages live at `/en/<path>` and `/ar/<path>` with matching `lang`, `dir`, `hreflang` and canonical links. The language switch in the footer keeps the reader on the same page; the header and phone menu have none.
 
-**Arabic is out until it is reviewed** ([#61](https://github.com/djazairdev/djazair.dev/issues/61)). The site is in English only, because the Arabic text is an unreviewed draft and no unreviewed machine translation is published. `config.PUBLISHED` lists the languages served in full: for any other, the build writes the invitation to translate (`pages/invitation.py`) at every address in that language, the chart embeds and `/ar/404.html` included, so an unknown `/ar/…` address gets it too. It says in Arabic, then in English, that the site isn't translated yet, links to [#62](https://github.com/djazairdev/djazair.dev/issues/62), which lists the work, and to the same page in English; it keeps the header and footer, carries `noindex` and works without JavaScript. The sitemap, `hreflang` links, share tags, structured data, `llms.txt` and the Markdown data guides name the published languages only, and no Arabic share image or chart file is published. The Arabic strings stay in `i18n/ar.json` for translators. To bring Arabic back once [#33](https://github.com/djazairdev/djazair.dev/issues/33) signs it off, add `'ar'` to `PUBLISHED` and update `tests/test_arabic_invitation.py`; the other tests already build the Arabic pages with `published=LANGS`.
+**Unreviewed Arabic stays unpublished** ([#61](https://github.com/djazairdev/djazair.dev/issues/61)). `config.PUBLISHED` lists languages served in full and stays `('en',)`. The build writes the invitation to translate (`pages/invitation.py`) at unreviewed Arabic addresses, including chart embeds and `/ar/404.html`, so unknown Arabic addresses get it too. The bilingual invitation links to [#62](https://github.com/djazairdev/djazair.dev/issues/62) and the English counterpart, carries `noindex` and works without JavaScript. Draft translations remain in `i18n/ar.json` for review.
+
+Only `/ar/minhajna/` has a page-specific human approval, recorded in
+`content/page-reviews.json` and validated by `djsite/publication.py`. Its exact
+Arabic strings, metadata and accessibility labels are fingerprinted: stale copy
+fails the production build. It gets its own sharing card and discovery links;
+other Arabic pages, general sharing cards, chart files and Markdown data guides
+remain unpublished. See [the review record](../docs/arabic-review.md#approval-for-one-page).
+Once the whole-site review in [#33](https://github.com/djazairdev/djazair.dev/issues/33)
+is complete, add `'ar'` to `PUBLISHED` and update the invitation tests; tests also
+build all languages with `published=LANGS` for local review.
 
 `/` picks a published language with a small inline script: the language the reader last chose with the footer's language switch (kept in `localStorage`), otherwise the first published entry in the browser's preferred languages, otherwise English. With English alone it sends everyone to `/en/`, and without JavaScript a meta refresh and a plain link do the same; with more than one language, `/` without JavaScript is a plain chooser. Each language also has its own `404.html`; Cloudflare serves the nearest one (`not_found_handling` in [`wrangler.jsonc`](../wrangler.jsonc)).
 

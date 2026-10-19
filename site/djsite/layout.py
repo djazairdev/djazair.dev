@@ -8,6 +8,7 @@ from .fmt import fint, fpct, quarter_label
 from .icons import github_mark, icon, mark, wordmark
 from .markup import Markup, esc, join
 from . import structured
+from .pages import minhajna
 
 # (main-nav key, route it links to)
 MAIN_NAV = [('index', 'overview'), ('hub', 'hub'), ('data', 'data')]
@@ -25,7 +26,7 @@ FOOTER = [
                     ('footer.meetups', 'meetups', '')]),
     ('footer.project', [('footer.data', 'data', ''),
                         ('footer.changelog', 'data', 'changelog'), ('footer.corrections', 'data', 'corrections'),
-                        ('footer.about', 'about', '')]),
+                        ('footer.about', 'about', ''), ('minhajna.brand', 'minhajna', '')]),
 ]
 
 
@@ -129,10 +130,10 @@ def footer(ctx: Ctx) -> Markup:
 </footer>''')
 
 
-def notices(ctx: Ctx) -> Markup:
-    items = []
+def notices(ctx: Ctx, *, teacher: bool = False) -> Markup:
+    items = [ctx.t('minhajna.unofficial_notice')] if teacher else []
     # A language that isn't published shows only the invitation to translate: no draft to warn about.
-    if ctx.lang in ctx.site.published and not ctx.site.catalog.reviewed(ctx.lang):
+    if not teacher and ctx.lang in ctx.site.published and not ctx.site.catalog.reviewed(ctx.lang):
         items.append(ctx.t('notice.draft'))
     if ctx.fallbacks:
         items.append(ctx.t('notice.fallback'))
@@ -147,19 +148,21 @@ def head_links(ctx: Ctx, page: Page) -> Markup:
     if not (ctx.route.indexed and page.indexed):
         return Markup('<meta name="robots" content="noindex">')
     key = ctx.route.key
-    alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ctx.abs_url(key, l)}">' for l in ctx.site.published)
+    alts = ''.join(f'<link rel="alternate" hreflang="{l}" href="{ctx.abs_url(key, l)}">' for l in ctx.site.languages(key))
     x_default = SITE_URL + '/' if key == 'home' and ctx.site.chooser else ctx.abs_url(key, 'en')
     return Markup(f'<link rel="canonical" href="{ctx.abs_url(key)}">{alts}'
                   f'<link rel="alternate" hreflang="x-default" href="{x_default}">')
 
 
-def social(site, lang: str, title: str, description: str, url: str, image_alt: str, image: str = '') -> Markup:
+def social(site, lang: str, title: str, description: str, url: str, image_alt: str, image: str = '',
+           languages: tuple = None) -> Markup:
     """Open Graph and X card tags: what a shared link shows. ``image``: the site's card in the
     language unless another is given. The other published languages are its alternate locales."""
     image = image or site.assets.share.get(lang)
     tags = [('og:type', 'website'), ('og:site_name', 'djazair.dev'), ('og:title', title), ('og:description', description),
             ('og:url', url), ('og:locale', OG_LOCALES[lang])]
-    tags += [('og:locale:alternate', OG_LOCALES[other]) for other in site.published if other != lang]
+    tags += [('og:locale:alternate', OG_LOCALES[other]) for other in
+             (site.published if languages is None else languages) if other != lang]
     if image:
         tags += [('og:image', SITE_URL + image), ('og:image:width', '1200'), ('og:image:height', '630'),
                  ('og:image:alt', image_alt)]
@@ -185,9 +188,11 @@ def share_tags(ctx: Ctx, page: Page, title: str) -> Markup:
     if not (ctx.route.indexed and page.indexed):
         return Markup('')
     image, alt = share_image(ctx)
+    if page.share_image:
+        image, alt = page.share_image, page.share_alt
     # Shared links name the site separately (og:site_name), so the title drops " · djazair.dev".
     return social(ctx.site, ctx.lang, title.removesuffix(' · djazair.dev'), page.description,
-                  ctx.abs_url(ctx.route.key), alt, image)
+                  ctx.abs_url(ctx.route.key), alt, image, languages=ctx.site.languages(ctx.route.key))
 
 
 def full_title(ctx: Ctx, page: Page) -> str:
@@ -205,12 +210,16 @@ def full_title(ctx: Ctx, page: Page) -> str:
 def document(ctx: Ctx, page: Page) -> str:
     assets = ctx.site.assets
     # Render the shell after the body so fallbacks from every part are counted before the notice.
-    head_html, sub_html, foot_html = header(ctx), subnav(ctx), footer(ctx)
+    teacher = ctx.route.key == 'minhajna'
+    if teacher and page.style == 'minhajna':
+        head_html, sub_html, foot_html = minhajna.header(ctx, lang_switch(ctx)), Markup(''), minhajna.footer(ctx)
+    else:
+        head_html, sub_html, foot_html = header(ctx), subnav(ctx), footer(ctx)
     title = full_title(ctx, page)
-    scripts = ''.join(f'<script src="{src}" defer></script>' for src in (assets.js, *page.scripts))
-    if ctx.site.actions and page.indexed:
+    scripts = '' if teacher else ''.join(f'<script src="{src}" defer></script>' for src in (assets.js, *page.scripts))
+    if ctx.site.actions and page.indexed and not teacher:
         scripts += f'<script src="{assets.scripts["actions"]}" defer></script>'
-    if ctx.site.analytics:      # Cloudflare Web Analytics: no cookies (docs/deploy.md#analytics)
+    if ctx.site.analytics and not teacher:      # Cloudflare Web Analytics: no cookies (docs/deploy.md#analytics)
         scripts += f'<script src="{BEACON_URL}" defer data-cf-beacon=\'{{"token": "{ctx.site.analytics}"}}\'></script>'
     return f'''<!doctype html>
 <html lang="{ctx.lang}" dir="{ctx.dir}">
@@ -235,7 +244,7 @@ def document(ctx: Ctx, page: Page) -> str:
 <a class="skip" href="#main">{ctx.t('a11y.skip')}</a>
 {head_html}
 {sub_html}
-{notices(ctx)}
+{notices(ctx, teacher=teacher and page.style == 'minhajna')}
 <main id="main" tabindex="-1">
 {page.body}
 </main>
