@@ -47,6 +47,7 @@ class Assets:
     share: dict = field(default_factory=dict)     # lang -> URL of the 1200 × 630 share image (site/tools/share.py)
     release_share: dict = field(default_factory=dict)   # lang -> URL of the quarter's share image, when there is one
     styles: dict = field(default_factory=dict)          # route -> only the styles that page uses
+    minhajna: dict = field(default_factory=dict)        # self-hosted app artwork and release screenshots
 
     def inline_style(self, extra: str = '', route: str = '') -> Markup:
         """The stylesheet for a <style> element, with the page's own rules after it (Home's hero)."""
@@ -87,6 +88,7 @@ def build(out: Path, release: str = '', langs: tuple = LANGS) -> Assets:
         'hub': ('53-hub.css',), 'localisation': ('53-hub.css',),
         'meetups': ('53-hub.css',), 'about': ('52-docs.css',),
         'data': ('52-docs.css', '55-data.css'),
+        'minhajna': ('56-minhajna.css',),
         'notfound': (), 'root': (), 'invitation': (),
     }
     for route in ('peers', 'trends', 'languages', 'topics', 'collaboration', 'rankings'):
@@ -121,5 +123,7 @@ def build(out: Path, release: str = '', langs: tuple = LANGS) -> Assets:
 
     shutil.copy2(STATIC_DIR / 'favicon.svg', out / 'favicon.svg')
     shutil.copy2(STATIC_DIR / 'logo.png', out / 'logo.png')
+    minhajna = {path.name: _write_hashed(out, f'minhajna-{path.stem}', path.suffix[1:], path.read_bytes())
+                for path in sorted((STATIC_DIR / 'minhajna').iterdir()) if path.suffix in ('.svg', '.png', '.jpg')}
     return Assets(style=css, js=js_url, fonts=fonts, scripts=scripts, share=share, release_share=release_share,
-                  styles=styles)
+                  styles=styles, minhajna=minhajna)

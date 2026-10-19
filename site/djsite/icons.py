@@ -14,6 +14,7 @@ _PATHS = {
     'menu': '<path d="M4 8h16"/><path d="M4 16h16"/>',
     'close': '<path d="m6 6 12 12"/><path d="M18 6 6 18"/>',
     'download': '<path d="M12 4v11"/><path d="m7 10 5 5 5-5"/><path d="M5 20h14"/>',
+    'phone': '<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M10 5h4"/><path d="M10 19h4"/>',
     'share': '<path d="M12 15V4"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/>',
     'embed': '<path d="M9 7 4 12l5 5"/><path d="m15 7 5 5-5 5"/>',
     'info': '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
@@ -74,3 +75,19 @@ def github_mark(size: int = 20) -> Markup:
     """Decorative GitHub logo; the adjacent link text provides its accessible name."""
     return Markup(f'<svg class="icon github-mark" width="{size}" height="{size}" viewBox="0 0 98 96" '
                   f'fill="none" aria-hidden="true" focusable="false">{_github_path()}</svg>')
+
+
+@lru_cache(maxsize=None)
+def _android_svg() -> str:
+    return (STATIC_DIR / 'brand' / 'android-head-flat.svg').read_text('utf-8').strip()
+
+
+def android_mark(instance: str, size: int = 24) -> Markup:
+    """Official robot artwork; only sizing, decorative attributes and clip IDs change."""
+    if not re.fullmatch(r'[a-z]+', instance):
+        raise ValueError('Android logo instance must be a lowercase identifier')
+    attributes = (f'class="icon android-mark" width="{size}" height="{size}" viewBox="0 0 152 89" '
+                  'aria-hidden="true" focusable="false"')
+    svg = _android_svg().replace('width="152" height="89"', attributes)
+    id_ = f'mh-android-{instance}'
+    return Markup(svg.replace('id="a"', f'id="{id_}"').replace('url(#a)', f'url(#{id_})'))

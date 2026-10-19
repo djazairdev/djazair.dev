@@ -1,8 +1,16 @@
 # Arabic review
 
-The Arabic text was drafted with AI and hasn't been checked by a fluent reader yet. A fluent reviewer checks all of it and signs it off (ticket [#33](https://github.com/djazairdev/djazair.dev/issues/33)). No unreviewed machine translation ships.
+Most Arabic text was drafted with AI and still awaits a fluent reader. A fluent reviewer checks it and signs it off (ticket [#33](https://github.com/djazairdev/djazair.dev/issues/33)). No unreviewed machine translation ships. Minhajna's teacher page has its own approval, recorded below; that does not approve the rest of the site.
 
-**Until then, Arabic isn't published**: djazair.dev is in English, and every `/ar/` address shows one page, in Arabic and English, that invites people to help translate ([#62](https://github.com/djazairdev/djazair.dev/issues/62)) and links to the same page in English. Its few strings (`invite.*` in `ar.json`) are the only Arabic on the site, with the header and footer. To see the Arabic pages, build them with `python3 site/build.py --all-languages`; they then say the text is a draft. Once every row below is signed, add `'ar'` to `PUBLISHED` in `site/djsite/config.py` in the same pull request, and the Arabic pages come back ([site/README.md](../site/README.md#routes-and-languages)).
+**Until then, unreviewed Arabic isn't published**: every `/ar/` address except the approved `/ar/minhajna/` shows the invitation to translate ([#62](https://github.com/djazairdev/djazair.dev/issues/62)) and links to its English counterpart. To see the draft Arabic pages, build with `python3 site/build.py --all-languages`; never deploy that review build. Once every row below is signed, add `'ar'` to `PUBLISHED` in `site/djsite/config.py` in the same pull request ([site/README.md](../site/README.md#routes-and-languages)).
+
+## Approval for one page
+
+Amine Yagoub approved the Arabic Minhajna download page on 19 October 2026 and explicitly asked for publication. `content/page-reviews.json` records the reviewer, date and SHA-256 fingerprint of its Arabic strings. `djsite/publication.py` scopes this approval to `minhajna.*`, `pages.minhajna.*`, `a11y.skip` and `a11y.language`, covering the page, its metadata and its shared accessibility labels. The sharing card uses the same reviewed copy.
+
+The default build publishes only that Arabic page alongside English. Its canonical, language alternates, sharing tags and sitemap include both versions. `PUBLISHED` stays `('en',)` and `_meta.reviewed` stays false: the other Arabic pages, chart embeds, general sharing cards and Markdown data guide remain unpublished. The root redirect still leads to English.
+
+A missing translation, stale fingerprint, missing reviewer or invalid date stops a production build. After an approved string changes, obtain a fresh human review before updating its fingerprint; do not regenerate the approval merely to pass a check. Review text with `--all-languages`, then run the default build and tests before submitting through the normal pull-request and deployment workflow.
 
 ## What to review
 

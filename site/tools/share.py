@@ -4,12 +4,13 @@ emblem, captured in Chrome:
 
     python3 site/tools/share.py             # the site's card, with the tagline
     python3 site/tools/share.py --release   # the latest quarter's card, with its headline figures
+    python3 site/tools/share.py --minhajna  # the teacher download page, using its original logo
 
 The first writes site/static/share/en.png and ar.png: run it after changing the tagline, the
 emblem or the colours. The second writes site/static/share/<quarter>/en.png and ar.png
 (2026-q1/en.png …) with the figures at the top of Home and its unit map; the data workflow runs
 it for each new release. Home and the Index pages show the card of the quarter they show, or
-the site's card while there is none; other pages show the site's card. Commit the images: the
+the site's card while there is none; Minhajna has its own cards. Commit the images: the
 build only copies them. Standard library only; it uses the installed Chrome, like
 site/tools/perf.py.
 """
@@ -29,6 +30,7 @@ sys.path.insert(0, str(SITE))
 
 import perf  # noqa: E402
 from djsite import charts  # noqa: E402
+from djsite import minhajna_share  # noqa: E402
 from djsite.charts import SANS, _num  # noqa: E402
 from djsite.config import I18N_DIR, LANGS, STATIC_DIR  # noqa: E402
 from djsite.context import Ctx, Site  # noqa: E402
@@ -191,10 +193,15 @@ def capture(chrome: perf.Chrome, url: str) -> bytes:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.split('\n\n')[0])
-    parser.add_argument('--release', action='store_true', help="draw the latest quarter's card instead of the site's")
+    kind = parser.add_mutually_exclusive_group()
+    kind.add_argument('--release', action='store_true', help="draw the latest quarter's card instead of the site's")
+    kind.add_argument('--minhajna', action='store_true', help="draw Minhajna's download-page cards")
     parser.add_argument('--html', action='store_true', help='write the cards as HTML next to the images, to look at them')
     args = parser.parse_args(argv)
-    if args.release:
+    if args.minhajna:
+        out = STATIC_DIR / 'minhajna'
+        cards = {lang: page(lang, minhajna_share.body(lang), minhajna_share.STYLE) for lang in LANGS}
+    elif args.release:
         contexts = {lang: release_context(lang) for lang in LANGS}
         out = OUT / contexts['en'].site.data.folder.name
         cards = {lang: release_card(ctx) for lang, ctx in contexts.items()}
@@ -210,10 +217,11 @@ def main(argv=None) -> int:
         out.mkdir(parents=True, exist_ok=True)
         for lang in cards:
             png = capture(chrome, f'http://127.0.0.1:{server.server_address[1]}/{lang}.html')
-            (out / f'{lang}.png').write_bytes(png)
+            name = f'share-{lang}' if args.minhajna else lang
+            (out / f'{name}.png').write_bytes(png)
             if args.html:
-                (out / f'{lang}.html').write_text(cards[lang], 'utf-8')
-            print(f'{out / f"{lang}.png"}: {len(png) / 1024:.0f} KB')
+                (out / f'{name}.html').write_text(cards[lang], 'utf-8')
+            print(f'{out / f"{name}.png"}: {len(png) / 1024:.0f} KB')
     finally:
         chrome.close()
         server.shutdown()

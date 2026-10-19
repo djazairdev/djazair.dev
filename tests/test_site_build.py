@@ -61,12 +61,12 @@ class BuiltSite(unittest.TestCase):
                 with self.subTest(route=route.key, lang=lang):
                     # Placeholders, drafts and invitations to translate stay out of search.
                     if (not route.indexed or route.render is stub.render or route.key in DRAFTS
-                            or lang not in self.PUBLISHED):
+                            or lang not in self.site.languages(route.key)):
                         self.assertEqual(alternates, {})
                         self.assertEqual(canonical, [])
                         continue
-                    self.assertEqual(set(alternates), {*self.PUBLISHED, 'x-default'})
-                    for other in self.PUBLISHED:
+                    self.assertEqual(set(alternates), {*self.site.languages(route.key), 'x-default'})
+                    for other in self.site.languages(route.key):
                         self.assertEqual(alternates[other], f'https://djazair.dev/{other}/{route.path}')
                     self.assertEqual(canonical, [f'https://djazair.dev/{lang}/{route.path}'])
 
@@ -102,6 +102,8 @@ class BuiltSite(unittest.TestCase):
         # nor those into a page that shows the invitation to translate: the header's and footer's.
         stubs = {output_path(self.dist, lang, r.path) for r in ROUTES if r.render is stub.render for lang in LANGS}
         stubs |= {p for lang in LANGS if lang not in self.PUBLISHED for p in (self.dist / lang).rglob('*.html')}
+        stubs -= {output_path(self.dist, lang, route.path) for route in ROUTES
+                  for lang in self.site.languages(route.key) if route.render is not stub.render}
         for path, doc in self.docs.items():
             refs = [a.get('href', '') for a in doc.anchors] + [l.get('href', '') for l in doc.links]
             for href in refs:

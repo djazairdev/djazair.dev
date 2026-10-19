@@ -12,8 +12,8 @@ It reads the sitemap the site publishes and checks that:
   press kit, fonts and scripts;
 - the share images are PNG files, the press kit is a zip, robots.txt names the sitemap, and a
   missing page gets the site's 404 page;
-- / sends readers to each language the sitemap lists. With one language (English, while Arabic
-  shows the invitation to translate, which the language switch's "ع" links lead to), Cloudflare
+- / sends readers to each homepage language the sitemap lists. With one homepage language
+  (English, while Arabic pages await review apart from Minhajna), Cloudflare
   redirects / to it permanently (_redirects), and elsewhere the page at / does;
 - when Cloudflare answers, /<lang>/index redirects permanently to the Index at /<lang>/index/,
   rather than to Home, whose file is /<lang>/index.html;
@@ -179,7 +179,8 @@ class Smoke:
             return self
         pages = self.fetch_all(self.local(loc, self.base + '/') for loc in locs)
         self.counts['sitemap'] = len(pages)
-        langs = sorted({self.path(url).strip('/').split('/')[0] for url in pages} & {'en', 'ar'})
+        langs = [lang for lang in ('ar', 'en') if f'{self.base}/{lang}/' in pages]
+        index_langs = [lang for lang in ('ar', 'en') if f'{self.base}/{lang}/index/' in pages]
         links, images = set(), set()
         for url, answer in pages.items():
             path = self.path(url)
@@ -208,7 +209,7 @@ class Smoke:
         if self.base + '/' not in pages:
             self.check_root_address(langs)
         if self.cloudflare:
-            self.check_index_redirects(langs)
+            self.check_index_redirects(index_langs)
         self.check_links(links - images, seen=set(pages) | images)
         self.check_images(images)
         self.check_robots()
@@ -232,7 +233,7 @@ class Smoke:
         return {target for target in (self.local(link, url) for link in page.links) if target}
 
     def check_root(self, answer: Answer, page: Page, langs: list):
-        """``langs``: the languages the sitemap has pages in."""
+        """``langs``: languages with an indexed homepage, not a single reviewed subpage."""
         text = answer.body.decode('utf-8', 'replace')
         if 'location.replace' not in text:
             self.fail('/ does not send readers to their language')

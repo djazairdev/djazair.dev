@@ -4,7 +4,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from .config import DIRS, PUBLISHED, SITE_URL
+from .config import DIRS, LANGS, PUBLISHED, SITE_URL
 from .i18n import _PLACEHOLDER, Catalog, fill
 from .markup import Markup
 
@@ -34,6 +34,8 @@ class Page:
     indexed: bool = True           # False keeps the page out of search and the sitemap (placeholders)
     css: str = ''                  # the page's own rules, generated from the data, after the stylesheet (Home's hero)
     style: str = ''                # the styles to inline, if not its route's own (the invitation page)
+    share_image: str = ''          # optional page-specific Open Graph card
+    share_alt: str = ''
 
 
 @dataclass
@@ -51,6 +53,11 @@ class Site:
     cache: dict = field(default_factory=dict)   # what pages read once per build, such as a report's quarter
     published: tuple = PUBLISHED   # languages served in full; the others show the invitation to translate
     actions: bool = False          # first-party action counts; explicitly enabled for a build
+    reviewed_pages: dict = field(default_factory=dict)  # individually approved translations
+
+    def languages(self, page: str) -> tuple:
+        """Published versions of this page, including only its reviewed exceptions."""
+        return tuple(lang for lang in LANGS if lang in self.published or lang in self.reviewed_pages.get(page, ()))
 
     def add_file(self, path: str, data: bytes) -> str:
         """Register a generated file, such as a chart download, and return its URL. Pages in

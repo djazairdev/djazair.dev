@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 from .context import Route
-from .pages import (about, collaboration, datapage, home, hub, languages, localisation, meetups, notfound, overview, peers,
+from .pages import (about, collaboration, datapage, home, hub, languages, localisation, meetups, minhajna, notfound, overview, peers,
                     rankings, topics, trends)
 
 ROUTES = [
@@ -19,5 +19,6 @@ ROUTES = [
     Route('meetups', 'meetups/', meetups.render, ticket=43),
     Route('data', 'data/', datapage.render, section='data', ticket=24, last=True),
     Route('about', 'about/', about.render, ticket=23),
+    Route('minhajna', 'minhajna/', minhajna.render),
     Route('notfound', '404.html', notfound.render, switchable=False, indexed=False),
 ]

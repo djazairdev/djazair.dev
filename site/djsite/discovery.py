@@ -22,8 +22,7 @@ Policy: {REPO_URL}/blob/main/SECURITY.md
 
 
 def write(out, site, xml: str) -> None:
-    """Only the published languages: an address in another one shows the invitation to translate."""
-    others = [lang for lang in site.published if lang != 'en']
+    """Only published pages and individually reviewed translations appear in discovery files."""
     urls = [node.text for node in ET.fromstring(xml).findall('{http://www.sitemaps.org/schemas/sitemap/0.9}url/{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
     (out / 'sitemap.txt').write_text('\n'.join(urls) + '\n', 'utf-8')
     (out / '.well-known').mkdir(exist_ok=True)
@@ -44,10 +43,11 @@ Quarterly derived data is CC0; population inputs are World Bank CC BY 4.0. Do no
 ## Main pages
 
 '''
-    for key in ('home', 'overview', 'rankings', 'peers', 'trends', 'languages', 'topics', 'collaboration', 'hub', 'meetups', 'data', 'about'):
+    for key in ('home', 'overview', 'rankings', 'peers', 'trends', 'languages', 'topics', 'collaboration', 'hub', 'meetups', 'data', 'about', 'minhajna'):
         if key not in site.routes or 'en' not in site.indexed.get(key, ()):
             continue
         ctx = Ctx(site, 'en', site.routes[key])
+        others = [lang for lang in site.languages(key) if lang != 'en']
         label = 'Home' if key == 'home' else ctx.s(f'pages.{key}.title')
         versions = '; '.join(f'{NAMES[lang]} version at {ctx.abs_url(key, lang=lang)}' for lang in others)
         guide += f'- [{label}]({ctx.abs_url(key)})' + (f': English page; {versions}' if others else '') + '\n'
@@ -59,7 +59,7 @@ Quarterly derived data is CC0; population inputs are World Bank CC BY 4.0. Do no
 - [Release manifest]({SITE_URL}/data/{data.folder.name}/manifest.json): file sizes, SHA-256 checksums and source references.
 - [Release README]({SITE_URL}/data/{data.folder.name}/README.md): table descriptions and licensing.
 - [Data dictionary]({REPO_URL}/blob/main/data/README.md): column definitions and formulas.
-- [All indexed pages]({SITE_URL}/sitemap.txt): canonical {' and '.join(NAMES[lang] for lang in site.published)} URLs.
+- [All indexed pages]({SITE_URL}/sitemap.txt): canonical URLs for published pages and reviewed translations.
 
 ## Participation
 

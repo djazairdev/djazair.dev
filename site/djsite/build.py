@@ -22,6 +22,7 @@ from .context import Ctx, Route, Site
 from .data import DERIVED_DIR, Hub, load as load_data
 from .i18n import Catalog
 from .pages import dev as dev_page, invitation, root
+from .publication import REVIEW_FILE, reviewed_pages
 from .routes import ROUTES
 
 MARKER = '.djsite-build'
@@ -116,7 +117,7 @@ def sitemap(site: Site) -> str:
 
     entries = []
     for key, route in site.routes.items():
-        langs = [lang for lang in LANGS if lang in site.published and lang in site.indexed.get(key, ())]
+        langs = [lang for lang in LANGS if lang in site.indexed.get(key, ())]
         root = key == 'home' and site.chooser
         x_default = f'{SITE_URL}/' if root else url(key, 'en')
         alts = [(lang, url(key, lang)) for lang in langs] + [('x-default', x_default)]
@@ -202,10 +203,10 @@ def analytics_token(value: Optional[str] = None) -> str:
 
 def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool = False, i18n_dir: Path = I18N_DIR,
           derived_dir: Path = DERIVED_DIR, hub_dir: Optional[Path] = None, analytics: Optional[str] = None,
-          published: tuple = PUBLISHED, actions: bool = False) -> Site:
+          published: tuple = PUBLISHED, actions: bool = False, review_file: Path = REVIEW_FILE) -> Site:
     """``analytics``: the Cloudflare Web Analytics token; by default read from the environment.
-    ``published``: the languages served in full; every address in another shows the invitation to
-    translate (pages/invitation.py)."""
+    ``published``: languages served in full. Other pages show the invitation to translate
+    (pages/invitation.py), except translations with an explicit page-specific human review."""
     started = time.time()
     catalog = Catalog(i18n_dir)
     all_routes = list(routes or ROUTES)
@@ -214,12 +215,15 @@ def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool =
     site = Site(catalog=catalog, routes={r.key: r for r in all_routes}, dev=dev, data=load_data(derived_dir),
                 hub=Hub(hub_dir or Path(derived_dir) / 'hub'), analytics=analytics_token(analytics),
                 published=tuple(lang for lang in LANGS if lang in published), actions=actions)
+    site.reviewed_pages = reviewed_pages(catalog, site.published, review_file)
     _prepare(out)
     site.assets = assets.build(out, release=site.data.folder.name, langs=site.published)
     add_data_files(site, derived_dir)
 
-    for lang in site.published:
+    for lang in LANGS:
         for route in sorted(site.routes.values(), key=lambda r: r.last):
+            if lang not in site.languages(route.key):
+                continue
             ctx = Ctx(site, lang, route)
             page = route.render(ctx)
             if route.indexed and page.indexed:
@@ -237,6 +241,8 @@ def build(out: Path = DEFAULT_OUT, dev: bool = False, routes=None, quiet: bool =
     # after the English pages, which register the chart embeds.
     for lang in (lang for lang in LANGS if lang not in site.published):
         for path, route, english in invitation.addresses(site):
+            if path == route.path and lang in site.languages(route.key):
+                continue
             ctx = Ctx(site, lang, route, links=site.published[0])
             dest = output_path(out, lang, path)
             dest.parent.mkdir(parents=True, exist_ok=True)
