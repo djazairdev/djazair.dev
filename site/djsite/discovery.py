@@ -79,17 +79,17 @@ Quarterly derived data is CC0; population inputs are World Bank CC BY 4.0. Do no
         ctx = Ctx(site, lang, site.routes['data'])
         text = f'# {ctx.s("pages.data.title")}\n\n{ctx.s("pages.data.description")}\n\n'
         text += f'{data.quarter} · {data.release_date}\n\n'
-        text += f'[Canonical HTML page]({ctx.abs_url("data")})\n\n'
+        text += f'[{ctx.s("downloads.guide_canonical_page")}]({ctx.abs_url("data")})\n\n'
         for section in sections((CONTENT_DIR / 'methodology' / f'{lang}.md').read_text('utf-8')):
             if section.id in ('sources', 'indicators', 'peer-groups', 'limitations', 'updates'):
                 body = re.sub(r'route:([a-z-]+)', lambda m: ctx.abs_url('data' if m[1] == 'methodology' else m[1]), section.body)
                 text += f'## {section.title}\n\n{body}\n\n'
-        text += '\n## CSV and JSON\n\n'
+        text += f'\n## {ctx.s("downloads.guide_csv_json")}\n\n'
         for table in sorted({f['table'] for f in data.files.values() if 'table' in f}):
             text += f'### {ctx.s(f"downloads.t.{table}.title")}\n\n{ctx.s(f"downloads.t.{table}.text")}\n\n'
             for name, entry in sorted(data.files.items()):
                 if entry.get('table') == table:
                     text += f'- [{name}]({SITE_URL}/data/{data.folder.name}/{name})\n'
             text += '\n'
-        text += f'[Column definitions and formulas]({REPO_URL}/blob/main/data/README.md)\n'
+        text += f'[{ctx.s("downloads.guide_column_definitions")}]({REPO_URL}/blob/main/data/README.md)\n'
         (out / lang / 'data' / 'index.md').write_text(text, 'utf-8')
