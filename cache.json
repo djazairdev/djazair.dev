@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"bf2b8694eb1ac480c684d57ffaee7cd5a0ab5f326a4b174f4d065878b93f7cbf\"",
+   "etag": "\"465675bd293ca42f419a749fe226953f4bda1ef29f7a3a384e38aaf9b33230f4\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"9e60b436984e04f216499d4fb27d9db5430df96338ef6182c0897fe963f732aa\"",
+   "etag": "\"25c8de4c30b99208ef67747db350fb656a96438517c165c4d3425c47d1d3a642\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"930ff0e4a7c38d9cbc8e88a4fac9ba13b5441aff4d2c37ddb27ddef9da757305\"",
+   "etag": "\"88b607f778e542e7d11072dbc4af8b29cf15f1a6ec601287cd0137ac7a63bed0\"",
    "data": "2026-10-19T12:42:22Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"2cce2a1bac17bf2882ad71012623b25be225120cafdd44524b84c6f1c2e219b9\"",
+   "etag": "\"3038f18516e1f8131b17becc9323a3a9cc97b28480d873782c0414e7d0eddbb9\"",
    "data": {
     "n": 5,
     "issues": [
@@ -184,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"28294e0f21f187a41e3625c31c6f52a01cf63447208fa6859f6df8da588884f3\"",
+   "etag": "\"da5ef98146eb22f945b347102b7b6d1207b56284fe921b94de0ec93027767079\"",
    "data": {
     "n": 7,
     "issues": [
@@ -278,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"99a96a490d9bd4dce6cc4dad5567150c69ba4b29219a76d59a0a74a0f48a7cb6\"",
+   "etag": "\"4a28fa5dc03dbeb9e1681a2707759625f154b39ccee453637ca1dd1fc1c6e03d\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -293,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"04cf380a1a21f46309f4d64f5f5ec3318a77ee9afc8346cc64eeecc84537d63f\"",
+   "etag": "\"3dc20bcf25cbe0b5de4a944d5ac9834129acf18fb415d12bcb3643a0e9daf7c2\"",
    "data": "2026-10-15T10:20:34Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"58711c5b282a7bc89779ba935519dfc474b4368dd83af5530a5829aa659c9af0\"",
+   "etag": "\"aade118a4133d5a6f0225abda6d3285ab88ca9c041745b20334dbabe23bce52d\"",
    "data": {
     "n": 6,
     "issues": [
@@ -369,7 +369,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"5aae457aa937819546808ea1769c933fef6f0c42b7b4e5356fc64c4ba7de98a4\"",
+   "etag": "\"846e8889f54ed70f49a05ffd5cb9aa244575753a80220eb1b1fb06baf380eff8\"",
    "data": {
     "n": 2,
     "issues": [
@@ -399,7 +399,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"d11ab1021e2c09a8a1ce153cf9f99e535354507a5215bc8d4e9cbe937d1a4123\"",
+   "etag": "\"d74979ce743d0eff137b6f849a57f4ee810bd44bb05e7a3ff2cbe2ab05e2d49f\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -414,11 +414,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"9be27729c6fb3164023a8b7f7b02fd232510d256c1cedcf20d49e511fb428ee5\"",
+   "etag": "\"c287f834113657f1a53a58cb135aefc0a185be7b32c1c42d2af438299d7fa20a\"",
    "data": "2026-10-15T10:20:41Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"18c02abd27953898225f4016fd2cea204943a96b2bea69deeb6679fa4d47c1c1\"",
+   "etag": "\"406d6202374f8fb07daeebbefce3c1df903fe706bc9ef7eee47172556315f066\"",
    "data": {
     "n": 6,
     "issues": [
@@ -493,7 +493,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"c913625d02d3e3505b1d69d65a02c749c1425a380e0bdbcc1461f7df26fafbd2\"",
+   "etag": "\"f9c649737ac51300b9bfce44d5962d88df6c114ba410bea95db0028265a6b86f\"",
    "data": {
     "n": 8,
     "issues": [
@@ -589,7 +589,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"f8019a0669b01653e8aeb0fb27caeeb8cbf14d66e9eec4511817711df09afb74\"",
+   "etag": "\"5a134591d79ff2ed0dabbcc9791e361122ad9944dd9418acaaecd17cccda785e\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -604,11 +604,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"e4e29d2d9734654ab724fc6735618a8e712ee2f30364757484a52145689f6e1a\"",
+   "etag": "\"eb3ab0c370ad4a4260da554491dfc7d2a5bca64bb3b54aa45461d7792a7339f4\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"846aa65eaea6d55a9ffd9e9745effb55c41877dc7bacb5b738d148b52be0bcf4\"",
+   "etag": "\"ce5ee43600037ade552b9240fab87a76ad7a4a2ae111824041a1813be15e770b\"",
    "data": {
     "n": 42,
     "issues": [
@@ -1266,7 +1266,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"b099614b6331acb36c397982a2c5ccca12fd46659c35df86c31a6354e55579c0\"",
+   "etag": "\"831385d2cb6109b267c69492ec57ea6a0dba2922effacc4f538253a81254a642\"",
    "data": {
     "n": 99,
     "issues": [
@@ -2885,11 +2885,11 @@
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"17e7a88cfb4ddc7c0fc027ddb920e2c502b0f06d7292591db503bbed4736e346\"",
+   "etag": "\"6368de1d850462680b7109b86813f5cb0668e2ef0545563f4716396c1d5adb6b\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
-    "description": "A free, open-source app for Algeria's teachers: from the yearly plan to every lesson. In development: the core and an Android preview are on main.",
+    "description": "A free, open-source project building an integrated digital system for teaching in Algeria: from the yearly plan to every lesson. In development: the core and an Android preview are on main.",
     "language": "TypeScript",
     "licence": "AGPL-3.0",
     "topic": true,
@@ -2900,26 +2900,14 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"7ddbae13e9ba52b3c56b03afb09e117a160018f6ba0a260a940eb94a612d6a14\"",
-   "data": "2026-10-19T17:39:20Z"
+   "etag": "\"479c2d9e3fd4bd6a1395f6a4e57796f7384ed4a36283a5c0bd128a871c0763ec\"",
+   "data": "2026-10-20T09:36:07Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"7051c55bea7fc2d0638776823a9587362e19b864b1b0adda8f840e9b1f3d65db\"",
+   "etag": "\"138953a3a874cec8e003d278b9e89c81de5e0069ca4cfb072a17d3c556ebebf8\"",
    "data": {
-    "n": 5,
+    "n": 4,
     "issues": [
-     {
-      "number": 205,
-      "url": "https://github.com/djazairdev/minhajna/issues/205",
-      "title": "Use the PrivateNote panel on the Entry screen",
-      "labels": [
-       "good first issue",
-       "area: a11y",
-       "area: android"
-      ],
-      "created_at": "2026-10-18T09:11:03Z",
-      "needs": "React Native and TypeScript"
-     },
      {
       "number": 69,
       "url": "https://github.com/djazairdev/minhajna/issues/69",
@@ -2969,10 +2957,21 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"8764967cc3b66e52f836ac8f55ca601bed46735bd8f6c5abd71243e14b00587c\"",
+   "etag": "\"f12407bda0c5e0f2df44294dc5cb7d20d66240d69574349f7e0535daf420ee57\"",
    "data": {
-    "n": 4,
+    "n": 5,
     "issues": [
+     {
+      "number": 300,
+      "url": "https://github.com/djazairdev/minhajna/issues/300",
+      "title": "0.2.0: checks by a person",
+      "labels": [
+       "help wanted",
+       "area: documents"
+      ],
+      "created_at": "2026-10-20T06:36:40Z",
+      "needs": ""
+     },
      {
       "number": 206,
       "url": "https://github.com/djazairdev/minhajna/issues/206",

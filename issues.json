@@ -1,6 +1,19 @@
 {
- "generated_at": "2026-10-20T05:14:18Z",
+ "generated_at": "2026-10-20T12:07:31Z",
  "issues": [
+  {
+   "number": 300,
+   "url": "https://github.com/djazairdev/minhajna/issues/300",
+   "title": "0.2.0: checks by a person",
+   "labels": [
+    "help wanted",
+    "area: documents"
+   ],
+   "created_at": "2026-10-20T06:36:40Z",
+   "needs": "",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
   {
    "number": 206,
    "url": "https://github.com/djazairdev/minhajna/issues/206",
@@ -12,20 +25,6 @@
    ],
    "created_at": "2026-10-18T09:18:14Z",
    "needs": "an Android phone with TalkBack, and the debug or field-check APK",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 205,
-   "url": "https://github.com/djazairdev/minhajna/issues/205",
-   "title": "Use the PrivateNote panel on the Entry screen",
-   "labels": [
-    "good first issue",
-    "area: a11y",
-    "area: android"
-   ],
-   "created_at": "2026-10-18T09:11:03Z",
-   "needs": "React Native and TypeScript",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
   },
