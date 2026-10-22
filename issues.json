@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-22T12:22:19Z",
+ "generated_at": "2026-10-22T17:36:38Z",
  "issues": [
   {
    "number": 300,
@@ -2620,19 +2620,6 @@
    ],
    "created_at": "2026-10-13T15:39:15Z",
    "needs": "reading Arabic or French, patience. No code",
-   "repo": "djazairdev/wilayas",
-   "language": "Python"
-  },
-  {
-   "number": 25,
-   "url": "https://github.com/djazairdev/wilayas/issues/25",
-   "title": "docs: load the API's CSV into a spreadsheet",
-   "labels": [
-    "documentation",
-    "good first issue"
-   ],
-   "created_at": "2026-10-13T15:39:13Z",
-   "needs": "a spreadsheet (Google Sheets or Excel), Markdown. No code",
    "repo": "djazairdev/wilayas",
    "language": "Python"
   },
