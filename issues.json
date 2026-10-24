@@ -1,6 +1,70 @@
 {
- "generated_at": "2026-10-24T04:59:47Z",
+ "generated_at": "2026-10-24T11:35:37Z",
  "issues": [
+  {
+   "number": 439,
+   "url": "https://github.com/djazairdev/minhajna/issues/439",
+   "title": "Progress statement, part 4: the QR code, the signed file and «إلى من؟»",
+   "labels": [
+    "help wanted",
+    "area: android",
+    "feature",
+    "privacy-sensitive",
+    "area: sharing"
+   ],
+   "created_at": "2026-10-24T07:14:28Z",
+   "needs": "",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 438,
+   "url": "https://github.com/djazairdev/minhajna/issues/438",
+   "title": "Progress statement, part 3: the Share screen, print and PDF",
+   "labels": [
+    "help wanted",
+    "area: android",
+    "feature",
+    "privacy-sensitive",
+    "area: sharing"
+   ],
+   "created_at": "2026-10-24T07:14:27Z",
+   "needs": "",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 437,
+   "url": "https://github.com/djazairdev/minhajna/issues/437",
+   "title": "Progress statement, part 2: the teacher's signing key and drawing a QR code",
+   "labels": [
+    "help wanted",
+    "area: android",
+    "feature",
+    "privacy-sensitive",
+    "area: sharing"
+   ],
+   "created_at": "2026-10-24T07:14:19Z",
+   "needs": "",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
+  {
+   "number": 436,
+   "url": "https://github.com/djazairdev/minhajna/issues/436",
+   "title": "Progress statement, part 1: the statement's figures and signed text in the core",
+   "labels": [
+    "help wanted",
+    "area: core",
+    "feature",
+    "privacy-sensitive",
+    "area: sharing"
+   ],
+   "created_at": "2026-10-24T07:14:18Z",
+   "needs": "",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
   {
    "number": 300,
    "url": "https://github.com/djazairdev/minhajna/issues/300",
