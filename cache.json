@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"ae02bd3fa60533a2dffce5a50086ea6de6d48fce87535bbe2673fc88b634d164\"",
+   "etag": "\"103d7cd3b111e38c5c36b9a4ce879abdf599b344e51a64580d343100e00eedd4\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"f7a087d5d97ddf27ec466188e41680d30d3b9aff4976dff1cbe7fee346aa854c\"",
+   "etag": "\"ad05aa1ed04b0ef42a530ce2f9a0507f15b5a729e668baf9897d657dfd678b16\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"5611b940c1730ec2902ebe343b2242276779f87cc616fadb1a7cfc3f7805c5ad\"",
+   "etag": "\"772cb670b8971569d1f9a6f91a184f81798a272a6f5067012b9242e6ef7d1be5\"",
    "data": "2026-10-19T12:42:22Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"d28390bd6f1d62abd84accf5f1147e7039e5b3f7080b9e6f3ee940868da89519\"",
+   "etag": "\"15bf0314c987ce577b00d0b3cdcef84fc5bceee84e0bd17dd962f0444be8d777\"",
    "data": {
     "n": 5,
     "issues": [
@@ -184,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"1345343682a12cea306b876a33e0e9bea9d9964bf534ad10ecbaad31d8daae54\"",
+   "etag": "\"7be6ff1d56103f60654b6da68072345f57e2dc025bc44eb7bf07f54176c6116a\"",
    "data": {
     "n": 7,
     "issues": [
@@ -278,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"c8237090d1c41d5664d84b31b49c23bc09852e92ba1b623b788559564f371fdc\"",
+   "etag": "\"abea6099ada3626005cd67586c0a47f32fea4d6df94990f3585ace7d3cbebdc1\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -293,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"d669e8be36c9397b76604fbcbc8f79767982c236fccd8de2eec12c2587490011\"",
+   "etag": "\"208cff501b0460565bc54a04b455ae4416c9a69a3ad4c388ff6c6573464b29a8\"",
    "data": "2026-10-22T16:05:15Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"896c62ed36ded356368484351b9d6427f163b653db5cac13ca2f979919e9e27f\"",
+   "etag": "\"74800f4553daadc58c4a365f598da806224e55ba5a291ad37cbd1c8801c684b3\"",
    "data": {
     "n": 5,
     "issues": [
@@ -358,7 +358,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"b9576f9a1cb0b692afb86eba4e55dc0e42f192b8a928b614eeabd2d7aeba77c3\"",
+   "etag": "\"975fc504393559f7b9335a1ca0cf53ed745f664808e6072a4f25963b90ed39f2\"",
    "data": {
     "n": 2,
     "issues": [
@@ -388,7 +388,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"f130113999eac610ee612e9114b4e2f86393044ebb2613af7f9434dbe8a64193\"",
+   "etag": "\"71eec988886a75a39e735aa724630c1e5e720738905457a6f1a711ae41a0e60a\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -403,11 +403,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"588eefdaeb134b0d07fff5c69498bb5a3857f392e382a609f6655bbda2df8489\"",
+   "etag": "\"15ca8dc952c513a50e7fb2659d2bc5934ac731921e5ac1a0a34a1bc52c8ac37b\"",
    "data": "2026-10-15T10:20:41Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"971c4ee0e3755212e331a6deb9216faaf6b8b44dfe4cce0aef765463af887567\"",
+   "etag": "\"26202567be60ad9c04e41e51909be0781c70f72769d0a019e6f6e7300a5d4343\"",
    "data": {
     "n": 6,
     "issues": [
@@ -482,7 +482,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"32d917471cfd67c4a85f90f6ca8f0abf1207e1b1af124146ae788e2ec1347610\"",
+   "etag": "\"8428311fba63cbf9e5d6ea2a48ec5aaf63febac00f4d9c4b06a1634ca72de626\"",
    "data": {
     "n": 8,
     "issues": [
@@ -578,7 +578,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"7283541376e23d144e00b284634aca1d9bf43ec3eb5716e23e41d58cffa2a217\"",
+   "etag": "\"7e6a1c21aa45c5a23ad1ca5cedb0d6edb926247fec8c7dc39c452244cec537cc\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -593,11 +593,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"77e7a6cbac61d36992be459fea5c88f09fafd7ad86df39128d86118aaf9de161\"",
+   "etag": "\"b29d43a8a1a910677b358dd095736e70c6ae3d2398a93768404cc73f23d18033\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"c7e1dcf57bc8a69820bfeeb269e65d472ec36becfce6847f5ec7c41799228d36\"",
+   "etag": "\"ca142d7166b479109b2100e8d0d3c7bb383ed8cd39aa3f9670f564624e969666\"",
    "data": {
     "n": 42,
     "issues": [
@@ -1255,7 +1255,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"5675a013aced915774a88c22713d246b699386978264b60a653edd5a2ed30232\"",
+   "etag": "\"a8b8a8981fd21f2d5130455912ecddf428c7ca1caac4875bc323ff453a39a16b\"",
    "data": {
     "n": 99,
     "issues": [
@@ -2874,7 +2874,7 @@
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"3256bff14fc153b69933108936094e47fc85fb0f1fd92a026ea4780e6b273ea6\"",
+   "etag": "\"381f1686ba8f58259040828a71a9ed9efd4629523495307b52b8b5e4d079069e\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -2889,11 +2889,11 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"8ddeb9d9f069240467f2b5d5cddaa196d229287c22ac8f819c2d1ace1050089a\"",
-   "data": "2026-10-24T15:45:27Z"
+   "etag": "\"1729f13a592140bd476d439af35bd665fd579b41525db054f5d519cd53277d25\"",
+   "data": "2026-10-25T11:39:21Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"4e8cf61a14882c38f998ecdcd8fcaca3179b0f2a1c2e826dd62d8b84ae27ccb1\"",
+   "etag": "\"c50d6a77d584fa5d384296cb1714f575fc4358b3a1fef2a8f6d57ff14d433774\"",
    "data": {
     "n": 4,
     "issues": [
@@ -2946,66 +2946,10 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"cb7a76afc7dbc403a65d8ef312c15ad891cfd49aced990613a7114c0dbdf8e31\"",
+   "etag": "\"2cad348925b4a5e82c4efc762ef71050a7b2ae1ee410dadea66bf3eaaf9c7e68\"",
    "data": {
-    "n": 9,
+    "n": 5,
     "issues": [
-     {
-      "number": 439,
-      "url": "https://github.com/djazairdev/minhajna/issues/439",
-      "title": "Progress statement, part 4: the QR code, the signed file and «إلى من؟»",
-      "labels": [
-       "help wanted",
-       "area: android",
-       "feature",
-       "privacy-sensitive",
-       "area: sharing"
-      ],
-      "created_at": "2026-10-24T07:14:28Z",
-      "needs": ""
-     },
-     {
-      "number": 438,
-      "url": "https://github.com/djazairdev/minhajna/issues/438",
-      "title": "Progress statement, part 3: the Share screen, print and PDF",
-      "labels": [
-       "help wanted",
-       "area: android",
-       "feature",
-       "privacy-sensitive",
-       "area: sharing"
-      ],
-      "created_at": "2026-10-24T07:14:27Z",
-      "needs": ""
-     },
-     {
-      "number": 437,
-      "url": "https://github.com/djazairdev/minhajna/issues/437",
-      "title": "Progress statement, part 2: the teacher's signing key and drawing a QR code",
-      "labels": [
-       "help wanted",
-       "area: android",
-       "feature",
-       "privacy-sensitive",
-       "area: sharing"
-      ],
-      "created_at": "2026-10-24T07:14:19Z",
-      "needs": ""
-     },
-     {
-      "number": 436,
-      "url": "https://github.com/djazairdev/minhajna/issues/436",
-      "title": "Progress statement, part 1: the statement's figures and signed text in the core",
-      "labels": [
-       "help wanted",
-       "area: core",
-       "feature",
-       "privacy-sensitive",
-       "area: sharing"
-      ],
-      "created_at": "2026-10-24T07:14:18Z",
-      "needs": ""
-     },
      {
       "number": 300,
       "url": "https://github.com/djazairdev/minhajna/issues/300",
