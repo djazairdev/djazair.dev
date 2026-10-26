@@ -1,15 +1,14 @@
 {
- "generated_at": "2026-10-26T05:15:04Z",
+ "generated_at": "2026-10-26T13:31:18Z",
  "issues": [
   {
-   "number": 300,
-   "url": "https://github.com/djazairdev/minhajna/issues/300",
-   "title": "0.2.0: checks by a person",
+   "number": 481,
+   "url": "https://github.com/djazairdev/minhajna/issues/481",
+   "title": "Checks a person still has to do, from the finished feature issues",
    "labels": [
-    "help wanted",
-    "area: documents"
+    "help wanted"
    ],
-   "created_at": "2026-10-20T06:36:40Z",
+   "created_at": "2026-10-26T10:54:48Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
@@ -306,19 +305,6 @@
    "created_at": "2026-10-17T10:03:45Z",
    "needs": "Drizzle, TypeScript",
    "repo": "djazairdev/founders.coffee",
-   "language": "TypeScript"
-  },
-  {
-   "number": 130,
-   "url": "https://github.com/djazairdev/minhajna/issues/130",
-   "title": "Build BottomSheet",
-   "labels": [
-    "help wanted",
-    "area: a11y"
-   ],
-   "created_at": "2026-10-17T09:58:06Z",
-   "needs": "React Native and TypeScript. Experience with TalkBack and Android's Back handling helps",
-   "repo": "djazairdev/minhajna",
    "language": "TypeScript"
   },
   {
@@ -2475,20 +2461,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 93,
-   "url": "https://github.com/djazairdev/minhajna/issues/93",
-   "title": "Shrink the APK: code shrinking and one APK per processor type",
-   "labels": [
-    "help wanted",
-    "area: android",
-    "area: release"
-   ],
-   "created_at": "2026-10-15T15:50:43Z",
-   "needs": "Android builds with Gradle and R8. Experience with reproducible builds helps",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 89,
    "url": "https://github.com/djazairdev/djazair.dev/issues/89",
    "title": "Take the data guide's three English headings from the strings",
@@ -2864,19 +2836,6 @@
    "needs": "Arabic, English, JSON",
    "repo": "djazairdev/djazair.dev",
    "language": "Python"
-  },
-  {
-   "number": 64,
-   "url": "https://github.com/djazairdev/minhajna/issues/64",
-   "title": "Write an Arabic summary of the privacy policy",
-   "labels": [
-    "documentation",
-    "good first issue"
-   ],
-   "created_at": "2026-10-10T12:58:34Z",
-   "needs": "Arabic, English, Markdown",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
   },
   {
    "number": 63,
