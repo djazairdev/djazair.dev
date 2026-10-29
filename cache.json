@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"3f1b413f4aad6a8b7618f1a733efda7eb7e9274d4d6f1385e02df5fae5e35662\"",
+   "etag": "\"2783947a81676f530052f697d5e4ccae5b0e437984a3f5472821c2ed4b699c62\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"abcdb714909606daddf1d3c0c310fbb65b10ac5298b4f68680e022705df66245\"",
+   "etag": "\"a274c1ee4dc6d864456fd126826a63a94ebddacc3505514ba2724e2952c51965\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"f22dab63d5700751420f97b636e1209af4cf2ef9194416085b43024171c1562c\"",
+   "etag": "\"e0a9acd9bce4b2d0277dccd27af00029e30f2a64330cf300be87a858e4177fe0\"",
    "data": "2026-10-19T12:42:22Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"41465b073e5cb0483704c9acfbfcbfebb28d39890ccfd31e3f314abb967adb26\"",
+   "etag": "\"9eb6d93807a4774dcb136574063bddfe1791a7e0b4fc029e48113badfd511f80\"",
    "data": {
     "n": 5,
     "issues": [
@@ -184,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"96fc0a011c1f83ec942926db60b5463756f3f3d6691e135381a3b26c67ca2de8\"",
+   "etag": "\"56d604ce754b8705ebb6ef88c1c806bba3f83a6ffb7fe1cc3a1d1f2c49bdfade\"",
    "data": {
     "n": 7,
     "issues": [
@@ -278,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"f39c66a9fb21ec51624c26ad2cfc2d8355df8abd3f05aa49a76269042dd4f993\"",
+   "etag": "\"f92a234f74793646aa662af78d01169bc2c1f19f7264378a92e2f69c7c24d915\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -293,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"9d1dacadf1fb8f5a56b69e1c62826644eaea651dba6188f0859fcb4e412b885f\"",
+   "etag": "\"de0df892a38a08aa11e3fd48857ea9be1188a951405e63a3c2c6257fe5ddab0c\"",
    "data": "2026-10-22T16:05:15Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"2f57550462a537e8160c28e0841966acdb9c1b6e14d90c9c5e32a9e74042474f\"",
+   "etag": "\"3d8dc33a494f8750c9b6747f833f47b945fd5a3a74072f1440bb8a4edf35a976\"",
    "data": {
     "n": 5,
     "issues": [
@@ -358,7 +358,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"5850ffb27e23c0897eb091b690242aacd6a6d91bf6624702a5e42b2116cd4214\"",
+   "etag": "\"23b98a39155b747fa0dd3ca7775c0a811070708f5bca4ee204dd1f6d407fbd4d\"",
    "data": {
     "n": 2,
     "issues": [
@@ -388,7 +388,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"d896770356e6fbacba166ea8da5f84e22d0bc4e5a53817f2a12f54146991d57b\"",
+   "etag": "\"94c74977ac83311c5ffabfb0803564e16d3066df45bfe2e465ac8a3dafbe6a6e\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -403,11 +403,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"9aa52bf3428da0248ea21caa6aad5d5fb0fe532ac7643caeaa47401ea3e26d2e\"",
+   "etag": "\"07aeddfdb5dfd03a9ed0f80a2689df45ab1f27f3f990575feb51adf3770b54a6\"",
    "data": "2026-10-15T10:20:41Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"33f8961c20c8a6338740abe66d02db59eb4c06d2279682edb43349c1af5cde03\"",
+   "etag": "\"4f07edbd24d14d85f1fc87d572fabcc2a14f55960c951f6e65e869900251d165\"",
    "data": {
     "n": 6,
     "issues": [
@@ -482,7 +482,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"9654e04ee2b9178dfd6058c4eb083d90fcfa0efbd0bd1fb169885262c2b30a18\"",
+   "etag": "\"d64d5dbffa1dbcb9d916fdad24d7735aab2cbcef2b1d69f0b4616ec35d63e988\"",
    "data": {
     "n": 8,
     "issues": [
@@ -578,7 +578,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"4ec5c26f75bafdadefd90a6c5164f07b35f7fa0621cfb830369179e53914c734\"",
+   "etag": "\"226c39f6824476f8bc40a03831226da9225c9ee34b44b1051b58ae28e6b75c46\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -593,11 +593,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"4c982b882c0be67c02dcaa1358ad445eebb637e18dd0d717b64a11cfb0e4b724\"",
+   "etag": "\"bfff994974a3b61ec76904b4ee765c024345e560559459d5dcd07fce494b76ec\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"9263d30150a65ef59255fb339c466924d4eadb91562f3c5e027237ddccca507f\"",
+   "etag": "\"021fd270f063b149a04793546d313f5722ed275e2e975d4fbbe7f88eb764a2f8\"",
    "data": {
     "n": 42,
     "issues": [
@@ -1255,7 +1255,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"ba85a4c5bc5d183490cdda9a7ec80f07f33424cd13a26387a40d143fbf864930\"",
+   "etag": "\"ebd9032c06f033ad763a504943bc2e48c32b427db295ed7931510689ff221196\"",
    "data": {
     "n": 99,
     "issues": [
@@ -2874,7 +2874,7 @@
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"d27d3af9fa02a905c63d0f6842a7e63895edd71e8653ccaa86c2efecebc36a52\"",
+   "etag": "\"2bbcc561b7a1a13a922159b5b0e5815945ea4bfe297c62f29b3e9c785b4f87fc\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -2889,14 +2889,86 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"6c943305f1f23d9dea59f307978e46a623d068f00c50ae0b5b39489088d2e4cc\"",
-   "data": "2026-10-28T17:49:23Z"
+   "etag": "\"f35ffe07e8ea9abf12cfb080ea5e3d16224248ce295ffff3492d187bbfbc10f2\"",
+   "data": "2026-10-29T09:26:35Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"df563f81917940c07c342dc701bb1d01329c3bdf235592e0fc3c8d2acdbc004d\"",
+   "etag": "\"19bded11015de14654f04413a653e6f3068b252d681b0f87aa0566bf5c9b1637\"",
    "data": {
-    "n": 3,
+    "n": 9,
     "issues": [
+     {
+      "number": 632,
+      "url": "https://github.com/djazairdev/minhajna/issues/632",
+      "title": "Write the guide for showing the demo",
+      "labels": [
+       "good first issue",
+       "area: release",
+       "docs"
+      ],
+      "created_at": "2026-10-29T11:08:13Z",
+      "needs": ""
+     },
+     {
+      "number": 609,
+      "url": "https://github.com/djazairdev/minhajna/issues/609",
+      "title": "Check a week pack for missing weeks",
+      "labels": [
+       "good first issue",
+       "area: core",
+       "feature"
+      ],
+      "created_at": "2026-10-29T11:05:52Z",
+      "needs": ""
+     },
+     {
+      "number": 568,
+      "url": "https://github.com/djazairdev/minhajna/issues/568",
+      "title": "Help for the national system: who reads what, and by which key",
+      "labels": [
+       "good first issue",
+       "feature",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:02:07Z",
+      "needs": ""
+     },
+     {
+      "number": 557,
+      "url": "https://github.com/djazairdev/minhajna/issues/557",
+      "title": "The demo band: «نسخة تجريبية · بيانات مختلقة» and the world's date",
+      "labels": [
+       "good first issue",
+       "feature",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:07Z",
+      "needs": ""
+     },
+     {
+      "number": 546,
+      "url": "https://github.com/djazairdev/minhajna/issues/546",
+      "title": "Made-up names for demo worlds: schools, staff and twelve wilayas",
+      "labels": [
+       "good first issue",
+       "area: core",
+       "feature"
+      ],
+      "created_at": "2026-10-29T11:00:08Z",
+      "needs": ""
+     },
+     {
+      "number": 543,
+      "url": "https://github.com/djazairdev/minhajna/issues/543",
+      "title": "Run the demo locally with one command: the server, PostgreSQL and the web app",
+      "labels": [
+       "good first issue",
+       "feature",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T10:59:52Z",
+      "needs": ""
+     },
      {
       "number": 69,
       "url": "https://github.com/djazairdev/minhajna/issues/69",
@@ -2935,10 +3007,1144 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"5a2fd81b1452fad177f6e0275ed70bd8c14671e9770cf426ca627dca96c56eee\"",
+   "etag": "\"70ff3bb775d70cbf856e7e6c69901b3384be8f7e443c911aa2f5303370f42b6e\"",
    "data": {
-    "n": 3,
+    "n": 91,
     "issues": [
+     {
+      "number": 633,
+      "url": "https://github.com/djazairdev/minhajna/issues/633",
+      "title": "The container image: the server and PostgreSQL, archived to R2 with WAL-G",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:20:54Z",
+      "needs": ""
+     },
+     {
+      "number": 631,
+      "url": "https://github.com/djazairdev/minhajna/issues/631",
+      "title": "The scenario above the school: calendar, totals, thresholds, packs, operators, observatory",
+      "labels": [
+       "help wanted",
+       "area: release",
+       "feature"
+      ],
+      "created_at": "2026-10-29T11:08:07Z",
+      "needs": ""
+     },
+     {
+      "number": 630,
+      "url": "https://github.com/djazairdev/minhajna/issues/630",
+      "title": "The scenario at the school: join, timetable, signed weeks, cover, grants, export",
+      "labels": [
+       "help wanted",
+       "area: release",
+       "feature"
+      ],
+      "created_at": "2026-10-29T11:08:01Z",
+      "needs": ""
+     },
+     {
+      "number": 629,
+      "url": "https://github.com/djazairdev/minhajna/issues/629",
+      "title": "A harness that runs demo scenarios in CI",
+      "labels": [
+       "help wanted",
+       "area: release",
+       "feature"
+      ],
+      "created_at": "2026-10-29T11:07:54Z",
+      "needs": ""
+     },
+     {
+      "number": 628,
+      "url": "https://github.com/djazairdev/minhajna/issues/628",
+      "title": "Guard the observatory against fake or flooded sendings",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: insights"
+      ],
+      "created_at": "2026-10-29T11:07:48Z",
+      "needs": ""
+     },
+     {
+      "number": 627,
+      "url": "https://github.com/djazairdev/minhajna/issues/627",
+      "title": "The observatory's report: Obs-Report",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: insights"
+      ],
+      "created_at": "2026-10-29T11:07:41Z",
+      "needs": ""
+     },
+     {
+      "number": 626,
+      "url": "https://github.com/djazairdev/minhajna/issues/626",
+      "title": "Count teachers and schools in memory only, and hide small cells",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: insights"
+      ],
+      "created_at": "2026-10-29T11:07:35Z",
+      "needs": ""
+     },
+     {
+      "number": 625,
+      "url": "https://github.com/djazairdev/minhajna/issues/625",
+      "title": "Seed an insights world with made-up sendings",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: insights"
+      ],
+      "created_at": "2026-10-29T11:07:28Z",
+      "needs": ""
+     },
+     {
+      "number": 624,
+      "url": "https://github.com/djazairdev/minhajna/issues/624",
+      "title": "Insights stop for school classes and retire: the four settings states",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: insights"
+      ],
+      "created_at": "2026-10-29T11:07:22Z",
+      "needs": ""
+     },
+     {
+      "number": 623,
+      "url": "https://github.com/djazairdev/minhajna/issues/623",
+      "title": "My class against its peers: Insights-compare",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: insights"
+      ],
+      "created_at": "2026-10-29T11:07:15Z",
+      "needs": ""
+     },
+     {
+      "number": 622,
+      "url": "https://github.com/djazairdev/minhajna/issues/622",
+      "title": "Opting in, the log and Help: Insights-optin, Log-insights, Help-insights",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: insights"
+      ],
+      "created_at": "2026-10-29T11:07:09Z",
+      "needs": ""
+     },
+     {
+      "number": 621,
+      "url": "https://github.com/djazairdev/minhajna/issues/621",
+      "title": "The insights payload with the term's token, and its receiving endpoint",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: insights"
+      ],
+      "created_at": "2026-10-29T11:07:03Z",
+      "needs": ""
+     },
+     {
+      "number": 620,
+      "url": "https://github.com/djazairdev/minhajna/issues/620",
+      "title": "Backups and their restore tests in the console",
+      "labels": [
+       "help wanted",
+       "feature",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:56Z",
+      "needs": ""
+     },
+     {
+      "number": 619,
+      "url": "https://github.com/djazairdev/minhajna/issues/619",
+      "title": "The admin log, problem reports and security logs kept apart",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:50Z",
+      "needs": ""
+     },
+     {
+      "number": 618,
+      "url": "https://github.com/djazairdev/minhajna/issues/618",
+      "title": "The operators' console: the server as a map, its version and its health",
+      "labels": [
+       "help wanted",
+       "feature",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:44Z",
+      "needs": ""
+     },
+     {
+      "number": 617,
+      "url": "https://github.com/djazairdev/minhajna/issues/617",
+      "title": "A new release reaches the teacher inside the world: Pack-release",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:38Z",
+      "needs": ""
+     },
+     {
+      "number": 616,
+      "url": "https://github.com/djazairdev/minhajna/issues/616",
+      "title": "The inbox of plan-error reports",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:32Z",
+      "needs": ""
+     },
+     {
+      "number": 615,
+      "url": "https://github.com/djazairdev/minhajna/issues/615",
+      "title": "Migration entries for renamed, split and merged items: E-Migrate",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:26Z",
+      "needs": ""
+     },
+     {
+      "number": 614,
+      "url": "https://github.com/djazairdev/minhajna/issues/614",
+      "title": "Review and release, with the release map: E-Release",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:20Z",
+      "needs": ""
+     },
+     {
+      "number": 613,
+      "url": "https://github.com/djazairdev/minhajna/issues/613",
+      "title": "The item form and the source PDF",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:14Z",
+      "needs": ""
+     },
+     {
+      "number": 612,
+      "url": "https://github.com/djazairdev/minhajna/issues/612",
+      "title": "The life of a release on the server, and the Ministry's official packs",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:09Z",
+      "needs": ""
+     },
+     {
+      "number": 611,
+      "url": "https://github.com/djazairdev/minhajna/issues/611",
+      "title": "The pack list with each pack's status",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:06:03Z",
+      "needs": ""
+     },
+     {
+      "number": 610,
+      "url": "https://github.com/djazairdev/minhajna/issues/610",
+      "title": "Check that a budget pack fits the grid's hours",
+      "labels": [
+       "help wanted",
+       "area: core",
+       "feature"
+      ],
+      "created_at": "2026-10-29T11:05:57Z",
+      "needs": ""
+     },
+     {
+      "number": 608,
+      "url": "https://github.com/djazairdev/minhajna/issues/608",
+      "title": "Publish the calendar inside the world, and refuse it in real mode",
+      "labels": [
+       "help wanted",
+       "area: calendar",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:05:47Z",
+      "needs": ""
+     },
+     {
+      "number": 607,
+      "url": "https://github.com/djazairdev/minhajna/issues/607",
+      "title": "The Ministry's calendar editor",
+      "labels": [
+       "help wanted",
+       "area: calendar",
+       "feature"
+      ],
+      "created_at": "2026-10-29T11:05:41Z",
+      "needs": ""
+     },
+     {
+      "number": 606,
+      "url": "https://github.com/djazairdev/minhajna/issues/606",
+      "title": "Publish each signed cut with its figures: N-Published",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:05:35Z",
+      "needs": ""
+     },
+     {
+      "number": 605,
+      "url": "https://github.com/djazairdev/minhajna/issues/605",
+      "title": "The Ministry's committee: N-Threshold",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:05:30Z",
+      "needs": ""
+     },
+     {
+      "number": 604,
+      "url": "https://github.com/djazairdev/minhajna/issues/604",
+      "title": "The committee proposes, signs or declines a cut: M-Threshold",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:05:24Z",
+      "needs": ""
+     },
+     {
+      "number": 603,
+      "url": "https://github.com/djazairdev/minhajna/issues/603",
+      "title": "The school's own exams: D-Threshold",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:05:18Z",
+      "needs": ""
+     },
+     {
+      "number": 602,
+      "url": "https://github.com/djazairdev/minhajna/issues/602",
+      "title": "After the exam, the totals and a moved date: T-Threshold-after, -totals, -moved",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:05:13Z",
+      "needs": ""
+     },
+     {
+      "number": 601,
+      "url": "https://github.com/djazairdev/minhajna/issues/601",
+      "title": "The teacher's exams and their thresholds: T-Threshold, T-Threshold-exams, T-Threshold-propose",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:05:07Z",
+      "needs": ""
+     },
+     {
+      "number": 599,
+      "url": "https://github.com/djazairdev/minhajna/issues/599",
+      "title": "The Ministry's totals: N-Totals",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:04:56Z",
+      "needs": ""
+     },
+     {
+      "number": 598,
+      "url": "https://github.com/djazairdev/minhajna/issues/598",
+      "title": "The directorate's totals: M-Totals",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:04:51Z",
+      "needs": ""
+     },
+     {
+      "number": 597,
+      "url": "https://github.com/djazairdev/minhajna/issues/597",
+      "title": "A chart with its table beside it, mirrored for right to left",
+      "labels": [
+       "help wanted",
+       "area: web",
+       "feature"
+      ],
+      "created_at": "2026-10-29T11:04:45Z",
+      "needs": ""
+     },
+     {
+      "number": 596,
+      "url": "https://github.com/djazairdev/minhajna/issues/596",
+      "title": "Add up the schools' shares on announced days",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:04:40Z",
+      "needs": ""
+     },
+     {
+      "number": 595,
+      "url": "https://github.com/djazairdev/minhajna/issues/595",
+      "title": "The floors in the core: 5 or 10 teachers and 3 schools, and 8 wilayas for a range",
+      "labels": [
+       "help wanted",
+       "area: core",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:04:34Z",
+      "needs": ""
+     },
+     {
+      "number": 594,
+      "url": "https://github.com/djazairdev/minhajna/issues/594",
+      "title": "The inspector reads what a grant opens: I-Grant",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:04:29Z",
+      "needs": ""
+     },
+     {
+      "number": 593,
+      "url": "https://github.com/djazairdev/minhajna/issues/593",
+      "title": "The directorate grants an inspector access: M-Grant",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:04:24Z",
+      "needs": ""
+     },
+     {
+      "number": 592,
+      "url": "https://github.com/djazairdev/minhajna/issues/592",
+      "title": "What enters and leaves the school's space, and its export: D-Exchange",
+      "labels": [
+       "help wanted",
+       "area: export",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:04:18Z",
+      "needs": ""
+     },
+     {
+      "number": 591,
+      "url": "https://github.com/djazairdev/minhajna/issues/591",
+      "title": "Send the term's marks: Term-send",
+      "labels": [
+       "help wanted",
+       "area: export",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:04:12Z",
+      "needs": ""
+     },
+     {
+      "number": 590,
+      "url": "https://github.com/djazairdev/minhajna/issues/590",
+      "title": "Stand-ins for the state's systems in the demo server",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:04:07Z",
+      "needs": ""
+     },
+     {
+      "number": 589,
+      "url": "https://github.com/djazairdev/minhajna/issues/589",
+      "title": "The school's term report: D-Report",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:04:01Z",
+      "needs": ""
+     },
+     {
+      "number": 588,
+      "url": "https://github.com/djazairdev/minhajna/issues/588",
+      "title": "The classes come back at the end of a substitution: Handover-end, Handover-end-sub",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:03:56Z",
+      "needs": ""
+     },
+     {
+      "number": 587,
+      "url": "https://github.com/djazairdev/minhajna/issues/587",
+      "title": "A substitute takes over classes: D-Substitute, Handover-school",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:03:50Z",
+      "needs": ""
+     },
+     {
+      "number": 586,
+      "url": "https://github.com/djazairdev/minhajna/issues/586",
+      "title": "Sessions that need cover, and the cover log: D-Cover",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:03:45Z",
+      "needs": ""
+     },
+     {
+      "number": 585,
+      "url": "https://github.com/djazairdev/minhajna/issues/585",
+      "title": "The director reads the school's record: D-Record, D-Record-fix",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:03:39Z",
+      "needs": ""
+     },
+     {
+      "number": 584,
+      "url": "https://github.com/djazairdev/minhajna/issues/584",
+      "title": "The signed digest and «فضاء مؤسستي»: Digest-signed, School-mine, School-mine-report",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:03:33Z",
+      "needs": ""
+     },
+     {
+      "number": 583,
+      "url": "https://github.com/djazairdev/minhajna/issues/583",
+      "title": "Correct a signed week: Week-fix",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:03:27Z",
+      "needs": ""
+     },
+     {
+      "number": 582,
+      "url": "https://github.com/djazairdev/minhajna/issues/582",
+      "title": "Sign the week in one step: Week-sign, Week-sign-today",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:03:21Z",
+      "needs": ""
+     },
+     {
+      "number": 581,
+      "url": "https://github.com/djazairdev/minhajna/issues/581",
+      "title": "Print the class, teacher and room grids",
+      "labels": [
+       "help wanted",
+       "area: timetable",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:03:16Z",
+      "needs": ""
+     },
+     {
+      "number": 580,
+      "url": "https://github.com/djazairdev/minhajna/issues/580",
+      "title": "Setup waits for the school's timetable: Setup-5a to Setup-5d",
+      "labels": [
+       "help wanted",
+       "area: timetable",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:03:11Z",
+      "needs": ""
+     },
+     {
+      "number": 579,
+      "url": "https://github.com/djazairdev/minhajna/issues/579",
+      "title": "The teacher's side of a timetable change: TT-propose, TT-change, TT-change-day",
+      "labels": [
+       "help wanted",
+       "area: timetable",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:03:05Z",
+      "needs": ""
+     },
+     {
+      "number": 578,
+      "url": "https://github.com/djazairdev/minhajna/issues/578",
+      "title": "The master timetable's versions and teachers' proposals: D-TT-change, D-TT-proposal",
+      "labels": [
+       "help wanted",
+       "area: timetable",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:03:00Z",
+      "needs": ""
+     },
+     {
+      "number": 577,
+      "url": "https://github.com/djazairdev/minhajna/issues/577",
+      "title": "Sign and send each teacher only their part of the timetable",
+      "labels": [
+       "help wanted",
+       "area: timetable",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:02:54Z",
+      "needs": ""
+     },
+     {
+      "number": 576,
+      "url": "https://github.com/djazairdev/minhajna/issues/576",
+      "title": "Bring in the timetable, from a file or by hand: D-TT-import",
+      "labels": [
+       "help wanted",
+       "area: timetable",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:02:49Z",
+      "needs": ""
+     },
+     {
+      "number": 575,
+      "url": "https://github.com/djazairdev/minhajna/issues/575",
+      "title": "Import a timetable from FET",
+      "labels": [
+       "help wanted",
+       "area: timetable",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:02:44Z",
+      "needs": ""
+     },
+     {
+      "number": 574,
+      "url": "https://github.com/djazairdev/minhajna/issues/574",
+      "title": "Read a timetable from the Excel or CSV template, with live checks",
+      "labels": [
+       "help wanted",
+       "area: timetable",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T11:02:38Z",
+      "needs": ""
+     },
+     {
+      "number": 573,
+      "url": "https://github.com/djazairdev/minhajna/issues/573",
+      "title": "Each role's log of its own actions",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:02:33Z",
+      "needs": ""
+     },
+     {
+      "number": 572,
+      "url": "https://github.com/djazairdev/minhajna/issues/572",
+      "title": "Signing in on a staffroom PC with the phone or a security key",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:02:28Z",
+      "needs": ""
+     },
+     {
+      "number": 571,
+      "url": "https://github.com/djazairdev/minhajna/issues/571",
+      "title": "The school's keys as a map: D-Keys",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:02:23Z",
+      "needs": ""
+     },
+     {
+      "number": 570,
+      "url": "https://github.com/djazairdev/minhajna/issues/570",
+      "title": "Issue QR codes and security keys to teachers: D-Issue",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:02:18Z",
+      "needs": ""
+     },
+     {
+      "number": 569,
+      "url": "https://github.com/djazairdev/minhajna/issues/569",
+      "title": "The director's dashboard: D-Dashboard",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:02:12Z",
+      "needs": ""
+     },
+     {
+      "number": 567,
+      "url": "https://github.com/djazairdev/minhajna/issues/567",
+      "title": "Leaving the school's space with a full copy",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:02:01Z",
+      "needs": ""
+     },
+     {
+      "number": 566,
+      "url": "https://github.com/djazairdev/minhajna/issues/566",
+      "title": "Rejoining on a new phone, and a teacher who moved schools",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:56Z",
+      "needs": ""
+     },
+     {
+      "number": 565,
+      "url": "https://github.com/djazairdev/minhajna/issues/565",
+      "title": "Joining during the trial term: School-join-trial",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:51Z",
+      "needs": ""
+     },
+     {
+      "number": 564,
+      "url": "https://github.com/djazairdev/minhajna/issues/564",
+      "title": "A teacher joins the school's space: School-join",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:45Z",
+      "needs": ""
+     },
+     {
+      "number": 563,
+      "url": "https://github.com/djazairdev/minhajna/issues/563",
+      "title": "Reader mode inside a world",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:40Z",
+      "needs": ""
+     },
+     {
+      "number": 562,
+      "url": "https://github.com/djazairdev/minhajna/issues/562",
+      "title": "The PC workspace for the roles above the teacher",
+      "labels": [
+       "help wanted",
+       "feature",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:34Z",
+      "needs": ""
+     },
+     {
+      "number": 561,
+      "url": "https://github.com/djazairdev/minhajna/issues/561",
+      "title": "Enter a world on the phone, as a teacher or an inspector",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:29Z",
+      "needs": ""
+     },
+     {
+      "number": 560,
+      "url": "https://github.com/djazairdev/minhajna/issues/560",
+      "title": "Start or enter a world on the PC, and pick a role",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:23Z",
+      "needs": ""
+     },
+     {
+      "number": 559,
+      "url": "https://github.com/djazairdev/minhajna/issues/559",
+      "title": "A network client used only inside a world",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: network"
+      ],
+      "created_at": "2026-10-29T11:01:18Z",
+      "needs": ""
+     },
+     {
+      "number": 558,
+      "url": "https://github.com/djazairdev/minhajna/issues/558",
+      "title": "A world's own store, opened apart from the teacher's real records",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: school-mode"
+      ],
+      "created_at": "2026-10-29T11:01:13Z",
+      "needs": ""
+     },
+     {
+      "number": 556,
+      "url": "https://github.com/djazairdev/minhajna/issues/556",
+      "title": "World keys: wrap them under the code, and refuse in real mode anything a world signed",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: crypto"
+      ],
+      "created_at": "2026-10-29T11:01:02Z",
+      "needs": ""
+     },
+     {
+      "number": 555,
+      "url": "https://github.com/djazairdev/minhajna/issues/555",
+      "title": "Each school's share of the totals, prepared on a school-key device",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: crypto"
+      ],
+      "created_at": "2026-10-29T11:00:57Z",
+      "needs": ""
+     },
+     {
+      "number": 554,
+      "url": "https://github.com/djazairdev/minhajna/issues/554",
+      "title": "Certify teachers' signing keys with the demo's stand-in CA",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: crypto"
+      ],
+      "created_at": "2026-10-29T11:00:51Z",
+      "needs": ""
+     },
+     {
+      "number": 553,
+      "url": "https://github.com/djazairdev/minhajna/issues/553",
+      "title": "Grant keys for inspectors: named courses and signed weeks, between two dates",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: crypto"
+      ],
+      "created_at": "2026-10-29T11:00:45Z",
+      "needs": ""
+     },
+     {
+      "number": 552,
+      "url": "https://github.com/djazairdev/minhajna/issues/552",
+      "title": "The timetable key: timetables and assignments only",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: crypto"
+      ],
+      "created_at": "2026-10-29T11:00:40Z",
+      "needs": ""
+     },
+     {
+      "number": 551,
+      "url": "https://github.com/djazairdev/minhajna/issues/551",
+      "title": "Split the school key's recovery between the school and its directorate",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: crypto"
+      ],
+      "created_at": "2026-10-29T11:00:35Z",
+      "needs": ""
+     },
+     {
+      "number": 550,
+      "url": "https://github.com/djazairdev/minhajna/issues/550",
+      "title": "The school key and its holder devices, added by a one-time QR",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: crypto"
+      ],
+      "created_at": "2026-10-29T11:00:29Z",
+      "needs": ""
+     },
+     {
+      "number": 549,
+      "url": "https://github.com/djazairdev/minhajna/issues/549",
+      "title": "A term of signed weeks in a seeded world, and the deliberately small cells",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:00:24Z",
+      "needs": ""
+     },
+     {
+      "number": 548,
+      "url": "https://github.com/djazairdev/minhajna/issues/548",
+      "title": "Join the seeded staff to their schools, with their keys, and upload the world",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:00:19Z",
+      "needs": ""
+     },
+     {
+      "number": 547,
+      "url": "https://github.com/djazairdev/minhajna/issues/547",
+      "title": "Seed a national world: directorates, schools, staff and classes",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T11:00:13Z",
+      "needs": ""
+     },
+     {
+      "number": 544,
+      "url": "https://github.com/djazairdev/minhajna/issues/544",
+      "title": "Allow the demo server in the web app's connect-src, and check it on the host",
+      "labels": [
+       "help wanted",
+       "area: web",
+       "feature",
+       "privacy-sensitive"
+      ],
+      "created_at": "2026-10-29T10:59:57Z",
+      "needs": ""
+     },
+     {
+      "number": 542,
+      "url": "https://github.com/djazairdev/minhajna/issues/542",
+      "title": "Store worlds in PostgreSQL, and erase each on its 7th day",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T10:59:47Z",
+      "needs": ""
+     },
+     {
+      "number": 541,
+      "url": "https://github.com/djazairdev/minhajna/issues/541",
+      "title": "Spaces and the encrypted relay, with fixed-size batches in the core",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T10:59:41Z",
+      "needs": ""
+     },
+     {
+      "number": 540,
+      "url": "https://github.com/djazairdev/minhajna/issues/540",
+      "title": "Worlds on the server: start, join, the starter token and the world's date",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T10:59:36Z",
+      "needs": ""
+     },
+     {
+      "number": 539,
+      "url": "https://github.com/djazairdev/minhajna/issues/539",
+      "title": "World codes in the core: two halves, and the second never leaves the device",
+      "labels": [
+       "help wanted",
+       "feature",
+       "privacy-sensitive",
+       "area: crypto"
+      ],
+      "created_at": "2026-10-29T10:59:31Z",
+      "needs": ""
+     },
+     {
+      "number": 538,
+      "url": "https://github.com/djazairdev/minhajna/issues/538",
+      "title": "Start the server package: NestJS in apps/server, with a health check and CI",
+      "labels": [
+       "help wanted",
+       "feature",
+       "area: server"
+      ],
+      "created_at": "2026-10-29T10:59:26Z",
+      "needs": ""
+     },
      {
       "number": 481,
       "url": "https://github.com/djazairdev/minhajna/issues/481",
