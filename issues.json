@@ -1,35 +1,6 @@
 {
- "generated_at": "2026-10-30T13:30:11Z",
+ "generated_at": "2026-10-30T22:38:09Z",
  "issues": [
-  {
-   "number": 634,
-   "url": "https://github.com/djazairdev/minhajna/issues/634",
-   "title": "A dev container: Node, the tools and the local demo, with nothing to install",
-   "labels": [
-    "help wanted",
-    "feature",
-    "area: contributing"
-   ],
-   "created_at": "2026-10-30T07:42:03Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 633,
-   "url": "https://github.com/djazairdev/minhajna/issues/633",
-   "title": "The container image: the server and PostgreSQL, archived to R2 with WAL-G",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:20:54Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
   {
    "number": 632,
    "url": "https://github.com/djazairdev/minhajna/issues/632",
@@ -1114,21 +1085,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 558,
-   "url": "https://github.com/djazairdev/minhajna/issues/558",
-   "title": "A world's own store, opened apart from the teacher's real records",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:13Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 557,
    "url": "https://github.com/djazairdev/minhajna/issues/557",
    "title": "The demo band: «نسخة تجريبية · بيانات مختلقة» and the world's date",
@@ -1138,111 +1094,6 @@
     "area: school-mode"
    ],
    "created_at": "2026-10-29T11:01:07Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 556,
-   "url": "https://github.com/djazairdev/minhajna/issues/556",
-   "title": "World keys: wrap them under the code, and refuse in real mode anything a world signed",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: crypto"
-   ],
-   "created_at": "2026-10-29T11:01:02Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 555,
-   "url": "https://github.com/djazairdev/minhajna/issues/555",
-   "title": "Each school's share of the totals, prepared on a school-key device",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: crypto"
-   ],
-   "created_at": "2026-10-29T11:00:57Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 554,
-   "url": "https://github.com/djazairdev/minhajna/issues/554",
-   "title": "Certify teachers' signing keys with the demo's stand-in CA",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: crypto"
-   ],
-   "created_at": "2026-10-29T11:00:51Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 553,
-   "url": "https://github.com/djazairdev/minhajna/issues/553",
-   "title": "Grant keys for inspectors: named courses and signed weeks, between two dates",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: crypto"
-   ],
-   "created_at": "2026-10-29T11:00:45Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 552,
-   "url": "https://github.com/djazairdev/minhajna/issues/552",
-   "title": "The timetable key: timetables and assignments only",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: crypto"
-   ],
-   "created_at": "2026-10-29T11:00:40Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 551,
-   "url": "https://github.com/djazairdev/minhajna/issues/551",
-   "title": "Split the school key's recovery between the school and its directorate",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: crypto"
-   ],
-   "created_at": "2026-10-29T11:00:35Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 550,
-   "url": "https://github.com/djazairdev/minhajna/issues/550",
-   "title": "The school key and its holder devices, added by a one-time QR",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: crypto"
-   ],
-   "created_at": "2026-10-29T11:00:29Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
@@ -1302,21 +1153,6 @@
     "feature"
    ],
    "created_at": "2026-10-29T11:00:08Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 544,
-   "url": "https://github.com/djazairdev/minhajna/issues/544",
-   "title": "Allow the demo server in the web app's connect-src, and check it on the host",
-   "labels": [
-    "help wanted",
-    "area: web",
-    "feature",
-    "privacy-sensitive"
-   ],
-   "created_at": "2026-10-29T10:59:57Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
