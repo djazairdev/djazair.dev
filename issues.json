@@ -1,6 +1,20 @@
 {
- "generated_at": "2026-10-30T06:24:45Z",
+ "generated_at": "2026-10-30T13:30:11Z",
  "issues": [
+  {
+   "number": 634,
+   "url": "https://github.com/djazairdev/minhajna/issues/634",
+   "title": "A dev container: Node, the tools and the local demo, with nothing to install",
+   "labels": [
+    "help wanted",
+    "feature",
+    "area: contributing"
+   ],
+   "created_at": "2026-10-30T07:42:03Z",
+   "needs": "",
+   "repo": "djazairdev/minhajna",
+   "language": "TypeScript"
+  },
   {
    "number": 633,
    "url": "https://github.com/djazairdev/minhajna/issues/633",
@@ -1303,94 +1317,6 @@
     "privacy-sensitive"
    ],
    "created_at": "2026-10-29T10:59:57Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 543,
-   "url": "https://github.com/djazairdev/minhajna/issues/543",
-   "title": "Run the demo locally with one command: the server, PostgreSQL and the web app",
-   "labels": [
-    "good first issue",
-    "feature",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T10:59:52Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 542,
-   "url": "https://github.com/djazairdev/minhajna/issues/542",
-   "title": "Store worlds in PostgreSQL, and erase each on its 7th day",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T10:59:47Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 541,
-   "url": "https://github.com/djazairdev/minhajna/issues/541",
-   "title": "Spaces and the encrypted relay, with fixed-size batches in the core",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T10:59:41Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 540,
-   "url": "https://github.com/djazairdev/minhajna/issues/540",
-   "title": "Worlds on the server: start, join, the starter token and the world's date",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T10:59:36Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 539,
-   "url": "https://github.com/djazairdev/minhajna/issues/539",
-   "title": "World codes in the core: two halves, and the second never leaves the device",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: crypto"
-   ],
-   "created_at": "2026-10-29T10:59:31Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 538,
-   "url": "https://github.com/djazairdev/minhajna/issues/538",
-   "title": "Start the server package: NestJS in apps/server, with a health check and CI",
-   "labels": [
-    "help wanted",
-    "feature",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T10:59:26Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
