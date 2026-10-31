@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"e32bd643d5006e191065de49a9f636b4b57e59cdcbaa5dc8fd36c9cf41da1156\"",
+   "etag": "\"1ebb4841e35c47beea4a12bf00258b2e987422defc6bb9bb33086e7cb4430d98\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"60e6d026d3219d2f605ddef63431a70ad494f2501000d9579bdaa46cc583da28\"",
+   "etag": "\"52eb86ba357112ec4ac1ab741e6d4e356af14b4fbbf902caf7ec8831592d17de\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"9f03323c7b662c51455039e7199427d1ccd767ef67d3e8184fdcdfe3ea20e74c\"",
+   "etag": "\"56d8aaf907c99a43a140472028f220f0ccc20819ac7493863496b0ac3326deea\"",
    "data": "2026-10-19T12:42:22Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"53692b89b0260c0e413b910815c5e3015b539ad2e8d533f9da1f342af999b928\"",
+   "etag": "\"3e31eca093dca2f5c3dbf342c2008414a6aac405a1b5d6873616ef0412a1a289\"",
    "data": {
     "n": 5,
     "issues": [
@@ -184,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"54b4b7ed941ef537a8cfceb9aeccc63f9e8c3f6ac659140bcf903906e6463765\"",
+   "etag": "\"a68bbcb3b120848d85a73c9991003dface8dd3bcfd104452144da0cb18929bba\"",
    "data": {
     "n": 7,
     "issues": [
@@ -278,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"06effbf98654e18774c9549b7b7d14502ee440a4e7277f6bdb5eacb0973f2bb6\"",
+   "etag": "\"47bf8b4cd9a10ef06b6f73866882b1e3bc948339c5248b8aed0f616e3361db08\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -293,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"62c97ce6c358505c42bb74e9dbb88d1771d5f9b40a8b343d544613b359b21b8f\"",
+   "etag": "\"77802e7af7ca2f22fddb2513cbca249f5eb5d466c39d7b7bfddc1b9613a8caee\"",
    "data": "2026-10-22T16:05:15Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"33df20db84e0de90411ebcc2b5e4f0d8abd69160f89a74f63b2d666c68708c36\"",
+   "etag": "\"2bd1028aab7a36acb389fbc0c20d3010c485727eca0384a724d9f8b7f5ba9029\"",
    "data": {
     "n": 5,
     "issues": [
@@ -358,7 +358,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"6a32991799b56e75c7446574271f352eb65d03683e341433650d64f987a51737\"",
+   "etag": "\"93c9dbb317cad9dd25877820945134df3984861a4cefd3473625e4ee6a25b957\"",
    "data": {
     "n": 2,
     "issues": [
@@ -388,7 +388,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"a927191ff7613d2bcb3f0044aa24c5e5fd4da05136d104f702bb4cbf48d3fece\"",
+   "etag": "\"1bec7cdde199a1ed34a241fff931a2c78037e4c8c440873be1569e63d0a2fc82\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -403,11 +403,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"5f26505236827e5e05c85575eb4cabfc55cdcb19392bfa06b0619ca837f7369f\"",
+   "etag": "\"c0b7e51cf0ef835380beb73225bdff1f66c474d10d22c097331ab04e632b7a31\"",
    "data": "2026-10-15T10:20:41Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"ce208418052d76d60369378d68da1d1e5a680b92f9c4ad5ed05913a2c87d6f08\"",
+   "etag": "\"d1724d7b403fe1cf868f1ab135bf502f956ee818d74e2a274c05f9af78d0f9a5\"",
    "data": {
     "n": 6,
     "issues": [
@@ -482,7 +482,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"5e588d845790b4f8273663be2c6802fede0ceac7132a82c524eeac02b29d0dd5\"",
+   "etag": "\"e6d3bf16e43da89143b3b43e2ae5f6f795a8536ee9423c66286899cf2db63df8\"",
    "data": {
     "n": 8,
     "issues": [
@@ -578,7 +578,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"b61eb624673e71413975708ed80e48937843e7523e7903df83eb57b1de094fc5\"",
+   "etag": "\"1880d8236f1c34a7bd079f89598407f7f6ffc5994bc3ed6b6deba9439da425dc\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -593,11 +593,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"296e56871d90aa9a29023731c5114b59c52d16be4d5d7e1e5c1bf9a9b01a7447\"",
+   "etag": "\"942789fc06280bbbd7444d4de1378ca607acee05bbf7a7c5188c709a17c749b3\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"c5cee144acd1e9c3eec533272833bd6cccf68dc8eef96b10e0a80ebb1aadc489\"",
+   "etag": "\"fe4d26de6e1f51f5034d73d5f4ebdf76579266487ac9eee8339b130a3bb5af76\"",
    "data": {
     "n": 42,
     "issues": [
@@ -1255,7 +1255,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"176a03c9fe18cf74b912c59ab033e61a6de6fc0ba0089ffd39f4a7416de4f3c1\"",
+   "etag": "\"e22bf9796e88fef1e67336f5c7a8ba9a6a6e062dc438e96e5bd6fced88107ae9\"",
    "data": {
     "n": 99,
     "issues": [
@@ -2874,7 +2874,7 @@
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"5a03e73ccfb3fdf8f515795776c107bbae6692e09dae53dc643d1865d5d77fe5\"",
+   "etag": "\"5534732b8d5c1bd60789ad441ffe66b4d1f9778e26fe08f32634d8212975a10f\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -2889,13 +2889,13 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"003be8011b62e60bae3d17825569900bc619b7839c5f1bbdc3dae5c35dfdaca4\"",
-   "data": "2026-10-30T22:14:45Z"
+   "etag": "\"cc39a107898073fb5a345633fcb01fd59d429a6bfcf06f9e8ab34a359023f6c5\"",
+   "data": "2026-10-31T05:55:25Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"87fc062611f3002fae093991b569a0fc931765447b3bdbbc5cbfe07c9213ef22\"",
+   "etag": "\"038845a3c6803e1971c444daee03e4288f0162afde08b7a731d1a7cab1d63deb\"",
    "data": {
-    "n": 8,
+    "n": 6,
     "issues": [
      {
       "number": 632,
@@ -2931,30 +2931,6 @@
        "area: school-mode"
       ],
       "created_at": "2026-10-29T11:02:07Z",
-      "needs": ""
-     },
-     {
-      "number": 557,
-      "url": "https://github.com/djazairdev/minhajna/issues/557",
-      "title": "The demo band: «نسخة تجريبية · بيانات مختلقة» and the world's date",
-      "labels": [
-       "good first issue",
-       "feature",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:01:07Z",
-      "needs": ""
-     },
-     {
-      "number": 546,
-      "url": "https://github.com/djazairdev/minhajna/issues/546",
-      "title": "Made-up names for demo worlds: schools, staff and twelve wilayas",
-      "labels": [
-       "good first issue",
-       "area: core",
-       "feature"
-      ],
-      "created_at": "2026-10-29T11:00:08Z",
       "needs": ""
      },
      {
@@ -2995,9 +2971,9 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"177cd84710ccb3119aecd3e6ba0435b6af7d4279b6247fe7cebfdd8b37cf07a2\"",
+   "etag": "\"521433be40465ab9c6540d62ed654f6df329e3bff530b40590f2d26d878bf9f6\"",
    "data": {
-    "n": 76,
+    "n": 63,
     "issues": [
      {
       "number": 631,
@@ -3021,18 +2997,6 @@
        "feature"
       ],
       "created_at": "2026-10-29T11:08:01Z",
-      "needs": ""
-     },
-     {
-      "number": 629,
-      "url": "https://github.com/djazairdev/minhajna/issues/629",
-      "title": "A harness that runs demo scenarios in CI",
-      "labels": [
-       "help wanted",
-       "area: release",
-       "feature"
-      ],
-      "created_at": "2026-10-29T11:07:54Z",
       "needs": ""
      },
      {
@@ -3409,18 +3373,6 @@
       "needs": ""
      },
      {
-      "number": 597,
-      "url": "https://github.com/djazairdev/minhajna/issues/597",
-      "title": "A chart with its table beside it, mirrored for right to left",
-      "labels": [
-       "help wanted",
-       "area: web",
-       "feature"
-      ],
-      "created_at": "2026-10-29T11:04:45Z",
-      "needs": ""
-     },
-     {
       "number": 596,
       "url": "https://github.com/djazairdev/minhajna/issues/596",
       "title": "Add up the schools' shares on announced days",
@@ -3431,19 +3383,6 @@
        "area: server"
       ],
       "created_at": "2026-10-29T11:04:40Z",
-      "needs": ""
-     },
-     {
-      "number": 595,
-      "url": "https://github.com/djazairdev/minhajna/issues/595",
-      "title": "The floors in the core: 5 or 10 teachers and 3 schools, and 8 wilayas for a range",
-      "labels": [
-       "help wanted",
-       "area: core",
-       "feature",
-       "privacy-sensitive"
-      ],
-      "created_at": "2026-10-29T11:04:34Z",
       "needs": ""
      },
      {
@@ -3707,19 +3646,6 @@
       "needs": ""
      },
      {
-      "number": 574,
-      "url": "https://github.com/djazairdev/minhajna/issues/574",
-      "title": "Read a timetable from the Excel or CSV template, with live checks",
-      "labels": [
-       "help wanted",
-       "area: timetable",
-       "feature",
-       "privacy-sensitive"
-      ],
-      "created_at": "2026-10-29T11:02:38Z",
-      "needs": ""
-     },
-     {
       "number": 573,
       "url": "https://github.com/djazairdev/minhajna/issues/573",
       "title": "Each role's log of its own actions",
@@ -3785,109 +3711,6 @@
       "needs": ""
      },
      {
-      "number": 567,
-      "url": "https://github.com/djazairdev/minhajna/issues/567",
-      "title": "Leaving the school's space with a full copy",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:02:01Z",
-      "needs": ""
-     },
-     {
-      "number": 566,
-      "url": "https://github.com/djazairdev/minhajna/issues/566",
-      "title": "Rejoining on a new phone, and a teacher who moved schools",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:01:56Z",
-      "needs": ""
-     },
-     {
-      "number": 565,
-      "url": "https://github.com/djazairdev/minhajna/issues/565",
-      "title": "Joining during the trial term: School-join-trial",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:01:51Z",
-      "needs": ""
-     },
-     {
-      "number": 564,
-      "url": "https://github.com/djazairdev/minhajna/issues/564",
-      "title": "A teacher joins the school's space: School-join",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:01:45Z",
-      "needs": ""
-     },
-     {
-      "number": 563,
-      "url": "https://github.com/djazairdev/minhajna/issues/563",
-      "title": "Reader mode inside a world",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:01:40Z",
-      "needs": ""
-     },
-     {
-      "number": 562,
-      "url": "https://github.com/djazairdev/minhajna/issues/562",
-      "title": "The PC workspace for the roles above the teacher",
-      "labels": [
-       "help wanted",
-       "feature",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:01:34Z",
-      "needs": ""
-     },
-     {
-      "number": 561,
-      "url": "https://github.com/djazairdev/minhajna/issues/561",
-      "title": "Enter a world on the phone, as a teacher or an inspector",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:01:29Z",
-      "needs": ""
-     },
-     {
-      "number": 560,
-      "url": "https://github.com/djazairdev/minhajna/issues/560",
-      "title": "Start or enter a world on the PC, and pick a role",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: school-mode"
-      ],
-      "created_at": "2026-10-29T11:01:23Z",
-      "needs": ""
-     },
-     {
       "number": 559,
       "url": "https://github.com/djazairdev/minhajna/issues/559",
       "title": "A network client used only inside a world",
@@ -3924,19 +3747,6 @@
        "area: server"
       ],
       "created_at": "2026-10-29T11:00:19Z",
-      "needs": ""
-     },
-     {
-      "number": 547,
-      "url": "https://github.com/djazairdev/minhajna/issues/547",
-      "title": "Seed a national world: directorates, schools, staff and classes",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: server"
-      ],
-      "created_at": "2026-10-29T11:00:13Z",
       "needs": ""
      },
      {

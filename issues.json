@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-30T22:38:09Z",
+ "generated_at": "2026-10-31T06:15:38Z",
  "issues": [
   {
    "number": 632,
@@ -39,20 +39,6 @@
     "feature"
    ],
    "created_at": "2026-10-29T11:08:01Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 629,
-   "url": "https://github.com/djazairdev/minhajna/issues/629",
-   "title": "A harness that runs demo scenarios in CI",
-   "labels": [
-    "help wanted",
-    "area: release",
-    "feature"
-   ],
-   "created_at": "2026-10-29T11:07:54Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
@@ -503,20 +489,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 597,
-   "url": "https://github.com/djazairdev/minhajna/issues/597",
-   "title": "A chart with its table beside it, mirrored for right to left",
-   "labels": [
-    "help wanted",
-    "area: web",
-    "feature"
-   ],
-   "created_at": "2026-10-29T11:04:45Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 596,
    "url": "https://github.com/djazairdev/minhajna/issues/596",
    "title": "Add up the schools' shares on announced days",
@@ -527,21 +499,6 @@
     "area: server"
    ],
    "created_at": "2026-10-29T11:04:40Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 595,
-   "url": "https://github.com/djazairdev/minhajna/issues/595",
-   "title": "The floors in the core: 5 or 10 teachers and 3 schools, and 8 wilayas for a range",
-   "labels": [
-    "help wanted",
-    "area: core",
-    "feature",
-    "privacy-sensitive"
-   ],
-   "created_at": "2026-10-29T11:04:34Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
@@ -847,21 +804,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 574,
-   "url": "https://github.com/djazairdev/minhajna/issues/574",
-   "title": "Read a timetable from the Excel or CSV template, with live checks",
-   "labels": [
-    "help wanted",
-    "area: timetable",
-    "feature",
-    "privacy-sensitive"
-   ],
-   "created_at": "2026-10-29T11:02:38Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 573,
    "url": "https://github.com/djazairdev/minhajna/issues/573",
    "title": "Each role's log of its own actions",
@@ -951,125 +893,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 567,
-   "url": "https://github.com/djazairdev/minhajna/issues/567",
-   "title": "Leaving the school's space with a full copy",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:02:01Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 566,
-   "url": "https://github.com/djazairdev/minhajna/issues/566",
-   "title": "Rejoining on a new phone, and a teacher who moved schools",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:56Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 565,
-   "url": "https://github.com/djazairdev/minhajna/issues/565",
-   "title": "Joining during the trial term: School-join-trial",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:51Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 564,
-   "url": "https://github.com/djazairdev/minhajna/issues/564",
-   "title": "A teacher joins the school's space: School-join",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:45Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 563,
-   "url": "https://github.com/djazairdev/minhajna/issues/563",
-   "title": "Reader mode inside a world",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:40Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 562,
-   "url": "https://github.com/djazairdev/minhajna/issues/562",
-   "title": "The PC workspace for the roles above the teacher",
-   "labels": [
-    "help wanted",
-    "feature",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:34Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 561,
-   "url": "https://github.com/djazairdev/minhajna/issues/561",
-   "title": "Enter a world on the phone, as a teacher or an inspector",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:29Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 560,
-   "url": "https://github.com/djazairdev/minhajna/issues/560",
-   "title": "Start or enter a world on the PC, and pick a role",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:23Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 559,
    "url": "https://github.com/djazairdev/minhajna/issues/559",
    "title": "A network client used only inside a world",
@@ -1080,20 +903,6 @@
     "area: network"
    ],
    "created_at": "2026-10-29T11:01:18Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 557,
-   "url": "https://github.com/djazairdev/minhajna/issues/557",
-   "title": "The demo band: «نسخة تجريبية · بيانات مختلقة» and the world's date",
-   "labels": [
-    "good first issue",
-    "feature",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:01:07Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
@@ -1124,35 +933,6 @@
     "area: server"
    ],
    "created_at": "2026-10-29T11:00:19Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 547,
-   "url": "https://github.com/djazairdev/minhajna/issues/547",
-   "title": "Seed a national world: directorates, schools, staff and classes",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:00:13Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 546,
-   "url": "https://github.com/djazairdev/minhajna/issues/546",
-   "title": "Made-up names for demo worlds: schools, staff and twelve wilayas",
-   "labels": [
-    "good first issue",
-    "area: core",
-    "feature"
-   ],
-   "created_at": "2026-10-29T11:00:08Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
