@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-01T18:05:40Z",
+ "generated_at": "2026-11-01T22:23:17Z",
  "issues": [
   {
    "number": 632,
@@ -485,21 +485,6 @@
     "area: network"
    ],
    "created_at": "2026-10-29T11:01:18Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 549,
-   "url": "https://github.com/djazairdev/minhajna/issues/549",
-   "title": "A term of signed weeks in a seeded world, and the deliberately small cells",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:00:24Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
