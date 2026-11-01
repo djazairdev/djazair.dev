@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-01T06:48:57Z",
+ "generated_at": "2026-11-01T18:05:40Z",
  "issues": [
   {
    "number": 632,
@@ -340,35 +340,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 608,
-   "url": "https://github.com/djazairdev/minhajna/issues/608",
-   "title": "Publish the calendar inside the world, and refuse it in real mode",
-   "labels": [
-    "help wanted",
-    "area: calendar",
-    "feature",
-    "privacy-sensitive"
-   ],
-   "created_at": "2026-10-29T11:05:47Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 607,
-   "url": "https://github.com/djazairdev/minhajna/issues/607",
-   "title": "The Ministry's calendar editor",
-   "labels": [
-    "help wanted",
-    "area: calendar",
-    "feature"
-   ],
-   "created_at": "2026-10-29T11:05:41Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 606,
    "url": "https://github.com/djazairdev/minhajna/issues/606",
    "title": "Publish each signed cut with its figures: N-Published",
@@ -504,51 +475,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 594,
-   "url": "https://github.com/djazairdev/minhajna/issues/594",
-   "title": "The inspector reads what a grant opens: I-Grant",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:04:29Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 593,
-   "url": "https://github.com/djazairdev/minhajna/issues/593",
-   "title": "The directorate grants an inspector access: M-Grant",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:04:24Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 592,
-   "url": "https://github.com/djazairdev/minhajna/issues/592",
-   "title": "What enters and leaves the school's space, and its export: D-Exchange",
-   "labels": [
-    "help wanted",
-    "area: export",
-    "feature",
-    "privacy-sensitive"
-   ],
-   "created_at": "2026-10-29T11:04:18Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 559,
    "url": "https://github.com/djazairdev/minhajna/issues/559",
    "title": "A network client used only inside a world",
@@ -574,21 +500,6 @@
     "area: server"
    ],
    "created_at": "2026-10-29T11:00:24Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 548,
-   "url": "https://github.com/djazairdev/minhajna/issues/548",
-   "title": "Join the seeded staff to their schools, with their keys, and upload the world",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:00:19Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
