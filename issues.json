@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-02T06:47:00Z",
+ "generated_at": "2026-11-02T21:55:22Z",
  "issues": [
   {
    "number": 632,
@@ -410,66 +410,6 @@
     "area: school-mode"
    ],
    "created_at": "2026-10-29T11:05:13Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 601,
-   "url": "https://github.com/djazairdev/minhajna/issues/601",
-   "title": "The teacher's exams and their thresholds: T-Threshold, T-Threshold-exams, T-Threshold-propose",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:05:07Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 599,
-   "url": "https://github.com/djazairdev/minhajna/issues/599",
-   "title": "The Ministry's totals: N-Totals",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:04:56Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 598,
-   "url": "https://github.com/djazairdev/minhajna/issues/598",
-   "title": "The directorate's totals: M-Totals",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:04:51Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 596,
-   "url": "https://github.com/djazairdev/minhajna/issues/596",
-   "title": "Add up the schools' shares on announced days",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:04:40Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
