@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-03T07:13:03Z",
+ "generated_at": "2026-11-03T19:47:05Z",
  "issues": [
   {
    "number": 632,
@@ -74,21 +74,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 626,
-   "url": "https://github.com/djazairdev/minhajna/issues/626",
-   "title": "Count teachers and schools in memory only, and hide small cells",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: insights"
-   ],
-   "created_at": "2026-10-29T11:07:35Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 625,
    "url": "https://github.com/djazairdev/minhajna/issues/625",
    "title": "Seed an insights world with made-up sendings",
@@ -99,21 +84,6 @@
     "area: insights"
    ],
    "created_at": "2026-10-29T11:07:28Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 624,
-   "url": "https://github.com/djazairdev/minhajna/issues/624",
-   "title": "Insights stop for school classes and retire: the four settings states",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: insights"
-   ],
-   "created_at": "2026-10-29T11:07:22Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
@@ -149,21 +119,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 621,
-   "url": "https://github.com/djazairdev/minhajna/issues/621",
-   "title": "The insights payload with the term's token, and its receiving endpoint",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: insights"
-   ],
-   "created_at": "2026-10-29T11:07:03Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 620,
    "url": "https://github.com/djazairdev/minhajna/issues/620",
    "title": "Backups and their restore tests in the console",
@@ -188,20 +143,6 @@
     "area: server"
    ],
    "created_at": "2026-10-29T11:06:50Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 618,
-   "url": "https://github.com/djazairdev/minhajna/issues/618",
-   "title": "The operators' console: the server as a map, its version and its health",
-   "labels": [
-    "help wanted",
-    "feature",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:44Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
@@ -395,21 +336,6 @@
     "area: school-mode"
    ],
    "created_at": "2026-10-29T11:05:18Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 602,
-   "url": "https://github.com/djazairdev/minhajna/issues/602",
-   "title": "After the exam, the totals and a moved date: T-Threshold-after, -totals, -moved",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:05:13Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
