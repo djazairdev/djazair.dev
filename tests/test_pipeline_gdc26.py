@@ -124,7 +124,7 @@ class Baseline(unittest.TestCase):
             self.assertEqual(e.working_age, self.population[e.economy][str(gdc26.POPULATION_YEAR)], e.economy)
 
     def test_algerias_estimate(self):
-        derived = ROOT / 'data' / 'derived' / json.loads((ROOT / 'data' / 'derived' / 'latest.json').read_text())['folder']
+        derived = ROOT / 'data' / 'derived' / '2026-q1'    # the quarter PRD A.6's figures describe; every quarter's folder is kept
         rows = json.loads((derived / 'gdc26.json').read_text())['rows']
         dz = next(r for r in rows if r['list'] == 'estimate' and r['economy'] == 'DZ')
         self.assertEqual(round(dz['per_1k_working_age']), 67)

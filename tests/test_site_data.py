@@ -41,7 +41,7 @@ class Loader(unittest.TestCase):
         root = self.copy()
         folder = root / json.loads((root / 'latest.json').read_text())['folder']
         path = folder / 'overview.json'
-        path.write_text(path.read_text().replace('586990', '586991'))
+        path.write_bytes(path.read_bytes() + b'\n')
         with self.assertRaisesRegex(data.DataError, 'does not match manifest.json'):
             data.load(root).table('overview')
 

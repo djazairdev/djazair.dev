@@ -115,7 +115,9 @@ class Discovery(unittest.TestCase):
         self.assertEqual(forecast['temporalCoverage'], '2030')
         self.assertNotIn('license', forecast, 'no invented licence for the Octoverse publication')
         measured = next(n for n in nodes if 'global-accounts.csv' in n['@id'])
-        self.assertEqual(measured['temporalCoverage'], '2026-01-01/2026-03-31')
+        year, q = self.site.data.quarter.split('-Q')
+        first, last = {'1': ('01-01', '03-31'), '2': ('04-01', '06-30'), '3': ('07-01', '09-30'), '4': ('10-01', '12-31')}[q]
+        self.assertEqual(measured['temporalCoverage'], f'{year}-{first}/{year}-{last}')
         self.assertEqual(measured['license'], self.site.data.manifest['licence_url'])
         gdc = next(n for n in nodes if '/gdc26#dataset' in n['@id'])
         self.assertEqual(gdc['temporalCoverage'], '2025-07-01/2026-06-30')
