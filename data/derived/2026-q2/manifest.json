@@ -1,0 +1,234 @@
+{
+ "attribution": "Data: GitHub Innovation Graph (CC0)",
+ "files": {
+  "README.md": {
+   "bytes": 3813,
+   "sha256": "6070703147c4942c28378c53fab323593ea8f1cf67a1048035800f90bb35a8b3"
+  },
+  "collaboration.csv": {
+   "bytes": 9096,
+   "rows": 384,
+   "sha256": "b84f2c6ba026f04203e43539c6b29a5b5d53d83f03d14cced142754062000927",
+   "table": "collaboration",
+   "title": "Algeria’s collaboration partners"
+  },
+  "collaboration.json": {
+   "bytes": 36908,
+   "rows": 384,
+   "sha256": "57776ed96639d6213f25b58bf46ee0f501e948c61e57e8d89bf080eea0b814b2",
+   "table": "collaboration",
+   "title": "Algeria’s collaboration partners"
+  },
+  "gdc26.csv": {
+   "bytes": 2832,
+   "rows": 52,
+   "sha256": "b2c1eb7d8c33932cd5902596123ac2b54a498e90ead9d484772b542960318743",
+   "table": "gdc26",
+   "title": "GitHub’s GDC26 rankings"
+  },
+  "gdc26.json": {
+   "bytes": 17405,
+   "rows": 52,
+   "sha256": "c606c631f0dcdd82feeebb15655157c91be384daee83e5d35df560faa3f09042",
+   "table": "gdc26",
+   "title": "GitHub’s GDC26 rankings"
+  },
+  "groups.csv": {
+   "bytes": 12703,
+   "rows": 100,
+   "sha256": "01eac152d00223a95e296ba7ae655ce4ea50f5991df90c93b9da73d0f52db3d3",
+   "table": "groups",
+   "title": "Peer groups and their medians"
+  },
+  "groups.json": {
+   "bytes": 43585,
+   "rows": 100,
+   "sha256": "655e3300a45840d4c2edd631c68206c622d23b25d2758f6ece337655860344e9",
+   "table": "groups",
+   "title": "Peer groups and their medians"
+  },
+  "indicators.csv": {
+   "bytes": 477741,
+   "rows": 5888,
+   "sha256": "094cf79880611d272b2e00dbf50188277a47ed87555b58664eb01dfb385eb807",
+   "table": "indicators",
+   "title": "Every economy, every quarter"
+  },
+  "indicators.json": {
+   "bytes": 1776754,
+   "rows": 5888,
+   "sha256": "e1a40356ea73356b030014edf42b038c8879200f9533f8edd32fa14394d8b7c0",
+   "table": "indicators",
+   "title": "Every economy, every quarter"
+  },
+  "languages.csv": {
+   "bytes": 24850,
+   "rows": 496,
+   "sha256": "5a7bd931a8f832fd78aa018af2858e103fa5ae8ac67c5ac8d7d55a7606074861",
+   "table": "languages",
+   "title": "Languages"
+  },
+  "languages.json": {
+   "bytes": 99915,
+   "rows": 496,
+   "sha256": "68e53d253233f04fa00fdbf24739c5c4585811e60f864931a7507398d85819db",
+   "table": "languages",
+   "title": "Languages"
+  },
+  "languages_algeria.csv": {
+   "bytes": 23660,
+   "rows": 727,
+   "sha256": "eac382fb6f136a127ded3bbff4dbf3e847eeebd4fd4db9a4bfc6b5d4b136f980",
+   "table": "languages_algeria",
+   "title": "Languages in Algeria since 2020"
+  },
+  "languages_algeria.json": {
+   "bytes": 78550,
+   "rows": 727,
+   "sha256": "c2ed4a537bf8365fab20202f1cad9c0b9db3e615802e72ca32b3eb32d474bd43",
+   "table": "languages_algeria",
+   "title": "Languages in Algeria since 2020"
+  },
+  "overview.csv": {
+   "bytes": 1130,
+   "rows": 9,
+   "sha256": "f96a148fa59f1f5ae208c6ca95a4b39bda32f6b2dfa98392722af8202171c4a9",
+   "table": "overview",
+   "title": "Algeria at a glance"
+  },
+  "overview.json": {
+   "bytes": 6886,
+   "rows": 9,
+   "sha256": "1ff7376733722427294aa75bce8c323d570cf4dd7174de36d10cfdedc927a014",
+   "table": "overview",
+   "title": "Algeria at a glance"
+  },
+  "peers.csv": {
+   "bytes": 1628,
+   "rows": 10,
+   "sha256": "a28b3ca5da05e1f9dbc122ce593bc69355550d5c46ed1c89042f9f3cce71daa4",
+   "table": "peers",
+   "title": "Algeria and its peers"
+  },
+  "peers.json": {
+   "bytes": 7829,
+   "rows": 10,
+   "sha256": "99a2dc73f6384150bbd7afb2f2a201e31465ef03b7a36626286fcacf94a1148f",
+   "table": "peers",
+   "title": "Algeria and its peers"
+  },
+  "ranks.csv": {
+   "bytes": 21857,
+   "rows": 450,
+   "sha256": "b79af1ad1848ed7c232145c3cc3a30825feff2fd93d5876325fe5c7e15d7bc4a",
+   "table": "ranks",
+   "title": "Ranks in each peer group"
+  },
+  "ranks.json": {
+   "bytes": 63770,
+   "rows": 450,
+   "sha256": "4e192a73bc6fb5f7c5f36c2f55cd5b99dd5e853f1d899805269fe9ea03435bba",
+   "table": "ranks",
+   "title": "Ranks in each peer group"
+  },
+  "revisions.csv": {
+   "bytes": 34,
+   "rows": 0,
+   "sha256": "7534fd979c9f76d316fac6127b5b706c318ac1fdb5fb864919dcfce37348846f",
+   "table": "revisions",
+   "title": "Revised past values"
+  },
+  "revisions.json": {
+   "bytes": 1198,
+   "rows": 0,
+   "sha256": "26544b79ff37ccda58333070a3245aee292003a25a12382d732dd3654aa5a29e",
+   "table": "revisions",
+   "title": "Revised past values"
+  },
+  "topics.csv": {
+   "bytes": 6039,
+   "rows": 175,
+   "sha256": "d7e6f3a1c356fc365a85900a1527f26f698c846831d0628a9b465359f7fc3f17",
+   "table": "topics",
+   "title": "Topics"
+  },
+  "topics.json": {
+   "bytes": 30454,
+   "rows": 175,
+   "sha256": "e9d1cdcd22bc615ebae5f05d1ba7ad52705740a6d1d03494c19607ace4a12a0b",
+   "table": "topics",
+   "title": "Topics"
+  },
+  "trends.csv": {
+   "bytes": 110950,
+   "rows": 3042,
+   "sha256": "693807d13ae85f87cfb4b386b0efa3d9b77d7f5026608128321d58b756f9dc4d",
+   "table": "trends",
+   "title": "Quarterly series"
+  },
+  "trends.json": {
+   "bytes": 285917,
+   "rows": 3042,
+   "sha256": "a7e8ce7a555077bbd1d9733f819a952216207d7f570b9f44868ccb7aa0afc42d",
+   "table": "trends",
+   "title": "Quarterly series"
+  }
+ },
+ "format_version": 1,
+ "gdc26": {
+  "commit": "a5aedb7585dc5908a46ab90d33113044046cd7b5",
+  "date": "2026-08-31",
+  "licence": "CC0-1.0",
+  "population_year": 2025,
+  "source": "https://github.com/github/innovationgraph/tree/a5aedb7585dc5908a46ab90d33113044046cd7b5/supplementary_data/git_pushes_weighted_by_profile_economy"
+ },
+ "generated_at": "2026-11-04T14:43:37Z",
+ "licence": "CC0-1.0",
+ "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+ "population": {
+  "algeria_year": 2025,
+  "licence": "CC BY 4.0",
+  "source": "World Bank, World Development Indicators (SP.POP.TOTL)",
+  "updated": "2026-07-13",
+  "years": [
+   2025
+  ]
+ },
+ "quarter": "2026-Q2",
+ "quarters": [
+  "2020-Q1",
+  "2020-Q2",
+  "2020-Q3",
+  "2020-Q4",
+  "2021-Q1",
+  "2021-Q2",
+  "2021-Q3",
+  "2021-Q4",
+  "2022-Q1",
+  "2022-Q2",
+  "2022-Q3",
+  "2022-Q4",
+  "2023-Q1",
+  "2023-Q2",
+  "2023-Q3",
+  "2023-Q4",
+  "2024-Q1",
+  "2024-Q2",
+  "2024-Q3",
+  "2024-Q4",
+  "2025-Q1",
+  "2025-Q2",
+  "2025-Q3",
+  "2025-Q4",
+  "2026-Q1",
+  "2026-Q2"
+ ],
+ "release": "c8b595d6901196db5e155c48f65b346615737ceb",
+ "release_date": "2026-10-28T05:10:31Z",
+ "revisions": {
+  "changed": 0,
+  "compared_quarter": "2026-Q1",
+  "compared_with": "054c7dbc527518fa2ecfd316efe2aa01f3986c39"
+ },
+ "source": "https://github.com/github/innovationgraph/tree/c8b595d6901196db5e155c48f65b346615737ceb/data"
+}
