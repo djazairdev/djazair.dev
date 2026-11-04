@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-04T06:57:15Z",
+ "generated_at": "2026-11-04T19:59:58Z",
  "issues": [
   {
    "number": 632,
@@ -39,110 +39,6 @@
     "feature"
    ],
    "created_at": "2026-10-29T11:08:01Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 628,
-   "url": "https://github.com/djazairdev/minhajna/issues/628",
-   "title": "Guard the observatory against fake or flooded sendings",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: insights"
-   ],
-   "created_at": "2026-10-29T11:07:48Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 627,
-   "url": "https://github.com/djazairdev/minhajna/issues/627",
-   "title": "The observatory's report: Obs-Report",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: insights"
-   ],
-   "created_at": "2026-10-29T11:07:41Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 625,
-   "url": "https://github.com/djazairdev/minhajna/issues/625",
-   "title": "Seed an insights world with made-up sendings",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: insights"
-   ],
-   "created_at": "2026-10-29T11:07:28Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 623,
-   "url": "https://github.com/djazairdev/minhajna/issues/623",
-   "title": "My class against its peers: Insights-compare",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: insights"
-   ],
-   "created_at": "2026-10-29T11:07:15Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 622,
-   "url": "https://github.com/djazairdev/minhajna/issues/622",
-   "title": "Opting in, the log and Help: Insights-optin, Log-insights, Help-insights",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: insights"
-   ],
-   "created_at": "2026-10-29T11:07:09Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 620,
-   "url": "https://github.com/djazairdev/minhajna/issues/620",
-   "title": "Backups and their restore tests in the console",
-   "labels": [
-    "help wanted",
-    "feature",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:56Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 619,
-   "url": "https://github.com/djazairdev/minhajna/issues/619",
-   "title": "The admin log, problem reports and security logs kept apart",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:50Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
@@ -208,21 +104,6 @@
    "language": "TypeScript"
   },
   {
-   "number": 613,
-   "url": "https://github.com/djazairdev/minhajna/issues/613",
-   "title": "The item form and the source PDF",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:14Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
    "number": 612,
    "url": "https://github.com/djazairdev/minhajna/issues/612",
    "title": "The life of a release on the server, and the Ministry's official packs",
@@ -233,124 +114,6 @@
     "area: server"
    ],
    "created_at": "2026-10-29T11:06:09Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 611,
-   "url": "https://github.com/djazairdev/minhajna/issues/611",
-   "title": "The pack list with each pack's status",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:03Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 610,
-   "url": "https://github.com/djazairdev/minhajna/issues/610",
-   "title": "Check that a budget pack fits the grid's hours",
-   "labels": [
-    "help wanted",
-    "area: core",
-    "feature"
-   ],
-   "created_at": "2026-10-29T11:05:57Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 609,
-   "url": "https://github.com/djazairdev/minhajna/issues/609",
-   "title": "Check a week pack for missing weeks",
-   "labels": [
-    "good first issue",
-    "area: core",
-    "feature"
-   ],
-   "created_at": "2026-10-29T11:05:52Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 606,
-   "url": "https://github.com/djazairdev/minhajna/issues/606",
-   "title": "Publish each signed cut with its figures: N-Published",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:05:35Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 605,
-   "url": "https://github.com/djazairdev/minhajna/issues/605",
-   "title": "The Ministry's committee: N-Threshold",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:05:30Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 604,
-   "url": "https://github.com/djazairdev/minhajna/issues/604",
-   "title": "The committee proposes, signs or declines a cut: M-Threshold",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:05:24Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 603,
-   "url": "https://github.com/djazairdev/minhajna/issues/603",
-   "title": "The school's own exams: D-Threshold",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: school-mode"
-   ],
-   "created_at": "2026-10-29T11:05:18Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 559,
-   "url": "https://github.com/djazairdev/minhajna/issues/559",
-   "title": "A network client used only inside a world",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: network"
-   ],
-   "created_at": "2026-10-29T11:01:18Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"
