@@ -24,6 +24,7 @@ from djsite.pages import collaboration  # noqa: E402
 from pipeline import config  # noqa: E402
 
 BASELINE = '2026-Q1'           # the quarter the hand-checked expectations below describe
+FOLDER = data.load().quarter.lower()   # the quarter being built: its charts and downloads
 
 
 def text_of(html: str) -> str:
@@ -48,7 +49,7 @@ class CollaborationPage(unittest.TestCase):
         return re.search(r'<main.*?</main>', self.html[lang], re.S).group(0)
 
     def figure_csv(self, chart_id: str) -> list:
-        return list(csv.DictReader(io.StringIO((self.dist / 'charts' / '2026-q1' / f'{chart_id}.csv').read_text())))
+        return list(csv.DictReader(io.StringIO((self.dist / 'charts' / FOLDER / f'{chart_id}.csv').read_text())))
 
     def both_rows(self, lang: str) -> tuple:
         section = re.search(r'<section class="section section-s" id="both".*?</section>', self.html[lang], re.S).group(0)
@@ -124,11 +125,11 @@ class CollaborationPage(unittest.TestCase):
             main = self.main(lang)
             self.assertEqual(len(re.findall(r'<details class="disclosure fig-table"', main)), 3)
             for chart_id in ('collaboration-sent', 'collaboration-received', 'collaboration-trend'):
-                self.assertIn(f'/charts/2026-q1/{chart_id}.csv', main)
+                self.assertIn(f'/charts/{FOLDER}/{chart_id}.csv', main)
                 for theme in ('dark', 'light'):
-                    self.assertTrue((self.dist / 'charts' / '2026-q1' / lang / f'{chart_id}-{theme}.svg').is_file())
-            self.assertIn('/data/2026-q1/collaboration.csv', main)
-        trend = (self.dist / 'charts' / '2026-q1' / 'collaboration-trend.csv').read_text().splitlines()
+                    self.assertTrue((self.dist / 'charts' / FOLDER / lang / f'{chart_id}-{theme}.svg').is_file())
+            self.assertIn(f'/data/{FOLDER}/collaboration.csv', main)
+        trend = (self.dist / 'charts' / FOLDER / 'collaboration-trend.csv').read_text().splitlines()
         self.assertEqual(trend[0], 'quarter,sent,received')
         self.assertEqual(len(trend), 1 + len(self.data.quarters))
 

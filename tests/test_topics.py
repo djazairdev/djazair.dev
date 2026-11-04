@@ -21,6 +21,7 @@ from djsite.pages import topics  # noqa: E402
 from djsite.scorecard import CORE_PEERS  # noqa: E402
 
 BASELINE = '2026-Q1'           # the quarter the hand-checked expectations below describe
+FOLDER = data.load().quarter.lower()   # the quarter being built: its charts and downloads
 
 
 def text_of(html: str) -> str:
@@ -98,10 +99,10 @@ class TopicsPage(unittest.TestCase):
             main = self.main(lang)
             self.assertEqual(len(re.findall(r'<details class="disclosure fig-table"', main)), 2)
             for chart_id in ('topics-peers', 'topics-trend'):
-                self.assertIn(f'/charts/2026-q1/{chart_id}.csv', main)
+                self.assertIn(f'/charts/{FOLDER}/{chart_id}.csv', main)
                 for theme in ('dark', 'light'):
-                    self.assertTrue((self.dist / 'charts' / '2026-q1' / lang / f'{chart_id}-{theme}.svg').is_file())
-        trend = (self.dist / 'charts' / '2026-q1' / 'topics-trend.csv').read_text().splitlines()
+                    self.assertTrue((self.dist / 'charts' / FOLDER / lang / f'{chart_id}-{theme}.svg').is_file())
+        trend = (self.dist / 'charts' / FOLDER / 'topics-trend.csv').read_text().splitlines()
         self.assertEqual(trend[0], 'quarter,DZ,median_north_africa,' + ','.join(CORE_PEERS))
         self.assertEqual(len(trend), 1 + len(self.data.quarters))
 

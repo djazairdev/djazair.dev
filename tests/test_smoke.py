@@ -208,7 +208,7 @@ class Smoke(unittest.TestCase):
         page = broken / 'en' / 'about' / 'index.html'
         page.write_text(page.read_text('utf-8').replace('<head>', '<head><meta name="robots" content="noindex">', 1), 'utf-8')
         (broken / '404.html').unlink()
-        next((broken / 'data').rglob('*.zip')).write_bytes(b'not a zip')
+        max((broken / 'data').rglob('*.zip')).write_bytes(b'not a zip')    # the latest quarter's, which pages link to
         (broken / 'robots.txt').write_text('User-agent: *\nAllow: /\n')
         root = broken / 'index.html'
         root.write_text(root.read_text('utf-8').replace('location.replace', 'location.assign'), 'utf-8')

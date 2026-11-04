@@ -17,6 +17,8 @@ from djsite import data, outlook
 from djsite.build import build
 from djsite.config import LANGS
 
+BASELINE = '2026-Q1'           # the quarter the hand-checked expectation below describes
+
 
 class Calculations(unittest.TestCase):
     def test_ties_missing_data_eu_and_quarter_filter(self):
@@ -34,7 +36,12 @@ class Calculations(unittest.TestCase):
         dz = next(r for r in latest if r['economy']=='DZ')
         calculated = next(r for r in outlook.standings(d) if r['economy']=='DZ')
         self.assertEqual(calculated['rank'], 1+sum(r['accounts']>dz['accounts'] for r in latest))
-        self.assertEqual((calculated['rank'],len(latest)), (50,229))
+        self.assertEqual(len(outlook.standings(d)),len(latest))
+
+    @unittest.skipUnless(data.load().quarter == BASELINE, 'expectation describes the 2026-Q1 data')
+    def test_algeria_rank_in_the_baseline_quarter(self):
+        found = outlook.standings(data.load())
+        self.assertEqual((next(r['rank'] for r in found if r['economy']=='DZ'),len(found)), (50,229))
 
     def test_scenario_compounding_target_and_required_rate(self):
         self.assertEqual(outlook.horizon('2026-Q1'),4)
@@ -77,7 +84,8 @@ class Pages(unittest.TestCase):
             ids = ['world-standing','developer-outlook','algeria-scenario','detailed-indicators','overview-next-h']
             self.assertEqual([html.index(f'id="{i}"') for i in ids],sorted(html.index(f'id="{i}"') for i in ids))
             self.assertIn(f'/{lang}/index/rankings/#global-accounts',html)
-            self.assertIn('data-base="586990" data-years="4.0"',html)
+            d = data.load()
+            self.assertIn(f'data-base="{d.overview()["accounts"]["value"]}" data-years="{outlook.horizon(d.quarter)}"',html)
             self.assertIn('value="15"',html)
             self.assertIn('class="scenario-control" hidden',html, 'hide the nonfunctional slider without JS')
             self.assertIn(outlook.SOURCE,html)
@@ -89,10 +97,12 @@ class Pages(unittest.TestCase):
             self.assertIn(f'/{lang}/hub/?kind=gfi#issues',html)
 
     def test_country_table_and_csv_cover_same_measured_rows(self):
-        csv_rows = list(csv.DictReader(io.StringIO((self.dist/'data/2026-q1/global-accounts.csv').read_text())))
-        self.assertEqual(len(csv_rows),229)
+        d = data.load()
+        standings = outlook.standings(d)
+        csv_rows = list(csv.DictReader(io.StringIO((self.dist/'data'/d.quarter.lower()/'global-accounts.csv').read_text())))
+        self.assertEqual(len(csv_rows),len(standings))
         self.assertNotIn('EU',[r['economy'] for r in csv_rows])
-        self.assertEqual(next(r['rank'] for r in csv_rows if r['economy']=='DZ'),'50')
+        self.assertEqual(next(r['rank'] for r in csv_rows if r['economy']=='DZ'),str(next(r['rank'] for r in standings if r['economy']=='DZ')))
         for lang in ('en','ar'):
             html=(self.dist/lang/'index/rankings/index.html').read_text()
             section=re.search(r'id="global-accounts".*?</section>',html,re.S).group()

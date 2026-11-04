@@ -20,6 +20,7 @@ from djsite.charts import HBar, HBarChart  # noqa: E402
 from djsite.pages import rankings  # noqa: E402
 
 BASELINE = '2026-Q1'           # the quarter the hand-checked expectations below describe
+FOLDER = data.load().quarter.lower()   # the quarter being built: its charts and downloads
 
 
 def text_of(html: str) -> str:
@@ -46,11 +47,13 @@ class RankingsPage(unittest.TestCase):
         return re.search(rf'<section class="section section-s" id="{id_}".*?</section>', self.html[lang], re.S).group(0)
 
     def test_africas_top_ten_and_algerias_estimate(self):
-        """PRD A.6: Mauritius 272 ... Eswatini 102; Algeria isn't listed, about 67 by the estimate."""
-        figure = list(csv.DictReader(io.StringIO((self.dist / 'charts' / '2026-q1' / 'rankings-africa.csv').read_text())))
-        self.assertEqual([(r['key'], round(float(r['value']))) for r in figure],
+        """PRD A.6: Mauritius 272 ... Eswatini 102, GitHub's one-off list. Algeria isn't listed: its
+        estimate follows the quarter (test_pipeline_gdc26 checks the 2026-Q1 figure)."""
+        figure = list(csv.DictReader(io.StringIO((self.dist / 'charts' / FOLDER / 'rankings-africa.csv').read_text())))
+        self.assertEqual([(r['key'], round(float(r['value']))) for r in figure[:-1]],
                          [('MU', 272), ('TN', 256), ('KE', 167), ('MA', 163), ('RW', 140), ('EG', 134), ('ZA', 123),
-                          ('BW', 107), ('GH', 103), ('SZ', 102), ('DZ', 67)])
+                          ('BW', 107), ('GH', 103), ('SZ', 102)])
+        self.assertEqual(figure[-1]['key'], 'DZ')
         self.assertEqual([r['key'] for r in figure if r['estimate'] == 'true'], ['DZ'])
         self.assertEqual(figure[-1]['rank'], '', 'the estimate has no rank')
 
@@ -63,7 +66,7 @@ class RankingsPage(unittest.TestCase):
                 self.assertIn(f'>{label}</text>', svg)
             self.assertIn(label, re.search(r'<details class="disclosure fig-table".*?</details>', main, re.S).group(0))
             for theme in ('dark', 'light'):
-                download = (self.dist / 'charts' / '2026-q1' / lang / f'rankings-africa-{theme}.svg').read_text('utf-8')
+                download = (self.dist / 'charts' / FOLDER / lang / f'rankings-africa-{theme}.svg').read_text('utf-8')
                 self.assertIn(label, download)
                 self.assertIn('stroke-dasharray="4 3"', download)
 
@@ -120,7 +123,7 @@ class RankingsPage(unittest.TestCase):
             self.assertIn(f'<loc>https://djazair.dev/{lang}/index/rankings/</loc>', sitemap)
             self.assertIn(f'/{lang}/data/#gdc26', self.main(lang))
             self.assertIn('id="gdc26"', (self.dist / lang / 'data' / 'index.html').read_text('utf-8'))
-            self.assertIn('/data/2026-q1/gdc26.csv', self.main(lang))
+            self.assertIn(f'/data/{FOLDER}/gdc26.csv', self.main(lang))
 
 
 class EstimateBars(unittest.TestCase):

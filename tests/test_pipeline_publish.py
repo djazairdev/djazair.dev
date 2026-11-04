@@ -209,7 +209,7 @@ class Committed(unittest.TestCase):
                          {k: v for k, v in manifest.items() if k != 'generated_at'})
 
     def test_appendix_a_in_the_published_files(self):
-        folder = DERIVED_DIR / json.loads((DERIVED_DIR / 'latest.json').read_text())['folder']
+        folder = DERIVED_DIR / '2026-q1'    # the quarter Appendix A describes; every quarter's folder is kept
         overview = {r['indicator']: r for r in json.loads((folder / 'overview.json').read_text())['rows']}
         self.assertEqual((overview['accounts']['value'], overview['accounts']['year_earlier']), (586_990, 393_565))
         self.assertEqual(round(overview['yoy']['value'] * 100, 1), 49.1)
