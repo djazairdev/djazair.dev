@@ -1,0 +1,41 @@
+{
+ "attribution": "Data: GitHub Innovation Graph (CC0)",
+ "columns": [
+  {
+   "description": "Innovation Graph file",
+   "name": "series",
+   "type": "string"
+  },
+  {
+   "description": "ISO 3166-1 alpha-2 code of the economy (GitHub uses EU for the European Union)",
+   "name": "economy",
+   "type": "string"
+  },
+  {
+   "description": "Data quarter, as YYYY-QN",
+   "name": "quarter",
+   "type": "string"
+  },
+  {
+   "description": "Value in the earlier release",
+   "name": "before",
+   "type": "integer"
+  },
+  {
+   "description": "Value in this release",
+   "name": "now",
+   "type": "integer"
+  }
+ ],
+ "description": "Past values this release changed, against the release archived before it (named in manifest.json). An empty before or now means the value was added or removed.",
+ "format_version": 1,
+ "licence": "CC0-1.0",
+ "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+ "quarter": "2026-Q2",
+ "release": "c8b595d6901196db5e155c48f65b346615737ceb",
+ "release_date": "2026-10-28T05:10:31Z",
+ "rows": [],
+ "source": "https://github.com/github/innovationgraph/tree/c8b595d6901196db5e155c48f65b346615737ceb/data",
+ "table": "revisions",
+ "title": "Revised past values"
+}

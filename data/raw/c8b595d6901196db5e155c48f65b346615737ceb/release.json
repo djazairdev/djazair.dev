@@ -1,0 +1,49 @@
+{
+  "commit": "c8b595d6901196db5e155c48f65b346615737ceb",
+  "date": "2026-10-28T05:10:31Z",
+  "files": {
+    "developers": {
+      "bytes": 94064,
+      "file": "developers.csv",
+      "sha256": "395af35bf695a783fedf8618e5e6ac84c10956193271251ef6db26054ecb953f"
+    },
+    "economy_collaborators": {
+      "bytes": 1503911,
+      "file": "economy_collaborators.csv",
+      "sha256": "f970d08101f1491cb733bb575563a5a345bd977dd46d56db172a0e11c74b23c4"
+    },
+    "git_pushes": {
+      "bytes": 75668,
+      "file": "git_pushes.csv",
+      "sha256": "adbb384b124602788c24949f4ffc3ea6fd68cf35014f8d1c9dbe47b2abab39a5"
+    },
+    "languages": {
+      "bytes": 6154689,
+      "file": "languages.csv",
+      "sha256": "72932bc0f65f469f2f53a1b020d07bbd27cd1df6917809143ae6171e1b3aecaa"
+    },
+    "licenses": {
+      "bytes": 525425,
+      "file": "licenses.csv",
+      "sha256": "81856b3090b47ca8c3951ca5dcb7abe3443c85f0c1e6ce265ab891ed404e056f"
+    },
+    "organizations": {
+      "bytes": 72144,
+      "file": "organizations.csv",
+      "sha256": "6001119d590191cef5c37736c9e175b39604dd5905a9bb25a4b6766d508d6fa2"
+    },
+    "repositories": {
+      "bytes": 95046,
+      "file": "repositories.csv",
+      "sha256": "d3ed6e768d502b853b425a3ac20be9063128d61e7820cda040e362d41be73bf6"
+    },
+    "topics": {
+      "bytes": 2073756,
+      "file": "topics.csv",
+      "sha256": "861d5e5640ea210ce413f5b98ea826882a81b7c7641ac4f7e91e2df2c2104446"
+    }
+  },
+  "message": "add Q2 2026 data",
+  "quarter": "2026-Q2",
+  "source": "https://github.com/github/innovationgraph/tree/c8b595d6901196db5e155c48f65b346615737ceb/data"
+}
