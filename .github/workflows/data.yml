@@ -1,111 +1,40 @@
-# Every day: archive a new GitHub Innovation Graph release, validate it, publish the derived
-# data, run the tests and build the site with it, then open a pull request and merge it when
-# CI passes, which deploys the site (PRD §9.5, AC-IDX-4). A release that revises past values
-# waits for editorial review instead. A failed run changes nothing on main and opens an issue
-# (or comments on the open one); the next run that works closes it.
+# Throwaway probe: can the workflow token approve CI held on a pull request it opened? Never merged.
 name: Data
-
 on:
-  schedule:
-    - cron: '23 6 * * *'          # 06:23 UTC daily; GitHub publishes releases on weekdays
   workflow_dispatch:
-    inputs:
-      force:
-        description: Publish the latest release again even if it is already archived
-        type: boolean
-        default: false
-      fail:
-        description: Fail on purpose, to test the alert issue
-        type: boolean
-        default: false
-
 permissions:
-  contents: write                 # push the data branch and merge it
-  pull-requests: write            # open the pull request
-  issues: write                   # report a failure
-  actions: write                  # start CI, which the workflow token can't trigger otherwise
-
-concurrency:
-  group: data
-  cancel-in-progress: false
-
+  contents: write
+  pull-requests: write
+  actions: write
 jobs:
-  update:
-    name: Update the Index data
-    # The schedule only runs once the SCHEDULES_ENABLED variable is 'true' (docs/deploy.md).
-    if: github.event_name == 'workflow_dispatch' || vars.SCHEDULES_ENABLED == 'true'
+  probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.12'
-
-      - name: Fail on purpose
-        if: inputs.fail
+      - name: Open a pull request as the bot, approve its CI, clean up
         run: |
-          echo 'This run failed on purpose (the *fail* input), to test this alert.' > "$RUNNER_TEMP/failure-notes.md"
-          echo '::error::Failing on purpose (the fail input), to test the alert.'
-          exit 1
-
-      - name: Fetch the latest release
-        id: fetch
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python -m pipeline fetch
-
-      - name: Validate and publish
-        id: publish
-        if: steps.fetch.outputs.new == 'true' || inputs.force
-        run: python -m pipeline publish --report "$RUNNER_TEMP/validation.md"
-
-      - name: Compare with the previous release
-        id: revisions
-        if: steps.publish.outcome == 'success'
-        run: python -m pipeline revisions --report "$RUNNER_TEMP/revisions.md"
-
-      - name: Test with the new data
-        if: steps.publish.outcome == 'success'
-        run: python -m unittest discover -s tests
-
-      - name: Build the site with the new data
-        if: steps.publish.outcome == 'success'
-        run: python site/build.py
-
-      - name: Let Chrome use its sandbox
-        if: steps.publish.outcome == 'success'
-        # Ubuntu 24.04 blocks the unprivileged user namespaces Chrome's sandbox needs.
-        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true
-
-      - name: Draw the quarter's share images
-        if: steps.publish.outcome == 'success'
-        # Without them, shared links show the site's card, and the pull request says so.
-        continue-on-error: true
-        run: python site/tools/share.py --release
-
-      - name: Open the pull request, merge it and deploy
-        if: steps.publish.outcome == 'success'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          QUARTER: ${{ steps.fetch.outputs.quarter }}
-          COMMIT: ${{ steps.fetch.outputs.commit }}
-          REVISIONS: ${{ steps.revisions.outputs.revisions }}
-        run: .github/scripts/data-pr.sh
-
-      - name: Report the failure
-        if: failure()
-        env:
-          GH_TOKEN: ${{ github.token }}
-          ALERT_ASSIGNEES: ${{ vars.ALERT_ASSIGNEES }}
-          VALIDATION: ${{ steps.publish.outcome }}
-        run: .github/scripts/data-failed.sh
-
-      - name: Close the failure issue, if one is open
-        if: success()
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          .github/scripts/alert.sh close 'Data update failed' "Fixed: [this run]($RUN_URL) worked."
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c probe/bot-pr-head
+          git commit -q --allow-empty -m 'Probe: never merge'
+          git push -q --force origin HEAD:refs/heads/probe/bot-pr-head
+          sha="$(git rev-parse HEAD)"
+          url="$(gh pr create --base main --head probe/bot-pr-head --title 'Probe: never merge (closes itself)' --body 'A one-minute test that the data workflow can approve its own CI. It closes itself.')"
+          pr="${url##*/}"
+          id=''
+          for _ in $(seq 1 18); do
+            sleep 10
+            id="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs?head_sha=${sha}&event=pull_request" --jq '.workflow_runs[] | select(.name=="CI") | "\(.id) \(.status) \(.conclusion)"' | head -1)"
+            echo "seen: ${id}"
+            case "$id" in *action_required*) break;; esac
+          done
+          run="${id%% *}"
+          echo "APPROVE:"
+          if gh api -X POST "repos/${GITHUB_REPOSITORY}/actions/runs/${run}/approve"; then echo "APPROVE_OK"; else echo "APPROVE_REFUSED"; fi
+          sleep 8
+          gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${run}" --jq '"after: \(.status) \(.conclusion) attempt=\(.run_attempt)"' || true
+          gh run cancel "$run" || true
+          gh pr close "$pr" --delete-branch || true
