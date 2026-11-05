@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Called by .github/workflows/data.yml after the new data passed validation, the tests and
 # the build. Commits data/ and the quarter's share images (site/tools/share.py --release) on a
-# branch, opens a pull request, runs CI on it, merges it when CI passes, then runs CI on main,
-# which deploys the site (PRD §9.5, AC-IDX-4).
+# branch, opens a pull request, approves the CI that GitHub holds on it, merges it when CI
+# passes, then runs CI on main, which deploys the site (PRD §9.5, AC-IDX-4).
 #
 # A release that revises past values waits for editorial review: the pull request stays
 # open, and merging it by hand deploys as any push to main does.
@@ -73,9 +73,9 @@ else
   gh pr edit "$pr" --body-file "$body" > /dev/null
 fi
 echo "Pull request #${pr}"
-echo "Pull request #${pr} is open for this release." > "$notes"
+echo "Pull request #${pr} is open for this release. If its CI is held, approve it on the pull request, then merge once the checks pass." > "$notes"
 
-run_ci "$branch"
+run_pr_ci "$(git rev-parse HEAD)"
 
 if [ "${REVISIONS}" = 'true' ]; then
   gh pr comment "$pr" --body "This release changes past values (listed above). Review them, then merge: merging deploys the site."
