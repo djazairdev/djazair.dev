@@ -17,7 +17,8 @@ echo "gh $*" >> "$SIM/gh.log"
 case "$1 $2" in
   "pr list") echo "${SIM_PR_EXISTING:-}";;
   "pr create") [ -n "${SIM_PR_FAIL:-}" ] && { echo 'not permitted' >&2; exit 1; }; echo https://github.com/o/r/pull/77;;
-  "run list") echo 12345;;
+  "run list") case "$*" in *pull_request*) echo "12345 ${SIM_PR_CI:-action_required}";; *) echo 12345;; esac;;
+  "run view") echo in_progress;;
   "run watch") exit "${SIM_CI_EXIT:-0}";;
   "issue list") echo "${SIM_ISSUE_EXISTING:-}";;
 esac
@@ -79,10 +80,11 @@ class Scripts(unittest.TestCase):
         self.new_data()
         result = self.run_script('data-pr.sh')
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(self.calls(), ['gh pr list', 'gh pr create', 'gh workflow run ci.yml', 'gh run list', 'gh run watch 12345',
+        self.assertEqual(self.calls(), ['gh pr list', 'gh pr create', 'gh run list', 'gh api -X POST repos/o/r/actions/runs/12345/approve',
+                                        'gh run view 12345', 'gh run watch 12345',
                                         'gh pr merge 77', 'gh workflow run ci.yml', 'gh run list', 'gh run watch 12345'])
         log = (self.tmp / 'gh.log').read_text()
-        self.assertIn('workflow run ci.yml --ref data/2026-q2-0123456789ab', log, 'CI runs on the branch first')
+        self.assertIn('--event pull_request', log, 'the pull request\'s own run: main\'s required checks only count that one')
         self.assertIn('workflow run ci.yml --ref main', log, 'then on main, which deploys')
         branches = subprocess.run(['git', 'branch', '--list'], cwd=self.remote, capture_output=True, text=True).stdout
         self.assertIn('data/2026-q2-0123456789ab', branches)
@@ -90,6 +92,13 @@ class Scripts(unittest.TestCase):
         self.assertIn('2026-Q2', body)
         self.assertIn('Validation **passed**', body)
         self.assertIn('could not be drawn, so shared links show the site', body)
+
+    def test_ci_that_is_not_held_is_not_approved(self):
+        self.new_data()
+        result = self.run_script('data-pr.sh', SIM_PR_CI='success')
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertNotIn('gh api -X POST repos/o/r/actions/runs/12345/approve', self.calls())
+        self.assertIn('gh pr merge 77', self.calls())
 
     def test_the_share_images_go_with_the_data(self):
         self.new_data()
