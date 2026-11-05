@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-05T07:22:13Z",
+ "generated_at": "2026-11-05T20:14:58Z",
  "projects": [
   {
    "repository": "djazairdev/djazair.dev",
@@ -20,7 +20,7 @@
    "licence": "MIT",
    "topic": true,
    "archived": false,
-   "last_commit": "2026-11-04T13:57:00Z",
+   "last_commit": "2026-11-05T10:34:55Z",
    "issues": 12,
    "flags": [],
    "hide_on": null,
@@ -120,8 +120,8 @@
    "licence": "AGPL-3.0",
    "topic": true,
    "archived": false,
-   "last_commit": "2026-11-05T06:29:05Z",
-   "issues": 12,
+   "last_commit": "2026-11-05T12:48:54Z",
+   "issues": 7,
    "flags": [],
    "hide_on": null,
    "status": "healthy",

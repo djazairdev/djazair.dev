@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-05T07:22:13Z",
+ "generated_at": "2026-11-05T20:14:58Z",
  "issues": [
   {
    "number": 632,
@@ -11,80 +11,6 @@
     "docs"
    ],
    "created_at": "2026-10-29T11:08:13Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 631,
-   "url": "https://github.com/djazairdev/minhajna/issues/631",
-   "title": "The scenario above the school: calendar, totals, thresholds, packs, operators, observatory",
-   "labels": [
-    "help wanted",
-    "area: release",
-    "feature"
-   ],
-   "created_at": "2026-10-29T11:08:07Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 617,
-   "url": "https://github.com/djazairdev/minhajna/issues/617",
-   "title": "A new release reaches the teacher inside the world: Pack-release",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:38Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 616,
-   "url": "https://github.com/djazairdev/minhajna/issues/616",
-   "title": "The inbox of plan-error reports",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:32Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 615,
-   "url": "https://github.com/djazairdev/minhajna/issues/615",
-   "title": "Migration entries for renamed, split and merged items: E-Migrate",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:26Z",
-   "needs": "",
-   "repo": "djazairdev/minhajna",
-   "language": "TypeScript"
-  },
-  {
-   "number": 614,
-   "url": "https://github.com/djazairdev/minhajna/issues/614",
-   "title": "Review and release, with the release map: E-Release",
-   "labels": [
-    "help wanted",
-    "feature",
-    "privacy-sensitive",
-    "area: server"
-   ],
-   "created_at": "2026-10-29T11:06:20Z",
    "needs": "",
    "repo": "djazairdev/minhajna",
    "language": "TypeScript"

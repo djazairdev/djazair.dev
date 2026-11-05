@@ -2,7 +2,7 @@
  "about": "ETags from the last Hub sync and what was kept from each answer (hub/sync.py).",
  "entries": {
   "/orgs/djazairdev/repos?type=public&sort=full_name&per_page=100&page=1": {
-   "etag": "\"4a3e98276e78f0893b0bef176b4139404786fad2edd38bb2af612671a2ba3808\"",
+   "etag": "\"a4a861ca689e89dc695d72d4b2f2d01efde3efd10aa646ff023d5957e8a922fc\"",
    "data": {
     "n": 7,
     "repos": [
@@ -102,7 +102,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev": {
-   "etag": "\"f32b13360a1f668417bc317953841ff8575e6a199dbb09b8a670177dafb2b385\"",
+   "etag": "\"2e2f6d8551e4a5bc2b0e255d8d2ec8eaeec47e577100ed4fdecd9ca4c0b3e610\"",
    "data": {
     "full_name": "djazairdev/djazair.dev",
     "url": "https://github.com/djazairdev/djazair.dev",
@@ -117,11 +117,11 @@
    }
   },
   "/repos/djazairdev/djazair.dev/commits?sha=main&per_page=1": {
-   "etag": "\"ecedc3e8423c60b60e9d4c871095b6a0532402ca13ccbf5a1ebe79eeca92cc25\"",
-   "data": "2026-11-04T13:57:00Z"
+   "etag": "\"b4be4ae11fcffed9504f228524d20ceaf1b450fcaa656d10dafa18923cd29842\"",
+   "data": "2026-11-05T10:34:55Z"
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"5e5ead01f29301592d4066417b8020edab9717b471f66743d8e6675b9f7af393\"",
+   "etag": "\"31113df08233cbe8c234c66e56fc02a6b6d176a1a46ec8bada26f15c067c10e4\"",
    "data": {
     "n": 5,
     "issues": [
@@ -184,7 +184,7 @@
    }
   },
   "/repos/djazairdev/djazair.dev/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"62c633e671e009a9f2c24d8966a88c30936e7466a0eb45bb1564c5cc84fae52d\"",
+   "etag": "\"f604ad2c6c3f625923b79c952e9a51b3678c238955a56f6e0590a110efea1fe2\"",
    "data": {
     "n": 7,
     "issues": [
@@ -278,7 +278,7 @@
    }
   },
   "/repos/djazairdev/wilayas": {
-   "etag": "\"925450194d55ddb83f81f7cdf7102292bbac91f7e10879de2cd6926b07a5c974\"",
+   "etag": "\"bc7c6f2e11e3a6eb6a63eb9144b9ac59a8cf4bc8eccca736e080d0bb17b28025\"",
    "data": {
     "full_name": "djazairdev/wilayas",
     "url": "https://github.com/djazairdev/wilayas",
@@ -293,11 +293,11 @@
    }
   },
   "/repos/djazairdev/wilayas/commits?sha=main&per_page=1": {
-   "etag": "\"068411a60472837b0e90adcd26de24f38b2eb72e8605d1edc6e51cb44ddd22ec\"",
+   "etag": "\"f6b96d6a6aaf5b64bfa26f090c66b8b82e007d68be2db3902c4504410e9396c6\"",
    "data": "2026-10-22T16:05:15Z"
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"00997e725ccccd8a39f98a2efd1e7a4c266601e1aaff6a557728354f66946433\"",
+   "etag": "\"df1e93d0488222eaa5e55f934b1a63ec882f87976de79c94cae1fb232ecf26ae\"",
    "data": {
     "n": 5,
     "issues": [
@@ -358,7 +358,7 @@
    }
   },
   "/repos/djazairdev/wilayas/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"2b7e0c1b82e879baaa1900d1f4ff95a0bc688904867436b90d5459055879caf2\"",
+   "etag": "\"6f3fc00ed83c079c7461900d74b085bcc6e764f555e59fbe5b6a0feb00f5d815\"",
    "data": {
     "n": 2,
     "issues": [
@@ -388,7 +388,7 @@
    }
   },
   "/repos/djazairdev/detent": {
-   "etag": "\"80c8d8d4b5dce99ce2492a0153fccf6937f869aa469609516878ce2d71979ab2\"",
+   "etag": "\"9e35d44d52d6948a347ffb1eb94114d1c62c586fa9e6aca2866f2e7f487e588f\"",
    "data": {
     "full_name": "djazairdev/detent",
     "url": "https://github.com/djazairdev/detent",
@@ -403,11 +403,11 @@
    }
   },
   "/repos/djazairdev/detent/commits?sha=main&per_page=1": {
-   "etag": "\"39ff19e7f318104f7db01e936265d6d45061a9d7f3ecf05578d08cae560c6043\"",
+   "etag": "\"93154d53af6f5b8798d0b4bc79b4cf2656c89de16cf3cfec8fa41ed7f688cb5d\"",
    "data": "2026-10-15T10:20:41Z"
   },
   "/repos/djazairdev/detent/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"2861ac730a21838907a3d8cdf5c1709479e6ce47e8cb95c0df0c73b75ba87e62\"",
+   "etag": "\"04cf7c2fd4ce997f1eddb5773c6badf8ab5abe03c19e176c0218a59aae4b8c13\"",
    "data": {
     "n": 6,
     "issues": [
@@ -482,7 +482,7 @@
    }
   },
   "/repos/djazairdev/detent/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"f59cacc0f8de9f393d51e19969dc61298c31cbbf05d97a8170ce108cb292a9af\"",
+   "etag": "\"9f8935ba57f34c27ba67de2895814bce9046efd8b76af15b9501ab4ba3db29ff\"",
    "data": {
     "n": 8,
     "issues": [
@@ -578,7 +578,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee": {
-   "etag": "\"822226aec317c68d286ff8c898bb686ad1307f7034441a2192463312f412ea64\"",
+   "etag": "\"f292cf08b144cc582c1ea3fce9013ef9d98b78b37be9a4fff8ba92ef59514ecc\"",
    "data": {
     "full_name": "djazairdev/founders.coffee",
     "url": "https://github.com/djazairdev/founders.coffee",
@@ -593,11 +593,11 @@
    }
   },
   "/repos/djazairdev/founders.coffee/commits?sha=main&per_page=1": {
-   "etag": "\"e261b15b7be58858301e7fab38dcb786202d456279197a529e0bb46c75a2287b\"",
+   "etag": "\"9dbdd829a62fbd4b47f41e179e75fded26cfe5c5a4442e4a2f1d4671e6bbc11b\"",
    "data": "2026-10-13T10:37:49Z"
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"ba158e2d087237159ff9fa4b31bf265c308cbd822826750e1373383b2d5952b4\"",
+   "etag": "\"0d2e71edc777634190c387b197ca2c10c62125fdc433c2d330128a7ed8b7d766\"",
    "data": {
     "n": 42,
     "issues": [
@@ -1255,7 +1255,7 @@
    }
   },
   "/repos/djazairdev/founders.coffee/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"f5aed0fa1485e1fc30146f500ba1673c52d312fdfcbbaf99fb39c4a9688a9ae6\"",
+   "etag": "\"d518901ab27bf42d70425e6d629b2f702567cfeae835c79d5393dd279565ecff\"",
    "data": {
     "n": 99,
     "issues": [
@@ -2874,7 +2874,7 @@
    }
   },
   "/repos/djazairdev/minhajna": {
-   "etag": "\"eaa911d8b317d917fb6e923865fe8d069ea692eb93c1e5b4430047dd3832ecb8\"",
+   "etag": "\"4abedea9829cf4197e31e65ea21f26b54d3fab2d1e9884743b9b92eb5d1f9720\"",
    "data": {
     "full_name": "djazairdev/minhajna",
     "url": "https://github.com/djazairdev/minhajna",
@@ -2889,11 +2889,11 @@
    }
   },
   "/repos/djazairdev/minhajna/commits?sha=main&per_page=1": {
-   "etag": "\"4b17a0ca589664f781ac8a5652116a2b73825912b36ddcc3aa1049d657025b2f\"",
-   "data": "2026-11-05T06:29:05Z"
+   "etag": "\"e8a742289ac573c2c2e3e3fd7b07d354ea03563ac55574661031f481f3e7b973\"",
+   "data": "2026-11-05T12:48:54Z"
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=good%20first%20issue&per_page=100&page=1": {
-   "etag": "\"adc226a148ace426c31728c9ac2032b0c36fb1c3b91109110b0c94314d1f5670\"",
+   "etag": "\"c428e8e9be38ecd8c655374ee08f85cbd2f7fec981308e7b609fc0cbd9a81b6e\"",
    "data": {
     "n": 4,
     "issues": [
@@ -2947,74 +2947,10 @@
    }
   },
   "/repos/djazairdev/minhajna/issues?state=open&labels=help%20wanted&per_page=100&page=1": {
-   "etag": "\"d5223f298d4971b7bf00a4112695ded87958ba7718675ec1b689ba11f5f88cbd\"",
+   "etag": "\"d9b577873eada2074794c9ea11c60107b57711c951d20fad9896104164cb7056\"",
    "data": {
-    "n": 8,
+    "n": 3,
     "issues": [
-     {
-      "number": 631,
-      "url": "https://github.com/djazairdev/minhajna/issues/631",
-      "title": "The scenario above the school: calendar, totals, thresholds, packs, operators, observatory",
-      "labels": [
-       "help wanted",
-       "area: release",
-       "feature"
-      ],
-      "created_at": "2026-10-29T11:08:07Z",
-      "needs": ""
-     },
-     {
-      "number": 617,
-      "url": "https://github.com/djazairdev/minhajna/issues/617",
-      "title": "A new release reaches the teacher inside the world: Pack-release",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: server"
-      ],
-      "created_at": "2026-10-29T11:06:38Z",
-      "needs": ""
-     },
-     {
-      "number": 616,
-      "url": "https://github.com/djazairdev/minhajna/issues/616",
-      "title": "The inbox of plan-error reports",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: server"
-      ],
-      "created_at": "2026-10-29T11:06:32Z",
-      "needs": ""
-     },
-     {
-      "number": 615,
-      "url": "https://github.com/djazairdev/minhajna/issues/615",
-      "title": "Migration entries for renamed, split and merged items: E-Migrate",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: server"
-      ],
-      "created_at": "2026-10-29T11:06:26Z",
-      "needs": ""
-     },
-     {
-      "number": 614,
-      "url": "https://github.com/djazairdev/minhajna/issues/614",
-      "title": "Review and release, with the release map: E-Release",
-      "labels": [
-       "help wanted",
-       "feature",
-       "privacy-sensitive",
-       "area: server"
-      ],
-      "created_at": "2026-10-29T11:06:20Z",
-      "needs": ""
-     },
      {
       "number": 481,
       "url": "https://github.com/djazairdev/minhajna/issues/481",
