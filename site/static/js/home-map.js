@@ -91,7 +91,7 @@
     return function draw(time, assembly) {
       var count=Number(getComputedStyle(ticker).getPropertyValue('--tick'));
       var currentYear=Number(getComputedStyle(year).getPropertyValue('--yr'));
-      if (!Number.isFinite(count) || !count || !currentYear) { count=latestAccounts; currentYear=latestYear; }
+      if (!Number.isFinite(count) || !currentYear) { count=latestAccounts; currentYear=latestYear; }
       count=Math.min(cells.length,count/1000);
       var step=Math.max(0,Math.min(steps.length-1,currentYear-firstYear));
       ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -264,7 +264,7 @@
         if (p === cubes) {
         var count = Number(getComputedStyle(ticker).getPropertyValue('--tick'));
         var currentYear = Number(getComputedStyle(year).getPropertyValue('--yr'));
-        if (!Number.isFinite(count) || !count || !currentYear) { count=latestAccounts; currentYear=latestYear; }
+        if (!Number.isFinite(count) || !currentYear) { count=latestAccounts; currentYear=latestYear; }
         gl.uniform1f(u('uCount'),Math.min(cells.length,count/1000));
         gl.uniform1f(u('uStep'),Math.max(0,Math.min(steps.length-1,currentYear-firstYear)));
         gl.uniform1f(u('uTime'),time);

@@ -28,8 +28,10 @@ POINT = {'en': '.', 'ar': ','}  # decimal points, likewise
 # The rank as rank_text writes it ('3rd of 7', '3 من 7'), printed with counters; 0 prints '0 of 7'
 RANK ={'en': 'counter(tkr,tick-ord) " of " counter(tkn)', 'ar': 'counter(tkr) " من " counter(tkn)'}
 # The automatic replay holds the first year, counts to each next year, and rests on the latest.
-# The replay loops until paused, then resumes from the same point.
+# The replay loops until paused, then resumes from the same point. On page load only, the count
+# rises from 0 to the first year within that year's hold, so COUNT_IN must stay below HOLD.
 HOLD, FLIP, COUNT, REST, REWIND = 2.0, 1.2, 0.9, 4.0, 0.6
+COUNT_IN = 1.4
 
 
 # ---------------------------------------------------------------- the years the hero replays
@@ -189,9 +191,14 @@ def hero_css(lang: str, years: list, stats: list = ()) -> str:
             '@counter-style tick-blank{system:fixed 0;symbols:""}\n'
             '@counter-style tick-digits{system:extends decimal;range:1 infinite;fallback:tick-blank}\n'
             f'@keyframes hero-tick{{{counting([{"tick": v} for v in values])}}}\n@keyframes hero-yr{{{"".join(year)}}}\n'
+            f'@keyframes hero-count-in{{from{{--tick:0}}to{{--tick:{values[0]}}}}}\n'
             + ''.join(steps) + counts
             + '@media (prefers-reduced-motion:no-preference){@supports (color:rgb(from white r g b)){\n'
-            f'.hero-n .tick-anim{{display:inline;animation:hero-tick {length:g}s var(--ease-io) infinite both}}\n'
+            f'.hero-n .tick-anim{{display:inline;animation:hero-tick {length:g}s var(--ease-io) infinite both,'
+            f'hero-count-in {COUNT_IN:g}s var(--ease-io);grid-area:1/1}}\n'
+            # the count rises through its widest value's space, so the words beside it stay still
+            f'.hero-n{{display:inline-grid}}.hero-n::before{{content:{text(GROUP[lang].join(_groups(max(values))))};grid-area:1/1;'
+            f'visibility:hidden;margin-inline-end:{-.32 * (width - 1):g}em}}[dir=rtl] .hero-n{{justify-items:end}}\n'
             '.hero-n .tick-static{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n'
             # each digit group of a number: this group's value, whether digits come before it (then it
             # takes its separator and leading zeros), and how many digits it has without them; the

@@ -171,6 +171,14 @@ class TickerMaths(unittest.TestCase):
         self.assertIn('.tick-anim .tg2{--ta:var(--tm)', css)
         self.assertIn('--tick:875000', css)
 
+    def test_the_count_rises_from_zero_on_load_only(self):
+        css = home.hero_css('en', self.YEARS, self.STATS)
+        self.assertIn('@keyframes hero-count-in{from{--tick:0}to{--tick:91819}}', css)
+        rule = re.search(r'\.hero-n \.tick-anim\{[^}]*\}', css).group(0)
+        self.assertRegex(rule, r'animation:hero-tick [\d.]+s var\(--ease-io\) infinite both,hero-count-in [\d.]+s var\(--ease-io\);')
+        self.assertLess(home.COUNT_IN, home.HOLD, 'over before the first year turns over')
+        self.assertIn('.hero-n::before{content:"181,881";', css)
+
     def test_one_year_has_nothing_to_replay(self):
         self.assertEqual(home.hero_css('en', self.YEARS[:1]), '')
 
